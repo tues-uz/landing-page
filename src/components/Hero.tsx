@@ -87,6 +87,7 @@ const Hero = () => {
       <div className="absolute inset-0 overflow-hidden">
         {videoUrl ? (
           <video
+            key={videoUrl}
             autoPlay
             loop
             muted
