@@ -1,205 +1,266 @@
-import { ArrowRight, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Clock, MapPin, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { contentApi, type NewsItem, type EventItem } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
+import { FALLBACK_NEWS, FALLBACK_EVENTS } from "@/data/fallbackContent";
 
-const news = [
-  {
-    id: 1,
-    category: "Research",
-    title: "The Termez University of Economics and Service Scientists Make Breakthrough in Quantum Computing",
-    excerpt:
-      "Researchers have achieved a significant milestone in quantum error correction.",
-    date: "Dec 14, 2025",
-    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop",
-  },
-  {
-    id: 2,
-    category: "Campus",
-    title: "New Sustainable Building Opens at Radcliffe Observatory Quarter",
-    excerpt:
-      "The state-of-the-art facility sets new standards for environmental design.",
-    date: "Dec 12, 2025",
-    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop",
-  },
-  {
-    id: 3,
-    category: "Awards",
-    title: "Three The Termez University of Economics and Service Professors Named to National Academy of Sciences",
-    excerpt:
-      "Recognition for outstanding contributions to their respective fields.",
-    date: "Dec 10, 2025",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop",
-  },
-];
+// ─── Skeleton loaders ─────────────────────────────────────────────────────────
 
-const events = [
-  {
-    id: 1,
-    title: "Annual Christmas Carol Service",
-    date: "Dec 20",
-    time: "7:00 PM",
-    location: "Christ Church Cathedral",
-  },
-  {
-    id: 2,
-    title: "Graduate Open Day 2025",
-    date: "Jan 15",
-    time: "10:00 AM",
-    location: "Multiple Colleges",
-  },
-  {
-    id: 3,
-    title: "Public Lecture: The Future of AI",
-    date: "Jan 22",
-    time: "5:30 PM",
-    location: "Sheldonian Theatre",
-  },
-  {
-    id: 4,
-    title: "Research Symposium 2025",
-    date: "Feb 5",
-    time: "9:00 AM",
-    location: "Main Conference Hall",
-  },
-  {
-    id: 5,
-    title: "International Student Welcome",
-    date: "Feb 12",
-    time: "2:00 PM",
-    location: "University Auditorium",
-  },
-  {
-    id: 6,
-    title: "Career Fair 2025",
-    date: "Feb 28",
-    time: "10:00 AM",
-    location: "Exhibition Center",
-  },
-];
+function NewsCardSkeleton() {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-background animate-pulse">
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="h-4 w-16 rounded-full bg-muted" />
+        <div className="h-4 w-full rounded bg-muted" />
+        <div className="h-4 w-3/4 rounded bg-muted" />
+        <div className="mt-auto h-3 w-1/2 rounded bg-muted" />
+      </div>
+      <div className="w-full px-2 pb-2">
+        <div className="aspect-[334/188] w-full rounded-lg bg-muted" />
+      </div>
+    </div>
+  );
+}
+
+function EventSkeleton() {
+  return (
+    <div className="flex overflow-hidden rounded-xl border border-border bg-background animate-pulse">
+      <div className="flex min-w-[56px] items-center justify-center bg-primary/5 py-3 px-2">
+        <div className="h-8 w-8 rounded bg-muted" />
+      </div>
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="h-4 w-full rounded bg-muted" />
+        <div className="h-3 w-1/2 rounded bg-muted" />
+      </div>
+    </div>
+  );
+}
+
+// ─── Article Card ─────────────────────────────────────────────────────────────
+
+function ArticleCard({ item, featured = false }: { item: NewsItem; featured?: boolean }) {
+  return (
+    <Link
+      to={`/news/${item.slug}`}
+      className="flex flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:scale-[1.01] hover:shadow-md group"
+    >
+      {featured && (
+        <>
+          <div className="relative min-h-0 flex-1 w-full overflow-hidden px-2 pt-2 xl:px-4 xl:pt-4">
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="h-full w-full rounded-lg object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div className="flex flex-1 flex-col gap-2 p-5 xl:p-6">
+            <span className="inline-flex w-fit rounded-full border border-border px-2 py-0.5 text-xs font-medium text-foreground">
+              {item.category}
+            </span>
+            <h2 className="text-xl font-bold leading-tight text-foreground line-clamp-2 group-hover:text-primary transition-colors xl:text-2xl">
+              {item.title}
+            </h2>
+            <p className="text-muted-foreground text-sm line-clamp-2">{item.excerpt}</p>
+            <div className="mt-auto flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+              <span className="font-medium text-foreground">{item.author}</span>
+              <span>on {item.date}</span>
+              <span className="flex items-center gap-1">
+                <MessageCircle className="h-3 w-3" />
+                0 Comments
+              </span>
+            </div>
+          </div>
+        </>
+      )}
+      {!featured && (
+        <>
+          <div className="flex flex-1 flex-col gap-2 p-4">
+            <span className="inline-flex w-fit rounded-full border border-border px-2 py-0.5 text-xs font-medium text-foreground">
+              {item.category}
+            </span>
+            <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+              {item.title}
+            </h3>
+            <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{item.author}</span>
+              <span>on {item.date}</span>
+            </div>
+          </div>
+          <div className="w-full px-2 pb-2">
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="aspect-[334/188] w-full rounded-lg object-cover"
+              loading="lazy"
+            />
+          </div>
+        </>
+      )}
+    </Link>
+  );
+}
+
+// ─── Event Card ───────────────────────────────────────────────────────────────
+
+function EventCard({ event }: { event: EventItem }) {
+  const [day, month] = event.date.split(" ");
+  return (
+    <div className="group overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:scale-[1.01] hover:shadow-md hover:border-primary/20 cursor-pointer">
+      <div className="flex">
+        <div className="flex min-w-[56px] flex-col items-center justify-center rounded-l-xl bg-primary/5 py-3 px-2">
+          <span className="text-xl font-serif font-bold leading-none text-primary">{day}</span>
+          <span className="mt-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+            {month}
+          </span>
+        </div>
+        <div className="flex flex-1 flex-col justify-center gap-1.5 p-4">
+          <h4 className="font-semibold text-foreground text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2">
+            {event.title}
+          </h4>
+          <div className="flex flex-col gap-0.5 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5 shrink-0" />
+              {event.time}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-3.5 w-3.5 shrink-0" />
+              <span className="line-clamp-1">{event.location}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 const NewsEvents = () => {
+  const {
+    data: newsData,
+    isLoading: newsLoading,
+  } = useQuery({
+    queryKey: contentKeys.news.list(),
+    queryFn: contentApi.news.list,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+
+  const {
+    data: eventData,
+    isLoading: eventsLoading,
+  } = useQuery({
+    queryKey: contentKeys.events.list(),
+    queryFn: contentApi.events.list,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+
+  const newsItems = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
+  const eventItems = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
+
+  const featuredArticle = newsItems[0];
+  const sideArticle1 = newsItems[1];
+  const sideArticle2 = newsItems[2];
+
   return (
     <section className="py-24 bg-background relative overflow-hidden">
-      {/* Background Image */}
+      {/* Subtle background texture */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80')`,
         }}
       />
-      
+
       <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12">
-          <div>
-            <span className="text-oxford-gold font-medium text-sm tracking-wider uppercase">
-              Stay Informed
-            </span>
-            <h2 className="text-4xl font-serif font-semibold text-foreground mt-2">
-              News & Events
-            </h2>
-          </div>
-          <Button variant="ghost" className="text-primary hover:text-primary/80 group self-start lg:self-auto">
-            View all news
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
+        {/* Section header */}
+        <h2 className="text-4xl font-serif font-semibold text-foreground mb-2">News and Events</h2>
+        <p className="text-muted-foreground max-w-2xl mb-8">
+          Stay up to date with the latest from TUES—research highlights, campus updates, and upcoming events.
+        </p>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* News Cards */}
-          <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">
-            {news.slice(0, 2).map((item) => (
-              <article
-                key={item.id}
-                className="group bg-card rounded overflow-hidden shadow-sm border border-border hover:shadow-lg transition-all duration-300"
+        <div className="grid lg:grid-cols-12 gap-6">
+          {/* ── News section ───────────────────────────────────────────────── */}
+          <div className="lg:col-span-9">
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                Latest News
+              </p>
+              <Link
+                to="/#news"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
               >
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="text-oxford-gold text-xs font-medium uppercase tracking-wider">
-                    {item.category}
-                  </span>
-                  <h3 className="text-lg font-serif font-semibold text-foreground mt-2 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
-                    {item.excerpt}
-                  </p>
-                  <span className="text-muted-foreground text-xs">{item.date}</span>
-                </div>
-              </article>
-            ))}
-            
-            {/* Featured news - larger card */}
-            <article className="sm:col-span-2 group bg-primary rounded overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="grid md:grid-cols-2">
-                <div className="relative w-full h-64 md:h-full overflow-hidden">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover:scale-110 transition-transform duration-500"
-                    style={{
-                      backgroundImage: `url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
-                    }}
-                  />
-                </div>
-                <div className="p-8 flex flex-col justify-center">
-                  <span className="text-oxford-gold text-xs font-medium uppercase tracking-wider">
-                    {news[2].category}
-                  </span>
-                  <h3 className="text-xl font-serif font-semibold text-primary-foreground mt-2 mb-3">
-                    {news[2].title}
-                  </h3>
-                  <p className="text-primary-foreground/70 text-sm mb-4">
-                    {news[2].excerpt}
-                  </p>
-                  <Button variant="outline" className="self-start border-primary-foreground/30 text-black hover:bg-primary-foreground hover:text-primary">
-                    Read More
-                  </Button>
-                </div>
-              </div>
-            </article>
-          </div>
+                View all
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
 
-          {/* Events Sidebar */}
-          <div className="bg-gray-100 rounded p-6">
-            <h3 className="font-serif text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-oxford-gold" />
-              Upcoming Events
-            </h3>
-            <div className="space-y-4">
-              {events.map((event) => (
-                <div
-                  key={event.id}
-                  className="bg-card p-4 rounded border border-border hover:border-primary/30 transition-colors cursor-pointer"
-                >
-                  <div className="flex gap-4">
-                    <div className="text-center min-w-[50px]">
-                      <div className="text-2xl font-serif font-bold text-primary">
-                        {event.date.split(" ")[0]}
-                      </div>
-                      <div className="text-xs text-muted-foreground uppercase">
-                        {event.date.split(" ")[1]}
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-foreground text-sm mb-1">
-                        {event.title}
-                      </h4>
-                      <p className="text-muted-foreground text-xs">
-                        {event.time} • {event.location}
-                      </p>
+            <div className="grid lg:grid-cols-9 gap-6">
+              {/* Left column — side articles */}
+              <div className="lg:col-span-3 flex flex-col gap-6">
+                {newsLoading ? (
+                  <>
+                    <NewsCardSkeleton />
+                    <NewsCardSkeleton />
+                  </>
+                ) : (
+                  <>
+                    {sideArticle1 && <ArticleCard item={sideArticle1} />}
+                    {sideArticle2 && <ArticleCard item={sideArticle2} />}
+                  </>
+                )}
+              </div>
+
+              {/* Center column — featured article */}
+              <div className="lg:col-span-6 flex flex-col min-h-0">
+                {newsLoading ? (
+                  <div className="flex flex-col h-full rounded-xl border border-border bg-background animate-pulse">
+                    <div className="flex-1 m-2 rounded-lg bg-muted min-h-48" />
+                    <div className="p-6 space-y-3">
+                      <div className="h-4 w-20 rounded-full bg-muted" />
+                      <div className="h-6 w-full rounded bg-muted" />
+                      <div className="h-4 w-full rounded bg-muted" />
+                      <div className="h-4 w-1/2 rounded bg-muted" />
                     </div>
                   </div>
-                </div>
-              ))}
+                ) : featuredArticle ? (
+                  <ArticleCard item={featuredArticle} featured />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-muted-foreground text-sm rounded-xl border border-dashed border-border">
+                    No articles yet.
+                  </div>
+                )}
+              </div>
             </div>
-            <Button variant="ghost" className="w-full mt-4 text-primary hover:text-primary/80">
-              View all events
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+          </div>
+
+          {/* ── Events section ─────────────────────────────────────────────── */}
+          <div className="lg:col-span-3">
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                Upcoming Events
+              </p>
+              <Link
+                to="/#events"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+              >
+                View all
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="space-y-4">
+              {eventsLoading ? (
+                Array.from({ length: 4 }).map((_, i) => <EventSkeleton key={i} />)
+              ) : eventItems.length > 0 ? (
+                eventItems.slice(0, 5).map((event) => <EventCard key={event.id} event={event} />)
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-4">No upcoming events.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

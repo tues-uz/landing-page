@@ -1,123 +1,175 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { contentApi, type HeroSlide } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
 
-const slides = [
+// ─── Fallback slides shown when the API is unavailable ───────────────────────
+
+const FALLBACK_SLIDES: HeroSlide[] = [
   {
-    id: 1,
+    id: "fallback-1",
     title: "Fully Funded Graduate Studentship For 2025-2026",
     subtitle: "Applications now open for exceptional candidates",
     year: "2025",
   },
   {
-    id: 2,
+    id: "fallback-2",
     title: "World-Leading Research in Climate Science",
-    subtitle: "The Termez University of Economics and Service researchers at the forefront of sustainability",
+    subtitle: "TUES researchers at the forefront of sustainability",
     year: "2025",
   },
   {
-    id: 3,
+    id: "fallback-3",
     title: "New Collaborative Research Center Opens",
     subtitle: "State-of-the-art facilities for interdisciplinary studies",
     year: "2025",
   },
 ];
 
+// ─── Component ────────────────────────────────────────────────────────────────
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isCardVisible, setIsCardVisible] = useState(true);
 
+  // Fetch slides from API — gracefully falls back to static content
+  const { data: slidesData } = useQuery({
+    queryKey: contentKeys.heroSlides(),
+    queryFn: contentApi.heroSlides.list,
+    staleTime: 5 * 60 * 1000, // 5 min
+    retry: 1,
+  });
+
+  // Fetch background media from API
+  const { data: bg } = useQuery({
+    queryKey: contentKeys.heroBackground(),
+    queryFn: contentApi.heroBackground.get,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+
+  const slides = slidesData && slidesData.length > 0 ? slidesData : FALLBACK_SLIDES;
+
+  // Auto-advance carousel
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
+  // Reset index if slide list shrinks
+  useEffect(() => {
+    setCurrentSlide((prev) => Math.min(prev, Math.max(0, slides.length - 1)));
+  }, [slides.length]);
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const current = slides[currentSlide];
+
+  // Determine background source:
+  // • API up & returns data → use what CMS configured
+  // • API down / data undefined → fall back to local video ("/tisu2.mp4")
+  const videoUrl = bg == null
+    ? "/tisu2.mp4"                                          // fallback: API unreachable
+    : bg.mediaType === "video"
+      ? (bg.videoUrl ?? "/tisu2.mp4")                       // CMS: video mode
+      : null;                                               // CMS: image mode
+
+  const imageUrl = bg?.mediaType === "image" ? (bg.imageUrl ?? "") : (bg?.imageUrl ?? "");
 
   return (
-    <section className="relative h-screen min-h-screen overflow-hidden">
-      {/* Background Video */}
+    <section className="relative mt-[178px] h-[calc(100dvh-178px)] min-h-[calc(100dvh-178px)] overflow-hidden">
+      {/* ── Background media ──────────────────────────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: 'auto' }}
-        >
-          <source src="/tisu2.mp4" type="video/mp4" />
-          {/* Fallback image if video doesn't load */}
+        {videoUrl ? (
+          <video
+            key={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ willChange: "auto" }}
+          >
+            <source src={videoUrl} type="video/mp4" />
+            {/* Fallback image if video fails */}
+            {imageUrl && (
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url('${imageUrl}')` }}
+              />
+            )}
+          </video>
+        ) : (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')`,
+              backgroundImage: imageUrl
+                ? `url('${imageUrl}')`
+                : "url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2072&q=80')",
             }}
           />
-        </video>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="relative container mx-auto px-6 h-full flex items-end pb-24 pt-[178px]">
-        {/* Announcement Card */}
-        {isCardVisible && (
+      {/* ── Slide content ─────────────────────────────────────────────────── */}
+      <div className="relative container mx-auto px-6 h-full flex items-end pb-24 pt-6">
+        {isCardVisible && current && (
           <div className="max-w-xl">
-            <div className="w-full">
-              <div className="w-full">
-                <div
-                  key={currentSlide}
-                  className="bg-card/80 backdrop-blur-sm p-8 rounded shadow-2xl animate-fade-in"
-                  style={{ willChange: 'opacity, transform' }}
-                >
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-2 h-2 rounded-full bg-oxford-gold" />
-                    <span className="text-muted-foreground text-sm uppercase tracking-wider">
-                      Announcement
-                    </span>
-                  </div>
-                  <h2 className="text-2xl lg:text-3xl font-serif font-semibold text-foreground mb-3 leading-tight">
-                    {slides[currentSlide].title}
-                  </h2>
-                  <p className="text-muted-foreground mb-6">
-                    {slides[currentSlide].subtitle}
-                  </p>
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    Learn More
-                  </Button>
-                </div>
+            <div
+              key={current.id}
+              className="bg-card/80 backdrop-blur-sm p-8 rounded shadow-2xl animate-fade-in"
+              style={{ willChange: "opacity, transform" }}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-oxford-gold" />
+                <span className="text-muted-foreground text-sm uppercase tracking-wider">
+                  Announcement
+                </span>
               </div>
+              <h2 className="text-2xl lg:text-3xl font-serif font-semibold text-foreground mb-3 leading-tight">
+                {current.title}
+              </h2>
+              <p className="text-muted-foreground mb-6">{current.subtitle}</p>
+              <Button
+                asChild={!!current.linkUrl}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                {current.linkUrl ? (
+                  <a href={current.linkUrl} target="_blank" rel="noopener noreferrer">
+                    Learn More
+                  </a>
+                ) : (
+                  <span>Learn More</span>
+                )}
+              </Button>
             </div>
           </div>
         )}
 
-        {/* Navigation Controls */}
+        {/* ── Navigation controls ───────────────────────────────────────── */}
         <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between flex-wrap gap-4 max-w-xl">
-          {/* Slide Indicators */}
+          {/* Slide indicators */}
           <div className="flex gap-2">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentSlide
-                    ? "bg-primary-foreground w-8"
-                    : "bg-primary-foreground/40 hover:bg-primary-foreground/60"
-                }`}
+                aria-label={`Slide ${index + 1}`}
+                className={`h-2 rounded-full transition-all ${index === currentSlide
+                  ? "bg-primary-foreground w-8"
+                  : "bg-primary-foreground/40 hover:bg-primary-foreground/60 w-2"
+                  }`}
               />
             ))}
           </div>
-          
-          {/* Navigation Arrows */}
+
+          {/* Arrows + toggle */}
           <div className="flex items-center gap-3">
             <Button
               variant="outline"
