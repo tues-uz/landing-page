@@ -19,8 +19,9 @@ export default {
         },
         extend: {
             fontFamily: {
-                serif: ["Playfair Display", "Georgia", "serif"],
-                sans: ["Inter", "system-ui", "sans-serif"],
+                sans: ["Geist", "Geist Sans", "system-ui", "sans-serif"],
+                serif: ["Geist", "Geist Sans", "system-ui", "sans-serif"],
+                mono: ["Geist", "Geist Sans", "ui-monospace", "monospace"],
             },
             colors: {
                 border: "hsl(var(--border))",

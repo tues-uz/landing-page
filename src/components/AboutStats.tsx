@@ -4,26 +4,25 @@ const stats = [
   {
     value: "25,000+",
     label: "Students",
-    description: "From over 150 countries worldwide",
+    description: "From over 150 countries\nworldwide",
   },
   {
     value: "412",
-    label: "Professors Teachers",
-    description: "Leading innovation across disciplines",
+    label: "Professors & Teachers",
+    description: "Leading innovation\nacross disciplines",
   },
   {
     value: "27,447",
     label: "IRC Fund",
-    description: "A legacy of academic achievement",
+    description: "A legacy of\nacademic achievement",
   },
   {
     value: "3+",
-    label: "Faculties Count",
-    description: "Independent, self-governing communities",
+    label: "Faculties",
+    description: "Independent, self-governing\ncommunities",
   },
 ];
 
-// Hook for counter animation
 const useCounter = (target: number, duration: number = 2000, isVisible: boolean) => {
   const [count, setCount] = useState(0);
 
@@ -32,71 +31,34 @@ const useCounter = (target: number, duration: number = 2000, isVisible: boolean)
       setCount(0);
       return;
     }
-
     let startTime: number;
     let animationFrame: number;
-
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      
-      // Easing function for smooth animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(easeOutQuart * target));
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      } else {
-        setCount(target);
-      }
+      if (progress < 1) animationFrame = requestAnimationFrame(animate);
+      else setCount(target);
     };
-
     animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
+    return () => animationFrame && cancelAnimationFrame(animationFrame);
   }, [target, duration, isVisible]);
 
   return count;
 };
 
-// Component for animated text
-const AnimatedText = ({ text, isVisible, delay = 0 }: { text: string; isVisible: boolean; delay?: number }) => {
-  const words = text.split(' ');
-  
-  return (
-    <>
-      {words.map((word, index) => (
-        <span
-          key={index}
-          className={`inline-block transition-all duration-500 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ transitionDelay: `${delay + index * 50}ms` }}
-        >
-          {word}
-          {index < words.length - 1 && '\u00A0'}
-        </span>
-      ))}
-    </>
-  );
-};
-
-// Component for animated stat value
-const AnimatedStatValue = ({ value, isVisible, delay }: { value: string; isVisible: boolean; delay: number }) => {
-  // Parse the value to extract number and suffix
+const AnimatedStatValue = ({
+  value,
+  isVisible,
+}: {
+  value: string;
+  isVisible: boolean;
+}) => {
   const hasPlus = value.includes("+");
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10);
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10) || 0;
   const count = useCounter(numericValue, 2000, isVisible);
-
-  // Format the number with commas
-  const formatNumber = (num: number) => {
-    return num.toLocaleString("en-US");
-  };
-
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
   return (
     <>
       {formatNumber(count)}
@@ -104,6 +66,15 @@ const AnimatedStatValue = ({ value, isVisible, delay }: { value: string; isVisib
     </>
   );
 };
+
+const TICKER_IMAGES = [
+  "/termez-university-event.png",
+  "/termez-university-event.png",
+  "/termez-university-event.png",
+  "/termez-university-event.png",
+  "/termez-university-event.png",
+  "/termez-university-event.png",
+];
 
 const AboutStats = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -114,104 +85,95 @@ const AboutStats = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Disconnect after first trigger to prevent re-triggering
           observer.disconnect();
         }
       },
-      { threshold: 0.2, rootMargin: '50px' }
+      { threshold: 0.2, rootMargin: "50px" }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section 
-      ref={sectionRef} 
-      className="pt-[120px] pb-24 bg-white relative overflow-visible"
+    <section
+      ref={sectionRef}
+      className="pt-[120px] pb-[100px] bg-white relative overflow-visible"
+      id="about"
     >
       <div className="container mx-auto px-6">
-        <div className="w-full">
-          {/* Intro text then stats at bottom */}
+        {/* Intro */}
+        <div className="mb-16">
           <div
             className={`transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            {/* Heading above image */}
-            <h1 className="text-4xl lg:text-5xl font-bold text-[rgb(22,22,22)] mb-10 leading-[140%]" style={{ fontFamily: "'Geist Sans', sans-serif" }}>
-              About The Termez University of<br />Economics and Service
-            </h1>
-            {/* Image section */}
-            <div className="w-full mb-12 overflow-hidden rounded-lg">
-              <img
-                src="/termez-university-event.png"
-                alt="Grand opening or event at Termez University, featuring a diverse group of attendees in traditional and formal attire"
-                className="w-full h-[360px] lg:h-[480px] object-cover"
-              />
+            <div className="inline-flex items-center rounded-2xl bg-[rgb(40,40,44)] px-4 py-2 mb-6">
+              <h2 className="text-sm font-medium text-white">About us</h2>
             </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-8">
-              {/* Chip - About us (sticky on scroll) */}
-              <div className="sticky top-32 self-start">
-                <span
-                  className="inline-flex items-center rounded-full bg-primary/10 text-primary px-4 py-1.5 text-sm font-medium"
-                  style={{ fontFamily: "'Geist Sans', sans-serif" }}
-                >
-                  About us
-                </span>
-              </div>
-
-              <div className="space-y-8">
-              {/* Stats - on top of heading */}
-              <div className="flex flex-col flex-wrap" style={{ fontFamily: "'Geist Sans', sans-serif" }}>
-                <div className="grid grid-cols-2 gap-x-16 gap-y-4">
-                  {stats.map((stat, index) => (
-                    <div
-                      key={stat.label}
-                      className={`bg-card p-0 rounded transition-all duration-500 flex flex-col justify-between ${
-                        isVisible
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-10"
-                      }`}
-                      style={{ transitionDelay: `${300 + index * 100}ms` }}
-                    >
-                      <div>
-                        <div className="text-4xl lg:text-5xl font-bold text-primary mb-2">
-                          <AnimatedStatValue 
-                            value={stat.value} 
-                            isVisible={isVisible} 
-                            delay={300 + index * 100}
-                          />
-                        </div>
-<div className="text-sm font-normal text-foreground mb-1">
-                        {stat.label}
-                      </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <h2 className="text-2xl lg:text-3xl font-semibold text-foreground leading-tight" style={{ fontFamily: "'Geist Sans', sans-serif" }}>
-                <AnimatedText 
-                  text="Our numbers reflect a tradition of excellence and forward-thinking impact in education, research, and innovation"
-                  isVisible={isVisible}
-                  delay={0}
-                />
-              </h2>
-
-              <p className="text-muted-foreground text-base leading-relaxed" style={{ fontFamily: "'Geist Sans', sans-serif" }}>
-                The Termez University of Economics and Service (TUES) is a renowned Uzbekistan institution committed to advancing exceptional Medical and other Higher Education. TUES strives to produce outstanding Medical graduates from both Uzbekistan and international medical aspirants.
-                <br /><br />
-                TUES strongly emphasizes conducting cutting-edge research and implementing the latest teaching methods to provide outstanding clinical and other training to its students. The university offers a wide range of programs in various fields of study at both the undergraduate and graduate levels. Through its extensive network of global partnerships, TUES effectively incorporates industry-driven teaching and training techniques to support its graduates. The degrees offered by TUES, including MBBS, are recognized worldwide.
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+              <h3 className="text-[40px] font-semibold text-foreground tracking-tight leading-[120%]">
+                The Termez University of Economics and Service
+              </h3>
+              <p className="text-[rgb(61,61,71)] text-base lg:text-lg leading-relaxed">
+                Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step.
               </p>
-              </div>
             </div>
           </div>
+        </div>
+
+        {/* Image ticker */}
+        <div className="w-full overflow-hidden mb-16">
+          <div className="flex gap-8 animate-ticker">
+            {[...TICKER_IMAGES, ...TICKER_IMAGES].map((src, i) => (
+              <div
+                key={i}
+                className="relative h-[280px] w-[400px] flex-shrink-0 rounded-xl overflow-hidden bg-neutral-100"
+              >
+                <img
+                  src={src}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Statistics */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.label}
+              className={`text-center transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: `${200 + index * 80}ms` }}
+            >
+              <div className="relative h-[72px] flex items-center justify-center">
+                <p className="sr-only">{stat.value}</p>
+                <p
+                  className="text-5xl lg:text-[72px] font-light tracking-tight text-foreground leading-none"
+                  aria-hidden
+                >
+                  <AnimatedStatValue value={stat.value} isVisible={isVisible} />
+                </p>
+              </div>
+              <div className="mt-4">
+                <h4 className="text-lg font-semibold text-foreground">
+                  {stat.label}
+                </h4>
+                <p className="text-sm text-[rgb(61,61,71)] mt-1 leading-relaxed line-clamp-2">
+                  {stat.description.split("\n").map((line, i) => (
+                    <span key={i}>
+                      {i > 0 && <br />}
+                      {line}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

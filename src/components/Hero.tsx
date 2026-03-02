@@ -44,7 +44,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen min-h-screen overflow-hidden">
+    <section className="relative mt-[178px] h-[calc(100dvh-178px)] min-h-[calc(100dvh-178px)] overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0 overflow-hidden">
         <video
@@ -68,7 +68,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative container mx-auto px-6 h-full flex items-end pb-24 pt-[178px]">
+      <div className="relative container mx-auto px-6 h-full flex items-end pb-24 pt-6">
         {/* Announcement Card */}
         {isCardVisible && (
           <div className="max-w-xl">

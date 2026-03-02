@@ -25,7 +25,7 @@ export class ErrorBoundary extends Component<Props, State> {
                         alignItems: "center",
                         justifyContent: "center",
                         padding: 24,
-                        fontFamily: "system-ui, sans-serif",
+                        fontFamily: '"Geist", "Geist Sans", system-ui, sans-serif',
                         backgroundColor: "#fef2f2",
                         color: "#991b1b",
                     }}

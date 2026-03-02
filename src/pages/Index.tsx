@@ -10,6 +10,7 @@ const Programs = lazy(() => import("@/components/Programs"));
 const VirtualTour = lazy(() => import("@/components/VirtualTour"));
 const Alumni = lazy(() => import("@/components/Alumni"));
 const StudentActivities = lazy(() => import("@/components/StudentActivities"));
+const EduHubSection = lazy(() => import("@/components/EduHubSection"));
 const Footer = lazy(() => import("@/components/Footer"));
 
 const LoadingPlaceholder = () => (
@@ -39,19 +40,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="relative h-screen">
-        <Header />
-        <Hero />
-      </div>
+      <Header />
+      <Hero />
       <main>
         <Suspense fallback={<LoadingPlaceholder />}>
           <AboutStats />
         </Suspense>
         <Suspense fallback={<LoadingPlaceholder />}>
-          <NewsEvents />
+          <Programs />
         </Suspense>
         <Suspense fallback={<LoadingPlaceholder />}>
-          <Programs />
+          <NewsEvents />
         </Suspense>
         <Suspense fallback={<LoadingPlaceholder />}>
           <VirtualTour />
@@ -61,6 +60,9 @@ const Index = () => {
         </Suspense>
         <Suspense fallback={<LoadingPlaceholder />}>
           <StudentActivities />
+        </Suspense>
+        <Suspense fallback={<LoadingPlaceholder />}>
+          <EduHubSection />
         </Suspense>
         <Suspense fallback={<LoadingPlaceholder />}>
           <Footer />

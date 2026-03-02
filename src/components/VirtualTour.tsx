@@ -1,5 +1,4 @@
-import { Box, MapPin, Clock, Users, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Box, ArrowRight } from "lucide-react";
 
 const VirtualTour = () => {
   return (
@@ -35,55 +34,15 @@ const VirtualTour = () => {
           </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white p-6 rounded shadow-sm border border-border hover:shadow-md transition-all duration-300">
-            <div className="w-10 h-10 rounded bg-oxford-gold/20 flex items-center justify-center mb-4">
-              <MapPin className="h-5 w-5 text-oxford-gold" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">Interactive Maps</h3>
-            <p className="text-muted-foreground text-sm">
-              Navigate through our campus with detailed interactive maps
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded shadow-sm border border-border hover:shadow-md transition-all duration-300">
-            <div className="w-10 h-10 rounded bg-oxford-gold/20 flex items-center justify-center mb-4">
-              <Clock className="h-5 w-5 text-oxford-gold" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">360° Views</h3>
-            <p className="text-muted-foreground text-sm">
-              Experience panoramic views of classrooms, labs, and facilities
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded shadow-sm border border-border hover:shadow-md transition-all duration-300">
-            <div className="w-10 h-10 rounded bg-oxford-gold/20 flex items-center justify-center mb-4">
-              <Users className="h-5 w-5 text-oxford-gold" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">Guided Tours</h3>
-            <p className="text-muted-foreground text-sm">
-              Follow expert-guided tours with detailed explanations
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded shadow-sm border border-border hover:shadow-md transition-all duration-300">
-            <div className="w-10 h-10 rounded bg-oxford-gold/20 flex items-center justify-center mb-4">
-              <Box className="h-5 w-5 text-oxford-gold" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">Video Tours</h3>
-            <p className="text-muted-foreground text-sm">
-              Watch immersive video tours of key campus locations
-            </p>
-          </div>
-        </div>
-
         {/* CTA */}
         <div className="text-center">
-          <Button
-            size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+          <button
+            type="button"
+            className="inline-flex h-11 shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-xl border border-oxford-blue bg-oxford-blue px-8 text-sm font-medium text-white transition-colors hover:bg-oxford-blue/90 hover:border-oxford-blue/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50"
           >
-            Start Virtual Tour
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+            <span className="whitespace-nowrap">Start Virtual Tour</span>
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </section>
