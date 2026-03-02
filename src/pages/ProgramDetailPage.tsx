@@ -28,7 +28,7 @@ const ProgramDetailPage = () => {
   }
 
   const Icon = program.icon;
-  const longDescription = "longDescription" in program ? program.longDescription : program.description;
+  const longDescription = "longDescription" in program ? (program as { longDescription: string }).longDescription : "";
   const highlights = "highlights" in program ? program.highlights : [];
 
   return (

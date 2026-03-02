@@ -1,8 +1,11 @@
 import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Share2, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getNewsBySlug, news } from "@/components/NewsEvents";
+import { contentApi } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
+import { FALLBACK_NEWS } from "@/data/fallbackContent";
 
 const formatDateLong = (dateStr: string) => {
   const d = new Date(dateStr);
@@ -10,12 +13,71 @@ const formatDateLong = (dateStr: string) => {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 };
 
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+function ArticleSkeleton() {
+  return (
+    <div className="animate-pulse space-y-6 px-5 py-8 xl:px-8 xl:py-14 max-w-3xl mx-auto">
+      <div className="h-6 w-24 rounded-full bg-muted" />
+      <div className="space-y-3">
+        <div className="h-8 w-full rounded bg-muted" />
+        <div className="h-8 w-3/4 rounded bg-muted" />
+      </div>
+      <div className="h-4 w-48 rounded bg-muted" />
+      <div className="aspect-[374/182] w-full rounded-xl bg-muted" />
+      <div className="space-y-2">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className={`h-4 rounded bg-muted ${i % 3 === 2 ? "w-2/3" : "w-full"}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
 const NewsDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const article = slug ? getNewsBySlug(slug) : null;
+
+  const { data: remoteArticle, isLoading, error } = useQuery({
+    queryKey: contentKeys.news.detail(slug ?? ""),
+    queryFn: () => contentApi.news.getBySlug(slug!),
+    enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+
+  // Fetch all news for related articles
+  const { data: remoteAllNews } = useQuery({
+    queryKey: contentKeys.news.list(),
+    queryFn: contentApi.news.list,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+
+  const fallbackArticle = FALLBACK_NEWS.find((n) => n.slug === slug);
+  const article = (error || !remoteArticle) && fallbackArticle ? fallbackArticle : remoteArticle;
+
+  const allNews = remoteAllNews && remoteAllNews.length > 0 ? remoteAllNews : FALLBACK_NEWS;
+
   const relatedArticles = article
-    ? news.filter((n) => n.slug !== slug).slice(0, 4)
+    ? allNews.filter((n) => n.slug !== slug).slice(0, 4)
     : [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="below-header relative z-0 flex-1 overflow-x-clip bg-muted/30">
+          <div className="relative z-10 mx-auto w-full min-h-[calc(100dvh-var(--header-height))] max-w-[1504px] overflow-hidden rounded-2xl bg-background shadow-sm xl:mx-4 xl:mb-4">
+            <ArticleSkeleton />
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!article) {
     return (
       <div className="min-h-screen">
@@ -32,9 +94,7 @@ const NewsDetailPage = () => {
     );
   }
 
-  const author = "author" in article ? article.author : "TUES";
-  const readTime = "readTime" in article ? article.readTime : null;
-  const body = "body" in article && Array.isArray(article.body) ? article.body : [];
+  const body = Array.isArray(article.body) ? article.body : [];
   const firstParagraph =
     body.length > 0 && body[0].paragraphs.length > 0 ? body[0].paragraphs[0] : article.excerpt;
 
@@ -42,9 +102,8 @@ const NewsDetailPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="below-header relative z-0 flex-1 overflow-x-clip bg-muted/30">
-        {/* Card container - Status-style rounded content area */}
         <div className="relative z-10 mx-auto w-full min-h-[calc(100dvh-var(--header-height))] max-w-[1504px] overflow-hidden rounded-2xl bg-background shadow-sm xl:mx-4 xl:mb-4">
-          {/* Breadcrumb bar */}
+          {/* Breadcrumb */}
           <div className="flex flex-col-reverse border-b border-border pb-3 pt-5 lg:h-12 lg:flex-row lg:items-center lg:gap-2 lg:py-0 lg:px-6">
             <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-5 scrollbar-hide lg:px-0">
               <Link to="/" className="font-medium text-foreground text-sm hover:text-primary">
@@ -65,10 +124,10 @@ const NewsDetailPage = () => {
             </div>
           </div>
 
-          {/* Article header: category pill + title + author/date */}
+          {/* Article header */}
           <div className="mx-auto max-w-3xl gap-3 px-5 pb-6 pt-8 xl:px-8 xl:pt-14">
             {article.category && (
-              <div className="flex">
+              <div className="flex mb-4">
                 <span className="inline-flex h-8 shrink-0 items-center rounded-full border border-border px-3 text-sm font-medium text-foreground">
                   {article.category}
                 </span>
@@ -79,31 +138,31 @@ const NewsDetailPage = () => {
             </h1>
             <div className="mt-4 flex h-5 items-center gap-2">
               <div className="flex items-center justify-center overflow-hidden rounded-full bg-primary/10 size-8 text-xs font-semibold text-primary">
-                {author.charAt(0)}
+                {article.author.charAt(0)}
               </div>
-              <span className="font-semibold text-foreground text-sm">{author}</span>
+              <span className="font-semibold text-foreground text-sm">{article.author}</span>
               <span className="text-muted-foreground text-sm">on {formatDateLong(article.date)}</span>
-              {readTime && (
-                <span className="text-muted-foreground text-sm"> · {readTime}</span>
+              {article.readTime && (
+                <span className="text-muted-foreground text-sm">· {article.readTime}</span>
               )}
             </div>
           </div>
 
           {/* Hero image */}
-          <div className="mx-auto w-full max-w-[1504px] px-2 py-6 xl:px-6 xl:py-10">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="aspect-[374/182] w-full rounded-xl object-cover xl:aspect-[1456/470]"
-            />
-          </div>
+          {article.imageUrl && (
+            <div className="mx-auto w-full max-w-[1504px] px-2 py-6 xl:px-6 xl:py-10">
+              <img
+                src={article.imageUrl}
+                alt={article.title}
+                className="aspect-[374/182] w-full rounded-xl object-cover xl:aspect-[1456/470]"
+              />
+            </div>
+          )}
 
-          {/* Body content */}
+          {/* Body */}
           <div className="mx-auto max-w-3xl px-5 py-6 xl:px-8">
             <div className="prose prose-neutral max-w-none">
-              <p className="drop-cap text-lg leading-relaxed text-foreground/90">
-                {firstParagraph}
-              </p>
+              <p className="drop-cap text-lg leading-relaxed text-foreground/90">{firstParagraph}</p>
               {body.map((section, index) => (
                 <div key={index} className="mt-8">
                   <h2 className="mb-3 scroll-mt-24 text-lg font-semibold text-foreground">
@@ -125,10 +184,10 @@ const NewsDetailPage = () => {
             <div className="mt-10 flex flex-col gap-6 border-t border-border py-8 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex size-10 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                  {author.charAt(0)}
+                  {article.author.charAt(0)}
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-semibold text-foreground">{author}</span>
+                  <span className="font-semibold text-foreground">{article.author}</span>
                   <span className="text-muted-foreground text-sm">{formatDateLong(article.date)}</span>
                 </div>
               </div>
@@ -136,8 +195,9 @@ const NewsDetailPage = () => {
                 <span className="text-sm font-medium text-muted-foreground">Share article:</span>
                 <button
                   type="button"
-                  className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
-                  aria-label="Share"
+                  onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}
+                  className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                  aria-label="Share article"
                 >
                   <Share2 className="h-5 w-5" />
                 </button>
@@ -165,19 +225,20 @@ const NewsDetailPage = () => {
                           {item.title}
                         </h3>
                         <div className="mt-auto flex items-center gap-2 text-sm">
-                          <span className="font-medium text-foreground">
-                            {"author" in item ? item.author : "TUES"}
-                          </span>
+                          <span className="font-medium text-foreground">{item.author}</span>
                           <span className="text-muted-foreground">on {formatDateLong(item.date)}</span>
                         </div>
                       </div>
-                      <div className="w-full px-2 pb-2">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="aspect-[334/188] w-full rounded-lg object-cover"
-                        />
-                      </div>
+                      {item.imageUrl && (
+                        <div className="w-full px-2 pb-2">
+                          <img
+                            src={item.imageUrl}
+                            alt={item.title}
+                            className="aspect-[334/188] w-full rounded-lg object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
                     </Link>
                   ))}
                 </div>
