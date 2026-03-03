@@ -210,7 +210,7 @@ const NewsDetailPage = () => {
                 <div className="mb-6">
                   <h2 className="text-xl font-semibold text-foreground">Related articles</h2>
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-2">
                   {relatedArticles.map((item) => (
                     <Link
                       key={item.slug}

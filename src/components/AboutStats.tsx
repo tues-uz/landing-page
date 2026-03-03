@@ -12,14 +12,14 @@ const stats = [
     description: "Leading innovation\nacross disciplines",
   },
   {
-    value: "27,447",
-    label: "IRC Fund",
-    description: "A legacy of\nacademic achievement",
-  },
-  {
     value: "3+",
     label: "Faculties",
     description: "Independent, self-governing\ncommunities",
+  },
+  {
+    value: "27,447",
+    label: "IRC Fund",
+    description: "A legacy of\nacademic achievement",
   },
 ];
 

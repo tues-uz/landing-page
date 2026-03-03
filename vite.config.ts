@@ -5,7 +5,7 @@ import path from "path";
 export default defineConfig({
   server: {
     host: "localhost",
-    port: 8080,
+    port: 8081,
     proxy: {
       "/api": {
         target: "http://localhost:3000",
@@ -16,6 +16,7 @@ export default defineConfig({
   },
   plugins: [react()],
   resolve: {
+    dedupe: ["react", "react-dom"],
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
