@@ -12,14 +12,14 @@ const stats = [
     description: "Leading innovation\nacross disciplines",
   },
   {
-    value: "27,447",
-    label: "IRC Fund",
-    description: "A legacy of\nacademic achievement",
-  },
-  {
     value: "3+",
     label: "Faculties",
     description: "Independent, self-governing\ncommunities",
+  },
+  {
+    value: "27,447",
+    label: "IRC Fund",
+    description: "A legacy of\nacademic achievement",
   },
 ];
 
@@ -100,7 +100,7 @@ const AboutStats = () => {
       className="pt-[120px] pb-[100px] bg-white relative overflow-visible"
       id="about"
     >
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
         {/* Intro */}
         <div className="mb-16">
           <div
@@ -112,10 +112,12 @@ const AboutStats = () => {
               <h2 className="text-sm font-medium text-white">About us</h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              <h3 className="text-[40px] font-semibold text-foreground tracking-tight leading-[120%]">
-                The Termez University of Economics and Service
+              <h3 className="text-[40px] text-foreground tracking-tight leading-[120%] md:text-5xl lg:text-[56px]">
+                The Termez University
+                <br />
+                of Economics and Service
               </h3>
-              <p className="text-[rgb(61,61,71)] text-base lg:text-lg leading-relaxed">
+              <p className="font-dm-sans text-[16px] text-[rgb(61,61,71)] leading-relaxed self-start">
                 Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step.
               </p>
             </div>
@@ -153,13 +155,13 @@ const AboutStats = () => {
               <div className="relative h-[72px] flex items-center justify-center">
                 <p className="sr-only">{stat.value}</p>
                 <p
-                  className="text-5xl lg:text-[72px] font-light tracking-tight text-foreground leading-none"
+                  className="font-forum text-5xl lg:text-[72px] font-bold tracking-tight text-foreground leading-none"
                   aria-hidden
                 >
                   <AnimatedStatValue value={stat.value} isVisible={isVisible} />
                 </p>
               </div>
-              <div className="mt-4">
+              <div className="mt-4 font-dm-sans">
                 <h4 className="text-lg font-semibold text-foreground">
                   {stat.label}
                 </h4>

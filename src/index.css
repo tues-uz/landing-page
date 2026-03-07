@@ -10,8 +10,8 @@
 
 @layer base {
   :root {
-    /* Clear fixed navbar (contact bar + main row + second nav) */
-    --header-height: 185px;
+    /* Clear fixed navbar (contact bar + main row); Header.tsx syncs this to actual height */
+    --header-height: 64px;
     --background: 0 0% 100%;
     --foreground: 210 50% 14%;
     --card: 0 0% 100%;
@@ -79,8 +79,11 @@
 
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground font-sans antialiased; }
-  h1, h2, h3, h4, h5, h6 { @apply font-sans; }
+  html, body { min-height: 100%; margin: 0; }
+  body { @apply bg-background text-foreground font-dm-sans antialiased; }
+  #root { min-height: 100%; display: block; }
+  h1, h2, h3, h4, h5, h6 { @apply font-forum font-bold; }
+  p { @apply font-dm-sans; }
   html { scroll-behavior: smooth; }
   [class*="animate-"], [class*="transition-"] { will-change: transform, opacity; }
   video { transform: translateZ(0); backface-visibility: hidden; }
@@ -127,6 +130,18 @@
   input[type="checkbox"] { appearance: none; -webkit-appearance: none; -moz-appearance: none; background-color: white; border: 1px solid rgba(0, 0, 0, 0.4); position: relative; }
   input[type="checkbox"]:checked { background-color: white; border-color: rgba(0, 0, 0, 0.4); }
   input[type="checkbox"]:checked::after { content: ''; position: absolute; left: 3px; top: 0px; width: 4px; height: 8px; border: solid black; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+  /* Bento grid hover: dim non-hovered cards, scale hovered card */
+  .bento-section .bento-card {
+    transition: filter 500ms ease, transform 500ms ease;
+  }
+  .bento-section:hover .bento-card {
+    filter: saturate(50%) brightness(0.85);
+  }
+  .bento-section .bento-card:hover {
+    filter: saturate(100%) brightness(1);
+    transform: scale(1.02);
+  }
 }
 
 @keyframes marquee-r2l {

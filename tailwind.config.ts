@@ -22,6 +22,8 @@ export default {
                 sans: ["Geist", "Geist Sans", "system-ui", "sans-serif"],
                 serif: ["Geist", "Geist Sans", "system-ui", "sans-serif"],
                 mono: ["Geist", "Geist Sans", "ui-monospace", "monospace"],
+                forum: ["Forum", "sans-serif"],
+                "dm-sans": ["DM Sans", "sans-serif"],
             },
             colors: {
                 border: "hsl(var(--border))",

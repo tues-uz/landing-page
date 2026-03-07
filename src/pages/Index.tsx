@@ -1,25 +1,24 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronUp } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import AboutStats from "@/components/AboutStats";
+import NewsEvents from "@/components/NewsEvents";
+import Programs from "@/components/Programs";
+import VirtualTour from "@/components/VirtualTour";
+import Alumni from "@/components/Alumni";
+import StudentActivities from "@/components/StudentActivities";
+import EduHubSection from "@/components/EduHubSection";
+import ResearchJournalSection from "@/components/ResearchJournalSection";
+import NewSection from "@/components/NewSection";
+import Footer from "@/components/Footer";
 
-// Lazy load components below the fold
-const AboutStats = lazy(() => import("@/components/AboutStats"));
-const NewsEvents = lazy(() => import("@/components/NewsEvents"));
-const Programs = lazy(() => import("@/components/Programs"));
-const VirtualTour = lazy(() => import("@/components/VirtualTour"));
-const Alumni = lazy(() => import("@/components/Alumni"));
-const StudentActivities = lazy(() => import("@/components/StudentActivities"));
-const EduHubSection = lazy(() => import("@/components/EduHubSection"));
-const Footer = lazy(() => import("@/components/Footer"));
-
-const LoadingPlaceholder = () => (
-  <div className="min-h-[400px] flex items-center justify-center">
-    <div className="animate-pulse text-muted-foreground">Loading...</div>
-  </div>
-);
+gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
+  const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -27,11 +26,42 @@ const Index = () => {
       setShowScrollTop(window.scrollY > 200);
     };
 
-    // Check on mount
     handleScroll();
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // GSAP ScrollTrigger: reveal sections one by one on scroll
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!main) return;
+
+    const sections = Array.from(main.children).filter((el): el is HTMLElement => el instanceof HTMLElement);
+    const triggers: ScrollTrigger[] = [];
+
+    sections.forEach((el) => {
+      gsap.set(el, { opacity: 0, y: 48 });
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: "top 88%",
+        end: "bottom 12%",
+        onEnter: () => {
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        },
+      });
+      triggers.push(st);
+    });
+
+    return () => {
+      triggers.forEach((t) => t.kill());
+      sections.forEach((el) => gsap.set(el, { clearProps: "opacity,y" }));
+    };
   }, []);
 
   const scrollToTop = () => {
@@ -42,31 +72,17 @@ const Index = () => {
     <div className="min-h-screen">
       <Header />
       <Hero />
-      <main>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <AboutStats />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <Programs />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <NewsEvents />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <VirtualTour />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <Alumni />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <StudentActivities />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <EduHubSection />
-        </Suspense>
-        <Suspense fallback={<LoadingPlaceholder />}>
-          <Footer />
-        </Suspense>
+      <main ref={mainRef}>
+        <AboutStats />
+        <Programs />
+        <NewsEvents />
+        <NewSection />
+        <VirtualTour />
+        <Alumni />
+        <StudentActivities />
+        <EduHubSection />
+        <ResearchJournalSection />
+        <Footer />
       </main>
 
       {/* Floating Scroll to Top Button */}

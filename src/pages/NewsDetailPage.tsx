@@ -101,8 +101,8 @@ const NewsDetailPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="below-header relative z-0 flex-1 overflow-x-clip bg-muted/30">
-        <div className="relative z-10 mx-auto w-full min-h-[calc(100dvh-var(--header-height))] max-w-[1504px] overflow-hidden rounded-2xl bg-background shadow-sm xl:mx-4 xl:mb-4">
+      <main className="below-header relative z-0 flex-1 overflow-x-clip bg-muted/30 flex justify-center">
+        <div className="relative z-10 w-full min-h-[calc(100dvh-var(--header-height))] overflow-hidden rounded-none bg-background shadow-sm">
           {/* Breadcrumb */}
           <div className="flex flex-col-reverse border-b border-border pb-3 pt-5 lg:h-12 lg:flex-row lg:items-center lg:gap-2 lg:py-0 lg:px-6">
             <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-5 scrollbar-hide lg:px-0">
@@ -112,7 +112,7 @@ const NewsDetailPage = () => {
               <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
               {article.category && (
                 <>
-                  <Link to="/#news" className="font-medium text-foreground text-sm hover:text-primary">
+                  <Link to="/news" className="font-medium text-foreground text-sm hover:text-primary">
                     {article.category}
                   </Link>
                   <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
@@ -210,7 +210,7 @@ const NewsDetailPage = () => {
                 <div className="mb-6">
                   <h2 className="text-xl font-semibold text-foreground">Related articles</h2>
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-2">
                   {relatedArticles.map((item) => (
                     <Link
                       key={item.slug}

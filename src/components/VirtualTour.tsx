@@ -2,14 +2,14 @@ import { Box, ArrowRight } from "lucide-react";
 
 const VirtualTour = () => {
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-oxford-cream/30 relative overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section className="py-24 bg-white relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-oxford-gold font-medium text-sm tracking-wider uppercase">
             Explore Our Campus
           </span>
-          <h2 className="text-4xl lg:text-5xl font-serif font-semibold text-foreground mt-3 mb-6">
+          <h2 className="text-4xl lg:text-5xl text-foreground mt-3 mb-6">
             Take a Virtual Tour
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
