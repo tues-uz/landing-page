@@ -41,6 +41,8 @@ export interface NewsItem {
     author: string;
     readTime: string;
     body: NewsSection[];
+    /** Set by CMS when "Update order" is used; lower = earlier (e.g. 0 = featured). */
+    sortOrder?: string;
 }
 
 export interface EventItem {
@@ -49,6 +51,23 @@ export interface EventItem {
     date: string;
     time: string;
     location: string;
+    /** Image URL from CMS upload; optional. Backend may send imageUrl, image, or image_url. */
+    imageUrl?: string | null;
+    image?: string | null;
+    image_url?: string | null;
+}
+
+/** Resolve event image to a full URL; use placeholder if missing or invalid. */
+export function getEventImageUrl(event: EventItem, placeholder: string): string {
+  const raw = (event.imageUrl ?? event.image ?? event.image_url)?.trim();
+  if (!raw) return placeholder;
+  if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
+  const base =
+    typeof import.meta.env.VITE_API_BASE_URL === "string" &&
+    import.meta.env.VITE_API_BASE_URL.startsWith("http")
+      ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, "")
+      : (typeof window !== "undefined" ? window.location.origin : "");
+  return base + (raw.startsWith("/") ? raw : "/" + raw);
 }
 
 // ─── Core fetch helper ────────────────────────────────────────────────────────
@@ -82,7 +101,16 @@ export const contentApi = {
     news: {
         list: async (): Promise<NewsItem[]> => {
             const data = await get<{ articles: NewsItem[] }>("/content/news");
-            return data.articles ?? [];
+            const raw = data.articles ?? [];
+            // Sort by CMS order (sortOrder from "Update order"); items without sortOrder go last
+            return [...raw].sort((a, b) => {
+                const aOrder = a.sortOrder != null ? Number(a.sortOrder) : NaN;
+                const bOrder = b.sortOrder != null ? Number(b.sortOrder) : NaN;
+                if (Number.isNaN(aOrder) && Number.isNaN(bOrder)) return 0;
+                if (Number.isNaN(aOrder)) return 1;
+                if (Number.isNaN(bOrder)) return -1;
+                return aOrder - bOrder;
+            });
         },
         getBySlug: async (slug: string): Promise<NewsItem> => {
             const data = await get<{ article: NewsItem }>(`/content/news/${slug}`);

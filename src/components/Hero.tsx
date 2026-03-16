@@ -82,7 +82,14 @@ const Hero = () => {
   const imageUrl = bg?.mediaType === "image" ? (bg.imageUrl ?? "") : (bg?.imageUrl ?? "");
 
   return (
-    <section className="relative mt-[178px] h-[calc(100dvh-178px)] min-h-[calc(100dvh-178px)] overflow-hidden">
+    <section
+      className="relative overflow-hidden"
+      style={{
+        marginTop: "var(--header-height)",
+        height: "calc(100dvh - var(--header-height))",
+        minHeight: "calc(100dvh - var(--header-height))",
+      }}
+    >
       {/* ── Background media ──────────────────────────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden">
         {videoUrl ? (
@@ -118,12 +125,12 @@ const Hero = () => {
       </div>
 
       {/* ── Slide content ─────────────────────────────────────────────────── */}
-      <div className="relative container mx-auto px-6 h-full flex items-end pb-24 pt-6">
+      <div className="relative container mx-auto px-4 lg:px-6 h-full flex items-end pb-24 pt-0">
         {isCardVisible && current && (
-          <div className="max-w-xl">
+          <div className="w-full max-w-xl">
             <div
               key={current.id}
-              className="bg-card/80 backdrop-blur-sm p-8 rounded shadow-2xl animate-fade-in"
+              className="w-full bg-card/80 backdrop-blur-sm p-8 rounded shadow-2xl animate-fade-in"
               style={{ willChange: "opacity, transform" }}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -132,7 +139,7 @@ const Hero = () => {
                   Announcement
                 </span>
               </div>
-              <h2 className="text-2xl lg:text-3xl font-serif font-semibold text-foreground mb-3 leading-tight">
+              <h2 className="text-2xl lg:text-3xl text-foreground mb-3 leading-tight">
                 {current.title}
               </h2>
               <p className="text-muted-foreground mb-6">{current.subtitle}</p>
@@ -175,7 +182,7 @@ const Hero = () => {
               variant="outline"
               size="icon"
               onClick={prevSlide}
-              className="border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
+              className="rounded-full border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
             >
               <ChevronLeft className="h-5 w-5" />
             </Button>
@@ -183,7 +190,7 @@ const Hero = () => {
               variant="outline"
               size="icon"
               onClick={nextSlide}
-              className="border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
+              className="rounded-full border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
             >
               <ChevronRight className="h-5 w-5" />
             </Button>
@@ -191,7 +198,7 @@ const Hero = () => {
               variant="outline"
               size="icon"
               onClick={() => setIsCardVisible(!isCardVisible)}
-              className="border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
+              className="rounded-full border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
               aria-label={isCardVisible ? "Hide announcement" : "Show announcement"}
             >
               {isCardVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}

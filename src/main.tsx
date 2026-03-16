@@ -6,8 +6,13 @@ import "./index.css";
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root not found");
 
-createRoot(rootEl).render(
+// Wrapper with inline styles so something is always visible (avoids pure white screen)
+const Root = () => (
+  <div style={{ minHeight: "100vh", backgroundColor: "hsl(210 20% 98%)", color: "hsl(210 50% 14%)" }}>
     <ErrorBoundary>
-        <App />
+      <App />
     </ErrorBoundary>
+  </div>
 );
+
+createRoot(rootEl).render(<Root />);

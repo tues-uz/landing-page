@@ -45,6 +45,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type MegaMenuLink = { href: string; label: string; icon: LucideIcon };
 type MegaMenuItem = { label: string; description: string; links: MegaMenuLink[] };
@@ -217,14 +223,44 @@ const languages = [
   { code: "ru", name: "Ru", flag: "🇷🇺" },
 ];
 
-const Header = () => {
+type HeaderProps = {
+  onMobileMenuOpenChange?: (open: boolean) => void;
+};
+
+const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState(languages[1]); // Default to English
+  const [topBarVisible, setTopBarVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const secondNavRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const mainRowRef = useRef<HTMLDivElement>(null);
   const megaPanelRef = useRef<HTMLDivElement>(null);
   const [openMegaKey, setOpenMegaKey] = useState<string | null>(null);
   const [openMegaTriggerRect, setOpenMegaTriggerRect] = useState<{ left: number; width: number } | null>(null);
+  const [panelTop, setPanelTop] = useState(128);
+
+  useEffect(() => {
+    onMobileMenuOpenChange?.(mobileMenuOpen);
+  }, [mobileMenuOpen, onMobileMenuOpenChange]);
+
+  // Hide top bar on scroll down, show on scroll up or near top
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY ?? window.pageYOffset;
+      if (y <= 50) {
+        setTopBarVisible(true);
+      } else if (y > lastScrollY.current) {
+        setTopBarVisible(false);
+      } else {
+        setTopBarVisible(true);
+      }
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Position mega menu panel to align with second nav (same width, never exceeds)
   const [megaMenuTop, setMegaMenuTop] = useState(208);
@@ -243,6 +279,43 @@ const Header = () => {
     };
   }, []);
 
+  // Sync --header-height with actual header height so .below-header has no gap
+  useEffect(() => {
+    const syncHeaderHeight = () => {
+      if (headerRef.current) {
+        const h = headerRef.current.getBoundingClientRect().height;
+        document.documentElement.style.setProperty("--header-height", `${h}px`);
+      }
+    };
+    syncHeaderHeight();
+    window.addEventListener("scroll", syncHeaderHeight, true);
+    window.addEventListener("resize", syncHeaderHeight);
+    const obs = new ResizeObserver(syncHeaderHeight);
+    if (headerRef.current) obs.observe(headerRef.current);
+    return () => {
+      window.removeEventListener("scroll", syncHeaderHeight, true);
+      window.removeEventListener("resize", syncHeaderHeight);
+      obs.disconnect();
+    };
+  }, [topBarVisible]);
+
+  // Sync hamburger panel top with bottom of main header row (so panel aligns under full header)
+  useEffect(() => {
+    if (!secondNavMobileOpen) return;
+    const setPanelTopFromHeader = () => {
+      if (mainRowRef.current) {
+        setPanelTop(mainRowRef.current.getBoundingClientRect().bottom);
+      }
+    };
+    setPanelTopFromHeader();
+    window.addEventListener("scroll", setPanelTopFromHeader, true);
+    window.addEventListener("resize", setPanelTopFromHeader);
+    return () => {
+      window.removeEventListener("scroll", setPanelTopFromHeader, true);
+      window.removeEventListener("resize", setPanelTopFromHeader);
+    };
+  }, [secondNavMobileOpen, topBarVisible]);
+
   // Close mega menu on outside click
   useEffect(() => {
     if (!openMegaKey) return;
@@ -258,133 +331,175 @@ const Header = () => {
   }, [openMegaKey]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-primary">
-      <div className="container mx-auto px-0">
-        {/* Contact Information Bar */}
-        <div className="bg-primary text-white py-2 px-4 text-xs hidden md:block border-b border-primary-foreground/10">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 flex flex-col bg-primary">
+      <div className="container mx-auto flex w-full flex-col px-0">
+        {/* Top bar: contact (left) - hides on scroll down, shows on scroll up */}
+        <div
+          className="overflow-hidden transition-all duration-300 ease-out"
+          style={{ maxHeight: topBarVisible ? 44 : 0 }}
+        >
+          <div className="bg-primary px-4 py-0 pt-0 pb-0 text-xs text-primary-foreground/90 md:px-6 h-[44px] flex items-center overflow-hidden">
+            <div className="flex min-h-0 min-w-0 w-full flex-1 flex-nowrap items-stretch justify-between gap-2 overflow-x-auto overflow-y-hidden border-b border-primary-foreground/15 md:gap-8 md:overflow-visible h-full min-h-[44px]">
+            <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
               <a
                 href="tel:+998954120707"
-                className="flex items-center gap-2 hover:text-primary-foreground/80 hover:underline transition-all duration-200"
+                className="flex items-center gap-1.5 hover:text-primary-foreground transition-colors"
               >
                 <Phone className="h-3.5 w-3.5" />
                 <span>+998 95 412 07 07</span>
-                <span>/</span>
-                <span>+99890 074 74 74</span>
+                <span className="text-primary-foreground/50">/</span>
+                <span>+998 90 074 74 74</span>
               </a>
               <a
                 href="mailto:university@tues.uz"
-                className="flex items-center gap-2 hover:text-primary-foreground/80 hover:underline transition-all duration-200"
+                className="hidden items-center gap-1.5 hover:text-primary-foreground transition-colors sm:inline-flex"
               >
                 <Mail className="h-3.5 w-3.5" />
                 <span>university@tues.uz</span>
               </a>
             </div>
-            <div className="flex items-center gap-3">
-              <a
-                href="#"
-                className="hover:text-primary-foreground/80 hover:scale-110 transition-all duration-200"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="hover:text-primary-foreground/80 hover:scale-110 transition-all duration-200"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="hover:text-primary-foreground/80 hover:scale-110 transition-all duration-200"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="hover:text-primary-foreground/80 hover:scale-110 transition-all duration-200"
-                aria-label="YouTube"
-              >
-                <Youtube className="h-4 w-4" />
-              </a>
+            <div className="flex flex-shrink-0 items-center gap-4 md:gap-8">
+              <div className="flex items-center gap-3">
+                <a href="#" aria-label="Twitter" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Twitter className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Linkedin className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="Instagram" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Instagram className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="YouTube" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Youtube className="h-4 w-4" />
+                </a>
+              </div>
+              <div className="hidden lg:flex items-stretch gap-0">
+              <Link to="/eduhub" className="self-stretch flex items-stretch min-h-[44px]">
+                <Button
+                  className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
+                >
+                  EduHub
+                </Button>
+              </Link>
+              <Link to="/eduhub" className="self-stretch flex items-stretch min-h-[44px]">
+                <Button
+                  className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
+                >
+                  Journal
+                </Button>
+              </Link>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div className="relative flex items-center justify-between min-h-20 px-4 py-4">
-          {/* Wrapped Navigation, Logo, and Secondary Nav */}
-          <div className="w-full flex items-center justify-center gap-8">
-            {/* Desktop Navigation - Left */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => (
-                <DropdownMenu key={item.label}>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 font-medium text-[13px]"
+        </div>
+
+        {/* Second nav panel (opens from hamburger in top bar) - portaled */}
+        {secondNavMobileOpen && createPortal(
+          <>
+            <div
+              className="fixed inset-0 z-40 bg-black/20"
+              aria-hidden
+              onClick={() => setSecondNavMobileOpen(false)}
+            />
+            <div
+              className="fixed right-0 z-50 w-full max-w-sm border-l border-t border-primary-foreground/10 bg-primary shadow-xl overflow-y-auto"
+              style={{ top: panelTop, maxHeight: `calc(100vh - ${panelTop}px)`, scrollbarGutter: 'stable' }}
+              role="dialog"
+              aria-label="Menu"
+            >
+              <nav className="py-4 pl-4 pr-4 border-b-0">
+                <Accordion type="single" collapsible className="w-full [&>*]:border-b-0">
+                  {secondNavItems.map((item, index) => (
+                    <AccordionItem
+                      key={item.label}
+                      value={item.label}
+                      className={index === secondNavItems.length - 1 ? "border-b-0 border-primary-foreground/10" : "border-primary-foreground/10"}
                     >
-                      {item.label}
-                      <ChevronDown className="ml-1 h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-card border-border">
-                    {item.items.map((subItem) => (
-                      <DropdownMenuItem
-                        key={subItem}
-                        className="cursor-pointer hover:bg-muted"
+                      <AccordionTrigger className="py-3 text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                        {item.label}
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-3 pt-0">
+                        <ul className="flex flex-col gap-0.5">
+                          {item.items.map((subItem) => (
+                            <li key={subItem}>
+                              <button
+                                type="button"
+                                className="w-full rounded px-3 py-2 text-left text-sm text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground transition-colors"
+                              >
+                                {subItem}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </nav>
+            </div>
+          </>,
+          document.body
+        )}
+
+        {/* Main row: Logo (left) | Social + Phone + Lang + CTA (right) */}
+        <div ref={mainRowRef} className="relative flex min-h-16 flex-nowrap items-center justify-between gap-3 overflow-hidden px-4 py-2 lg:gap-0 lg:px-6">
+          {/* Logo - left */}
+          <div className="flex min-w-0 shrink items-center">
+            <Link to="/" aria-label="Back to University Home" className="flex min-w-0 items-center gap-2 overflow-hidden sm:gap-4">
+              <img
+                src="/logo_white.png"
+                alt="TUES LOGO"
+                className="h-10 w-auto max-w-[140px] shrink-0 object-contain cursor-pointer sm:max-w-[180px] sm:h-14 lg:max-w-[240px] lg:h-16"
+              />
+              <span className="truncate text-primary-foreground text-xs sm:text-sm">
+                Termez University of
+                <br />
+                Economics and Service
+              </span>
+            </Link>
+          </div>
+
+          {/* Nav: About, Research, Admissions, News - right of logo */}
+          <nav className="hidden min-w-0 flex-1 lg:flex lg:justify-center" aria-label="Main">
+            <ul role="list" className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-1 list-none p-0 text-[14px]">
+              {navItems.map((item) => (
+                <li key={item.label} className="px-0">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 font-medium h-auto py-1.5 text-[14px]"
                       >
-                        {subItem}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                        {item.label}
+                        <ChevronDown className="ml-0.5 h-3.5 w-3.5" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-card border-border">
+                      {item.items.map((subItem) => (
+                        <DropdownMenuItem
+                          key={subItem}
+                          className="cursor-pointer hover:bg-muted"
+                        >
+                          {subItem}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </li>
               ))}
-            </nav>
+            </ul>
+          </nav>
 
-            {/* Logo - Centered (acts as Home button) */}
-            <div className="flex items-center">
-              <Link to="/" aria-label="Back to University Home" className="inline-flex items-center justify-center">
-                <img 
-                  src="/logo_white.png" 
-                  alt="TUES University logo" 
-                  className="h-16 w-auto object-contain cursor-pointer"
-                />
-              </Link>
-            </div>
-
-            {/* Secondary Nav & Actions - Right */}
-            <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-4">
-              {secondaryNav.map((item) =>
-                item === "Journal" ? (
-                  <Link
-                    key={item}
-                    to="/journal"
-                    className="inline-flex items-center px-2 py-2 text-primary-foreground/70 hover:text-primary-foreground transition-colors text-[13px]"
-                  >
-                    {item}
-                  </Link>
-                ) : (
-                  <a
-                    key={item}
-                    href="#"
-                    className="inline-flex items-center px-2 py-2 text-primary-foreground/70 hover:text-primary-foreground transition-colors text-[13px]"
-                  >
-                    {item}
-                  </a>
-                )
-              )}
-            </div>
-            <div className="flex items-center gap-3">
+          {/* Right: language + EduHub + hamburger */}
+          <div className="flex shrink-0 items-center gap-2 min-w-[44px]">
+            <div className="hidden lg:flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="bg-primary hover:bg-primary/90 text-white hover:text-white border border-white/20 hover:border-white/30 text-[13px] h-10 px-2"
-                              >
+                  <Button
+                    variant="outline"
+                    className="h-9 border-primary-foreground/20 bg-transparent text-primary-foreground/90 hover:bg-primary-foreground/10 hover:text-primary-foreground text-[13px] px-2"
+                  >
                     <span className="mr-1">{currentLanguage.flag}</span>
                     {currentLanguage.name}
                     <ChevronDown className="ml-1 h-3 w-3" />
@@ -403,31 +518,31 @@ const Header = () => {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link to="/eduhub">
-                <Button
-                  variant="outline"
-                  className="bg-yellow-400 hover:bg-yellow-500 text-black border-yellow-400 hover:border-yellow-500 text-[13px] px-4"
-                >
-                  EduHub
-                </Button>
-              </Link>
+              <Button
+                type="button"
+                variant="ghost"
+                className="shrink-0 h-10 gap-2 px-3 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 text-sm font-medium"
+                aria-label="Menu"
+                aria-expanded={secondNavMobileOpen}
+                onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
+              >
+                <span>Explore more</span>
+                {secondNavMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
             </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden text-primary-foreground"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
           </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden text-primary-foreground"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
         </div>
 
-        {/* Second Navbar - same color as main header row */}
-        <nav ref={secondNavRef} className="sticky top-0 z-50 border-b border-primary-foreground/10 transition-all duration-300 bg-primary">
+        {/* Second Navbar - hidden; content shown via hamburger panel in top bar */}
+        <nav ref={secondNavRef} className="hidden sticky top-0 z-50 border-b border-primary-foreground/10 transition-all duration-300 bg-primary">
           <div className="w-full px-6 lg:px-8">
             <div className="flex h-14 items-center justify-between">
               {/* Desktop nav (lg+) - centered with space between items */}
@@ -603,7 +718,8 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-primary-foreground/10">
+          <>
+          <div className="lg:hidden max-h-[100dvh] overflow-y-auto px-4 py-4 pb-24 border-t border-primary-foreground/10 lg:px-6">
             <nav className="flex flex-col gap-2">
               {navItems.map((item) => (
                 <div key={item.label} className="py-2">
@@ -623,25 +739,44 @@ const Header = () => {
               </div>
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
                 <p className="text-primary-foreground/50 text-xs uppercase tracking-wider mb-2">Second Menu</p>
-                {secondNavItems.map((item) => (
-                  <div key={item.label} className="py-2">
-                    <span className="text-primary-foreground font-medium">{item.label}</span>
-                    <div className="pl-4 pt-1 flex flex-col gap-1">
-                      {item.items.map((subItem) => (
-                        <a
-                          key={subItem}
-                          href="#"
-                          className="block py-1 text-primary-foreground/70 text-sm"
-                        >
-                          {subItem}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                <Accordion type="single" collapsible className="w-full [&>*]:border-b [&>*]:border-primary-foreground/10">
+                  {secondNavItems.map((item) => (
+                    <AccordionItem key={item.label} value={item.label} className="border-none border-b border-primary-foreground/10 last:border-b-0">
+                      <AccordionTrigger className="py-3 text-primary-foreground font-medium hover:no-underline hover:text-primary-foreground [&[data-state=open]>svg]:rotate-180">
+                        {item.label}
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-3 pt-0">
+                        <div className="flex flex-col gap-1 pl-0">
+                          {item.items.map((subItem) => (
+                            <a
+                              key={subItem}
+                              href="#"
+                              className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
+                            >
+                              {subItem}
+                            </a>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </div>
             </nav>
           </div>
+          <div className="fixed bottom-0 left-0 right-0 z-50 flex flex-wrap gap-2 border-t border-primary-foreground/10 bg-primary p-4 lg:hidden">
+            <Link to="/eduhub" className="flex-1 min-w-[120px]">
+              <Button className="w-full rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-sm px-4 py-2.5 font-medium">
+                EduHub
+              </Button>
+            </Link>
+            <Link to="/eduhub" className="flex-1 min-w-[120px]">
+              <Button className="w-full rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-sm px-4 py-2.5 font-medium">
+                Journal
+              </Button>
+            </Link>
+          </div>
+          </>
         )}
       </div>
     </header>

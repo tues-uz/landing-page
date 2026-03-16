@@ -1,28 +1,14 @@
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
-
-const footerLinks = {
-  academics: {
-    title: "Other",
-    links: ["About", "Contact", "FAQ", "Terms & Conditions", "Privacy Policy"],
-  },
-  admissions: {
-    title: "Information",
-    links: ["Payment Method", "EduHub Team", "International Students", "Open Days", "Contact Us"],
-  },
-  connect: {
-    title: "Connect",
-    links: ["Alumni", "Giving", "Jobs", "Press Office", "Conference & Events"],
-  },
-};
+import { footerMenuSections } from "@/data/footerNav";
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
   { icon: Twitter, href: "#", label: "Twitter" },
   { icon: Instagram, href: "#", label: "Instagram" },
   { icon: Linkedin, href: "#", label: "LinkedIn" },
   { icon: Youtube, href: "#", label: "YouTube" },
+  { icon: Facebook, href: "#", label: "Facebook" },
 ];
 
 const Footer = () => {
@@ -33,36 +19,10 @@ const Footer = () => {
   
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle subscription logic here
     console.log("Subscribe:", email);
     setEmail("");
   };
-  
-  // Filter out Connect section on EduHub page
-  const filteredFooterLinks = isEduHubPage 
-    ? Object.fromEntries(Object.entries(footerLinks).filter(([key]) => key !== "connect"))
-    : footerLinks;
-  
-  // Filter out specific links from Information section on EduHub page
-  const processedFooterLinks = isEduHubPage
-    ? Object.fromEntries(
-        Object.entries(filteredFooterLinks).map(([key, section]) => {
-          if (key === "admissions") {
-            return [
-              key,
-              {
-                ...section,
-                links: section.links.filter(
-                  (link) => !["International Students", "Open Days", "Contact Us"].includes(link)
-                ),
-              },
-            ];
-          }
-          return [key, section];
-        })
-      )
-    : filteredFooterLinks;
-  
+
   // Journal page has different footer styling
   if (isJournalPage) {
     return (
@@ -182,142 +142,135 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-white">
-      <div className="container mx-auto px-6 py-8">
-        {/* Footer Banner - Framer style: dark rounded card */}
-        <div
-          className="rounded-[40px] p-8 lg:p-12"
-          style={{ backgroundColor: dark }}
-        >
-          {/* Footer Top - columns */}
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-            {/* Column 1 - Subscribe (EduHub only) */}
-            {isEduHubPage && (
-              <div className="lg:col-span-4">
-                <p className="text-sm font-medium mb-4" style={{ color: cream }}>
-                  Subscribe
-                </p>
-                <form onSubmit={handleSubscribe} className="space-y-3">
-                  <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
-                    <input
-                      type="email"
-                      required
-                      name="Email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 min-w-0 rounded-full border px-4 py-3 text-sm placeholder:opacity-80 focus:outline-none focus:ring-2 focus:ring-white/30"
-                      style={{
-                        backgroundColor: cream,
-                        borderColor: "rgba(136, 136, 136, 0.2)",
-                        color: dark,
-                      }}
-                    />
-                    <button
-                      type="submit"
-                      className="inline-flex items-center justify-center gap-2 rounded-full py-3 px-5 text-base font-medium shrink-0 hover:opacity-90 text-white transition-colors"
-                    style={{ backgroundColor: '#199eff' }}
-                    >
-                      Subscribe
-                      <span className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: cream }}>
-                        <ArrowRight className="h-4 w-4" style={{ color: dark }} />
-                      </span>
-                    </button>
-                  </div>
-                  <p className="text-xs leading-relaxed" style={{ color: creamMuted }}>
-                    By subscribing you agree to our{" "}
-                    <a href="#" className="underline hover:opacity-90" style={{ color: cream }}>
-                      Privacy Policy
-                    </a>{" "}
-                    and consent to receive updates from EduHub.
-                  </p>
-                </form>
-              </div>
-            )}
-
-            {/* Column 2 - Menu Links */}
-            <div className={isEduHubPage ? "lg:col-span-4" : "lg:col-span-6"}>
-              <p className="text-sm font-medium mb-4" style={{ color: cream }}>
-                Menu Links
-              </p>
-              <ul className="space-y-2">
-                {Object.values(processedFooterLinks).map((section) =>
-                  section.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-sm transition-colors hover:opacity-90"
-                        style={{ color: creamMuted }}
+      <div className="w-full rounded-none bg-neutral-950 p-8 pb-0 lg:p-12 lg:pb-0">
+        <div className="container mx-auto px-0">
+          <div className="grid grid-cols-1 gap-12 py-0 lg:grid-cols-12 lg:gap-8">
+            {/* Left column: logo, newsletter, social */}
+            <div className="flex flex-col justify-between gap-8 lg:col-span-4">
+              <div className="flex min-h-0 flex-1 flex-col gap-6">
+                <Link to="/" className="shrink-0 self-start rounded-[8px]">
+                  <img src="/logo_white.png" alt="TUES University logo" className="h-10 w-auto object-contain sm:h-12" />
+                </Link>
+                <div className="flex flex-1 flex-col gap-4">
+                  <h3 className="text-base font-semibold leading-snug text-white/90">
+                    Get the latest TUES news and updates straight to your inbox.
+                  </h3>
+                  <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                      <label htmlFor="footer-email" className="sr-only">
+                        Email address
+                      </label>
+                      <input
+                        id="footer-email"
+                        type="email"
+                        placeholder="Email address"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="min-w-0 flex-1 rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30"
+                      />
+                      <button
+                        type="submit"
+                        className="shrink-0 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
                       >
-                        {link}
-                      </a>
-                    </li>
-                  ))
-                )}
-              </ul>
+                        Subscribe now
+                      </button>
+                    </div>
+                    <label className="flex cursor-pointer items-center gap-3 text-center">
+                      <input
+                        type="checkbox"
+                        required
+                        className="h-4 w-4 shrink-0 rounded border-white/30 bg-white/10 text-primary focus:ring-primary/50"
+                      />
+                      <span className="text-xs text-white/60">
+                        Yes, I agree to receive email communications from TUES.
+                      </span>
+                    </label>
+                  </form>
+                  <div className="mt-auto flex flex-wrap items-center justify-start gap-4 pt-2">
+                    {socialLinks.map((social) => {
+                      const Icon = social.icon;
+                      return (
+                        <a
+                          key={social.label}
+                          href={social.href}
+                          aria-label={social.label}
+                          className="text-white/60 transition-colors hover:text-white"
+                        >
+                          <Icon className="h-5 w-5" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Column 3 - Contact + Social */}
-            <div className={isEduHubPage ? "lg:col-span-4" : "lg:col-span-6"}>
-              <p className="text-sm font-medium mb-4" style={{ color: cream }}>
-                Contact
-              </p>
-              <ul className="space-y-2 text-sm mb-6" style={{ color: creamMuted }}>
-                <li className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>38B, Ibn Sino, Termez</span>
-                </li>
-                <li>
-                  <a href="tel:+998777029695" className="hover:opacity-90 transition-opacity">
-                    +998 777029695
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:info@ox.ac.uk" className="hover:opacity-90 transition-opacity">
-                    info@ox.ac.uk
-                  </a>
-                </li>
-                <li>
-                  <a href="https://t.me/eduhub_tisu_admin" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-                    Telegram @eduhub_tisu_admin
-                  </a>
-                </li>
-                <li>
-                  <a href="https://instagram.com/_tisu_eduhub" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-                    Instagram @_tisu_eduhub
-                  </a>
-                </li>
-              </ul>
-              <div className="flex items-center gap-2">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      aria-label={social.label}
-                      className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-90 transition-opacity"
-                      style={{ backgroundColor: creamMuted }}
-                    >
-                      <Icon className="h-4 w-4" style={{ color: dark }} />
-                    </a>
-                  );
-                })}
-              </div>
+            {/* Right: menu columns from navbar */}
+            <div className="grid grid-cols-4 grid-rows-2 gap-8 lg:col-span-8 lg:gap-6">
+              {footerMenuSections.map((section) => (
+                <div key={section.title} className="flex flex-col gap-4">
+                  <h3 className="text-xs font-medium uppercase tracking-wider text-white/50">
+                    {section.title}
+                  </h3>
+                  <ul className="list-none space-y-3 p-0">
+                    {section.links.map((link) => (
+                      <li key={link.label}>
+                        {link.href.startsWith("/") ? (
+                          <Link
+                            to={link.href}
+                            className="text-sm text-white/80 transition-colors hover:text-white"
+                          >
+                            {link.label}
+                          </Link>
+                        ) : (
+                          <a
+                            href={link.href}
+                            className="text-sm text-white/80 transition-colors hover:text-white"
+                          >
+                            {link.label}
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Footer Bottom */}
-          <div className="mt-10 pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-            <a href="/eduhub" className="shrink-0">
-              <img src="/logo-eduhub.png" alt="EduHub" className="h-8 w-auto object-contain opacity-90" />
-            </a>
-            <p className="text-sm text-center" style={{ color: creamMuted }}>
-              © 2026 EduHub. All rights reserved.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4 text-sm" style={{ color: creamMuted }}>
-              <a href="#" className="hover:opacity-90 transition-opacity">Privacy Policy</a>
-              <a href="#" className="hover:opacity-90 transition-opacity">Terms of Use</a>
-              <a href="#" className="hover:opacity-90 transition-opacity">Accessibility</a>
+          {/* Footer bottom - NanoFi-style: left = copyright + links, right = logo */}
+          <div
+            className="mt-10 w-full border-t px-4 py-6 sm:px-6 lg:px-8"
+            style={{ borderColor: "rgba(255,255,255,0.1)" }}
+          >
+            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 md:flex-row">
+              <div
+                className="flex flex-wrap items-center justify-center gap-4 text-sm md:justify-start"
+                style={{ color: creamMuted }}
+              >
+                <span>© 2026 {isEduHubPage ? "EduHub" : "TUES"}. All rights reserved.</span>
+                <a href="#" className="transition-colors hover:text-white">
+                  Privacy Policy
+                </a>
+                <a href="#" className="transition-colors hover:text-white">
+                  Terms of Use
+                </a>
+                <a href="#" className="transition-colors hover:text-white">
+                  Accessibility
+                </a>
+              </div>
+              <div className="flex items-center gap-4">
+                {isEduHubPage ? (
+                  <Link to="/eduhub" className="flex shrink-0 items-center">
+                    <img src="/logo-eduhub.png" alt="EduHub" className="h-8 w-auto object-contain opacity-90" />
+                  </Link>
+                ) : (
+                  <Link to="/" className="flex shrink-0 items-center">
+                    <img src="/logo_white.png" alt="TUES University logo" className="h-8 w-auto object-contain opacity-90" />
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>

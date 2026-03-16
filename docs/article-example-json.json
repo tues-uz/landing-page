@@ -1,0 +1,40 @@
+{
+  "title": "Getting started with the CMS",
+  "slug": "getting-started-cms",
+  "description": "A short guide to writing and publishing articles.",
+  "status": "draft",
+  "body": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "heading",
+        "attrs": { "level": 1 },
+        "content": [{ "type": "text", "text": "Introduction" }]
+      },
+      {
+        "type": "paragraph",
+        "content": [{ "type": "text", "text": "This is the first paragraph of the article." }]
+      },
+      {
+        "type": "heading",
+        "attrs": { "level": 2 },
+        "content": [{ "type": "text", "text": "Adding blocks" }]
+      },
+      {
+        "type": "paragraph",
+        "content": [{ "type": "text", "text": "Type " }, { "type": "text", "marks": [{ "type": "code" }], "text": "/" }, { "type": "text", "text": " to open the slash menu, or use the floating + to insert images and dividers." }]
+      },
+      {
+        "type": "image",
+        "attrs": { "src": "https://cdn.example.com/img/1.jpg", "alt": "Screenshot" }
+      },
+      {
+        "type": "codeBlock",
+        "content": [{ "type": "text", "text": "const greeting = \"Hello, world!\";\n" }]
+      },
+      {
+        "type": "horizontalRule"
+      }
+    ]
+  }
+}

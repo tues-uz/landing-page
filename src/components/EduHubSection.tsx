@@ -53,76 +53,139 @@ const features = [
   },
 ];
 
+const DARK_TEAL = "rgb(15, 61, 58)";
+const BODY_COLOR = "rgb(37, 37, 37)";
+
 const EduHubSection = () => {
   const [openItem, setOpenItem] = useState<string | null>("course-materials");
 
   return (
     <section className="py-24 bg-white relative overflow-hidden" id="eduhub">
-      <div className="container mx-auto px-6">
-        {/* Header - centered like Services */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center rounded-2xl bg-[rgb(40,40,44)] px-4 py-2 mb-6">
-            <span className="text-sm font-medium text-white">Platform</span>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1320px]">
+        {/* Title Section — left-aligned (Framer style) */}
+        <div className="mb-12 md:mb-16">
+          <div
+            className="inline-block rounded-[5px] px-3 py-1.5 mb-4"
+            style={{ backgroundColor: "rgb(235, 235, 235)" }}
+          >
+            <span className="text-sm font-medium" style={{ color: BODY_COLOR }}>
+              Platform
+            </span>
           </div>
-          <h3 className="text-3xl lg:text-4xl font-semibold text-foreground tracking-tight mb-4">
-            EduHub
-          </h3>
-          <p className="text-[rgb(61,61,71)] text-base lg:text-lg leading-relaxed">
-            Find out how EduHub supports your learning and connects you with the TUES community.
-          </p>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8 mb-4">
+            <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground tracking-tight">
+              EduHub
+              <span className="block font-normal leading-relaxed mt-1 text-xl" style={{ color: BODY_COLOR }}>
+                Your learning and campus hub
+              </span>
+            </h2>
+            <p className="leading-relaxed max-w-2xl lg:text-right" style={{ color: BODY_COLOR, fontSize: '16px' }}>
+              Find out how EduHub supports your learning, keeps your course materials in one place, and connects you with the TUES community. Access assignments, events, support, and announcements all in one platform.
+            </p>
+          </div>
         </div>
 
-        {/* Image and accordion side by side */}
-        <div className="flex flex-col lg:flex-row lg:items-stretch gap-8">
-          <div className="relative rounded-[10px] overflow-hidden aspect-[4/5] max-h-[600px] bg-neutral-100 lg:flex-[1_1_50%] lg:max-w-[50%] shrink-0">
-            <img
-              src="/termez-university-event.png"
-              alt="Campus or learning at TUES"
-              className="absolute inset-0 w-full h-full object-cover block"
-            />
-          </div>
-          <div className="w-full min-w-0 lg:flex-[1_1_50%]">
-            <Accordion
-              type="single"
-              collapsible
-              value={openItem ?? undefined}
-              onValueChange={(v) => setOpenItem(v || null)}
-              className="w-full"
+        {/* Content — two columns: left = quote + user + CTA (Framer From Founder style), right = accordion */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+          {/* Left: Image with absolutely positioned card (quote + user + CTA) — height matches right column */}
+          <div className="lg:col-span-5 relative min-h-0">
+            {/* Large image — fills column so same height as accordion */}
+            <div className="relative h-full min-h-[440px] rounded-[5px] overflow-hidden bg-neutral-100">
+              <img
+                src="/termez-university-event.png"
+                alt="Campus or learning at TUES"
+                className="absolute inset-0 w-full h-full object-cover object-top block"
+              />
+            </div>
+            {/* Card: quote + user + button — absolute */}
+            <div
+              className="absolute left-0 right-0 bottom-0 rounded-[10px] border border-black/10 bg-white/95 backdrop-blur-sm shadow-lg p-5 md:p-6 flex flex-col gap-4"
+              style={{ margin: "12px" }}
             >
-              {features.map((feature) => {
-                const Icon = feature.icon;
-                return (
-                  <AccordionItem
-                    key={feature.id}
-                    value={feature.id}
-                    className="border-b border-[rgb(219,218,217)] last:border-b-0"
-                  >
-                    <AccordionTrigger className="flex items-center justify-between py-5 hover:no-underline">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-oxford-gold/20 flex items-center justify-center shrink-0">
-                          <Icon className="h-5 w-5 text-oxford-gold" />
-                        </div>
-                        <h4 className="text-left font-semibold text-foreground">
-                          {feature.title}
-                        </h4>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-[rgb(61,61,71)] text-base leading-relaxed pb-5 pt-0">
-                      {feature.description}
-                    </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
-
-            <div className="mt-10">
+              <p
+                className="leading-relaxed font-medium"
+                style={{ color: DARK_TEAL, fontSize: '16px' }}
+              >
+                &ldquo;Your courses, community, and support in one place. EduHub keeps you connected and on track.&rdquo;
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 bg-neutral-200">
+                  <img
+                    src="/termez-university-event.png"
+                    alt=""
+                    className="w-full h-full object-cover object-center block"
+                  />
+                </div>
+                <div>
+                  <p className="font-medium" style={{ color: DARK_TEAL }}>
+                    EduHub
+                  </p>
+                  <p className="text-sm" style={{ color: DARK_TEAL, opacity: 0.9 }}>
+                    Learning Platform
+                  </p>
+                </div>
+              </div>
               <Link
                 to="/eduhub"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-oxford-blue bg-oxford-blue px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-oxford-blue/90 hover:border-oxford-blue/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2"
+                className="flex items-center justify-between gap-3 w-full rounded-[5px] px-6 py-4 text-white font-medium transition-opacity hover:opacity-90"
+                style={{ backgroundColor: DARK_TEAL }}
               >
                 <span>Go to EduHub</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5 shrink-0" />
               </Link>
+            </div>
+          </div>
+
+          {/* Right: Accordion in Framer-style card */}
+          <div className="lg:col-span-7">
+            <div
+              className="rounded-[10px] border overflow-hidden"
+              style={{
+                backgroundColor: "white",
+                borderColor: "rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              <Accordion
+                type="single"
+                collapsible
+                value={openItem ?? undefined}
+                onValueChange={(v) => setOpenItem(v || null)}
+                className="w-full"
+              >
+                {features.map((feature) => {
+                  const Icon = feature.icon;
+                  return (
+                    <AccordionItem
+                      key={feature.id}
+                      value={feature.id}
+                      className="border-0 border-b last:border-b-0"
+                      style={{ borderColor: "rgba(0, 0, 0, 0.2)" }}
+                    >
+                      <AccordionTrigger className="flex items-center justify-between py-6 px-6 md:px-8 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                            style={{ backgroundColor: `${DARK_TEAL}20` }}
+                          >
+                            <Icon className="h-5 w-5" style={{ color: DARK_TEAL }} />
+                          </div>
+                          <h5 className="text-left font-semibold text-foreground">
+                            {feature.title}
+                          </h5>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 md:px-8 pb-6 pt-0">
+                        <p
+                          className="text-base leading-relaxed"
+                          style={{ color: BODY_COLOR }}
+                        >
+                          {feature.description}
+                        </p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
             </div>
           </div>
         </div>
