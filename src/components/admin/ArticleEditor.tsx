@@ -270,7 +270,9 @@ export function ArticleEditor({
       onChange(doc);
     };
     editor.on("update", onUpdate);
-    return () => editor.off("update", onUpdate);
+    return () => {
+      editor.off("update", onUpdate);
+    };
   }, [editor, onChange]);
 
   useEffect(() => {
