@@ -19,8 +19,18 @@ const testimonials = [
 
 const Alumni = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
+  const [slidePercent, setSlidePercent] = useState(50);
   const sliderRef = useRef<HTMLDivElement>(null);
   const infiniteTestimonials = [testimonials[testimonials.length - 1], ...testimonials, testimonials[0]];
+
+  useEffect(() => {
+    const updateSlidePercent = () => {
+      setSlidePercent(window.innerWidth < 640 ? 100 : 50);
+    };
+    updateSlidePercent();
+    window.addEventListener("resize", updateSlidePercent);
+    return () => window.removeEventListener("resize", updateSlidePercent);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -87,13 +97,13 @@ const Alumni = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight mb-4">
             Alumni Network
           </h2>
-          <p className="text-foreground/70 text-lg leading-relaxed">
+          <p className="text-foreground/70 text-base sm:text-lg leading-relaxed">
             Join a global network of accomplished professionals, leaders, and innovators who are making a difference around the world. Connect with fellow alumni and stay engaged with your alma mater.
           </p>
         </div>
 
-        {/* Stats — minimal row */}
-        <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 mb-16">
+        {/* Stats — 2×2 grid */}
+        <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-16 max-w-max mx-auto">
           {alumniStats.map((stat) => {
             const Icon = stat.icon;
             return (
@@ -122,10 +132,10 @@ const Alumni = () => {
               <div
                 ref={sliderRef}
                 className="flex transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(calc(-${currentIndex} * 50%))` }}
+                style={{ transform: `translateX(calc(-${currentIndex} * ${slidePercent}%))` }}
               >
                 {infiniteTestimonials.map((t, i) => (
-                  <div key={`${t.id}-${i}`} className="flex-shrink-0 w-1/2 px-2">
+                  <div key={`${t.id}-${i}`} className="flex-shrink-0 w-full sm:w-1/2 px-0 sm:px-2">
                     <div className="bg-white rounded-xl p-5 border border-black/[0.06] shadow-sm h-full">
                       <p className="text-foreground/75 text-sm leading-relaxed mb-4 line-clamp-3">
                         {t.quote}

@@ -271,7 +271,7 @@ const NewsEvents = () => {
     if (!grid) return;
 
     const cards = grid.querySelectorAll<HTMLElement>(".news-grid-card");
-    gsap.set(cards, { opacity: 0, y: 36 });
+    gsap.set(cards, { opacity: 0 });
 
     const st = ScrollTrigger.create({
       trigger: grid,
@@ -279,7 +279,6 @@ const NewsEvents = () => {
       onEnter: () => {
         gsap.to(cards, {
           opacity: 1,
-          y: 0,
           duration: 0.5,
           stagger: 0.09,
           ease: "power2.out",
@@ -290,7 +289,7 @@ const NewsEvents = () => {
 
     return () => {
       st.kill();
-      gsap.set(cards, { clearProps: "opacity,y" });
+      gsap.set(cards, { clearProps: "opacity" });
     };
   }, [newsLoading]);
 

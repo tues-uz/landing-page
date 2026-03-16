@@ -79,13 +79,24 @@
 
 @layer base {
   * { @apply border-border; }
-  html, body { min-height: 100%; margin: 0; }
-  body { @apply bg-background text-foreground font-dm-sans antialiased; }
-  #root { min-height: 100%; display: block; }
+  html {
+    scroll-behavior: auto;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    min-height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
+    @apply bg-background text-foreground font-dm-sans antialiased;
+  }
+  #root { min-height: 100%; display: block; overflow-x: hidden; }
   h1, h2, h3, h4, h5, h6 { @apply font-forum font-bold; }
   p { @apply font-dm-sans; }
-  html { scroll-behavior: smooth; }
-  [class*="animate-"], [class*="transition-"] { will-change: transform, opacity; }
+  /* Avoid global will-change to prevent scroll jank */
   video { transform: translateZ(0); backface-visibility: hidden; }
   img { content-visibility: auto; }
 

@@ -90,7 +90,7 @@ const EduHubSection = () => {
           {/* Left: Image with absolutely positioned card (quote + user + CTA) — height matches right column */}
           <div className="lg:col-span-5 relative min-h-0">
             {/* Large image — fills column so same height as accordion */}
-            <div className="relative h-full min-h-[280px] rounded-[5px] overflow-hidden bg-neutral-100">
+            <div className="relative h-full min-h-[440px] rounded-[5px] overflow-hidden bg-neutral-100">
               <img
                 src="/termez-university-event.png"
                 alt="Campus or learning at TUES"

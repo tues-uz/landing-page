@@ -154,7 +154,7 @@ const NewsDetailPage = () => {
               <img
                 src={article.imageUrl}
                 alt={article.title}
-                className="aspect-[374/182] w-full rounded-xl object-cover xl:aspect-[1456/470]"
+                className="aspect-[374/182] w-full rounded-xl object-contain bg-muted xl:aspect-[1456/470]"
               />
             </div>
           )}
@@ -234,7 +234,7 @@ const NewsDetailPage = () => {
                           <img
                             src={item.imageUrl}
                             alt={item.title}
-                            className="aspect-[334/188] w-full rounded-lg object-cover"
+                            className="aspect-[334/188] w-full rounded-lg object-contain bg-muted"
                             loading="lazy"
                           />
                         </div>

@@ -20,6 +20,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Index = () => {
   const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +41,7 @@ const Index = () => {
     const triggers: ScrollTrigger[] = [];
 
     sections.forEach((el) => {
-      gsap.set(el, { opacity: 0, y: 48 });
+      gsap.set(el, { opacity: 0 });
       const st = ScrollTrigger.create({
         trigger: el,
         start: "top 88%",
@@ -48,8 +49,7 @@ const Index = () => {
         onEnter: () => {
           gsap.to(el, {
             opacity: 1,
-            y: 0,
-            duration: 0.6,
+            duration: 0.5,
             ease: "power2.out",
             overwrite: true,
           });
@@ -60,7 +60,7 @@ const Index = () => {
 
     return () => {
       triggers.forEach((t) => t.kill());
-      sections.forEach((el) => gsap.set(el, { clearProps: "opacity,y" }));
+      sections.forEach((el) => gsap.set(el, { clearProps: "opacity" }));
     };
   }, []);
 
@@ -70,7 +70,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header onMobileMenuOpenChange={setMobileMenuOpen} />
       <Hero />
       <main ref={mainRef}>
         <AboutStats />
@@ -89,7 +89,7 @@ const Index = () => {
       <button
         onClick={scrollToTop}
         className={`fixed bottom-8 right-8 z-[100] w-14 h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full shadow-2xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center hover:scale-110 border-2 border-white ${
-          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+          showScrollTop && !mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
         aria-label="Scroll to top"
       >

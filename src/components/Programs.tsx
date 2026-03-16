@@ -67,7 +67,7 @@ const Programs = () => {
     if (!section) return;
 
     const cards = section.querySelectorAll<HTMLElement>(".bento-card");
-    gsap.set(cards, { opacity: 0, y: 32 });
+    gsap.set(cards, { opacity: 0 });
 
     const st = ScrollTrigger.create({
       trigger: section,
@@ -75,7 +75,6 @@ const Programs = () => {
       onEnter: () => {
         gsap.to(cards, {
           opacity: 1,
-          y: 0,
           duration: 0.5,
           stagger: 0.08,
           ease: "power2.out",
@@ -86,7 +85,7 @@ const Programs = () => {
 
     return () => {
       st.kill();
-      gsap.set(cards, { clearProps: "opacity,y" });
+      gsap.set(cards, { clearProps: "opacity" });
     };
   }, []);
 
@@ -96,10 +95,10 @@ const Programs = () => {
         {/* Bento image grid — university vibe (loremflickr by keyword) */}
         <div
           ref={bentoRef}
-          className="bento-section grid grid-cols-2 md:grid-cols-4 grid-rows-[repeat(5,1fr)] gap-3 md:gap-4 mb-10 md:mb-12 h-[280px] sm:h-[340px] md:h-[30rem]"
+          className="bento-section grid grid-cols-2 md:grid-cols-4 grid-rows-[repeat(5,1fr)] gap-4 md:gap-6 mb-10 md:mb-12 h-[320px] sm:h-[380px] md:h-[30rem]"
         >
           <div
-            className="bento-card col-start-1 row-start-1 col-span-2 row-span-5 rounded-2xl bg-center bg-cover min-h-0 bg-muted"
+            className="bento-card col-start-1 row-start-1 col-span-1 md:col-span-2 row-span-5 rounded-2xl bg-center bg-cover min-h-0 bg-muted"
             style={{ backgroundImage: "url('https://loremflickr.com/1200/800/university,campus')" }}
           />
           <div
@@ -130,18 +129,18 @@ const Programs = () => {
         </div>
 
         {/* Title Wrapper — Framer layout: title left, secondary button right */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 md:mb-12">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 md:mb-12 items-center sm:items-end">
+          <div className="text-center sm:text-left">
             <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: TITLE_COLOR }}>
               Browse programs by.
             </h2>
-            <p className="text-base max-w-2xl" style={{ color: TITLE_COLOR }}>
+            <p className="text-base max-w-2xl sm:max-w-2xl mx-auto sm:mx-0" style={{ color: TITLE_COLOR }}>
               This user-friendly tool offers options to filter programs by field of study, degree level, and even learning formats like online or on-campus.
             </p>
           </div>
           <Link
             to="/programs"
-            className="inline-flex items-center gap-2 font-medium transition-opacity hover:opacity-90 shrink-0"
+            className="inline-flex items-center justify-center gap-2 font-medium transition-opacity hover:opacity-90 shrink-0 border border-current/10 rounded-lg px-4 py-2.5 self-center sm:self-auto sm:border-0 sm:rounded-none sm:px-0 sm:py-0"
             style={{ color: TITLE_COLOR }}
           >
             <span>Explore All</span>

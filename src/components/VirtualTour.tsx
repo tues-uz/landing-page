@@ -12,7 +12,7 @@ const VirtualTour = () => {
           <h2 className="text-4xl lg:text-5xl text-foreground mt-3 mb-6">
             Take a Virtual Tour
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
             Discover our state-of-the-art facilities, beautiful campus grounds, and modern learning environments from anywhere in the world.
           </p>
         </div>

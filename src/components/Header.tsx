@@ -223,7 +223,11 @@ const languages = [
   { code: "ru", name: "Ru", flag: "🇷🇺" },
 ];
 
-const Header = () => {
+type HeaderProps = {
+  onMobileMenuOpenChange?: (open: boolean) => void;
+};
+
+const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState(languages[1]); // Default to English
@@ -236,6 +240,10 @@ const Header = () => {
   const [openMegaKey, setOpenMegaKey] = useState<string | null>(null);
   const [openMegaTriggerRect, setOpenMegaTriggerRect] = useState<{ left: number; width: number } | null>(null);
   const [panelTop, setPanelTop] = useState(128);
+
+  useEffect(() => {
+    onMobileMenuOpenChange?.(mobileMenuOpen);
+  }, [mobileMenuOpen, onMobileMenuOpenChange]);
 
   // Hide top bar on scroll down, show on scroll up or near top
   useEffect(() => {
@@ -323,16 +331,16 @@ const Header = () => {
   }, [openMegaKey]);
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-primary">
-      <div className="container mx-auto px-0">
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 flex flex-col bg-primary">
+      <div className="container mx-auto flex w-full flex-col px-0">
         {/* Top bar: contact (left) - hides on scroll down, shows on scroll up */}
         <div
           className="overflow-hidden transition-all duration-300 ease-out"
-          style={{ maxHeight: topBarVisible ? 48 : 0 }}
+          style={{ maxHeight: topBarVisible ? 44 : 0 }}
         >
-          <div className="border-b border-primary-foreground/10 bg-primary px-4 py-3.5 text-xs text-primary-foreground/90 md:px-6">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <div className="bg-primary px-4 py-0 pt-0 pb-0 text-xs text-primary-foreground/90 md:px-6 h-[44px] flex items-center overflow-hidden">
+            <div className="flex min-h-0 min-w-0 w-full flex-1 flex-nowrap items-stretch justify-between gap-2 overflow-x-auto overflow-y-hidden border-b border-primary-foreground/15 md:gap-8 md:overflow-visible h-full min-h-[44px]">
+            <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
               <a
                 href="tel:+998954120707"
                 className="flex items-center gap-1.5 hover:text-primary-foreground transition-colors"
@@ -350,19 +358,37 @@ const Header = () => {
                 <span>university@tues.uz</span>
               </a>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <a href="#" aria-label="Twitter" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a href="#" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a href="#" aria-label="Instagram" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a href="#" aria-label="YouTube" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                <Youtube className="h-4 w-4" />
-              </a>
+            <div className="flex flex-shrink-0 items-center gap-4 md:gap-8">
+              <div className="flex items-center gap-3">
+                <a href="#" aria-label="Twitter" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Twitter className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Linkedin className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="Instagram" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Instagram className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="YouTube" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Youtube className="h-4 w-4" />
+                </a>
+              </div>
+              <div className="hidden lg:flex items-stretch gap-0">
+              <Link to="/eduhub" className="self-stretch flex items-stretch min-h-[44px]">
+                <Button
+                  className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
+                >
+                  EduHub
+                </Button>
+              </Link>
+              <Link to="/eduhub" className="self-stretch flex items-stretch min-h-[44px]">
+                <Button
+                  className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
+                >
+                  Journal
+                </Button>
+              </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -417,15 +443,20 @@ const Header = () => {
         )}
 
         {/* Main row: Logo (left) | Social + Phone + Lang + CTA (right) */}
-        <div ref={mainRowRef} className="relative flex min-h-16 flex-wrap items-center justify-between gap-0 px-4 py-2 lg:px-6">
+        <div ref={mainRowRef} className="relative flex min-h-16 flex-nowrap items-center justify-between gap-3 overflow-hidden px-4 py-2 lg:gap-0 lg:px-6">
           {/* Logo - left */}
-          <div className="flex shrink-0 items-center">
-            <Link to="/" aria-label="Back to University Home" className="block">
+          <div className="flex min-w-0 shrink items-center">
+            <Link to="/" aria-label="Back to University Home" className="flex min-w-0 items-center gap-2 overflow-hidden sm:gap-4">
               <img
                 src="/logo_white.png"
-                alt="TUES University logo"
-                className="h-10 w-auto max-w-[200px] object-contain cursor-pointer lg:h-12"
+                alt="TUES LOGO"
+                className="h-10 w-auto max-w-[140px] shrink-0 object-contain cursor-pointer sm:max-w-[180px] sm:h-14 lg:max-w-[240px] lg:h-16"
               />
+              <span className="truncate text-primary-foreground text-xs sm:text-sm">
+                Termez University of
+                <br />
+                Economics and Service
+              </span>
             </Link>
           </div>
 
@@ -461,7 +492,7 @@ const Header = () => {
           </nav>
 
           {/* Right: language + EduHub + hamburger */}
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2 min-w-[44px]">
             <div className="hidden lg:flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -487,22 +518,15 @@ const Header = () => {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link to="/eduhub">
-                <Button
-                  className="h-9 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[13px] px-4 font-medium"
-                >
-                  EduHub
-                </Button>
-              </Link>
               <Button
                 type="button"
                 variant="ghost"
-                size="icon"
-                className="shrink-0 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                className="shrink-0 h-10 gap-2 px-3 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 text-sm font-medium"
                 aria-label="Menu"
                 aria-expanded={secondNavMobileOpen}
                 onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
               >
+                <span>Explore more</span>
                 {secondNavMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
@@ -516,9 +540,6 @@ const Header = () => {
             </Button>
           </div>
         </div>
-
-        {/* Divider line above main row (second nav is now hamburger in top bar) */}
-        <div className="h-px w-full bg-primary-foreground/10" aria-hidden />
 
         {/* Second Navbar - hidden; content shown via hamburger panel in top bar */}
         <nav ref={secondNavRef} className="hidden sticky top-0 z-50 border-b border-primary-foreground/10 transition-all duration-300 bg-primary">
@@ -697,7 +718,8 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-primary-foreground/10">
+          <>
+          <div className="lg:hidden max-h-[100dvh] overflow-y-auto px-4 py-4 pb-24 border-t border-primary-foreground/10 lg:px-6">
             <nav className="flex flex-col gap-2">
               {navItems.map((item) => (
                 <div key={item.label} className="py-2">
@@ -717,25 +739,44 @@ const Header = () => {
               </div>
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
                 <p className="text-primary-foreground/50 text-xs uppercase tracking-wider mb-2">Second Menu</p>
-                {secondNavItems.map((item) => (
-                  <div key={item.label} className="py-2">
-                    <span className="text-primary-foreground font-medium">{item.label}</span>
-                    <div className="pl-4 pt-1 flex flex-col gap-1">
-                      {item.items.map((subItem) => (
-                        <a
-                          key={subItem}
-                          href="#"
-                          className="block py-1 text-primary-foreground/70 text-sm"
-                        >
-                          {subItem}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                <Accordion type="single" collapsible className="w-full [&>*]:border-b [&>*]:border-primary-foreground/10">
+                  {secondNavItems.map((item) => (
+                    <AccordionItem key={item.label} value={item.label} className="border-none border-b border-primary-foreground/10 last:border-b-0">
+                      <AccordionTrigger className="py-3 text-primary-foreground font-medium hover:no-underline hover:text-primary-foreground [&[data-state=open]>svg]:rotate-180">
+                        {item.label}
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-3 pt-0">
+                        <div className="flex flex-col gap-1 pl-0">
+                          {item.items.map((subItem) => (
+                            <a
+                              key={subItem}
+                              href="#"
+                              className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
+                            >
+                              {subItem}
+                            </a>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </div>
             </nav>
           </div>
+          <div className="fixed bottom-0 left-0 right-0 z-50 flex flex-wrap gap-2 border-t border-primary-foreground/10 bg-primary p-4 lg:hidden">
+            <Link to="/eduhub" className="flex-1 min-w-[120px]">
+              <Button className="w-full rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-sm px-4 py-2.5 font-medium">
+                EduHub
+              </Button>
+            </Link>
+            <Link to="/eduhub" className="flex-1 min-w-[120px]">
+              <Button className="w-full rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-sm px-4 py-2.5 font-medium">
+                Journal
+              </Button>
+            </Link>
+          </div>
+          </>
         )}
       </div>
     </header>
