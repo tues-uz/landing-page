@@ -17,16 +17,11 @@ interface AdminPageShellProps {
 
 export function AdminPageShell({ title, description = "Welcome back, Admin 👋", children, actions, bare }: AdminPageShellProps) {
   if (bare) {
-    return <div className="space-y-6">{children}</div>;
+    return <div className="space-y-6 p-6">{children}</div>;
   }
   return (
-    <div className="space-y-8">
-      {/* Same two-block header on every page (matches reference 5175) */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">TUES CMS</h1>
-        <p className="mt-0.5 text-sm text-slate-500">Content management</p>
-      </div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div className="space-y-8 p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h1>
           <p className="mt-0.5 text-sm text-slate-500">{description}</p>

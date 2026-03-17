@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -12,15 +12,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { adminApi, type NewsItem, type NewsSection } from "@/api/adminClient";
-import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
+import { AdminPageShell } from "./AdminPageShell";
 import { ArticleEditor } from "@/components/admin/ArticleEditor";
 import { sectionsToTiptapDoc, tiptapJsonToSections } from "@/lib/newsEditorUtils";
 import type { TiptapDocJSON } from "@/types/article";
-import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload, Search } from "lucide-react";
 
 const CATEGORIES = ["News", "Announcements", "Events", "Blog"];
-const DISPLAY_OPTIONS = ["Regular", "Featured", "Pinned"];
+const DISPLAY_OPTIONS = ["Regular", "Featured", "Highlight", "Pinned"];
 
 /** Derive URL slug from title: lowercase, spaces to hyphens, strip non-alphanumeric. */
 function titleToSlug(title: string): string {
@@ -40,6 +50,11 @@ export default function AdminNews() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<NewsItem | null>(null);
   const [display, setDisplay] = useState("Regular");
+  const [deleteConfirmSlug, setDeleteConfirmSlug] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [dateFilter, setDateFilter] = useState<string>("all");
+  const [displayFilter, setDisplayFilter] = useState<string>("all");
   const [form, setForm] = useState<Partial<NewsItem>>({
     slug: "",
     category: "News",
@@ -52,6 +67,7 @@ export default function AdminNews() {
     body: [],
   });
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const load = async () => {
     setLoading(true);
@@ -68,6 +84,55 @@ export default function AdminNews() {
   useEffect(() => {
     load();
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("new") === "1") {
+      setEditing(null);
+      setDisplay("Regular");
+      setForm({
+        slug: "",
+        category: "News",
+        title: "",
+        excerpt: "",
+        date: new Date().toISOString().slice(0, 10),
+        imageUrl: "",
+        author: "TUES",
+        readTime: "3 min read",
+        body: [],
+      });
+      setFormOpen(true);
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete("new");
+          return next;
+        },
+        { replace: true }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount to open create form from ?new=1
+  }, []);
+
+  const editSlug = searchParams.get("edit");
+  useEffect(() => {
+    if (!loading && articles.length > 0 && editSlug) {
+      const article = articles.find((a) => a.slug === editSlug);
+      if (article) {
+        setEditing(article);
+        setDisplay(article.display || "Regular");
+        setForm({ ...article, body: Array.isArray(article.body) ? article.body : [] });
+        setFormOpen(true);
+      }
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete("edit");
+          return next;
+        },
+        { replace: true }
+      );
+    }
+  }, [loading, articles, editSlug, setSearchParams]);
 
   const openCreate = () => {
     setEditing(null);
@@ -88,7 +153,7 @@ export default function AdminNews() {
 
   const openEdit = (a: NewsItem) => {
     setEditing(a);
-    setDisplay("Regular");
+    setDisplay(a.display || "Regular");
     setForm({ ...a, body: Array.isArray(a.body) ? a.body : [] });
     setFormOpen(true);
   };
@@ -104,13 +169,14 @@ export default function AdminNews() {
       return;
     }
     const body = Array.isArray(form.body) ? form.body : [];
+    const payload = { ...form, body, display };
     setSaving(true);
     try {
       if (editing) {
-        await adminApi.news.update(editing.slug, { ...form, body });
+        await adminApi.news.update(editing.slug, payload);
         toast({ title: "Article updated" });
       } else {
-        await adminApi.news.create({ ...form, body } as Omit<NewsItem, "id">);
+        await adminApi.news.create(payload as Omit<NewsItem, "id">);
         toast({ title: "Article created" });
       }
       closeForm();
@@ -123,7 +189,6 @@ export default function AdminNews() {
   };
 
   const handleDelete = async (slug: string) => {
-    if (!confirm("Delete this article?")) return;
     setSaving(true);
     try {
       await adminApi.news.delete(slug);
@@ -209,7 +274,7 @@ export default function AdminNews() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-muted-foreground">Display</label>
+                <label className="text-xs text-muted-foreground">Display on News page</label>
                 <Select value={display} onValueChange={setDisplay}>
                   <SelectTrigger className="h-9 w-44 rounded-md border-border/80 bg-background px-3 py-2 text-sm">
                     <SelectValue placeholder="Display" />
@@ -222,11 +287,16 @@ export default function AdminNews() {
                     ))}
                   </SelectContent>
                 </Select>
+                {display === "Highlight" && (
+                  <p className="text-xs text-muted-foreground">
+                    This article will appear in the News board highlight section (max 5).
+                  </p>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Title — slug is auto-derived from title for new articles (only when slug is empty) */}
+          {/* Title — slug is derived from title (when creating, or when slug is empty) */}
           <Input
             value={form.title ?? ""}
             onChange={(e) => {
@@ -234,11 +304,11 @@ export default function AdminNews() {
               setForm((f) => ({
                 ...f,
                 title,
-                ...(!editing && (!(f.slug ?? "").trim()) && { slug: titleToSlug(title) }),
+                ...((!editing || !(f.slug ?? "").trim()) && { slug: titleToSlug(title) }),
               }));
             }}
             placeholder="Title"
-            className="mb-1 w-full border-0 bg-transparent p-0 font-serif text-[2.25rem] font-bold leading-tight tracking-tight text-foreground placeholder:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-0 sm:text-[2.75rem]"
+            className="mb-1 h-auto min-h-14 w-full border-0 bg-transparent p-0 py-2 font-serif text-[2.5rem] font-bold leading-tight tracking-tight text-foreground placeholder:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-0 sm:text-[3rem]"
           />
 
           {/* Subtitle (textarea) */}
@@ -247,7 +317,7 @@ export default function AdminNews() {
             onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
             placeholder="Subtitles are optional — add a short summary or hook"
             rows={2}
-            className="mb-6 w-full resize-none border-0 bg-transparent p-0 text-xl leading-snug text-muted-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-0"
+            className="mb-6 w-full resize-none border-0 bg-transparent p-0 text-lg leading-snug text-muted-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-0"
           />
 
           {/* Metadata line: Author · Date · Read time · words */}
@@ -336,6 +406,49 @@ export default function AdminNews() {
     );
   }
 
+  const filteredArticles = articles.filter((a) => {
+    const matchesSearch =
+      !searchQuery.trim() ||
+      a.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      a.slug?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = categoryFilter === "all" || a.category === categoryFilter;
+    const articleDisplay = a.display || "Regular";
+    const matchesDisplay = displayFilter === "all" || articleDisplay === displayFilter;
+    let matchesDate = true;
+    if (dateFilter !== "all" && a.date) {
+      const articleDate = new Date(a.date);
+      if (Number.isNaN(articleDate.getTime())) {
+        matchesDate = false;
+      } else {
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        let rangeStart: Date;
+        switch (dateFilter) {
+          case "week":
+            rangeStart = new Date(startOfToday);
+            rangeStart.setDate(rangeStart.getDate() - 7);
+            break;
+          case "month":
+            rangeStart = new Date(startOfToday);
+            rangeStart.setMonth(rangeStart.getMonth() - 1);
+            break;
+          case "quarter":
+            rangeStart = new Date(startOfToday);
+            rangeStart.setMonth(rangeStart.getMonth() - 3);
+            break;
+          case "year":
+            rangeStart = new Date(startOfToday);
+            rangeStart.setFullYear(rangeStart.getFullYear() - 1);
+            break;
+          default:
+            rangeStart = new Date(0);
+        }
+        matchesDate = articleDate >= rangeStart && articleDate <= now;
+      }
+    }
+    return matchesSearch && matchesCategory && matchesDisplay && matchesDate;
+  });
+
   return (
     <AdminPageShell
       title="News"
@@ -346,38 +459,146 @@ export default function AdminNews() {
         </Button>
       }
     >
-      <Card className={ADMIN_CARD_CLASS}>
-        <CardHeader>
-          <CardTitle className="text-slate-900">Articles</CardTitle>
-          <CardDescription className="text-slate-500">{articles.length} article(s)</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2">
-            {articles.map((a) => (
-              <li
-                key={a.id}
-                className="flex justify-between items-center rounded-xl border border-slate-200 bg-white p-3 hover:bg-slate-50"
-              >
-                <div>
-                  <p className="font-medium text-slate-900">{a.title}</p>
-                  <p className="text-sm text-slate-500">{a.slug} · {a.date}</p>
-                </div>
-                <div className="flex gap-1">
-                  <Link to={`/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" variant="ghost" className="text-slate-600 hover:bg-slate-100">View</Button>
-                  </Link>
-                  <Button size="sm" variant="ghost" onClick={() => openEdit(a)} className="hover:bg-slate-100">
-                    <Pencil className="h-4 w-4 text-slate-600" />
+      <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+        <div className="border-b border-border/60 px-4 py-4 bg-muted/30 space-y-4">
+          <div className="flex flex-row items-center justify-between gap-4">
+            <h2 className="text-lg font-semibold text-foreground">Articles</h2>
+            <p className="text-sm text-muted-foreground">
+              {filteredArticles.length} of {articles.length}{" "}
+              {articles.length === 1 ? "article" : "articles"}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3 items-center justify-between">
+            <div className="relative min-w-[200px] flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search by title or slug..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-9"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 items-center">
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-full sm:w-[180px] h-9">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All categories</SelectItem>
+                  {CATEGORIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={dateFilter} onValueChange={setDateFilter}>
+                <SelectTrigger className="w-full sm:w-[180px] h-9">
+                  <SelectValue placeholder="Date" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All time</SelectItem>
+                  <SelectItem value="week">Last 7 days</SelectItem>
+                  <SelectItem value="month">Last 30 days</SelectItem>
+                  <SelectItem value="quarter">Last 3 months</SelectItem>
+                  <SelectItem value="year">Last year</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={displayFilter} onValueChange={setDisplayFilter}>
+                <SelectTrigger className="w-full sm:w-[180px] h-9">
+                  <SelectValue placeholder="Display" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All displays</SelectItem>
+                  {DISPLAY_OPTIONS.map((d) => (
+                    <SelectItem key={d} value={d}>
+                      {d}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+        <ul className="divide-y divide-border/60">
+          {filteredArticles.map((a) => (
+            <li
+              key={a.id}
+              className="flex items-center justify-between gap-4 px-4 py-4 transition-colors hover:bg-muted/30"
+            >
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-foreground truncate">{a.title}</p>
+                <p className="text-sm text-muted-foreground mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+                  <span className="font-mono text-xs">{a.slug}</span>
+                  <span className="mx-0.5">·</span>
+                  <span>{a.date}</span>
+                  <span className="mx-0.5">·</span>
+                  <Badge variant="outline" className="font-normal text-muted-foreground">
+                    {a.display || "Regular"}
+                  </Badge>
+                </p>
+              </div>
+              <div className="flex items-center gap-1 shrink-0">
+                <Link to={`/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
+                    View
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => handleDelete(a.slug)} className="hover:bg-red-50">
-                    <Trash2 className="h-4 w-4 text-red-600" />
-                  </Button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+                </Link>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                  onClick={() => openEdit(a)}
+                  aria-label="Edit"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                  onClick={() => setDeleteConfirmSlug(a.slug)}
+                  aria-label="Delete"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <AlertDialog open={deleteConfirmSlug !== null} onOpenChange={(open) => !open && setDeleteConfirmSlug(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete article?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete{" "}
+              {deleteConfirmSlug && articles.find((a) => a.slug === deleteConfirmSlug)?.title ? (
+                <strong>"{articles.find((a) => a.slug === deleteConfirmSlug)?.title}"</strong>
+              ) : (
+                "this article"
+              )}
+              . This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                if (deleteConfirmSlug) {
+                  await handleDelete(deleteConfirmSlug);
+                  setDeleteConfirmSlug(null);
+                }
+              }}
+              disabled={saving}
+            >
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete"}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminPageShell>
   );
 }

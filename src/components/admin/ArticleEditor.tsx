@@ -18,6 +18,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import { YoutubeExtension, isValidYoutubeUrl } from "@/lib/youtubeExtension";
 import type { Editor } from "@tiptap/core";
 import type { TiptapDocJSON } from "@/types/article";
 import {
@@ -27,11 +28,20 @@ import {
 } from "@/lib/articleEditorUtils";
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Bold,
   Italic,
@@ -47,6 +57,8 @@ import {
   Type,
   ImageIcon,
   Plus,
+  Video,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -81,11 +93,14 @@ export interface ArticleEditorProps {
 
 function ToolbarButton({
   onClick,
+  onMouseDown,
   active,
   title,
   children,
 }: {
   onClick: () => void;
+  /** Use onMouseDown with preventDefault so the editor keeps focus/selection when applying format (e.g. in bubble menu). */
+  onMouseDown?: (e: React.MouseEvent) => void;
   active?: boolean;
   title: string;
   children: React.ReactNode;
@@ -99,6 +114,7 @@ function ToolbarButton({
         "h-8 w-8 rounded-md text-muted-foreground hover:text-foreground",
         active && "bg-muted text-foreground"
       )}
+      onMouseDown={onMouseDown}
       onClick={onClick}
       title={title}
       aria-pressed={active}
@@ -124,6 +140,18 @@ export function ArticleEditor({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const slashStateRef = useRef({ open: false, filter: "", index: 0 });
   slashStateRef.current = { open: slashOpen, filter: slashFilter, index: slashIndex };
+  const [videoDialogOpen, setVideoDialogOpen] = useState(false);
+  const [videoUrlInput, setVideoUrlInput] = useState("");
+  const videoInsertPosRef = useRef<number | null>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const [linkMenuOpen, setLinkMenuOpen] = useState(false);
+  const [linkMenuUrl, setLinkMenuUrl] = useState("");
+  const linkInputRef = useRef<HTMLInputElement>(null);
+  const [linkEmbedDialogOpen, setLinkEmbedDialogOpen] = useState(false);
+  const [linkEmbedUrl, setLinkEmbedUrl] = useState("");
+  const linkEmbedInsertPosRef = useRef<number | null>(null);
+  const linkEmbedInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const initialContent = useMemo(() => {
     if (value?.type === "doc" && value.content?.length) return value;
@@ -144,6 +172,7 @@ export function ArticleEditor({
       Link.configure({ openOnClick: false, HTMLAttributes: { class: "text-primary underline" } }),
       Image.configure({ inline: false, allowBase64: false }),
       HorizontalRule,
+      YoutubeExtension.configure({ inline: false, width: 640, height: 360 }),
     ],
     content: initialContent,
     editorProps: {
@@ -236,28 +265,62 @@ export function ArticleEditor({
     },
   });
 
-  const setLink = useCallback(() => {
+  const setLink = useCallback(
+    (url: string | null) => {
+      if (!editor) return;
+      if (url === null) return;
+      if (url === "") editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      else editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    },
+    [editor]
+  );
+
+  const openLinkInput = useCallback(() => {
     if (!editor) return;
-    const previousUrl = editor.getAttributes("link").href;
-    const url = window.prompt("URL", previousUrl);
-    if (url === null) return;
-    if (url === "") editor.chain().focus().extendMarkRange("link").unsetLink().run();
-    else editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    const previousUrl = editor.getAttributes("link").href || "";
+    setLinkMenuUrl(previousUrl);
+    setLinkMenuOpen(true);
+    requestAnimationFrame(() => linkInputRef.current?.focus());
+  }, [editor]);
+
+  const submitLinkInput = useCallback(() => {
+    const url = linkMenuUrl.trim();
+    setLink(url);
+    setLinkMenuOpen(false);
+    setLinkMenuUrl("");
+    editor?.commands.focus();
+  }, [linkMenuUrl, setLink, editor]);
+
+  const cancelLinkInput = useCallback(() => {
+    setLinkMenuOpen(false);
+    setLinkMenuUrl("");
+    editor?.commands.focus();
+  }, [editor]);
+
+  useEffect(() => {
+    if (!editor) return;
+    const onSelectionUpdate = () => {
+      const { from, to } = editor.state.selection;
+      if (from === to) setLinkMenuOpen(false);
+    };
+    editor.on("selectionUpdate", onSelectionUpdate);
+    return () => editor.off("selectionUpdate", onSelectionUpdate);
   }, [editor]);
 
   const handleImageFile = useCallback(
     async (file: File) => {
       if (!editor) return;
-      if (onImageUpload) {
+      const isImage = file.type.startsWith("image/");
+      if (onImageUpload && isImage) {
         try {
           const url = await onImageUpload(file);
           editor.chain().focus().setImage({ src: url }).run();
         } catch (e) {
           console.error("Image upload failed", e);
         }
-      } else {
-        const url = window.prompt("Image URL");
-        if (url) editor.chain().focus().setImage({ src: url }).run();
+      } else if (isImage) {
+        const url = URL.createObjectURL(file);
+        editor.chain().focus().setImage({ src: url }).run();
       }
     },
     [editor, onImageUpload]
@@ -311,6 +374,77 @@ export function ArticleEditor({
     setSlashPos(null);
     editor?.commands.focus();
   }, [editor]);
+
+  useEffect(() => {
+    if (videoDialogOpen) {
+      setVideoUrlInput("");
+      videoInputRef.current?.focus();
+    }
+  }, [videoDialogOpen]);
+
+  useEffect(() => {
+    if (linkEmbedDialogOpen) {
+      setLinkEmbedUrl("");
+      linkEmbedInputRef.current?.focus();
+    }
+  }, [linkEmbedDialogOpen]);
+
+  const handleVideoInsert = useCallback(() => {
+    const url = videoUrlInput.trim();
+    if (!url) {
+      toast({ title: "Enter a video link", variant: "destructive" });
+      return;
+    }
+    const pos = videoInsertPosRef.current;
+    if (pos == null || !editor) {
+      setVideoDialogOpen(false);
+      setVideoUrlInput("");
+      return;
+    }
+    if (isValidYoutubeUrl(url)) {
+      editor.chain().focus().insertContentAt(pos, { type: "youtube", attrs: { src: url } }).setTextSelection(pos + 1).run();
+      toast({ title: "Video added", description: "Embed inserted." });
+    } else {
+      editor
+        .chain()
+        .focus()
+        .insertContentAt(pos, {
+          type: "paragraph",
+          content: [{ type: "text", text: url, marks: [{ type: "link", attrs: { href: url } }] }],
+        })
+        .run();
+      toast({ title: "Link added", description: "Link inserted as text." });
+    }
+    setVideoDialogOpen(false);
+    setVideoUrlInput("");
+    videoInsertPosRef.current = null;
+  }, [videoUrlInput, editor, toast]);
+
+  const handleLinkEmbedInsert = useCallback(() => {
+    const url = linkEmbedUrl.trim();
+    if (!url) {
+      toast({ title: "Enter a link URL", variant: "destructive" });
+      return;
+    }
+    const pos = linkEmbedInsertPosRef.current;
+    if (pos == null || !editor) {
+      setLinkEmbedDialogOpen(false);
+      setLinkEmbedUrl("");
+      return;
+    }
+    editor
+      .chain()
+      .focus()
+      .insertContentAt(pos, {
+        type: "paragraph",
+        content: [{ type: "text", text: url, marks: [{ type: "link", attrs: { href: url } }] }],
+      })
+      .run();
+    toast({ title: "Link added" });
+    setLinkEmbedDialogOpen(false);
+    setLinkEmbedUrl("");
+    linkEmbedInsertPosRef.current = null;
+  }, [linkEmbedUrl, editor, toast]);
 
   const doc = editor?.getJSON() as TiptapDocJSON | null;
   const wordCount = doc ? getWordCount(doc) : 0;
@@ -376,20 +510,97 @@ export function ArticleEditor({
         appendTo={() => document.body}
         updateDelay={0}
         options={{ placement: "top", strategy: "fixed" }}
-        className="flex items-center gap-0.5 rounded-lg border border-border bg-popover p-0.5 shadow-md z-[100]"
+        className="flex flex-col gap-1 rounded-xl border border-border bg-popover px-1 py-1 shadow-lg z-[100]"
       >
-        <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Bold">
-          <Bold className="h-4 w-4" />
-        </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} title="Italic">
-          <Italic className="h-4 w-4" />
-        </ToolbarButton>
-        <ToolbarButton onClick={setLink} active={editor.isActive("link")} title="Link">
-          <LinkIcon className="h-4 w-4" />
-        </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive("code")} title="Inline code">
-          <Code className="h-4 w-4" />
-        </ToolbarButton>
+        <div className="flex items-center gap-0.5">
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            active={editor.isActive("bold")}
+            title="Bold"
+          >
+            <Bold className="h-4 w-4" />
+          </ToolbarButton>
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            active={editor.isActive("italic")}
+            title="Italic"
+          >
+            <Italic className="h-4 w-4" />
+          </ToolbarButton>
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={openLinkInput}
+            active={editor.isActive("link")}
+            title="Link"
+          >
+            <LinkIcon className="h-4 w-4" />
+          </ToolbarButton>
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            active={editor.isActive("code")}
+            title="Inline code"
+          >
+            <Code className="h-4 w-4" />
+          </ToolbarButton>
+          <div className="mx-1 w-px h-5 bg-border shrink-0" aria-hidden />
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            active={editor.isActive("heading", { level: 2 })}
+            title="Heading 2"
+          >
+            <Heading2 className="h-4 w-4" />
+          </ToolbarButton>
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+            active={editor.isActive("heading", { level: 3 })}
+            title="Heading 3"
+          >
+            <Heading3 className="h-4 w-4" />
+          </ToolbarButton>
+          <ToolbarButton
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            active={editor.isActive("blockquote")}
+            title="Quote"
+          >
+            <Quote className="h-4 w-4" />
+          </ToolbarButton>
+        </div>
+        {linkMenuOpen && (
+          <div className="flex items-center gap-1 px-1 pb-0.5 pt-0.5 border-t border-border">
+            <input
+              ref={linkInputRef}
+              type="url"
+              placeholder="Paste or type a link…"
+              value={linkMenuUrl}
+              onChange={(e) => setLinkMenuUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  submitLinkInput();
+                }
+                if (e.key === "Escape") cancelLinkInput();
+              }}
+              className="flex-1 min-w-[180px] rounded-md border border-input bg-background px-2 py-1.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              aria-label="Link URL"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 shrink-0 text-muted-foreground hover:text-foreground"
+              onClick={cancelLinkInput}
+              aria-label="Cancel link"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </BubbleMenu>
 
       {/* Medium-style section: section-content > section-inner (inset column); "+" follows active block */}
@@ -410,31 +621,83 @@ export function ArticleEditor({
                     <Plus className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" side="bottom" className="min-w-[180px]">
-                  <DropdownMenuItem
-                    onSelect={() => {
-                      editor.chain().focus().run();
-                      fileInputRef.current?.click();
-                    }}
-                  >
-                    <ImageIcon className="mr-2 h-4 w-4" />
-                    Image
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onSelect={() => {
-                      editor.chain().focus().run();
-                      const { selection } = editor.state;
-                      const pos = selection.$anchor.after();
-                      editor
-                        .chain()
-                        .insertContentAt(pos, [{ type: "horizontalRule" }, { type: "paragraph", content: [] }])
-                        .setTextSelection(pos + 3)
-                        .run();
-                    }}
-                  >
-                    <Minus className="mr-2 h-4 w-4" />
-                    Divider
-                  </DropdownMenuItem>
+                <DropdownMenuContent align="start" side="bottom" className="min-w-[11rem] overflow-visible p-1.5 rounded-xl border border-border shadow-lg">
+                  <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Insert block">
+                    <button
+                      type="button"
+                      title="Add empty block"
+                      aria-label="Add empty block"
+                      className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-[#1A8917] pl-1.5 pr-2 text-[#1A8917] bg-transparent hover:bg-[#1A8917]/10 focus:outline-none focus:ring-2 focus:ring-[#1A8917]/30 transition-colors"
+                      onClick={() => {
+                        editor.chain().focus().run();
+                        const { selection } = editor.state;
+                        const pos = selection.$anchor.after();
+                        editor.chain().insertContentAt(pos, { type: "paragraph", content: [] }).setTextSelection(pos + 1).run();
+                      }}
+                    >
+                      <Type className="h-4 w-4 shrink-0" />
+                      <span className="text-xs font-medium">Empty block</span>
+                    </button>
+                    <button
+                      type="button"
+                      title="Add an image"
+                      aria-label="Add an image"
+                      className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#1A8917] text-[#1A8917] bg-transparent hover:bg-[#1A8917]/10 focus:outline-none focus:ring-2 focus:ring-[#1A8917]/30 transition-colors"
+                      onClick={() => {
+                        editor.chain().focus().run();
+                        fileInputRef.current?.click();
+                      }}
+                    >
+                      <ImageIcon className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      title="Add a video (YouTube, Vimeo, or link)"
+                      aria-label="Add a video"
+                      className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-[#1A8917] pl-1.5 pr-2 text-[#1A8917] bg-transparent hover:bg-[#1A8917]/10 focus:outline-none focus:ring-2 focus:ring-[#1A8917]/30 transition-colors"
+                      onClick={() => {
+                        editor.chain().focus().run();
+                        videoInsertPosRef.current = editor.state.selection.anchor;
+                        setVideoDialogOpen(true);
+                        toast({ title: "Paste your video link in the field below" });
+                      }}
+                    >
+                      <Video className="h-4 w-4 shrink-0" />
+                      <span className="text-xs font-medium">Video</span>
+                    </button>
+                    <button
+                      type="button"
+                      title="Add a link (embed URL as clickable link)"
+                      aria-label="Add link"
+                      className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-[#1A8917] pl-1.5 pr-2 text-[#1A8917] bg-transparent hover:bg-[#1A8917]/10 focus:outline-none focus:ring-2 focus:ring-[#1A8917]/30 transition-colors"
+                      onClick={() => {
+                        editor.chain().focus().run();
+                        linkEmbedInsertPosRef.current = editor.state.selection.anchor;
+                        setLinkEmbedDialogOpen(true);
+                      }}
+                    >
+                      <LinkIcon className="h-4 w-4 shrink-0" />
+                      <span className="text-xs font-medium">Link</span>
+                    </button>
+                    <button
+                      type="button"
+                      title="Add a divider"
+                      aria-label="Add a divider"
+                      className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#1A8917] text-[#1A8917] bg-transparent hover:bg-[#1A8917]/10 focus:outline-none focus:ring-2 focus:ring-[#1A8917]/30 transition-colors"
+                      onClick={() => {
+                        editor.chain().focus().run();
+                        const { selection } = editor.state;
+                        const pos = selection.$anchor.after();
+                        editor
+                          .chain()
+                          .insertContentAt(pos, [{ type: "horizontalRule" }, { type: "paragraph", content: [] }])
+                          .setTextSelection(pos + 3)
+                          .run();
+                      }}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </button>
+                  </div>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -448,6 +711,87 @@ export function ArticleEditor({
           </div>
         </div>
       </div>
+
+      <Dialog open={videoDialogOpen} onOpenChange={(open) => { setVideoDialogOpen(open); if (!open) { setVideoUrlInput(""); videoInsertPosRef.current = null; } }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add video</DialogTitle>
+            <DialogDescription>
+              Paste a YouTube, Vimeo, or other video link. YouTube links will be embedded; others will be inserted as a link.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <Input
+              ref={videoInputRef}
+              type="url"
+              placeholder="https://www.youtube.com/watch?v=… or paste any video URL"
+              value={videoUrlInput}
+              onChange={(e) => setVideoUrlInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleVideoInsert();
+                }
+              }}
+              className="font-mono text-sm"
+              aria-label="Video URL"
+            />
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setVideoDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="button" className="bg-[#1A8917] hover:bg-[#1A8917]/90" onClick={handleVideoInsert}>
+              Insert
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={linkEmbedDialogOpen}
+        onOpenChange={(open) => {
+          setLinkEmbedDialogOpen(open);
+          if (!open) {
+            setLinkEmbedUrl("");
+            linkEmbedInsertPosRef.current = null;
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add link</DialogTitle>
+            <DialogDescription>
+              Paste or type a URL. It will be inserted as a clickable link in the article.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <Input
+              ref={linkEmbedInputRef}
+              type="url"
+              placeholder="https://…"
+              value={linkEmbedUrl}
+              onChange={(e) => setLinkEmbedUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleLinkEmbedInsert();
+                }
+              }}
+              className="font-mono text-sm"
+              aria-label="Link URL"
+            />
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setLinkEmbedDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="button" className="bg-[#1A8917] hover:bg-[#1A8917]/90" onClick={handleLinkEmbedInsert}>
+              Insert
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {showStats && (
         <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
