@@ -5,7 +5,8 @@ interface PMNode {
   type: string;
   content?: PMNode[];
   text?: string;
-  attrs?: { level?: number };
+  attrs?: { level?: number; href?: string };
+  marks?: { type: string; attrs?: { href?: string } }[];
 }
 
 /** Get plain text from a ProseMirror node. */
@@ -13,6 +14,29 @@ function getText(node: PMNode): string {
   if (node.type === "text" && node.text != null) return node.text;
   if (node.content) return node.content.map(getText).join("");
   return "";
+}
+
+const LINK_PLACEHOLDER_PREFIX = "[Link: ";
+const LINK_PLACEHOLDER_END = "]";
+
+/** If paragraph is a single link (one text node with link mark), return "[Link: href]" for round-trip. */
+function getParagraphLinkSerialized(paragraph: PMNode): string | null {
+  const content = paragraph.content;
+  if (!content || content.length !== 1) return null;
+  const first = content[0];
+  if (first.type !== "text" || first.text == null) return null;
+  const linkMark = first.marks?.find((m) => m.type === "link");
+  const href = linkMark?.attrs?.href;
+  if (!href) return null;
+  return LINK_PLACEHOLDER_PREFIX + href + LINK_PLACEHOLDER_END;
+}
+
+function isLinkPlaceholder(p: string): boolean {
+  return p.startsWith(LINK_PLACEHOLDER_PREFIX) && p.endsWith(LINK_PLACEHOLDER_END);
+}
+
+function linkPlaceholderToHref(p: string): string {
+  return p.slice(LINK_PLACEHOLDER_PREFIX.length, -LINK_PLACEHOLDER_END.length).trim();
 }
 
 /** Flatten list (bulletList/orderedList) to paragraph texts. */
@@ -43,8 +67,13 @@ export function tiptapJsonToSections(doc: { content?: PMNode[] } | null): NewsSe
       }
       current = { heading: getText(node), paragraphs: [] };
     } else if (node.type === "paragraph") {
-      const text = getText(node).trim();
-      if (text) current.paragraphs.push(text);
+      const linkSerialized = getParagraphLinkSerialized(node);
+      if (linkSerialized != null) {
+        current.paragraphs.push(linkSerialized);
+      } else {
+        const text = getText(node).trim();
+        current.paragraphs.push(text || "");
+      }
     } else if (node.type === "bulletList" || node.type === "orderedList") {
       const items = listToParagraphs(node);
       current.paragraphs.push(...items);
@@ -67,7 +96,20 @@ export function tiptapJsonToSections(doc: { content?: PMNode[] } | null): NewsSe
   return sections;
 }
 
-/** Convert NewsSection[] to Tiptap doc content (array of block nodes). */
+/** Paragraph text that represents an image from tiptapJsonToSections. */
+const IMAGE_PLACEHOLDER_PREFIX = "[Image: ";
+const IMAGE_PLACEHOLDER_END = "]";
+
+function isImagePlaceholder(p: string): boolean {
+  return p === "[Image]" || (p.startsWith(IMAGE_PLACEHOLDER_PREFIX) && p.endsWith(IMAGE_PLACEHOLDER_END));
+}
+
+function imagePlaceholderToSrc(p: string): string {
+  if (p === "[Image]") return "";
+  return p.slice(IMAGE_PLACEHOLDER_PREFIX.length, -IMAGE_PLACEHOLDER_END.length).trim();
+}
+
+/** Convert NewsSection[] to Tiptap doc content (array of block nodes). Preserves [Image: src] as image nodes. */
 export function sectionsToTiptapContent(sections: NewsSection[]): PMNode[] {
   const blocks: PMNode[] = [];
   for (const section of sections) {
@@ -79,10 +121,28 @@ export function sectionsToTiptapContent(sections: NewsSection[]): PMNode[] {
       });
     }
     for (const p of section.paragraphs || []) {
-      blocks.push({
-        type: "paragraph",
-        content: p ? [{ type: "text", text: p }] : [],
-      });
+      if (isImagePlaceholder(p)) {
+        const src = imagePlaceholderToSrc(p);
+        if (src) {
+          blocks.push({
+            type: "image",
+            attrs: { src },
+          });
+        }
+      } else if (isLinkPlaceholder(p)) {
+        const href = linkPlaceholderToHref(p);
+        if (href) {
+          blocks.push({
+            type: "paragraph",
+            content: [{ type: "text", text: href, marks: [{ type: "link", attrs: { href } }] }],
+          });
+        }
+      } else {
+        blocks.push({
+          type: "paragraph",
+          content: p ? [{ type: "text", text: p }] : [],
+        });
+      }
     }
   }
   if (blocks.length === 0) {

@@ -7,7 +7,7 @@ const B = "/admin";
 const routeTitles: Record<string, { title: string; icon: typeof LayoutDashboard }> = {
   [B]: { title: "Dashboard", icon: LayoutDashboard },
   [`${B}/hero`]: { title: "Hero section", icon: ImageIcon },
-  [`${B}/news`]: { title: "News", icon: Newspaper },
+  [`${B}/news`]: { title: "News board", icon: Newspaper },
   [`${B}/events`]: { title: "Events", icon: Calendar },
   [`${B}/users`]: { title: "Admins", icon: Shield },
 };

@@ -18,6 +18,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { DashboardPage } from "@/features/dashboard/pages/DashboardPage";
 import AdminHero from "./pages/admin/AdminHero";
 import AdminNews from "./pages/admin/AdminNews";
+import AdminNewsBoard from "./pages/admin/AdminNewsBoard";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminsPage from "@/features/admin/pages/AdminsPage";
 
@@ -48,7 +49,7 @@ const App = () => (
               <Route element={<AppLayout />}>
                 <Route path="/admin" element={<DashboardPage />} />
                 <Route path="/admin/hero" element={<AdminHero />} />
-                <Route path="/admin/news" element={<AdminNews />} />
+                <Route path="/admin/news" element={<AdminNewsBoard />} />
                 <Route path="/admin/news/articles" element={<AdminNews />} />
                 <Route path="/admin/events" element={<AdminEvents />} />
                 <Route path="/admin/users" element={<AdminsPage />} />

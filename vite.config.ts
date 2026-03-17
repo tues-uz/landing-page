@@ -22,6 +22,16 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, "/api/v1"),
       },
     },
+    // Pre-warm the app entry so dependency optimization finishes before first page load (avoids 504 on deps)
+    warmup: {
+      clientFiles: ["./index.html", "./src/main.tsx", "./src/App.tsx"],
+    },
+  },
+  optimizeDeps: {
+    // Explicit entry so optimizer runs at startup and is ready before first browser request
+    entries: ["index.html"],
+    // Force pre-bundle React and key deps so they're ready immediately (avoids timeout on first load)
+    include: ["react", "react-dom", "react-router-dom"],
   },
   plugins: [react()],
   resolve: {
