@@ -2,8 +2,11 @@ import { UserCog, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { adminApi } from "@/api/auth";
+import { ProvisionUserModal } from "../components/ProvisionUserModal";
+import { useState } from "react";
 
 export default function AdminsPage() {
+  const [showModal, setShowModal] = useState(false);
   const { data: users = [], isLoading: usersLoading } = useQuery({
     queryKey: ["admin", "users"],
     queryFn: adminApi.listUsers,
@@ -25,7 +28,7 @@ export default function AdminsPage() {
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">Roles created and assigned to platforms.</p>
           </div>
-          <Button size="sm" className="rounded-lg gap-1.5">
+          <Button size="sm" className="rounded-lg gap-1.5" onClick={() => setShowModal(true)}>
             <Plus className="h-4 w-4" />
             Add admin
           </Button>
@@ -89,6 +92,8 @@ export default function AdminsPage() {
           </div>
         )}
       </div>
+      
+      <ProvisionUserModal open={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 }
