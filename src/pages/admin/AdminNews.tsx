@@ -28,6 +28,7 @@ import { ArticleEditor } from "@/components/admin/ArticleEditor";
 import { sectionsToTiptapDoc, tiptapJsonToSections } from "@/lib/newsEditorUtils";
 import type { TiptapDocJSON } from "@/types/article";
 import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload, Search } from "lucide-react";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const CATEGORIES = ["News", "Announcements", "Events", "Blog"];
 const DISPLAY_OPTIONS = ["Regular", "Featured", "Highlight", "Pinned"];
@@ -44,6 +45,7 @@ function titleToSlug(title: string): string {
 }
 
 export default function AdminNews() {
+  const { canEditNews } = usePermissions();
   const [articles, setArticles] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -454,9 +456,11 @@ export default function AdminNews() {
       title="News"
       description="Manage articles and featured content."
       actions={
+        canEditNews && (
         <Button onClick={openCreate} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="h-4 w-4" /> Add article
         </Button>
+        )
       }
     >
       <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">

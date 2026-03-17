@@ -8,8 +8,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type EventItem } from "@/api/adminClient";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { Loader2, Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
+import { usePermissions } from "@/hooks/usePermissions";
 
 export default function AdminEvents() {
+  const { canEditEvents } = usePermissions();
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -191,9 +193,11 @@ export default function AdminEvents() {
       title="Events"
       description="Manage upcoming events."
       actions={
+        canEditEvents && (
         <Button onClick={openCreate} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="h-4 w-4" /> Add event
         </Button>
+        )
       }
     >
       <Card className={ADMIN_CARD_CLASS}>

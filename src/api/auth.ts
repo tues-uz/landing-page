@@ -84,11 +84,55 @@ export const authApi = {
       body: JSON.stringify(body),
     }),
   me: () =>
-    request<{ user: { id: string; email: string; name: string; role: string } }>("/auth/me"),
+    request<{ id: string; email: string; name: string; role: string; permissions?: string[] }>("/auth/me"),
   logout: (refreshToken: string) =>
     request<{ message: string }>("/auth/logout", {
       method: "POST",
       body: JSON.stringify({ refreshToken }),
     }),
   getToken: () => tokenStore.get(),
+};
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+  permissions: { id: string; platformSlug: string; platformName: string; resource: string; action: string; code?: string }[];
+  isActive: boolean;
+  createdAt: string;
+  role?: string;
+}
+
+export interface ProvisionRequest {
+  email: string;
+  name: string;
+  password: string;
+  permissionIds: string[];
+}
+
+export interface PlatformPermissions {
+  id: string;
+  slug: string;
+  name: string;
+  permissions: { id: string; resource: string; action: string; code: string }[];
+}
+
+export const adminApi = {
+  listUsers: () => request<AdminUser[]>("/admin/users"),
+  provision: (body: ProvisionRequest) =>
+    request<AdminUser>("/admin/users/provision", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  updatePermissions: (id: string, permissionIds: string[]) =>
+    request<AdminUser>(`/admin/users/${id}/permissions`, {
+      method: "PUT",
+      body: JSON.stringify({ permissionIds }),
+    }),
+  setStatus: (id: string, active: boolean) =>
+    request<AdminUser>(`/admin/users/${id}/status`, {
+      method: "PUT",
+      body: JSON.stringify({ active }),
+    }),
+  getPlatforms: () => request<PlatformPermissions[]>("/admin/platforms"),
 };
