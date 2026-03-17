@@ -84,7 +84,7 @@ export const authApi = {
       body: JSON.stringify(body),
     }),
   me: () =>
-    request<{ user: { id: string; email: string; name: string; role: string; permissions?: string[] } }>("/auth/me"),
+    request<{ id: string; email: string; name: string; role: string; permissions?: string[] }>("/auth/me"),
   logout: (refreshToken: string) =>
     request<{ message: string }>("/auth/logout", {
       method: "POST",
@@ -97,9 +97,10 @@ export interface AdminUser {
   id: string;
   email: string;
   name: string;
-  permissions: string[];
+  permissions: { id: string; platformSlug: string; platformName: string; resource: string; action: string; code?: string }[];
   isActive: boolean;
   createdAt: string;
+  role?: string;
 }
 
 export interface ProvisionRequest {
@@ -110,8 +111,10 @@ export interface ProvisionRequest {
 }
 
 export interface PlatformPermissions {
-  platform: string;
-  permissions: { id: string; name: string; description: string }[];
+  id: string;
+  slug: string;
+  name: string;
+  permissions: { id: string; resource: string; action: string; code: string }[];
 }
 
 export const adminApi = {

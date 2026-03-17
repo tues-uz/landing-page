@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     authApi
       .me()
-      .then((res) => setUser(res.user as User))
+      .then((res) => setUser(res as User))
       .catch((err: unknown) => {
         const message = err instanceof Error ? err.message.toLowerCase() : "";
         if (message.includes("unauthorized") || message.includes("401")) tokenStore.clear();

@@ -43,7 +43,7 @@ export const adminApi = {
       return unwrapped?.slides ?? [];
     },
     create: async (payload: Omit<HeroSlide, "id">): Promise<HeroSlide> => {
-      const res = await fetch(`${API_BASE}/admin/hero-slides`, {
+      const res = await fetch(`${API_BASE}/content/hero-slides`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -51,7 +51,7 @@ export const adminApi = {
       return handleResponse<HeroSlide>(res);
     },
     update: async (id: string, payload: Partial<HeroSlide>): Promise<HeroSlide> => {
-      const res = await fetch(`${API_BASE}/admin/hero-slides/${id}`, {
+      const res = await fetch(`${API_BASE}/content/hero-slides/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -59,7 +59,7 @@ export const adminApi = {
       return handleResponse<HeroSlide>(res);
     },
     delete: async (id: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/admin/hero-slides/${id}`, {
+      const res = await fetch(`${API_BASE}/content/hero-slides/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
@@ -73,7 +73,7 @@ export const adminApi = {
       return unwrapped?.background ?? null;
     },
     update: async (payload: HeroBackground): Promise<HeroBackground> => {
-      const res = await fetch(`${API_BASE}/admin/hero-background`, {
+      const res = await fetch(`${API_BASE}/content/hero-background`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -85,7 +85,7 @@ export const adminApi = {
     list: async (): Promise<NewsItem[]> => {
       const data = await fetch(`${API_BASE}/content/news`).then((r) => r.json());
       const unwrapped = data?.data ?? data;
-      return unwrapped?.articles ?? [];
+      return unwrapped?.news ?? [];
     },
     getBySlug: async (slug: string): Promise<NewsItem | null> => {
       try {
@@ -93,29 +93,29 @@ export const adminApi = {
         if (!res.ok) return null;
         const data = await res.json();
         const unwrapped = data?.data ?? data;
-        return unwrapped?.article ?? null;
+        return unwrapped?.news ?? null;
       } catch {
         return null;
       }
     },
     create: async (payload: Omit<NewsItem, "id">): Promise<NewsItem> => {
-      const res = await fetch(`${API_BASE}/admin/news`, {
+      const res = await fetch(`${API_BASE}/content/news`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
       });
       return handleResponse<NewsItem>(res);
     },
-    update: async (slugOrId: string, payload: Partial<NewsItem>): Promise<NewsItem> => {
-      const res = await fetch(`${API_BASE}/admin/news/${slugOrId}`, {
+    update: async (id: string, payload: Partial<NewsItem>): Promise<NewsItem> => {
+      const res = await fetch(`${API_BASE}/content/news/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
       });
       return handleResponse<NewsItem>(res);
     },
-    delete: async (slugOrId: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/admin/news/${slugOrId}`, {
+    delete: async (id: string): Promise<void> => {
+      const res = await fetch(`${API_BASE}/content/news/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
@@ -133,8 +133,8 @@ export const adminApi = {
       status?: "draft" | "published";
     }): Promise<{ id: string }> => {
       const url = payload.id
-        ? `${API_BASE}/admin/articles/${payload.id}`
-        : `${API_BASE}/admin/articles`;
+        ? `${API_BASE}/content/articles/${payload.id}`
+        : `${API_BASE}/content/articles`;
       const res = await fetch(url, {
         method: payload.id ? "PUT" : "POST",
         headers: getAuthHeaders(),
@@ -157,7 +157,7 @@ export const adminApi = {
       const headers: HeadersInit = {};
       const auth = getAuthHeaders();
       if (auth && "Authorization" in auth) headers.Authorization = auth.Authorization as string;
-      const res = await fetch(`${API_BASE}/admin/media`, {
+      const res = await fetch(`${API_BASE}/content/media`, {
         method: "POST",
         headers,
         body: form,
@@ -172,7 +172,7 @@ export const adminApi = {
       return unwrapped?.events ?? [];
     },
     create: async (payload: Omit<EventItem, "id">): Promise<EventItem> => {
-      const res = await fetch(`${API_BASE}/admin/events`, {
+      const res = await fetch(`${API_BASE}/content/events`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -180,7 +180,7 @@ export const adminApi = {
       return handleResponse<EventItem>(res);
     },
     update: async (id: string, payload: Partial<EventItem>): Promise<EventItem> => {
-      const res = await fetch(`${API_BASE}/admin/events/${id}`, {
+      const res = await fetch(`${API_BASE}/content/events/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -188,7 +188,7 @@ export const adminApi = {
       return handleResponse<EventItem>(res);
     },
     delete: async (id: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/admin/events/${id}`, {
+      const res = await fetch(`${API_BASE}/content/events/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });

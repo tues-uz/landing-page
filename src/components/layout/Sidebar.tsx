@@ -9,8 +9,6 @@ import {
   Search,
   ChevronDown,
   Settings,
-  FolderOpen,
-  CalendarDays,
   Shield,
   Users,
   LayoutGrid,
@@ -31,17 +29,12 @@ const nav = [
 ];
 
 const newsSubNav = [
-  { to: `${CMS_BASE}/news`, label: "News board", icon: LayoutGrid, end: true },
+  { to: `${CMS_BASE}/news`, label: "Overview", icon: LayoutGrid, end: true },
   { to: `${CMS_BASE}/news/articles`, label: "Articles", icon: List, end: true },
 ];
 
 const adminMenu = [{ to: `${CMS_BASE}/users`, label: "Admins", icon: Users }];
 
-const favorites = [
-  { to: `${CMS_BASE}/hero`, label: "Hero slides", icon: ImageIcon },
-  { to: `${CMS_BASE}/news`, label: "News", icon: Newspaper },
-  { to: `${CMS_BASE}/events`, label: "Events", icon: CalendarDays },
-];
 
 const footerLinks = [{ label: "Settings", icon: Settings }];
 
@@ -50,7 +43,6 @@ export function Sidebar() {
   const { logout } = useAuth();
   const isNewsActive = location.pathname.startsWith(`${CMS_BASE}/news`);
   const [newsOpen, setNewsOpen] = useState(isNewsActive);
-  const [favoritesOpen, setFavoritesOpen] = useState(true);
   const [adminOpen, setAdminOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -171,38 +163,6 @@ export function Sidebar() {
           )}
         </div>
 
-        <div className="pt-4">
-          <button
-            type="button"
-            onClick={() => setFavoritesOpen(!favoritesOpen)}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <span className="flex items-center gap-3">
-              <FolderOpen className="h-4 w-4 shrink-0" />
-              Favorites
-            </span>
-            <ChevronDown className={cn("h-4 w-4 transition-transform", favoritesOpen && "rotate-180")} />
-          </button>
-          {favoritesOpen && (
-            <div className="mt-0.5 space-y-0.5 pl-1">
-              {favorites.map(({ to, label, icon: Icon }) => (
-                <NavLink
-                  key={to}
-                  to={to}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                      isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    )
-                  }
-                >
-                  <Icon className="h-3.5 w-3.5 shrink-0" />
-                  {label}
-                </NavLink>
-              ))}
-            </div>
-          )}
-        </div>
 
         <div className="mt-4 rounded-xl border border-border bg-card p-4 shadow-sm">
           <p className="text-sm font-medium text-foreground">Need help?</p>

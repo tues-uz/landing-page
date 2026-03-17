@@ -1,16 +1,33 @@
 import { UserCog, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { adminApi } from "@/api/auth";
+import { adminApi, AdminUser } from "@/api/auth";
 import { ProvisionUserModal } from "../components/ProvisionUserModal";
 import { useState } from "react";
 
 export default function AdminsPage() {
   const [showModal, setShowModal] = useState(false);
+  const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
+
   const { data: users = [], isLoading: usersLoading } = useQuery({
     queryKey: ["admin", "users"],
     queryFn: adminApi.listUsers,
   });
+
+  const handleEdit = (user: AdminUser) => {
+    setEditingUser(user);
+    setShowModal(true);
+  };
+
+  const handleAdd = () => {
+    setEditingUser(null);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setEditingUser(null);
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -28,7 +45,7 @@ export default function AdminsPage() {
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">Roles created and assigned to platforms.</p>
           </div>
-          <Button size="sm" className="rounded-lg gap-1.5" onClick={() => setShowModal(true)}>
+          <Button size="sm" className="rounded-lg gap-1.5" onClick={handleAdd}>
             <Plus className="h-4 w-4" />
             Add admin
           </Button>
@@ -59,13 +76,29 @@ export default function AdminsPage() {
                     <td className="px-6 py-3 text-muted-foreground">{user.email}</td>
                     <td className="px-6 py-3">
                       <div className="flex flex-wrap gap-1">
-                        {user.permissions.slice(0, 3).map((perm) => (
-                          <span key={perm} className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-                            {perm}
-                          </span>
-                        ))}
-                        {user.permissions.length > 3 && (
-                          <span className="text-xs text-muted-foreground">+{user.permissions.length - 3}</span>
+                        {user.permissions.length === 0 ? (
+                          <span className="text-xs text-muted-foreground italic">No access</span>
+                        ) : (
+                          <>
+                            {user.permissions.slice(0, 4).map((perm) => {
+                              const resource = perm.resource === "*" ? "System" : perm.resource;
+                              const action = perm.action === "*" ? "Full" : perm.action;
+                              return (
+                                <span 
+                                  key={perm.id} 
+                                  className="inline-flex items-center rounded-full bg-primary/10 border border-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-tight text-primary"
+                                  title={`${perm.platformName}: ${perm.resource} - ${perm.action}`}
+                                >
+                                  {resource} • {action}
+                                </span>
+                              );
+                            })}
+                            {user.permissions.length > 4 && (
+                              <span className="text-[10px] font-medium text-muted-foreground bg-muted/50 rounded-full px-2 py-0.5">
+                                +{user.permissions.length - 4} more
+                              </span>
+                            )}
+                          </>
                         )}
                       </div>
                     </td>
@@ -81,7 +114,12 @@ export default function AdminsPage() {
                       )}
                     </td>
                     <td className="px-6 py-3 text-right">
-                      <Button variant="ghost" size="sm" className="h-8 text-muted-foreground hover:text-foreground">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-8 text-muted-foreground hover:text-primary transition-colors"
+                        onClick={() => handleEdit(user)}
+                      >
                         Edit
                       </Button>
                     </td>
@@ -93,7 +131,11 @@ export default function AdminsPage() {
         )}
       </div>
       
-      <ProvisionUserModal open={showModal} onClose={() => setShowModal(false)} />
+      <ProvisionUserModal 
+        open={showModal} 
+        onClose={handleClose} 
+        initialData={editingUser}
+      />
     </div>
   );
 }

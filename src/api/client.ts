@@ -102,8 +102,8 @@ export const contentApi = {
     },
     news: {
         list: async (): Promise<NewsItem[]> => {
-            const data = await get<{ articles: NewsItem[] }>("/content/news");
-            const raw = data.articles ?? [];
+            const data = await get<{ news: NewsItem[] }>("/content/news");
+            const raw = data.news ?? [];
             // Sort by CMS order (sortOrder from "Update order"); items without sortOrder go last
             return [...raw].sort((a, b) => {
                 const aOrder = a.sortOrder != null ? Number(a.sortOrder) : NaN;
@@ -115,8 +115,8 @@ export const contentApi = {
             });
         },
         getBySlug: async (slug: string): Promise<NewsItem> => {
-            const data = await get<{ article: NewsItem }>(`/content/news/${slug}`);
-            return data.article;
+            const data = await get<{ news: NewsItem }>(`/content/news/${slug}`);
+            return data.news;
         },
     },
     events: {
