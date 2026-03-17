@@ -8,8 +8,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { Loader2, Plus, Pencil, Trash2, Search, X } from "lucide-react";
+import { usePermissions } from "@/hooks/usePermissions";
 
 export default function AdminHero() {
+  const { canEditHero } = usePermissions();
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [background, setBackground] = useState<HeroBackground | null>(null);
   const [loading, setLoading] = useState(true);
@@ -248,17 +250,20 @@ export default function AdminHero() {
                   className="rounded-lg border-slate-200 pl-9"
                 />
               </div>
-              <Button
-                onClick={handleCreateSlide}
-                disabled={saving}
-                className="bg-blue-600 hover:bg-blue-700 shrink-0"
-              >
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-                Add slide
-              </Button>
+              {canEditHero && (
+                <Button
+                  onClick={handleCreateSlide}
+                  disabled={saving}
+                  className="bg-blue-600 hover:bg-blue-700 shrink-0"
+                >
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                  Add slide
+                </Button>
+              )}
             </div>
 
             {/* Add slide form */}
+            {canEditHero && (
             <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4 space-y-4">
               <h3 className="text-sm font-semibold text-slate-900">Add slide</h3>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -308,6 +313,7 @@ export default function AdminHero() {
                 Add slide
               </Button>
             </div>
+            )}
 
             {/* Slide list — title as heading, subtitle, Year: XXXX */}
             <ul className="space-y-4">
@@ -373,6 +379,7 @@ export default function AdminHero() {
                           <p className="text-xs text-slate-400 mt-1">Year: {slide.year}</p>
                         )}
                       </div>
+                      {canEditHero && (
                       <div className="flex shrink-0 gap-1">
                         <Button
                           size="icon"
@@ -393,6 +400,7 @@ export default function AdminHero() {
                           <Trash2 className="h-4 w-4 text-red-600" />
                         </Button>
                       </div>
+                      )}
                     </div>
                   )}
                 </li>
