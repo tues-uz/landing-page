@@ -12,13 +12,13 @@ import type {
   NewsSection,
 } from "./client";
 import type { TiptapDocJSON } from "@/types/article";
+import { tokenStore } from "./auth";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 function getAuthHeaders(): HeadersInit {
   const headers: HeadersInit = { "Content-Type": "application/json" };
-  // Optional: add token from env or storage
-  const token = import.meta.env.VITE_ADMIN_TOKEN;
+  const token = tokenStore.get();
   if (token) headers["Authorization"] = `Bearer ${token}`;
   return headers;
 }
