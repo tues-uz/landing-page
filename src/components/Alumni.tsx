@@ -103,19 +103,19 @@ const Alumni = () => {
         </div>
 
         {/* Stats — 2×2 grid */}
-        <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-16 max-w-max mx-auto">
+        <div className="grid grid-cols-2 gap-x-16 gap-y-10 mb-16 max-w-max mx-auto">
           {alumniStats.map((stat) => {
             const Icon = stat.icon;
             return (
-              <div key={stat.label} className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-foreground/60" />
+              <div key={stat.label} className="flex items-center gap-5">
+                <div className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-8 h-8 text-foreground/60" />
                 </div>
                 <div>
-                  <p className="text-xl md:text-2xl font-semibold text-foreground tabular-nums">
+                  <p className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground tabular-nums">
                     {stat.number}
                   </p>
-                  <p className="text-sm text-foreground/55">{stat.label}</p>
+                  <p className="text-base md:text-lg text-foreground/55">{stat.label}</p>
                 </div>
               </div>
             );
