@@ -95,7 +95,7 @@ const Programs = () => {
         {/* Bento image grid — university vibe (loremflickr by keyword) */}
         <div
           ref={bentoRef}
-          className="bento-section grid grid-cols-2 md:grid-cols-4 grid-rows-[repeat(5,1fr)] gap-4 md:gap-6 mb-10 md:mb-12 h-[320px] sm:h-[380px] md:h-[30rem]"
+          className="bento-section grid grid-cols-2 md:grid-cols-4 grid-rows-[repeat(5,1fr)] gap-4 mb-10 md:mb-12 h-[320px] sm:h-[380px] md:h-[30rem]"
         >
           <div
             className="bento-card col-start-1 row-start-1 col-span-1 md:col-span-2 row-span-5 rounded-2xl bg-center bg-cover min-h-0 bg-muted"

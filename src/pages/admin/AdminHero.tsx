@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
-import { Loader2, Plus, Pencil, Trash2, Search, Video, Image, Upload } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Search, Video, Image, Upload, CheckCircle2 } from "lucide-react";
 import { usePermissions } from "@/hooks/usePermissions";
 
 export default function AdminHero() {
@@ -24,17 +24,111 @@ export default function AdminHero() {
   const [newSlide, setNewSlide] = useState<Partial<HeroSlide>>({ title: "", subtitle: "", year: "", linkUrl: "" });
   const [searchSlides, setSearchSlides] = useState("");
   const [addSlideOpen, setAddSlideOpen] = useState(false);
+  const [uploadingMedia, setUploadingMedia] = useState<"video" | "fallback" | "image" | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState<{ video: string | null; fallback: string | null; image: string | null }>({
+    video: null,
+    fallback: null,
+    image: null,
+  });
   const { toast } = useToast();
   const videoInputRef = useRef<HTMLInputElement>(null);
   const fallbackInputRef = useRef<HTMLInputElement>(null);
   const imageBackgroundRef = useRef<HTMLInputElement>(null);
+
+  const MAX_FILE_MB = 50;
+
+  const uploadFileAndSetUrl = async (
+    file: File,
+    kind: "video" | "fallback" | "image"
+  ): Promise<string> => {
+    if (file.size > MAX_FILE_MB * 1024 * 1024) {
+      toast({ title: `File too large (max ${MAX_FILE_MB} MB)`, variant: "destructive" });
+      throw new Error("File too large");
+    }
+    setUploadingMedia(kind);
+    setUploadSuccess((s) => ({ ...s, [kind]: null }));
+    try {
+      const { url } = await adminApi.media.upload(file);
+      return url;
+    } finally {
+      setUploadingMedia(null);
+    }
+  };
+
+  const handleVideoFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!background) return;
+    const isVideo = file.type.startsWith("video/");
+    if (!isVideo && !file.type.startsWith("image/")) {
+      toast({ title: "Please choose a video (MP4/WebM) or image", variant: "destructive" });
+      return;
+    }
+    try {
+      const url = await uploadFileAndSetUrl(file, "video");
+      if (isVideo) {
+        setBackground((b) => (b ? { ...b, videoUrl: url } : b));
+        setUploadSuccess((s) => ({ ...s, video: file.name }));
+        toast({ title: "Video uploaded" });
+      } else {
+        setBackground((b) => (b ? { ...b, imageUrl: url } : b));
+        setUploadSuccess((s) => ({ ...s, fallback: file.name }));
+        toast({ title: "Fallback image uploaded" });
+      }
+    } catch (err) {
+      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+    }
+    e.target.value = "";
+  };
+
+  const handleFallbackFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Please choose an image file", variant: "destructive" });
+      return;
+    }
+    if (!background) return;
+    try {
+      const url = await uploadFileAndSetUrl(file, "fallback");
+      setBackground((b) => (b ? { ...b, imageUrl: url } : b));
+      setUploadSuccess((s) => ({ ...s, fallback: file.name }));
+      toast({ title: "Fallback image uploaded" });
+    } catch (err) {
+      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+    }
+    e.target.value = "";
+  };
+
+  const handleImageBackgroundFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Please choose an image file", variant: "destructive" });
+      return;
+    }
+    if (!background) return;
+    try {
+      const url = await uploadFileAndSetUrl(file, "image");
+      setBackground((b) => (b ? { ...b, imageUrl: url } : b));
+      setUploadSuccess((s) => ({ ...s, image: file.name }));
+      toast({ title: "Background image uploaded" });
+    } catch (err) {
+      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+    }
+    e.target.value = "";
+  };
 
   const load = async () => {
     setLoading(true);
     try {
       const [s, b] = await Promise.all([adminApi.heroSlides.list(), adminApi.heroBackground.get()]);
       setSlides(s);
-      setBackground(b ?? null);
+      // Always show Video tab active when opening the page; keep saved videoUrl/imageUrl
+      const merged = b
+        ? { ...b, mediaType: "video" as const }
+        : { mediaType: "video" as const, videoUrl: null as string | null, imageUrl: null as string | null };
+      setBackground(merged);
     } catch (e) {
       toast({ title: "Failed to load hero", description: String(e), variant: "destructive" });
     } finally {
@@ -145,7 +239,7 @@ export default function AdminHero() {
 
   return (
     <AdminPageShell title="Hero section" description="Welcome back, Admin 👋">
-      <div className="p-6 space-y-8">
+      <div className="p-0 space-y-8">
         <div className="text-card-foreground shadow-sm rounded-xl border border-border bg-card">
           <div className="flex flex-col space-y-1.5 p-6">
             <h3 className="font-semibold tracking-tight text-lg flex items-center gap-2">
@@ -182,18 +276,46 @@ export default function AdminHero() {
                     <div
                       role="button"
                       tabIndex={0}
-                      onClick={() => videoInputRef.current?.click()}
-                      onKeyDown={(e) => e.key === "Enter" && videoInputRef.current?.click()}
-                      className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
+                      onClick={() => uploadingMedia !== "video" && videoInputRef.current?.click()}
+                      onKeyDown={(e) => e.key === "Enter" && uploadingMedia !== "video" && videoInputRef.current?.click()}
+                      className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
+                        uploadSuccess.video
+                          ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
+                          : "border-border hover:border-primary/60 hover:bg-muted/50"
+                      }`}
                     >
-                      <Upload className="h-8 w-8 text-muted-foreground" />
+                      {uploadingMedia === "video" ? (
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      ) : uploadSuccess.video ? (
+                        <CheckCircle2 className="h-8 w-8 text-green-600" />
+                      ) : (
+                        <Upload className="h-8 w-8 text-muted-foreground" />
+                      )}
                       <div className="text-center">
-                        <p className="text-sm font-medium text-foreground">Upload hero video (MP4 / WebM)</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
-                        <p className="text-xs text-muted-foreground">Images & video (MP4, WebM), max 50 MB</p>
+                        {uploadSuccess.video ? (
+                          <>
+                            <p className="text-sm font-medium text-foreground">Uploaded successfully</p>
+                            <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{uploadSuccess.video}</p>
+                            <p className="text-xs text-muted-foreground mt-0.5">Click to replace</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-sm font-medium text-foreground">
+                              {uploadingMedia === "video" ? "Uploading…" : "Upload hero video (MP4 / WebM)"}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
+                            <p className="text-xs text-muted-foreground">Video (MP4, WebM) or image, max 50 MB</p>
+                          </>
+                        )}
                       </div>
                     </div>
-                    <input ref={videoInputRef} type="file" accept="video/mp4,video/webm,image/*" className="hidden" />
+                    <input
+                      ref={videoInputRef}
+                      type="file"
+                      accept="video/mp4,video/webm,image/*"
+                      className="hidden"
+                      onChange={handleVideoFile}
+                    />
                   </div>
                 </div>
                 <div className="grid gap-2">
@@ -202,18 +324,46 @@ export default function AdminHero() {
                     <div
                       role="button"
                       tabIndex={0}
-                      onClick={() => fallbackInputRef.current?.click()}
-                      onKeyDown={(e) => e.key === "Enter" && fallbackInputRef.current?.click()}
-                      className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
+                      onClick={() => uploadingMedia !== "fallback" && fallbackInputRef.current?.click()}
+                      onKeyDown={(e) => e.key === "Enter" && uploadingMedia !== "fallback" && fallbackInputRef.current?.click()}
+                      className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
+                        uploadSuccess.fallback
+                          ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
+                          : "border-border hover:border-primary/60 hover:bg-muted/50"
+                      }`}
                     >
-                      <Upload className="h-8 w-8 text-muted-foreground" />
+                      {uploadingMedia === "fallback" ? (
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      ) : uploadSuccess.fallback ? (
+                        <CheckCircle2 className="h-8 w-8 text-green-600" />
+                      ) : (
+                        <Upload className="h-8 w-8 text-muted-foreground" />
+                      )}
                       <div className="text-center">
-                        <p className="text-sm font-medium text-foreground">Upload fallback image</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
-                        <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
+                        {uploadSuccess.fallback ? (
+                          <>
+                            <p className="text-sm font-medium text-foreground">Uploaded successfully</p>
+                            <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{uploadSuccess.fallback}</p>
+                            <p className="text-xs text-muted-foreground mt-0.5">Click to replace</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-sm font-medium text-foreground">
+                              {uploadingMedia === "fallback" ? "Uploading…" : "Upload fallback image"}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
+                            <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
+                          </>
+                        )}
                       </div>
                     </div>
-                    <input ref={fallbackInputRef} type="file" accept="image/*" className="hidden" />
+                    <input
+                      ref={fallbackInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFallbackFile}
+                    />
                   </div>
                 </div>
               </>
@@ -225,18 +375,46 @@ export default function AdminHero() {
                   <div
                     role="button"
                     tabIndex={0}
-                    onClick={() => imageBackgroundRef.current?.click()}
-                    onKeyDown={(e) => e.key === "Enter" && imageBackgroundRef.current?.click()}
-                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
+                    onClick={() => uploadingMedia !== "image" && imageBackgroundRef.current?.click()}
+                    onKeyDown={(e) => e.key === "Enter" && uploadingMedia !== "image" && imageBackgroundRef.current?.click()}
+                    className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
+                      uploadSuccess.image
+                        ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
+                        : "border-border hover:border-primary/60 hover:bg-muted/50"
+                    }`}
                   >
-                    <Upload className="h-8 w-8 text-muted-foreground" />
+                    {uploadingMedia === "image" ? (
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    ) : uploadSuccess.image ? (
+                      <CheckCircle2 className="h-8 w-8 text-green-600" />
+                    ) : (
+                      <Upload className="h-8 w-8 text-muted-foreground" />
+                    )}
                     <div className="text-center">
-                      <p className="text-sm font-medium text-foreground">Upload hero background image</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
-                      <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
+                      {uploadSuccess.image ? (
+                        <>
+                          <p className="text-sm font-medium text-foreground">Uploaded successfully</p>
+                          <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{uploadSuccess.image}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">Click to replace</p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-sm font-medium text-foreground">
+                            {uploadingMedia === "image" ? "Uploading…" : "Upload hero background image"}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
+                          <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
+                        </>
+                      )}
                     </div>
                   </div>
-                  <input ref={imageBackgroundRef} type="file" accept="image/*" className="hidden" />
+                  <input
+                    ref={imageBackgroundRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageBackgroundFile}
+                  />
                 </div>
               </div>
             )}

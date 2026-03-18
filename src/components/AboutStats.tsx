@@ -126,7 +126,7 @@ const AboutStats = () => {
 
         {/* Image ticker */}
         <div className="w-full overflow-hidden mb-16">
-          <div className="flex gap-8 animate-ticker">
+          <div className="flex gap-4 animate-ticker">
             {[...TICKER_IMAGES, ...TICKER_IMAGES].map((src, i) => (
               <div
                 key={i}

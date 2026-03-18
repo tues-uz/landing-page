@@ -72,6 +72,12 @@ export function getEventImageUrl(event: EventItem, placeholder: string): string 
   return base + (raw.startsWith("/") ? raw : "/" + raw);
 }
 
+/** Backend may return mediaType "VIDEO" | "IMAGE"; we use "video" | "image". */
+function normalizeHeroBackground(raw: { mediaType?: string; videoUrl?: string | null; imageUrl?: string | null; id?: string }): HeroBackground {
+    const mediaType = raw.mediaType?.toLowerCase() === "image" ? "image" : "video";
+    return { id: raw.id, mediaType, videoUrl: raw.videoUrl ?? null, imageUrl: raw.imageUrl ?? null };
+}
+
 // ─── Core fetch helper ────────────────────────────────────────────────────────
 
 async function get<T>(path: string): Promise<T> {
@@ -97,7 +103,8 @@ export const contentApi = {
     heroBackground: {
         get: async (): Promise<HeroBackground | null> => {
             const data = await get<{ background: HeroBackground | null }>("/content/hero-background");
-            return data.background ?? null;
+            const raw = data.background ?? null;
+            return raw ? normalizeHeroBackground(raw) : null;
         },
     },
     news: {

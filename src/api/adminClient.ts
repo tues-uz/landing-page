@@ -26,11 +26,31 @@ function getAuthHeaders(): HeadersInit {
 async function handleResponse<T>(res: Response): Promise<T> {
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`Admin API ${res.status}: ${text || res.statusText}`);
+    let message = text || res.statusText;
+    try {
+      const errJson = JSON.parse(text);
+      if (errJson?.message) message = errJson.message;
+      else if (errJson?.error) message = errJson.error;
+      else if (typeof errJson?.detail === "string") message = errJson.detail;
+    } catch {
+      // keep raw text
+    }
+    throw new Error(`Admin API ${res.status}: ${message}`);
   }
   const json = await res.json();
   if (json && typeof json === "object" && "data" in json) return json.data as T;
   return json as T;
+}
+
+/** Backend returns mediaType "VIDEO" | "IMAGE"; we use "video" | "image" in the app. */
+function normalizeHeroBackground(raw: { mediaType?: string; videoUrl?: string | null; imageUrl?: string | null; id?: string }): HeroBackground {
+  const mediaType = raw.mediaType?.toLowerCase() === "image" ? "image" : "video";
+  return {
+    id: raw.id,
+    mediaType,
+    videoUrl: raw.videoUrl ?? null,
+    imageUrl: raw.imageUrl ?? null,
+  };
 }
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -70,15 +90,21 @@ export const adminApi = {
     get: async (): Promise<HeroBackground | null> => {
       const data = await fetch(`${API_BASE}/content/hero-background`).then((r) => r.json());
       const unwrapped = data?.data ?? data;
-      return unwrapped?.background ?? null;
+      const raw = unwrapped?.background ?? null;
+      return raw ? normalizeHeroBackground(raw) : null;
     },
     update: async (payload: HeroBackground): Promise<HeroBackground> => {
+      const body = {
+        ...payload,
+        mediaType: payload.mediaType === "image" ? "IMAGE" : "VIDEO",
+      };
       const res = await fetch(`${API_BASE}/content/hero-background`, {
         method: "PUT",
         headers: getAuthHeaders(),
-        body: JSON.stringify(payload),
+        body: JSON.stringify(body),
       });
-      return handleResponse<HeroBackground>(res);
+      const result = await handleResponse<HeroBackground & { mediaType?: string }>(res);
+      return result ? normalizeHeroBackground(result) : result;
     },
   },
   news: {
@@ -149,20 +175,38 @@ export const adminApi = {
       return handleResponse<{ id: string }>(res);
     },
   },
-  /** Media upload for article images. Implement backend to store file and return URL. */
+  /**
+   * Media upload using presigned URLs (GET /upload/presign then PUT to uploadUrl).
+   * Matches staging API: https://landing-staging.kubeletto.app (upload-controller).
+   */
   media: {
-    upload: async (file: File): Promise<{ id: string; url: string }> => {
-      const form = new FormData();
-      form.append("file", file);
-      const headers: HeadersInit = {};
-      const auth = getAuthHeaders();
-      if (auth && "Authorization" in auth) headers.Authorization = auth.Authorization as string;
-      const res = await fetch(`${API_BASE}/content/media`, {
-        method: "POST",
-        headers,
-        body: form,
+    /** Get a presigned upload URL; contentType required, expiryMinutes optional. */
+    presign: async (
+      contentType: string,
+      expiryMinutes?: number
+    ): Promise<{ uploadUrl: string; objectKey: string; publicUrl: string }> => {
+      const params = new URLSearchParams({ contentType });
+      if (expiryMinutes != null && expiryMinutes > 0) params.set("expiryMinutes", String(expiryMinutes));
+      const res = await fetch(`${API_BASE}/upload/presign?${params}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
       });
-      return handleResponse<{ id: string; url: string }>(res);
+      return handleResponse<{ uploadUrl: string; objectKey: string; publicUrl: string }>(res);
+    },
+    /** Upload file via presign: get presigned URL, PUT file, return public URL. */
+    upload: async (file: File): Promise<{ id: string; url: string }> => {
+      const contentType = file.type || "application/octet-stream";
+      const { uploadUrl, objectKey, publicUrl } = await adminApi.media.presign(contentType);
+      const putRes = await fetch(uploadUrl, {
+        method: "PUT",
+        headers: { "Content-Type": contentType },
+        body: file,
+      });
+      if (!putRes.ok) {
+        const text = await putRes.text();
+        throw new Error(`Upload PUT ${putRes.status}: ${text || putRes.statusText}`);
+      }
+      return { id: objectKey, url: publicUrl };
     },
   },
   events: {

@@ -55,7 +55,7 @@ const StudentActivities = () => {
         {/* Campus Life Cards - Framer-style grid: row1 = 2 small + 1 big, row2 = 2 small */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-fr"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-fr"
         >
           {/* Row 1 - small */}
           <div className="activity-card group relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-auto md:min-h-[280px]">

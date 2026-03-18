@@ -153,7 +153,7 @@ export function EventCard({ event }: { event: EventItem }) {
   return (
     <div className="group overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:scale-[1.01] hover:shadow-md hover:border-primary/20 cursor-pointer p-2">
       <div className="flex">
-        <div className="flex shrink-0 flex-col items-center justify-center rounded-[8px] bg-primary py-2 px-3 min-w-[96px]">
+        <div className="flex h-16 shrink-0 flex-col items-center justify-center rounded-[8px] bg-primary py-2 px-3 min-w-[96px]">
           <span className="text-xl font-bold tabular-nums leading-none text-primary-foreground">{day}</span>
           <span className="mt-1 text-[11px] font-medium uppercase tracking-wider text-primary-foreground">
             {month}
@@ -227,7 +227,7 @@ function NewsFramerCard({
           </p>
         </div>
         <h4
-          className="mt-2 text-lg font-semibold leading-tight text-left line-clamp-2 group-hover:text-primary transition-colors"
+          className="mt-2 text-lg font-semibold leading-tight text-left line-clamp-1 group-hover:text-primary transition-colors"
           style={{ color: NEWS_CARD_COLOR }}
         >
           {item.title}
@@ -309,7 +309,7 @@ const NewsEvents = () => {
         {/* Card list: 1 big + 4 small (Framer layout) */}
         <div
           ref={newsGridRef}
-          className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 auto-rows-fr"
+          className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-fr"
         >
           {/* Big card — 50% width (2 cols), spans 2 rows on md+ */}
           <div className="news-grid-card md:col-span-2 md:row-span-2 flex flex-col min-h-[280px] md:min-h-0">

@@ -1,11 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, MapPin } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS } from "@/data/fallbackContent";
+import { Share2, Check } from "lucide-react";
 
 const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=600&fit=crop";
@@ -69,39 +70,59 @@ function EventSkeleton() {
 function EventCard({ event }: { event: EventItem }) {
   const { day, month } = formatEventDate(event.date);
   const imageUrl = getEventImageUrl(event, PLACEHOLDER_IMAGE);
+  const [copied, setCopied] = useState(false);
+
+  const eventUrl = typeof window !== "undefined" ? `${window.location.origin}/events/${event.id}` : `/events/${event.id}`;
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (navigator.share) {
+      navigator.share({
+        title: event.title,
+        text: `${event.title} · ${event.time} · ${event.location}`,
+        url: eventUrl,
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(eventUrl).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      });
+    }
+  };
 
   return (
     <Link
       to={`/events/${event.id}`}
-      className="group flex flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:shadow-md hover:border-primary/20"
+      className="group block overflow-hidden rounded-lg bg-card shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     >
-      <div className="p-2 flex gap-3">
-        <div className="flex shrink-0 flex-col items-center justify-center rounded-[8px] bg-primary py-2 px-3 min-w-[96px]">
-          <span className="text-xl font-bold tabular-nums leading-none text-primary-foreground">{day}</span>
-          <span className="mt-1 text-[11px] font-medium uppercase tracking-wider text-primary-foreground">{month}</span>
-        </div>
-        <div className="min-w-0 flex-1 flex flex-col justify-center gap-1.5">
-          <h3 className="text-sm font-bold text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
-            {event.title}
-          </h3>
-          <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5 shrink-0" />
-              {event.time}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5 shrink-0" />
-              <span className="line-clamp-1">{event.location}</span>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="relative aspect-square w-full overflow-hidden bg-muted">
+      <div className="relative aspect-[1/1] w-full overflow-hidden bg-muted">
         <img
           src={imageUrl}
-          alt={event.title}
-          className="h-full w-full object-cover"
+          alt=""
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
         />
+        <div className="absolute bottom-3 left-3 rounded-lg bg-black/60 px-2.5 py-1.5 backdrop-blur-sm">
+          <span className="text-xs font-semibold uppercase tracking-wider text-white tabular-nums">
+            {day} {month}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={handleShare}
+          className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+          aria-label={copied ? "Link copied" : "Share event"}
+        >
+          {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
+        </button>
+      </div>
+      <div className="p-4">
+        <h3 className="text-base font-semibold text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+          {event.title}
+        </h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {event.time} · {event.location}
+        </p>
       </div>
     </Link>
   );
@@ -146,7 +167,7 @@ const EventsPage = () => {
 
             {/* Upcoming events */}
             <h2 className="text-xl font-semibold text-foreground mb-6">Upcoming events</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {eventsLoading ? (
                 Array.from({ length: 8 }).map((_, i) => <EventSkeleton key={i} />)
               ) : upcomingEvents.length > 0 ? (
@@ -160,7 +181,7 @@ const EventsPage = () => {
 
             {/* Past events */}
             <h2 className="text-xl font-semibold text-foreground mt-14 mb-6">Past events</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {pastEvents.length > 0 ? (
                 pastEvents.map((event) => <EventCard key={event.id} event={event} />)
               ) : (

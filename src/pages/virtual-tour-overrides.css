@@ -1,0 +1,324 @@
+/* Hide default PSV loader (we use custom ball loader instead) */
+#viewer .psv-loader {
+  display: none !important;
+}
+
+/* Hide default overlay that captures events (tutorial / drag hint) */
+#viewer .psv-overlay.psv--capture-event,
+#viewer .psv-overlay-image {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Custom ball loading animation (first load) */
+.virtual-tour-loading {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.virtual-tour-loading__container {
+  width: 200px;
+  height: 100px;
+  padding-top: 100px;
+  margin: 0 auto;
+}
+
+.virtual-tour-loading__ball {
+  width: 10px;
+  height: 10px;
+  margin: 10px auto;
+  border-radius: 50px;
+  background: #fff;
+}
+
+.virtual-tour-loading__ball:nth-child(1) {
+  animation: virtual-tour-loading-right 1s infinite ease-in-out;
+}
+.virtual-tour-loading__ball:nth-child(2) {
+  animation: virtual-tour-loading-left 1.1s infinite ease-in-out;
+}
+.virtual-tour-loading__ball:nth-child(3) {
+  animation: virtual-tour-loading-right 1.05s infinite ease-in-out;
+}
+.virtual-tour-loading__ball:nth-child(4) {
+  animation: virtual-tour-loading-left 1.15s infinite ease-in-out;
+}
+.virtual-tour-loading__ball:nth-child(5) {
+  animation: virtual-tour-loading-right 1.1s infinite ease-in-out;
+}
+.virtual-tour-loading__ball:nth-child(6) {
+  animation: virtual-tour-loading-left 1.05s infinite ease-in-out;
+}
+.virtual-tour-loading__ball:nth-child(7) {
+  animation: virtual-tour-loading-right 1s infinite ease-in-out;
+}
+
+@keyframes virtual-tour-loading-right {
+  0% { transform: translate(-15px); }
+  50% { transform: translate(15px); }
+  100% { transform: translate(-15px); }
+}
+
+@keyframes virtual-tour-loading-left {
+  0% { transform: translate(15px); }
+  50% { transform: translate(-15px); }
+  100% { transform: translate(15px); }
+}
+
+/* Prevent tooltip from stealing hover (stops cursor blinking) */
+#viewer .psv-virtual-tour-tooltip {
+  pointer-events: none;
+}
+
+/* Virtual tour arrow hover: card-style tooltip container */
+#viewer .psv-virtual-tour-tooltip {
+  padding: 0 !important;
+  border-radius: 16px;
+  overflow: hidden;
+  background: transparent !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  font-family: var(--font-sans, "Geist", "Geist Sans", system-ui, sans-serif);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  min-width: 0;
+  max-width: 320px;
+}
+#viewer .psv-virtual-tour-tooltip::before {
+  display: none;
+}
+
+/* Card layout: image + body */
+#viewer .psv-virtual-tour-tooltip .vt-link-card {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  background: hsl(210 50% 12% / 0.98);
+  border-radius: 16px;
+  overflow: hidden;
+  color: hsl(40 30% 96%);
+}
+#viewer .psv-virtual-tour-tooltip .vt-link-card__image {
+  width: 100%;
+  height: 140px;
+  min-height: 140px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: hsl(210 30% 18%);
+  position: relative;
+}
+#viewer .psv-virtual-tour-tooltip .vt-link-card__image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+#viewer .psv-virtual-tour-tooltip .vt-link-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 16px;
+}
+#viewer .psv-virtual-tour-tooltip .vt-link-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: hsl(40 30% 98%);
+  letter-spacing: 0.01em;
+}
+#viewer .psv-virtual-tour-tooltip .vt-link-card__caption {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: hsl(210 20% 75%);
+}
+
+/* Fallback: default plugin tooltip content (no .vt-link-card) */
+#viewer .psv-virtual-tour-tooltip:not(:has(.vt-link-card)) {
+  min-width: 160px;
+  max-width: 220px;
+  padding: 12px 14px !important;
+  background: hsl(210 50% 12% / 0.98) !important;
+  color: hsl(40 30% 96%);
+  border-radius: 12px;
+}
+#viewer .psv-virtual-tour-tooltip:not(:has(.vt-link-card)) img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Virtual tour arrow: stable hover and active states */
+#viewer .psv-virtual-tour-arrows .psv-virtual-tour-link {
+  pointer-events: auto;
+}
+
+#viewer button.psv-virtual-tour-arrow.psv-virtual-tour-link {
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  aspect-ratio: 1;
+  width: auto;
+  height: auto;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 100px;
+  max-height: 100px;
+  padding: 0.25em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#viewer button.psv-virtual-tour-arrow.psv-virtual-tour-link svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+#viewer button.psv-virtual-tour-arrow.psv-virtual-tour-link path {
+  opacity: 0.5;
+}
+
+#viewer button.psv-virtual-tour-arrow.psv-virtual-tour-link:hover {
+  color: #fff !important;
+  opacity: 1 !important;
+  transform: scale(1.15);
+}
+
+#viewer button.psv-virtual-tour-arrow.psv-virtual-tour-link:active {
+  color: #93c5fd !important;
+  transform: scale(1.05);
+}
+
+/* ---------- Layout & design (viewer + canvas + navbar + gallery) ---------- */
+
+/* Viewer: flex column so canvas and navbar stack (canvas above, navbar below, no overlap) */
+#viewer {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  background: hsl(var(--oxford-dark, 210 50% 8%));
+}
+
+/* PSV inner container: flex column so canvas and navbar stack; canvas shrinks to make room for navbar */
+#viewer .psv-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  border-radius: 0;
+}
+
+/* Canvas container: takes only the space above the navbar (flex: 1), so navbar doesn’t overlap it */
+#viewer .psv-canvas-container {
+  order: 0;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  border-radius: 0;
+}
+
+/* Any other direct child (e.g. caption/gallery) below navbar */
+#viewer .psv-container > *:not(.psv-canvas-container):not(.psv-navbar) {
+  order: 2;
+  flex-shrink: 0;
+}
+
+#viewer .psv-canvas {
+  border-radius: 0;
+  display: block;
+}
+
+/* Navbar: force in flow below canvas (override library’s absolute positioning so it doesn’t overlap container) */
+#viewer .psv-navbar {
+  order: 1;
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  flex-shrink: 0;
+  height: 44px;
+  min-height: 44px;
+  background: hsla(var(--oxford-blue, 213 100% 14%), 0.92);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid hsla(0, 0%, 100%, 0.08);
+  font-family: var(--font-sans, "Geist", "Geist Sans", system-ui, sans-serif);
+}
+
+#viewer .psv-navbar .psv-navbar-caption {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: hsl(var(--oxford-cream, 40 30% 96%));
+  letter-spacing: 0.01em;
+}
+
+#viewer .psv-navbar-button {
+  color: hsla(40, 30%, 96%, 0.9);
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+#viewer .psv-navbar-button:hover {
+  color: hsl(var(--oxford-gold, 37 40% 69%));
+  background-color: hsla(255, 255%, 255%, 0.08);
+}
+
+#viewer .psv-navbar-button:active,
+#viewer .psv-navbar-button.psv--active {
+  background-color: hsla(255, 255%, 255%, 0.12);
+  color: hsl(var(--oxford-gold, 37 40% 69%));
+}
+
+/* Zoom range (slider) to match navbar */
+#viewer .psv-zoom-range {
+  --psv-zoom-track: hsla(0, 0%, 100%, 0.2);
+  --psv-zoom-fill: hsl(var(--oxford-gold, 37 40% 69%));
+}
+
+/* Gallery strip: themed thumbnails */
+#viewer .psv-gallery-container {
+  padding: 6px 8px;
+  gap: 8px;
+}
+
+#viewer .psv-gallery-item {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+#viewer .psv-gallery-item:hover {
+  border-color: hsla(0, 0%, 100%, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  transform: scale(1.03);
+}
+
+#viewer .psv-gallery-item.psv--active {
+  border-color: hsl(var(--oxford-gold, 37 40% 69%));
+  box-shadow: 0 0 0 1px hsl(var(--oxford-gold, 37 40% 69%));
+}
+
+/* Tooltip (compass / hover hints) to match theme */
+#viewer .psv-tooltip {
+  background: hsla(var(--oxford-blue, 213 100% 14%), 0.95);
+  color: hsl(var(--oxford-cream, 40 30% 96%));
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  font-family: var(--font-sans, "Geist", "Geist Sans", system-ui, sans-serif);
+}

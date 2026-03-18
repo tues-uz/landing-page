@@ -10,6 +10,7 @@ import NewsEventsPage from "./pages/NewsEventsPage";
 import NewsDetailPage from "./pages/NewsDetailPage";
 import EventsPage from "./pages/EventsPage";
 import EventDetailPage from "./pages/EventDetailPage";
+import VirtualTourPage from "./pages/VirtualTourPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "@/features/auth/context";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/news/:slug" element={<NewsDetailPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:id" element={<EventDetailPage />} />
+            <Route path="/virtual-tour" element={<VirtualTourPage />} />
 
             {/* CMS login (public) */}
             <Route path="/login" element={<LoginPage />} />
