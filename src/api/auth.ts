@@ -110,6 +110,13 @@ export interface ProvisionRequest {
   permissionIds: string[];
 }
 
+export interface MenuItem {
+  id: string;
+  label: string;
+  route: string;
+  icon: string;
+}
+
 export interface PlatformPermissions {
   id: string;
   slug: string;
@@ -135,4 +142,5 @@ export const adminApi = {
       body: JSON.stringify({ active }),
     }),
   getPlatforms: () => request<PlatformPermissions[]>("/admin/platforms"),
+  getMenu: () => request<{ items: MenuItem[] }>("/admin/menu"),
 };

@@ -1,10 +1,11 @@
-export type UserRole = "admin" | "reviewer" | "student";
+export type UserRole = "superadmin" | "admin" | "reviewer" | "student";
 
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
+  permissions?: string[];
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
