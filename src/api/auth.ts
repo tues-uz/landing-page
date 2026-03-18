@@ -141,6 +141,8 @@ export const adminApi = {
       method: "PUT",
       body: JSON.stringify({ active }),
     }),
+  deleteUser: (id: string) =>
+    request<void>(`/admin/users/${id}`, { method: "DELETE" }),
   getPlatforms: () => request<PlatformPermissions[]>("/admin/platforms"),
   getMenu: () => request<{ items: MenuItem[] }>("/admin/menu"),
 };

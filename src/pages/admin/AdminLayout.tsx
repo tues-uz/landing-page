@@ -54,12 +54,16 @@ export default function AdminLayout() {
 
   const isSuperAdmin = user?.role === "superadmin";
 
-  const filteredNav = navConfig.filter((item) => {
-    if (item.permission === "canAccessHero") return canAccessHero;
-    if (item.permission === "canAccessNews") return canAccessNews;
-    if (item.permission === "canAccessEvents") return canAccessEvents;
-    return true;
-  });
+  console.debug("[AdminLayout] canAccessHero:", canAccessHero, "| canAccessNews:", canAccessNews, "| canAccessEvents:", canAccessEvents);
+  console.debug("[AdminLayout] user.role:", user?.role, "| isSuperAdmin:", isSuperAdmin);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-cms min-h-screen flex flex-col bg-slate-50">
@@ -129,10 +133,9 @@ export default function AdminLayout() {
               <LayoutDashboard className="h-4 w-4 shrink-0" />
               Dashboard
             </NavLink>
-            {filteredNav.map(({ id, to, label, icon: Icon }) => (
+            {canAccessHero && (
               <NavLink
-                key={id}
-                to={to}
+                to="/admin/hero"
                 className={({ isActive }) =>
                   cn(
                     "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
@@ -142,10 +145,42 @@ export default function AdminLayout() {
                   )
                 }
               >
-                <Icon className="h-4 w-4 shrink-0" />
-                {label}
+                <Image className="h-4 w-4 shrink-0" />
+                Hero section
               </NavLink>
-            ))}
+            )}
+            {canAccessEvents && (
+              <NavLink
+                to="/admin/events"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <Calendar className="h-4 w-4 shrink-0" />
+                Events
+              </NavLink>
+            )}
+            {canAccessNews && (
+              <NavLink
+                to="/admin/news"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <Newspaper className="h-4 w-4 shrink-0" />
+                News
+              </NavLink>
+            )}
             <div className="my-2 border-t border-slate-100" />
             {isSuperAdmin && (
               <>
@@ -229,10 +264,9 @@ export default function AdminLayout() {
             <LayoutDashboard className="h-3.5 w-3.5" />
             Dashboard
           </NavLink>
-          {filteredNav.map(({ id, to, label, icon: Icon }) => (
+          {canAccessHero && (
             <NavLink
-              key={id}
-              to={to}
+              to="/admin/hero"
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
@@ -240,10 +274,38 @@ export default function AdminLayout() {
                 )
               }
             >
-              <Icon className="h-3.5 w-3.5" />
-              {label}
+              <Image className="h-3.5 w-3.5" />
+              Hero
             </NavLink>
-          ))}
+          )}
+          {canAccessEvents && (
+            <NavLink
+              to="/admin/events"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <Calendar className="h-3.5 w-3.5" />
+              Events
+            </NavLink>
+          )}
+          {canAccessNews && (
+            <NavLink
+              to="/admin/news"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <Newspaper className="h-3.5 w-3.5" />
+              News
+            </NavLink>
+          )}
           {isSuperAdmin && (
             <NavLink
               to="/admin/programs"

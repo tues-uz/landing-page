@@ -1,14 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { authApi } from "@/api/auth";
+import { useAuth } from "@/features/auth/context";
 
 export function usePermissions() {
-  const { data: user } = useQuery({
-    queryKey: ["auth", "me"],
-    queryFn: authApi.me,
-    staleTime: Infinity,
-  });
-
+  const { user } = useAuth();
   const permissions = user?.permissions ?? [];
+
+  console.debug("[usePermissions] user:", user);
+  console.debug("[usePermissions] permissions:", permissions);
 
   const hasPermission = (perm: string) => permissions.includes(perm);
 
