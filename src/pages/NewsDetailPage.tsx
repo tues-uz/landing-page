@@ -234,7 +234,7 @@ const NewsDetailPage = () => {
                           <img
                             src={item.imageUrl}
                             alt={item.title}
-                            className="aspect-[334/188] w-full rounded-lg object-contain bg-muted"
+                            className="aspect-[334/188] w-full rounded-lg object-cover object-center bg-muted"
                             loading="lazy"
                           />
                         </div>

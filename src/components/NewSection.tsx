@@ -31,7 +31,7 @@ function EventFramerCard({ event }: { event: EventItem }) {
           {event.time ? `, ${event.time}` : ""}
         </p>
         <h4
-          className="mt-1 font-semibold leading-tight text-left line-clamp-2 group-hover:text-primary transition-colors"
+          className="mt-1 text-xl font-semibold leading-tight text-left line-clamp-2 group-hover:text-primary transition-colors"
           style={{ color: EVENTS_TITLE_COLOR }}
         >
           {event.title}
@@ -79,7 +79,7 @@ const NewSection = () => {
           </h2>
           <Link
             to="/events"
-            className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5 shrink-0"
+            className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5 shrink-0 sm:self-end"
             style={{ borderColor: EVENTS_TITLE_COLOR, color: EVENTS_TITLE_COLOR }}
           >
             View All Events
@@ -87,7 +87,7 @@ const NewSection = () => {
         </div>
 
         {/* Event cards — 3 columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {eventsLoading ? (
             Array.from({ length: 3 }).map((_, i) => <EventFramerSkeleton key={i} />)
           ) : displayEvents.length > 0 ? (

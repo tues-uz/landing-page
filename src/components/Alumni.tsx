@@ -97,29 +97,23 @@ const Alumni = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight mb-4">
             Alumni Network
           </h2>
-          <p className="text-foreground/70 text-base sm:text-lg leading-relaxed">
+          <p className="text-foreground/70 text-base leading-relaxed">
             Join a global network of accomplished professionals, leaders, and innovators who are making a difference around the world. Connect with fellow alumni and stay engaged with your alma mater.
           </p>
         </div>
 
-        {/* Stats — 2×2 grid */}
-        <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-16 max-w-max mx-auto">
-          {alumniStats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <div key={stat.label} className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-foreground/60" />
-                </div>
-                <div>
-                  <p className="text-xl md:text-2xl font-semibold text-foreground tabular-nums">
-                    {stat.number}
-                  </p>
-                  <p className="text-sm text-foreground/55">{stat.label}</p>
-                </div>
-              </div>
-            );
-          })}
+        {/* Stats — minimal editorial */}
+        <div className="mb-16 flex flex-wrap justify-center gap-x-14 gap-y-12 sm:gap-x-20 lg:gap-x-24">
+          {alumniStats.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center text-center">
+              <span className="text-3xl font-bold tabular-nums tracking-tight text-foreground sm:text-4xl">
+                {stat.number}
+              </span>
+              <span className="mt-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                {stat.label}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* More Alumni Stories — carousel */}

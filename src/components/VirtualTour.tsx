@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Box, ArrowRight } from "lucide-react";
 
 const VirtualTour = () => {
@@ -36,13 +37,13 @@ const VirtualTour = () => {
 
         {/* CTA */}
         <div className="text-center">
-          <button
-            type="button"
+          <Link
+            to="/virtual-tour"
             className="inline-flex h-11 shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-xl border border-oxford-blue bg-oxford-blue px-8 text-sm font-medium text-white transition-colors hover:bg-oxford-blue/90 hover:border-oxford-blue/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50"
           >
             <span className="whitespace-nowrap">Start Virtual Tour</span>
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>
