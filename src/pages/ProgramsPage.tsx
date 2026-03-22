@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { programs } from "@/components/Programs";
+import { staticPrograms } from "@/components/Programs";
+import { contentApi } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
 
 const TITLE_COLOR = "rgb(30, 30, 30)";
 const BORDER_COLOR = "rgb(227, 229, 229)";
@@ -46,6 +49,12 @@ const TESTIMONIALS = [
 const ProgramsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<(typeof CATEGORIES)[number]>(CATEGORIES[0]);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { data: programs = staticPrograms } = useQuery({
+    queryKey: contentKeys.programs.list(),
+    queryFn: contentApi.programs.list,
+    initialData: staticPrograms,
+  });
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [slideTransition, setSlideTransition] = useState(true);
   const [twoCardsVisible, setTwoCardsVisible] = useState(

@@ -11,14 +11,14 @@ import "@photo-sphere-viewer/gallery-plugin/index.css";
 import "@photo-sphere-viewer/markers-plugin/index.css";
 import "./virtual-tour-overrides.css";
 
-// Free 360° panoramas from Poly Haven (CC0) — https://polyhaven.com/hdris
-const POLY_HAVEN = "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/";
+// Optimized local 360° panoramas (downsized for faster loading)
+const LOCAL_TOUR_ASSETS = "/virtual-tour/";
 
 const TOUR_NODES = [
   {
     id: "1",
-    panorama: POLY_HAVEN + "photo_studio_loft_hall.jpg",
-    thumbnail: POLY_HAVEN + "photo_studio_loft_hall.jpg",
+    panorama: LOCAL_TOUR_ASSETS + "photo_studio_loft_hall.jpg",
+    thumbnail: LOCAL_TOUR_ASSETS + "photo_studio_loft_hall.jpg",
     name: "Main Hall",
     caption: "Main hall — campus tour",
     links: [{ nodeId: "2" }],
@@ -27,8 +27,8 @@ const TOUR_NODES = [
   },
   {
     id: "2",
-    panorama: POLY_HAVEN + "aviation_museum.jpg",
-    thumbnail: POLY_HAVEN + "aviation_museum.jpg",
+    panorama: LOCAL_TOUR_ASSETS + "aviation_museum.jpg",
+    thumbnail: LOCAL_TOUR_ASSETS + "aviation_museum.jpg",
     name: "Exhibition Space",
     caption: "Exhibition space — campus tour",
     links: [{ nodeId: "1" }, { nodeId: "3" }],
@@ -37,8 +37,8 @@ const TOUR_NODES = [
   },
   {
     id: "3",
-    panorama: POLY_HAVEN + "brown_photostudio_02.jpg",
-    thumbnail: POLY_HAVEN + "brown_photostudio_02.jpg",
+    panorama: LOCAL_TOUR_ASSETS + "brown_photostudio_02.jpg",
+    thumbnail: LOCAL_TOUR_ASSETS + "brown_photostudio_02.jpg",
     name: "Study Room",
     caption: "Study room — campus tour",
     links: [{ nodeId: "2" }, { nodeId: "4" }],
@@ -47,8 +47,8 @@ const TOUR_NODES = [
   },
   {
     id: "4",
-    panorama: POLY_HAVEN + "kloppenheim_02.jpg",
-    thumbnail: POLY_HAVEN + "kloppenheim_02.jpg",
+    panorama: LOCAL_TOUR_ASSETS + "kloppenheim_02.jpg",
+    thumbnail: LOCAL_TOUR_ASSETS + "kloppenheim_02.jpg",
     name: "Campus Building",
     caption: "Campus building — campus tour",
     links: [{ nodeId: "3" }],

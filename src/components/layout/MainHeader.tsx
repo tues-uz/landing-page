@@ -1,5 +1,14 @@
 import { useLocation } from "react-router-dom";
-import { LayoutDashboard, ImageIcon, Newspaper, Calendar, MessageCircle, Download, Shield } from "lucide-react";
+import {
+  LayoutDashboard,
+  ImageIcon,
+  Newspaper,
+  Calendar,
+  MessageCircle,
+  Download,
+  Shield,
+  GraduationCap,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const B = "/admin";
@@ -9,6 +18,7 @@ const routeTitles: Record<string, { title: string; icon: typeof LayoutDashboard 
   [`${B}/hero`]: { title: "Hero section", icon: ImageIcon },
   [`${B}/news`]: { title: "News board", icon: Newspaper },
   [`${B}/events`]: { title: "Events", icon: Calendar },
+  [`${B}/programs`]: { title: "Programs", icon: GraduationCap },
   [`${B}/users`]: { title: "Admins", icon: Shield },
 };
 
@@ -21,7 +31,9 @@ export function MainHeader() {
         ? { title: "Edit article", icon: Newspaper }
         : path === `${B}/news/articles`
           ? { title: "Articles", icon: Newspaper }
-          : null;
+          : /^\/admin\/programs\/[^/]+\/edit$/.test(path)
+            ? { title: "Edit program", icon: GraduationCap }
+            : null;
   const info = derived ?? routeTitles[path] ?? { title: "Dashboard", icon: LayoutDashboard };
   const Icon = info.icon;
 

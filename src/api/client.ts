@@ -59,6 +59,32 @@ export interface EventItem {
     image_url?: string | null;
 }
 
+export interface ProgramItem {
+    id: string;
+    slug: string;
+    iconName: string;
+    title: string;
+    count: string;
+    description: string;
+    longDescription: string;
+    highlights: string[];
+    introduction: string;
+    careerOutcomes: string;
+    degreeType: string;
+    duration: string;
+    languages: string;
+    pace: string;
+    studyFormat: string;
+    applicationDeadline: string;
+    startDate: string;
+    tuition: string;
+    heroImageUrl: string;
+    brochurePdfUrl: string;
+    admissionsPdfUrl: string;
+    curriculumPdfUrl: string;
+    sortOrder?: number;
+}
+
 /** Resolve event image to a full URL; use placeholder if missing or invalid. */
 export function getEventImageUrl(event: EventItem, placeholder: string): string {
   const raw = (event.imageUrl ?? event.image ?? event.image_url)?.trim();
@@ -130,6 +156,16 @@ export const contentApi = {
         list: async (): Promise<EventItem[]> => {
             const data = await get<{ events: EventItem[] }>("/content/events");
             return data.events ?? [];
+        },
+    },
+    programs: {
+        list: async (): Promise<ProgramItem[]> => {
+            const data = await get<{ programs: ProgramItem[] }>("/content/programs");
+            return data.programs ?? [];
+        },
+        getBySlug: async (slug: string): Promise<ProgramItem> => {
+            const data = await get<{ program: ProgramItem }>(`/content/programs/${slug}`);
+            return data.program;
         },
     },
 };

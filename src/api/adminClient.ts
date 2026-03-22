@@ -10,6 +10,7 @@ import type {
   NewsItem,
   EventItem,
   NewsSection,
+  ProgramItem,
 } from "./client";
 import type { TiptapDocJSON } from "@/types/article";
 import { tokenStore } from "./auth";
@@ -209,6 +210,47 @@ export const adminApi = {
       return { id: objectKey, url: publicUrl };
     },
   },
+  programs: {
+    list: async (): Promise<ProgramItem[]> => {
+      const data = await fetch(`${API_BASE}/content/programs`).then((r) => r.json());
+      const unwrapped = data?.data ?? data;
+      return unwrapped?.programs ?? [];
+    },
+    getBySlug: async (slug: string): Promise<ProgramItem | null> => {
+      try {
+        const res = await fetch(`${API_BASE}/content/programs/${slug}`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        const unwrapped = data?.data ?? data;
+        return unwrapped?.program ?? null;
+      } catch {
+        return null;
+      }
+    },
+    create: async (payload: Omit<ProgramItem, "id">): Promise<ProgramItem> => {
+      const res = await fetch(`${API_BASE}/content/programs`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<ProgramItem>(res);
+    },
+    update: async (id: string, payload: Partial<ProgramItem>): Promise<ProgramItem> => {
+      const res = await fetch(`${API_BASE}/content/programs/${id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<ProgramItem>(res);
+    },
+    delete: async (slug: string): Promise<void> => {
+      const res = await fetch(`${API_BASE}/content/programs/${slug}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
+    },
+  },
   events: {
     list: async (): Promise<EventItem[]> => {
       const data = await fetch(`${API_BASE}/content/events`).then((r) => r.json());
@@ -241,4 +283,4 @@ export const adminApi = {
   },
 };
 
-export type { HeroSlide, HeroBackground, NewsItem, EventItem, NewsSection };
+export type { HeroSlide, HeroBackground, NewsItem, EventItem, NewsSection, ProgramItem };

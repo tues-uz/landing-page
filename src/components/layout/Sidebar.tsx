@@ -15,6 +15,7 @@ import {
   LayoutGrid,
   List,
   LogOut,
+  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,12 @@ import { adminApi, type MenuItem } from "@/api/auth";
 
 const CMS_BASE = "/admin";
 
+const nav = [
+  { to: CMS_BASE, label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: `${CMS_BASE}/hero`, label: "Hero section", icon: ImageIcon, end: false },
+  { to: `${CMS_BASE}/events`, label: "Events", icon: Calendar, end: false },
+  { to: `${CMS_BASE}/programs`, label: "Programs", icon: GraduationCap, end: false },
+];
 const iconMap: Record<string, LucideIcon> = {
   "layout-dashboard": LayoutDashboard,
   "image": ImageIcon,
