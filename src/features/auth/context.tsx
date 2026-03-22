@@ -35,7 +35,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     authApi
       .me()
-      .then((res) => setUser(res as User))
+      .then((res) => {
+        console.debug("[AuthContext] /me response:", res);
+        setUser(res as User);
+      })
       .catch((err: unknown) => {
         const message = err instanceof Error ? err.message.toLowerCase() : "";
         if (message.includes("unauthorized") || message.includes("401")) tokenStore.clear();
@@ -50,8 +53,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       const res = await authApi.login(credentials);
+      console.debug("[AuthContext] login response:", res);
       tokenStore.set(res.accessToken);
       tokenStore.setRefresh(res.refreshToken);
+      console.debug("[AuthContext] login user:", res.user);
       setUser(res.user as User);
       navigate(CMS_BASE, { replace: true });
     },

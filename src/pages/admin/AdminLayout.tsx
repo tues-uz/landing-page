@@ -9,7 +9,6 @@ import {
   FileText,
   Settings,
   LogOut,
-  ChevronDown,
   Star,
   Users,
 } from "lucide-react";
@@ -22,15 +21,50 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePermissions } from "@/hooks/usePermissions";
+import { useAuth } from "@/features/auth/context";
 
-const mainNav = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/admin/hero", label: "Hero section", icon: Image },
-  { to: "/admin/events", label: "Events", icon: Calendar },
-  { to: "/admin/news", label: "News", icon: Newspaper },
-];
+const navConfig = [
+  {
+    id: "hero",
+    to: "/admin/hero",
+    label: "Hero section",
+    icon: Image,
+    permission: "canAccessHero",
+  },
+  {
+    id: "events",
+    to: "/admin/events",
+    label: "Events",
+    icon: Calendar,
+    permission: "canAccessEvents",
+  },
+  {
+    id: "news",
+    to: "/admin/news",
+    label: "News",
+    icon: Newspaper,
+    permission: "canAccessNews",
+  },
+] as const;
 
 export default function AdminLayout() {
+  const { canAccessHero, canAccessNews, canAccessEvents } = usePermissions();
+  const { user } = useAuth();
+
+  const isSuperAdmin = user?.role === "superadmin";
+
+  console.debug("[AdminLayout] canAccessHero:", canAccessHero, "| canAccessNews:", canAccessNews, "| canAccessEvents:", canAccessEvents);
+  console.debug("[AdminLayout] user.role:", user?.role, "| isSuperAdmin:", isSuperAdmin);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-cms min-h-screen flex flex-col bg-slate-50">
       {/* Top bar - fixed so it always stays visible when scrolling */}
@@ -47,7 +81,7 @@ export default function AdminLayout() {
             <Button variant="ghost" size="icon" className="rounded-full hover:bg-slate-100">
               <span className="sr-only">Account</span>
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-medium text-white">
-                A
+                {user?.name?.charAt(0).toUpperCase() ?? "A"}
               </div>
             </Button>
           </DropdownMenuTrigger>
@@ -84,27 +118,9 @@ export default function AdminLayout() {
             <p className="mt-0.5 text-xs text-slate-500">Content management</p>
           </div>
           <nav className="flex flex-1 flex-col gap-0.5 p-3">
-            {mainNav.map(({ to, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === "/admin"}
-                className={({ isActive }) =>
-                  cn(
-                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                  )
-                }
-              >
-                <Icon className="h-4 w-4 shrink-0" />
-                {label}
-              </NavLink>
-            ))}
-            <div className="my-2 border-t border-slate-100" />
             <NavLink
-              to="/admin/programs"
+              to="/admin"
+              end
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
@@ -114,24 +130,97 @@ export default function AdminLayout() {
                 )
               }
             >
-              <GraduationCap className="h-4 w-4 shrink-0" />
-              Programs
+              <LayoutDashboard className="h-4 w-4 shrink-0" />
+              Dashboard
             </NavLink>
-            <button
-              type="button"
-              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-            >
-              <Users className="h-4 w-4 shrink-0" />
-              Admins
-              <ChevronDown className="ml-auto h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-            >
-              <Star className="h-4 w-4 shrink-0" />
-              Favorites
-            </button>
+            {canAccessHero && (
+              <NavLink
+                to="/admin/hero"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <Image className="h-4 w-4 shrink-0" />
+                Hero section
+              </NavLink>
+            )}
+            {canAccessEvents && (
+              <NavLink
+                to="/admin/events"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <Calendar className="h-4 w-4 shrink-0" />
+                Events
+              </NavLink>
+            )}
+            {canAccessNews && (
+              <NavLink
+                to="/admin/news"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <Newspaper className="h-4 w-4 shrink-0" />
+                News
+              </NavLink>
+            )}
+            <div className="my-2 border-t border-slate-100" />
+            {isSuperAdmin && (
+              <>
+                <NavLink
+                  to="/admin/programs"
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-blue-50 text-blue-700"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    )
+                  }
+                >
+                  <GraduationCap className="h-4 w-4 shrink-0" />
+                  Programs
+                </NavLink>
+                <NavLink
+                  to="/admin/admins"
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-blue-50 text-blue-700"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    )
+                  }
+                >
+                  <Users className="h-4 w-4 shrink-0" />
+                  Admins
+                </NavLink>
+                <button
+                  type="button"
+                  className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                >
+                  <Star className="h-4 w-4 shrink-0" />
+                  Favorites
+                </button>
+              </>
+            )}
           </nav>
           <div className="border-t border-slate-100 p-3">
             <a
@@ -162,26 +251,9 @@ export default function AdminLayout() {
 
         {/* Mobile nav */}
         <nav className="flex flex-wrap gap-1 border-b border-slate-200 bg-white p-2 md:hidden">
-          {mainNav.map(({ to, label, icon: Icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === "/admin"}
-              className={({ isActive }) =>
-                cn(
-                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
-                  isActive
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-slate-600 hover:bg-slate-50"
-                )
-              }
-            >
-              <Icon className="h-3.5 w-3.5" />
-              {label}
-            </NavLink>
-          ))}
           <NavLink
-            to="/admin/programs"
+            to="/admin"
+            end
             className={({ isActive }) =>
               cn(
                 "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
@@ -189,9 +261,65 @@ export default function AdminLayout() {
               )
             }
           >
-            <GraduationCap className="h-3.5 w-3.5" />
-            Programs
+            <LayoutDashboard className="h-3.5 w-3.5" />
+            Dashboard
           </NavLink>
+          {canAccessHero && (
+            <NavLink
+              to="/admin/hero"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <Image className="h-3.5 w-3.5" />
+              Hero
+            </NavLink>
+          )}
+          {canAccessEvents && (
+            <NavLink
+              to="/admin/events"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <Calendar className="h-3.5 w-3.5" />
+              Events
+            </NavLink>
+          )}
+          {canAccessNews && (
+            <NavLink
+              to="/admin/news"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <Newspaper className="h-3.5 w-3.5" />
+              News
+            </NavLink>
+          )}
+          {isSuperAdmin && (
+            <NavLink
+              to="/admin/programs"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <GraduationCap className="h-3.5 w-3.5" />
+              Programs
+            </NavLink>
+          )}
         </nav>
 
         <main className="flex-1 overflow-auto p-4">

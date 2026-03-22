@@ -1,18 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
-import { authApi } from "@/api/auth";
+import { useAuth } from "@/features/auth/context";
 
 export function usePermissions() {
-  const { data: user } = useQuery({
-    queryKey: ["auth", "me"],
-    queryFn: authApi.me,
-    staleTime: Infinity,
-  });
-  
+  const { user } = useAuth();
+  const permissions = user?.permissions ?? [];
+
+  console.debug("[usePermissions] user:", user);
+  console.debug("[usePermissions] permissions:", permissions);
+
+  const hasPermission = (perm: string) => permissions.includes(perm);
+
+  const canAccessHero = permissions.some(
+    (p) => p.endsWith(":hero:full") || p.endsWith(":hero:*")
+  );
+  const canAccessNews = permissions.some(
+    (p) => p.endsWith(":news:full") || p.endsWith(":news:*")
+  );
+  const canAccessEvents = permissions.some(
+    (p) => p.endsWith(":events:full") || p.endsWith(":events:*")
+  );
+
   return {
-    user: user,
-    hasPermission: (perm: string) => user?.permissions?.includes(perm) ?? false,
-    canEditHero: user?.permissions?.includes("HERO_WRITE") ?? false,
-    canEditNews: user?.permissions?.includes("NEWS_WRITE") ?? false,
-    canEditEvents: user?.permissions?.includes("EVENTS_WRITE") ?? false,
+    user,
+    hasPermission,
+    canAccessHero,
+    canAccessNews,
+    canAccessEvents,
   };
 }

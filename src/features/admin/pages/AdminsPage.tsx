@@ -1,17 +1,38 @@
-import { UserCog, Plus } from "lucide-react";
+import { UserCog, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminApi, AdminUser } from "@/api/auth";
 import { ProvisionUserModal } from "../components/ProvisionUserModal";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useState } from "react";
 
 export default function AdminsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
+  const [deletingUser, setDeletingUser] = useState<AdminUser | null>(null);
+
+  const queryClient = useQueryClient();
 
   const { data: users = [], isLoading: usersLoading } = useQuery({
     queryKey: ["admin", "users"],
     queryFn: adminApi.listUsers,
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => adminApi.deleteUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
+      setDeletingUser(null);
+    },
   });
 
   const handleEdit = (user: AdminUser) => {
@@ -82,14 +103,14 @@ export default function AdminsPage() {
                           <>
                             {user.permissions.slice(0, 4).map((perm) => {
                               const resource = perm.resource === "*" ? "System" : perm.resource;
-                              const action = perm.action === "*" ? "Full" : perm.action;
+                              const actionLabel = perm.action === "full" ? "Full" : perm.action;
                               return (
                                 <span 
                                   key={perm.id} 
                                   className="inline-flex items-center rounded-full bg-primary/10 border border-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-tight text-primary"
                                   title={`${perm.platformName}: ${perm.resource} - ${perm.action}`}
                                 >
-                                  {resource} • {action}
+                                  {resource} • {actionLabel}
                                 </span>
                               );
                             })}
@@ -114,13 +135,21 @@ export default function AdminsPage() {
                       )}
                     </td>
                     <td className="px-6 py-3 text-right">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         className="h-8 text-muted-foreground hover:text-primary transition-colors"
                         onClick={() => handleEdit(user)}
                       >
                         Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 text-red-500 hover:text-red-600 hover:bg-red-50 transition-colors ml-1"
+                        onClick={() => setDeletingUser(user)}
+                      >
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </td>
                   </tr>
@@ -136,6 +165,28 @@ export default function AdminsPage() {
         onClose={handleClose} 
         initialData={editingUser}
       />
+
+      <AlertDialog open={!!deletingUser} onOpenChange={() => setDeletingUser(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete admin?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <strong>{deletingUser?.name}</strong> ({deletingUser?.email})?
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={() => deletingUser && deleteMutation.mutate(deletingUser.id)}
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
