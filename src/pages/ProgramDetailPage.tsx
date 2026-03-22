@@ -10,18 +10,29 @@ import {
   FileText,
   Globe,
   GraduationCap,
+  Loader2,
   Zap,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getProgramDetailViewModel } from "@/lib/programDetailDisplay";
+import { contentApi } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
+import { getProgramDetailViewModelFromItem } from "@/lib/programDetailDisplay";
 
 const ABOUT_SCHOOL =
   "TUES is a leading institution in economics and business education. We combine academic excellence with practical skills, preparing students for leadership roles in industry, government, and the nonprofit sector. Our faculty are experts in their fields, and our campus fosters a supportive, inclusive community.";
 
 const ProgramDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const view = slug ? getProgramDetailViewModel(slug) : null;
+
+  const { data: programItem, isLoading } = useQuery({
+    queryKey: contentKeys.programs.detail(slug!),
+    queryFn: () => contentApi.programs.getBySlug(slug!),
+    enabled: !!slug,
+  });
+
+  const view = programItem ? getProgramDetailViewModelFromItem(programItem) : null;
 
   /** Force sidebar pin on large screens — CSS sticky is unreliable with some overflow/scroll roots. */
   const layoutRowRef = useRef<HTMLDivElement>(null);
@@ -116,6 +127,18 @@ const ProgramDetailPage = () => {
       clearCardPinStyles();
     };
   }, [slug]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <main className="below-header flex items-center justify-center py-24">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!view) {
     return (

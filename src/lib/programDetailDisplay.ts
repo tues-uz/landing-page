@@ -1,6 +1,7 @@
 import { getProgramBySlug } from "@/components/Programs";
 import { programDetailOverrides, type ProgramDetailOverride } from "@/data/programDetailConfig";
 import { DEFAULT_PROGRAM_HERO_IMAGE, PROGRAM_HERO_IMAGES } from "@/data/programHeroImages";
+import type { ProgramItem } from "@/api/client";
 
 export const DEFAULT_PROGRAM_DURATION = "2–4 years (varies by program)";
 export const DEFAULT_PROGRAM_DEGREE_TYPE = "Bachelor, Master, Certificate";
@@ -86,3 +87,52 @@ export function getProgramDetailViewModel(slug: string) {
 }
 
 export type ProgramDetailViewModel = NonNullable<ReturnType<typeof getProgramDetailViewModel>>;
+
+/**
+ * Build a ProgramDetailViewModel from a fully-hydrated ProgramItem returned by the API.
+ * Applies the same defaults as getProgramDetailViewModel but without any static lookup.
+ */
+export function getProgramDetailViewModelFromItem(program: ProgramItem): ProgramDetailViewModel {
+    const longDescription = program.longDescription;
+
+    const introduction = str(program.introduction, defaultIntroduction(longDescription));
+    const careerOutcomes = str(program.careerOutcomes, defaultCareerOutcomes(program.title));
+
+    const degreeType = str(program.degreeType, DEFAULT_PROGRAM_DEGREE_TYPE);
+    const duration = str(program.duration, DEFAULT_PROGRAM_DURATION);
+    const languages = str(program.languages, DEFAULT_PROGRAM_LANGUAGES);
+    const pace = str(program.pace, DEFAULT_PROGRAM_PACE);
+    const studyFormat = str(program.studyFormat, DEFAULT_PROGRAM_STUDY_FORMAT);
+    const applicationDeadline = str(program.applicationDeadline, DEFAULT_REQUEST_INFO);
+    const startDate = str(program.startDate, DEFAULT_REQUEST_INFO);
+    const tuition = str(program.tuition, DEFAULT_REQUEST_INFO);
+
+    const heroImage = str(program.heroImageUrl, PROGRAM_HERO_IMAGES[program.slug], DEFAULT_PROGRAM_HERO_IMAGE);
+
+    const brochurePdfHref = program.brochurePdfUrl?.trim() || `/program-brochures/${program.slug}.pdf`;
+    const admissionsPdfHref = program.admissionsPdfUrl?.trim() || `/program-brochures/${program.slug}-admissions.pdf`;
+    const curriculumPdfHref = program.curriculumPdfUrl?.trim() || `/program-brochures/${program.slug}-curriculum.pdf`;
+
+    return {
+        slug: program.slug,
+        title: program.title,
+        count: program.count,
+        description: program.description,
+        longDescription,
+        highlights: program.highlights,
+        introduction,
+        careerOutcomes,
+        degreeType,
+        duration,
+        languages,
+        pace,
+        studyFormat,
+        applicationDeadline,
+        startDate,
+        tuition,
+        heroImage,
+        brochurePdfHref,
+        admissionsPdfHref,
+        curriculumPdfHref,
+    };
+}

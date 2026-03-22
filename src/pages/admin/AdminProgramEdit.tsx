@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
-import { getProgramBySlug } from "@/components/Programs";
-import { programDetailOverrides, type ProgramDetailOverride } from "@/data/programDetailConfig";
-import { getProgramDetailViewModel } from "@/lib/programDetailDisplay";
-import { slugifyFromTitle } from "@/lib/slugifyTitle";
 import { adminApi } from "@/api/adminClient";
+import { programsKeys } from "@/api/queryKeys";
+import { getProgramDetailViewModelFromItem } from "@/lib/programDetailDisplay";
+import { getProgramIcon } from "@/lib/programIconMap";
+import { PROGRAM_ICON_MAP } from "@/lib/programIconMap";
+import { slugifyFromTitle } from "@/lib/slugifyTitle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, ExternalLink, Copy, FileText, Loader2, Pencil, Plus, Trash2, Upload } from "lucide-react";
+import { ArrowLeft, ExternalLink, Copy, FileText, Loader2, Pencil, Plus, Save, Trash2, Upload } from "lucide-react";
+import type { ProgramItem } from "@/api/client";
 
 const MAX_PDF_MB = 40;
 
@@ -20,14 +23,21 @@ type PdfKind = "brochure" | "admissions" | "curriculum";
 
 export default function AdminProgramEdit() {
   const { slug } = useParams<{ slug: string }>();
-  const program = slug ? getProgramBySlug(slug) : undefined;
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { data: program, isLoading } = useQuery({
+    queryKey: programsKeys.detail(slug!),
+    queryFn: () => adminApi.programs.getBySlug(slug!),
+    enabled: !!slug,
+  });
 
   const [title, setTitle] = useState("");
   const [count, setCount] = useState("");
   const [description, setDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [highlightsText, setHighlightsText] = useState("");
+  const [iconName, setIconName] = useState("BookOpen");
 
   const [introduction, setIntroduction] = useState("");
   const [careerOutcomes, setCareerOutcomes] = useState("");
@@ -53,37 +63,77 @@ export default function AdminProgramEdit() {
   const curriculumPdfInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!program || !slug) return;
+    if (!program) return;
     setTitle(program.title);
     setCount(program.count);
     setDescription(program.description);
     setLongDescription(program.longDescription);
     setHighlightsText(program.highlights.join("\n"));
+    setIconName(program.iconName || "BookOpen");
 
-    const view = getProgramDetailViewModel(slug);
-    if (view) {
-      setIntroduction(view.introduction);
-      setCareerOutcomes(view.careerOutcomes);
-      setDegreeType(view.degreeType);
-      setDuration(view.duration);
-      setLanguages(view.languages);
-      setPace(view.pace);
-      setStudyFormat(view.studyFormat);
-      setApplicationDeadline(view.applicationDeadline);
-      setStartDate(view.startDate);
-      setTuition(view.tuition);
-    }
-    const o = programDetailOverrides[slug] ?? {};
-    setHeroImageUrl(o.heroImageUrl?.trim() ?? "");
-    setBrochurePdfUrl(o.brochurePdfUrl?.trim() ?? "");
-    setAdmissionsPdfUrl(o.admissionsPdfUrl?.trim() ?? "");
-    setCurriculumPdfUrl(o.curriculumPdfUrl?.trim() ?? "");
+    // Apply same defaults as the public detail page so the admin sees what visitors see
+    const view = getProgramDetailViewModelFromItem(program);
+    setIntroduction(view.introduction);
+    setCareerOutcomes(view.careerOutcomes);
+    setDegreeType(view.degreeType);
+    setDuration(view.duration);
+    setLanguages(view.languages);
+    setPace(view.pace);
+    setStudyFormat(view.studyFormat);
+    setApplicationDeadline(view.applicationDeadline);
+    setStartDate(view.startDate);
+    setTuition(view.tuition);
+    setHeroImageUrl(program.heroImageUrl || "");
+    setBrochurePdfUrl(program.brochurePdfUrl || "");
+    setAdmissionsPdfUrl(program.admissionsPdfUrl || "");
+    setCurriculumPdfUrl(program.curriculumPdfUrl || "");
     let slots = 1;
-    if (o.curriculumPdfUrl?.trim()) slots = 3;
-    else if (o.admissionsPdfUrl?.trim()) slots = 2;
+    if (program.curriculumPdfUrl?.trim()) slots = 3;
+    else if (program.admissionsPdfUrl?.trim()) slots = 2;
     setPdfSlotCount(slots);
     setLocalPdfFileName({});
-  }, [program, slug]);
+  }, [program]);
+
+  const saveMutation = useMutation({
+    mutationFn: (payload: Partial<ProgramItem>) => adminApi.programs.update(program!.id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: programsKeys.list() });
+      queryClient.invalidateQueries({ queryKey: programsKeys.detail(slug!) });
+      toast({ title: "Saved", description: "Program updated." });
+    },
+    onError: (err) =>
+      toast({ title: "Save failed", description: String(err), variant: "destructive" }),
+  });
+
+  const handleSave = () => {
+    if (!program) return;
+    const highlights = highlightsText
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    saveMutation.mutate({
+      title,
+      count,
+      description,
+      longDescription,
+      highlights,
+      iconName,
+      introduction,
+      careerOutcomes,
+      degreeType,
+      duration,
+      languages,
+      pace,
+      studyFormat,
+      applicationDeadline,
+      startDate,
+      tuition,
+      heroImageUrl,
+      brochurePdfUrl,
+      admissionsPdfUrl,
+      curriculumPdfUrl,
+    });
+  };
 
   const handlePdfSelected = async (kind: PdfKind, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -105,7 +155,7 @@ export default function AdminProgramEdit() {
       if (kind === "brochure") setBrochurePdfUrl(url);
       if (kind === "admissions") setAdmissionsPdfUrl(url);
       if (kind === "curriculum") setCurriculumPdfUrl(url);
-      toast({ title: "PDF uploaded", description: "Public URL set — use Copy full JSON to persist in programDetailConfig.ts." });
+      toast({ title: "PDF uploaded", description: "URL set — save the program to persist." });
     } catch (err) {
       toast({
         title: "Upload failed",
@@ -186,51 +236,46 @@ export default function AdminProgramEdit() {
       .split("\n")
       .map((s) => s.trim())
       .filter(Boolean);
-
-    const detailOverrides: ProgramDetailOverride = {};
-    const setIf = (k: keyof ProgramDetailOverride, v: string) => {
-      const t = v.trim();
-      if (t) (detailOverrides as Record<string, string>)[k] = t;
-    };
-    setIf("introduction", introduction);
-    setIf("careerOutcomes", careerOutcomes);
-    setIf("degreeType", degreeType);
-    setIf("duration", duration);
-    setIf("languages", languages);
-    setIf("pace", pace);
-    setIf("studyFormat", studyFormat);
-    setIf("applicationDeadline", applicationDeadline);
-    setIf("startDate", startDate);
-    setIf("tuition", tuition);
-    setIf("heroImageUrl", heroImageUrl);
-    setIf("brochurePdfUrl", brochurePdfUrl);
-    setIf("admissionsPdfUrl", admissionsPdfUrl);
-    setIf("curriculumPdfUrl", curriculumPdfUrl);
-
-    const suggestedSlug = slugifyFromTitle(title);
     const payload = {
-      instructions:
-        "1) Set `slug` on the program row to `suggestedSlug` (from title). 2) Merge `catalog` + `detailOverrides` in Programs.tsx / programDetailConfig.ts under that slug. If `suggestedSlug` ≠ `currentRouteSlug`, rename the route key for overrides and PDF filenames.",
-      suggestedSlug,
-      currentRouteSlug: slug,
-      catalog: {
-        slug: suggestedSlug,
-        title,
-        count,
-        description,
-        longDescription,
-        highlights,
-      },
-      detailOverrides,
+      slug,
+      title,
+      count,
+      description,
+      longDescription,
+      highlights,
+      iconName,
+      introduction,
+      careerOutcomes,
+      degreeType,
+      duration,
+      languages,
+      pace,
+      studyFormat,
+      applicationDeadline,
+      startDate,
+      tuition,
+      heroImageUrl,
+      brochurePdfUrl,
+      admissionsPdfUrl,
+      curriculumPdfUrl,
     };
-
     try {
       await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-      toast({ title: "Copied JSON", description: "Catalog + detail overrides for this program." });
+      toast({ title: "Copied JSON", description: "Full program data for this entry." });
     } catch {
       toast({ title: "Could not copy", variant: "destructive" });
     }
   };
+
+  if (isLoading) {
+    return (
+      <AdminPageShell title="Loading program…" description="">
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      </AdminPageShell>
+    );
+  }
 
   if (!slug || !program) {
     return (
@@ -245,13 +290,12 @@ export default function AdminProgramEdit() {
     );
   }
 
-  const Icon = program.icon;
-  const livePreview = getProgramDetailViewModel(slug);
+  const Icon = getProgramIcon(iconName);
 
   return (
     <AdminPageShell
       title="Edit program details"
-      description="Fields match the public program detail page (listing + body + At a glance sidebar). Copy JSON to update Programs.tsx and programDetailConfig.ts."
+      description="Fields match the public program detail page (listing + body + At a glance sidebar)."
       actions={
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
@@ -269,18 +313,6 @@ export default function AdminProgramEdit() {
         </div>
       }
     >
-      <Card className={`${ADMIN_CARD_CLASS} border-amber-200 bg-amber-50/50`}>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm text-amber-900">CMS save not connected</CardTitle>
-          <CardDescription className="text-amber-900/80 text-sm">
-            Use <strong>Copy full JSON</strong> at the bottom, then merge <code className="text-xs">catalog</code> into{" "}
-            <code className="rounded bg-white/80 px-1 py-0.5 text-xs">Programs.tsx</code> and{" "}
-            <code className="text-xs">detailOverrides</code> into{" "}
-            <code className="rounded bg-white/80 px-1 py-0.5 text-xs">programDetailConfig.ts</code> for this slug.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-
       <div className="flex items-center gap-3">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-muted">
           <Icon className="h-6 w-6 text-muted-foreground" />
@@ -291,19 +323,13 @@ export default function AdminProgramEdit() {
             {program.title}
           </p>
           <p className="text-xs font-mono text-muted-foreground mt-0.5">{slug}</p>
-          {livePreview && (
-            <p className="text-xs text-muted-foreground mt-1 max-w-xl">
-              Live hero:{" "}
-              <span className="break-all text-foreground/80">{livePreview.heroImage}</span>
-            </p>
-          )}
         </div>
       </div>
 
       <Card className={ADMIN_CARD_CLASS}>
         <CardHeader>
           <CardTitle className="text-base">Catalog (programs grid + detail header)</CardTitle>
-          <CardDescription>Maps to <code className="text-xs">programs[]</code> in Programs.tsx — title, count, short description, about, key areas.</CardDescription>
+          <CardDescription>Title, count, short description, about, key areas, and icon.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -320,18 +346,29 @@ export default function AdminProgramEdit() {
               aria-describedby="prog-slug-hint"
             />
             <p id="prog-slug-hint" className="text-xs text-muted-foreground">
-              Generated from the title above — use this as <code className="rounded bg-muted px-1">slug</code> in{" "}
-              <code className="rounded bg-muted px-1">Programs.tsx</code>.
+              Generated from the title above — slug cannot be changed via this form.
               {slug && slugifyFromTitle(title) !== slug ? (
                 <>
                   {" "}
                   <span className="text-amber-700">
-                    This editor URL still uses <code className="rounded bg-amber-100 px-1">{slug}</code> until routes
-                    are updated.
+                    This editor URL uses <code className="rounded bg-amber-100 px-1">{slug}</code>.
                   </span>
                 </>
               ) : null}
             </p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="prog-icon">Icon</Label>
+            <select
+              id="prog-icon"
+              value={iconName}
+              onChange={(e) => setIconName(e.target.value)}
+              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              {Object.keys(PROGRAM_ICON_MAP).map((name) => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </select>
           </div>
           <div className="space-y-2">
             <Label htmlFor="prog-count">Count label</Label>
@@ -378,8 +415,7 @@ export default function AdminProgramEdit() {
         <CardHeader>
           <CardTitle className="text-base">Detail page &amp; sidebar</CardTitle>
           <CardDescription>
-            Introduction, career outcomes, &quot;At a glance&quot; facts, hero image, and PDF download URLs — stored in{" "}
-            <code className="text-xs">programDetailConfig.ts</code> (or optional fields on the program row in Programs.tsx).
+            Introduction, career outcomes, &quot;At a glance&quot; facts, hero image, and PDF download URLs.
             Upload uses the same media API as Events/Hero; empty PDF fields fall back to{" "}
             <code className="text-xs">/program-brochures/</code> on the site.
           </CardDescription>
@@ -573,9 +609,19 @@ export default function AdminProgramEdit() {
       </Card>
 
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="default" className="rounded-lg gap-1.5" onClick={copyJson}>
+        <Button
+          type="button"
+          variant="default"
+          className="rounded-lg gap-1.5"
+          onClick={handleSave}
+          disabled={saveMutation.isPending}
+        >
+          {saveMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          Save changes
+        </Button>
+        <Button type="button" variant="outline" className="rounded-lg gap-1.5" onClick={copyJson}>
           <Copy className="h-4 w-4" />
-          Copy full JSON
+          Copy JSON
         </Button>
       </div>
     </AdminPageShell>
