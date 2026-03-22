@@ -21,6 +21,8 @@ import AdminHero from "./pages/admin/AdminHero";
 import AdminNews from "./pages/admin/AdminNews";
 import AdminNewsBoard from "./pages/admin/AdminNewsBoard";
 import AdminEvents from "./pages/admin/AdminEvents";
+import AdminPrograms from "./pages/admin/AdminPrograms";
+import AdminProgramEdit from "./pages/admin/AdminProgramEdit";
 import AdminsPage from "@/features/admin/pages/AdminsPage";
 
 const queryClient = new QueryClient();
@@ -54,6 +56,8 @@ const App = () => (
                 <Route path="/admin/news" element={<AdminNewsBoard />} />
                 <Route path="/admin/news/articles" element={<AdminNews />} />
                 <Route path="/admin/events" element={<AdminEvents />} />
+                <Route path="/admin/programs" element={<AdminPrograms />} />
+                <Route path="/admin/programs/:slug/edit" element={<AdminProgramEdit />} />
                 <Route path="/admin/users" element={<AdminsPage />} />
               </Route>
             </Route>

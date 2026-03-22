@@ -1,68 +1,123 @@
+import { useLayoutEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Globe, Zap, BookOpen, GraduationCap } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowDownToLine,
+  BookOpen,
+  Calendar,
+  ClipboardList,
+  Clock,
+  FileText,
+  Globe,
+  GraduationCap,
+  Zap,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getProgramBySlug } from "@/components/Programs";
-
-type ProgramWithOptional = ReturnType<typeof getProgramBySlug> extends infer P
-  ? P & {
-      duration?: string;
-      degreeType?: string;
-      studyFormat?: string;
-      languages?: string;
-      pace?: string;
-      applicationDeadline?: string;
-      startDate?: string;
-      tuition?: string;
-      careerOutcomes?: string;
-      introduction?: string;
-    }
-  : never;
-
-const DEFAULT_DURATION = "2–4 years (varies by program)";
-const DEFAULT_DEGREE_TYPE = "Bachelor, Master, Certificate";
-const DEFAULT_STUDY_FORMAT = "On campus, Blended, Online";
-const DEFAULT_LANGUAGES = "English";
-const DEFAULT_PACE = "Full time, Part time";
-const REQUEST_INFO = "Request info";
-
-/** Unsplash hero images by program slug — theme-related */
-const HERO_IMAGES: Record<string, string> = {
-  economics: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=2070&q=80",
-  "business-administration": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2070&q=80",
-  "finance-accounting": "https://images.unsplash.com/photo-1554224154-22dec7ec8818?auto=format&fit=crop&w=2070&q=80",
-  "international-economics": "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?auto=format&fit=crop&w=2070&q=80",
-  "marketing-commerce": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2070&q=80",
-  entrepreneurship: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=2070&q=80",
-  "data-analytics": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80",
-  "banking-finance": "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=2070&q=80",
-  "hospitality-tourism": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2070&q=80",
-  "supply-chain-logistics": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2070&q=80",
-  "public-administration": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=2070&q=80",
-  "insurance-risk": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2070&q=80",
-  "real-estate": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2070&q=80",
-  "human-resources": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=2070&q=80",
-  "international-business": "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?auto=format&fit=crop&w=2070&q=80",
-  fintech: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=2070&q=80",
-  "strategic-management": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2070&q=80",
-  "project-management": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=2070&q=80",
-  "business-law": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=2070&q=80",
-  "sustainability-business": "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=2070&q=80",
-  "cybersecurity-business": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2070&q=80",
-  "economic-policy": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=2070&q=80",
-  "health-economics": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=2070&q=80",
-};
-const DEFAULT_HERO_IMAGE =
-  "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=2070&q=80";
+import { getProgramDetailViewModel } from "@/lib/programDetailDisplay";
 
 const ABOUT_SCHOOL =
   "TUES is a leading institution in economics and business education. We combine academic excellence with practical skills, preparing students for leadership roles in industry, government, and the nonprofit sector. Our faculty are experts in their fields, and our campus fosters a supportive, inclusive community.";
 
 const ProgramDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const program = (slug ? getProgramBySlug(slug) : null) as ProgramWithOptional | null;
+  const view = slug ? getProgramDetailViewModel(slug) : null;
 
-  if (!program) {
+  /** Force sidebar pin on large screens — CSS sticky is unreliable with some overflow/scroll roots. */
+  const layoutRowRef = useRef<HTMLDivElement>(null);
+  const asideRef = useRef<HTMLElement>(null);
+  const sidebarWrapRef = useRef<HTMLDivElement>(null);
+  const sidebarCardRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const LG = "(min-width: 1024px)";
+    const mq = window.matchMedia(LG);
+
+    const headerOffsetPx = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-height").trim();
+      const n = parseFloat(raw);
+      return (Number.isFinite(n) ? n : 64) + 16;
+    };
+
+    const clearCardPinStyles = () => {
+      const card = sidebarCardRef.current;
+      const wrap = sidebarWrapRef.current;
+      if (card) {
+        card.style.removeProperty("position");
+        card.style.removeProperty("top");
+        card.style.removeProperty("left");
+        card.style.removeProperty("right");
+        card.style.removeProperty("width");
+        card.style.removeProperty("bottom");
+        card.style.removeProperty("z-index");
+        card.style.removeProperty("max-height");
+      }
+      if (wrap) wrap.style.removeProperty("min-height");
+    };
+
+    const update = () => {
+      const row = layoutRowRef.current;
+      const aside = asideRef.current;
+      const wrap = sidebarWrapRef.current;
+      const card = sidebarCardRef.current;
+      if (!mq.matches || !row || !aside || !wrap || !card) {
+        clearCardPinStyles();
+        return;
+      }
+
+      const topPx = headerOffsetPx();
+      const rowRect = row.getBoundingClientRect();
+      const wrapRect = wrap.getBoundingClientRect();
+      const cardH = card.offsetHeight;
+
+      // Not enough room below header to pin full card — dock to bottom of column
+      const useBottom = rowRect.bottom <= topPx + cardH + 2;
+      const useFixed = !useBottom && wrapRect.top < topPx;
+
+      if (useFixed) {
+        const wr = wrap.getBoundingClientRect();
+        wrap.style.minHeight = `${Math.ceil(cardH)}px`;
+        card.style.position = "fixed";
+        card.style.top = `${topPx}px`;
+        card.style.left = `${wr.left}px`;
+        card.style.width = `${wr.width}px`;
+        card.style.right = "auto";
+        card.style.bottom = "auto";
+        card.style.zIndex = "10";
+        card.style.maxHeight = `calc(100dvh - ${topPx}px - 1rem)`;
+      } else if (useBottom) {
+        wrap.style.removeProperty("min-height");
+        card.style.position = "absolute";
+        card.style.top = "auto";
+        card.style.left = "0";
+        card.style.right = "0";
+        card.style.width = "auto";
+        card.style.bottom = "0";
+        card.style.zIndex = "10";
+        card.style.maxHeight = `calc(100dvh - ${topPx}px - 1rem)`;
+      } else {
+        clearCardPinStyles();
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    mq.addEventListener("change", update);
+    const ro = new ResizeObserver(update);
+    if (sidebarCardRef.current) ro.observe(sidebarCardRef.current);
+    if (layoutRowRef.current) ro.observe(layoutRowRef.current);
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      mq.removeEventListener("change", update);
+      ro.disconnect();
+      clearCardPinStyles();
+    };
+  }, [slug]);
+
+  if (!view) {
     return (
       <div className="min-h-screen">
         <Header />
@@ -81,23 +136,27 @@ const ProgramDetailPage = () => {
     );
   }
 
-  const longDescription =
-    "longDescription" in program ? (program as { longDescription: string }).longDescription : "";
-  const highlights = "highlights" in program ? program.highlights : [];
-  const duration = program?.duration ?? DEFAULT_DURATION;
-  const degreeType = program?.degreeType ?? DEFAULT_DEGREE_TYPE;
-  const studyFormat = program?.studyFormat ?? DEFAULT_STUDY_FORMAT;
-  const languages = program?.languages ?? DEFAULT_LANGUAGES;
-  const pace = program?.pace ?? DEFAULT_PACE;
-  const applicationDeadline = program?.applicationDeadline ?? REQUEST_INFO;
-  const startDate = program?.startDate ?? REQUEST_INFO;
-  const tuition = program?.tuition ?? REQUEST_INFO;
-  const careerOutcomes =
-    program?.careerOutcomes ??
-    `Graduates of our ${program.title} programs pursue careers across industry, government, and academia. Typical roles include analysts, managers, consultants, and leadership positions.`;
-  const introduction =
-    program?.introduction ??
-    `${longDescription} Our programs combine rigorous theory with real-world application, supported by experienced faculty and strong industry connections.`;
+  const {
+    title,
+    count,
+    longDescription,
+    highlights,
+    introduction,
+    careerOutcomes,
+    degreeType,
+    duration,
+    languages,
+    pace,
+    studyFormat,
+    applicationDeadline,
+    startDate,
+    tuition,
+    heroImage,
+    slug: programSlug,
+    brochurePdfHref,
+    admissionsPdfHref,
+    curriculumPdfHref,
+  } = view;
 
   const keyFacts = [
     { label: "Degree type", value: degreeType, icon: GraduationCap },
@@ -109,8 +168,6 @@ const ProgramDetailPage = () => {
     { label: "Earliest start date", value: startDate, icon: Calendar },
     { label: "Tuition fees", value: tuition, icon: GraduationCap },
   ];
-
-  const heroImage = HERO_IMAGES[program.slug] ?? DEFAULT_HERO_IMAGE;
 
   return (
     <div className="min-h-screen">
@@ -130,18 +187,18 @@ const ProgramDetailPage = () => {
         </section>
 
         {/* Content — modern single-column with sidebar */}
-        <section className="py-12 md:py-20 bg-background">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
-            <div className="lg:flex lg:gap-16 lg:items-start">
+        <section className="overflow-x-visible py-12 md:py-20 bg-background">
+          <div className="container mx-auto overflow-x-visible px-4 sm:px-6 lg:px-8 max-w-[1348px]">
+            <div ref={layoutRowRef} className="lg:flex lg:gap-16 lg:items-stretch lg:overflow-visible">
               {/* Main column */}
               <div className="lg:flex-1 min-w-0">
                 {/* Program title block */}
                 <div className="mb-12 md:mb-16">
                   <span className="text-muted-foreground font-medium text-sm tracking-wider uppercase">
-                    {program.count}
+                    {count}
                   </span>
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mt-1 mb-1">
-                    {program.title}
+                    {title}
                   </h1>
                   <p className="text-muted-foreground text-base">TUES · On campus & online</p>
                 </div>
@@ -158,6 +215,83 @@ const ProgramDetailPage = () => {
                   <p className="text-foreground/90 leading-relaxed max-w-2xl">
                     {introduction}
                   </p>
+                </div>
+
+                {/* Program PDF downloads — 3 cards */}
+                <div className="mb-12 md:mb-16">
+                  <div className="mb-5 max-w-xl">
+                    <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Downloads</h2>
+                    <p className="mt-2 text-base font-medium text-foreground sm:text-lg">Official PDFs for this program</p>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                      Brochure, admissions, and curriculum — save or print for offline reading.
+                    </p>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {(
+                      [
+                        {
+                          key: "brochure",
+                          Icon: FileText,
+                          eyebrow: "Brochure",
+                          title: "Overview & highlights",
+                          description: `Curriculum focus, career paths, and ${title} at TUES.`,
+                          href: brochurePdfHref,
+                          downloadName: `${programSlug}-tues-brochure.pdf`,
+                        },
+                        {
+                          key: "admissions",
+                          Icon: ClipboardList,
+                          eyebrow: "Admissions",
+                          title: "Apply & requirements",
+                          description:
+                            "Deadlines, documents, language requirements, and how to submit your application.",
+                          href: admissionsPdfHref,
+                          downloadName: `${programSlug}-tues-admissions.pdf`,
+                        },
+                        {
+                          key: "curriculum",
+                          Icon: BookOpen,
+                          eyebrow: "Curriculum",
+                          title: "Courses & structure",
+                          description: "Sample modules, credit structure, and study formats for this field.",
+                          href: curriculumPdfHref,
+                          downloadName: `${programSlug}-tues-curriculum.pdf`,
+                        },
+                      ] as const
+                    ).map(({ key, Icon, eyebrow, title, description, href, downloadName }) => (
+                      <a
+                        key={key}
+                        href={href}
+                        {...(href.startsWith("/")
+                          ? { download: downloadName }
+                          : { target: "_blank", rel: "noopener noreferrer" })}
+                        className="group relative flex h-full min-h-0 flex-col overflow-hidden rounded-xl border border-border/70 bg-card/80 p-4 shadow-none outline-none ring-offset-background transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-card hover:shadow-md hover:shadow-foreground/5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      >
+                        <div
+                          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                          aria-hidden
+                        />
+                        <div className="flex items-start gap-3">
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted/80 text-primary shadow-sm ring-1 ring-border/50 transition-colors group-hover:bg-primary/10 group-hover:ring-primary/15">
+                            <Icon className="h-[18px] w-[18px]" aria-hidden />
+                          </span>
+                          <div className="min-w-0 flex-1 pt-0.5">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                              {eyebrow}
+                            </p>
+                            <p className="mt-0.5 text-sm font-semibold leading-snug text-foreground">{title}</p>
+                          </div>
+                        </div>
+                        <p className="mt-3 flex-1 text-xs leading-relaxed text-muted-foreground line-clamp-4 sm:line-clamp-3">
+                          {description}
+                        </p>
+                        <span className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border/80 bg-background/80 py-2.5 text-xs font-semibold text-foreground transition-colors group-hover:border-primary/20 group-hover:bg-primary group-hover:text-primary-foreground">
+                          <ArrowDownToLine className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
+                          Download PDF
+                        </span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Career outcomes */}
@@ -186,40 +320,40 @@ const ProgramDetailPage = () => {
                   <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">About the school</h2>
                   <p className="text-foreground/80 leading-relaxed">{ABOUT_SCHOOL}</p>
                 </div>
-
-                {/* CTAs */}
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    to="/programs"
-                    className="inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium h-11 px-5 border border-border bg-background hover:bg-muted/50 transition-colors text-foreground"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back to Programs
-                  </Link>
-                  <a
-                    href="#"
-                    className="inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium h-11 px-5 bg-oxford-blue hover:bg-oxford-blue/90 text-white transition-colors"
-                  >
-                    Apply or inquire
-                  </a>
-                </div>
               </div>
 
-              {/* Sidebar — key facts */}
-              <aside className="lg:w-80 shrink-0 mt-10 lg:mt-0 lg:sticky lg:top-24">
-                <div className="rounded-2xl bg-card border border-border p-6">
-                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">At a glance</h3>
-                  <dl className="space-y-4">
-                    {keyFacts.map(({ label, value, icon: FactIcon }) => (
-                      <div key={label} className="flex gap-3">
-                        <FactIcon className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
-                        <div className="min-w-0">
-                          <dt className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</dt>
-                          <dd className="text-sm font-medium text-foreground mt-0.5 break-words">{value}</dd>
+              {/* Aside stretches to row height; pin uses fixed/absolute via useLayoutEffect on lg */}
+              <aside
+                ref={asideRef}
+                className="relative lg:w-80 shrink-0 mt-10 lg:mt-0 lg:flex lg:flex-col lg:min-h-0"
+              >
+                <div ref={sidebarWrapRef} className="w-full">
+                  <div
+                    ref={sidebarCardRef}
+                    className="w-full rounded-2xl bg-card border border-border p-6 lg:z-10 lg:max-h-[calc(100dvh-var(--header-height)-2rem)] lg:overflow-y-auto"
+                    style={{ scrollbarGutter: "stable" }}
+                  >
+                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">At a glance</h3>
+                    <dl className="space-y-4">
+                      {keyFacts.map(({ label, value, icon: FactIcon }) => (
+                        <div key={label} className="flex gap-3">
+                          <FactIcon className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                          <div className="min-w-0">
+                            <dt className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</dt>
+                            <dd className="text-sm font-medium text-foreground mt-0.5 break-words">{value}</dd>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </dl>
+                      ))}
+                    </dl>
+                    <div className="mt-6 pt-6 border-t border-border">
+                      <a
+                        href="#"
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-lg text-sm font-medium h-11 px-5 bg-oxford-blue hover:bg-oxford-blue/90 text-white transition-colors"
+                      >
+                        Apply or inquire
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </aside>
             </div>

@@ -81,19 +81,20 @@
   * { @apply border-border; }
   html {
     scroll-behavior: auto;
-    overflow-x: hidden;
+    /* clip avoids horizontal overflow without breaking position:sticky (hidden often does) */
+    overflow-x: clip;
     -webkit-text-size-adjust: 100%;
   }
   body {
     min-height: 100%;
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-y: auto;
     overscroll-behavior-y: auto;
     -webkit-overflow-scrolling: touch;
     @apply bg-background text-foreground font-dm-sans antialiased;
   }
-  #root { min-height: 100%; display: block; overflow-x: hidden; }
+  #root { min-height: 100%; display: block; overflow-x: clip; }
   h1, h2, h3, h4, h5, h6 { @apply font-forum font-bold; }
   p { @apply font-dm-sans; }
   /* Avoid global will-change to prevent scroll jank */
