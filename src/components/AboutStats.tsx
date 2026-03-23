@@ -1,25 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const stats = [
   {
     value: "25,000+",
-    label: "Students",
-    description: "From over 150 countries\nworldwide",
+    labelKey: "home.about.stats.students.label",
+    descriptionKey: "home.about.stats.students.description",
   },
   {
     value: "412",
-    label: "Professors & Teachers",
-    description: "Leading innovation\nacross disciplines",
+    labelKey: "home.about.stats.professors.label",
+    descriptionKey: "home.about.stats.professors.description",
   },
   {
     value: "3+",
-    label: "Faculties",
-    description: "Independent, self-governing\ncommunities",
+    labelKey: "home.about.stats.faculties.label",
+    descriptionKey: "home.about.stats.faculties.description",
   },
   {
     value: "27,447",
-    label: "IRC Fund",
-    description: "A legacy of\nacademic achievement",
+    labelKey: "home.about.stats.irc.label",
+    descriptionKey: "home.about.stats.irc.description",
   },
 ];
 
@@ -77,6 +78,7 @@ const TICKER_IMAGES = [
 ];
 
 const AboutStats = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -109,16 +111,16 @@ const AboutStats = () => {
             }`}
           >
             <div className="inline-flex items-center rounded-2xl bg-[rgb(40,40,44)] px-4 py-2 mb-6">
-              <h2 className="text-sm font-medium text-white">About us</h2>
+              <h2 className="text-sm font-medium text-white">{t("home.about.badge")}</h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               <h3 className="text-[40px] text-foreground tracking-tight leading-[120%] md:text-5xl lg:text-[56px]">
-                The Termez University
+                {t("home.about.titleLine1")}
                 <br />
-                of Economics and Service
+                {t("home.about.titleLine2")}
               </h3>
               <p className="font-dm-sans text-[16px] text-[rgb(61,61,71)] leading-relaxed self-start">
-                Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step.
+                {t("home.about.description")}
               </p>
             </div>
           </div>
@@ -146,7 +148,7 @@ const AboutStats = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {stats.map((stat, index) => (
             <div
-              key={stat.label}
+              key={stat.labelKey}
               className={`text-center transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
@@ -163,10 +165,10 @@ const AboutStats = () => {
               </div>
               <div className="mt-4 font-dm-sans">
                 <h4 className="text-lg font-semibold text-foreground">
-                  {stat.label}
+                  {t(stat.labelKey)}
                 </h4>
                 <p className="text-sm text-[rgb(61,61,71)] mt-1 leading-relaxed line-clamp-2">
-                  {stat.description.split("\n").map((line, i) => (
+                  {String(t(stat.descriptionKey)).split("\n").map((line, i) => (
                     <span key={i}>
                       {i > 0 && <br />}
                       {line}
