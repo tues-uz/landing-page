@@ -293,7 +293,7 @@ type HeaderProps = {
 };
 
 const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("header");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
   const [topBarVisible, setTopBarVisible] = useState(true);

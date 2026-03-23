@@ -1,580 +1,64 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-
-const resources = {
-  en: {
-    translation: {
-      header: {
-        universityNameLine1: "Termez University of",
-        universityNameLine2: "Economics and Service",
-        exploreMore: "Explore more",
-        menu: "Menu",
-        secondMenu: "Second Menu",
-        languageNames: { uz: "Uz", en: "En", ru: "Ru" },
-        nav: {
-          about: "About",
-          research: "Research",
-          admissions: "Admissions",
-          news: "News",
-          community: "Community",
-          colleges: "Colleges",
-          journal: "Journal",
-        },
-        secondNav: {
-          university: "University",
-          education: "Education",
-          science: "Science",
-          internationalization: "Internationalization",
-          studentLife: "Student Life",
-          admission2025: "Admission 2025",
-          informationServices: "Information Services",
-          vacancies: "Vacancies",
-        },
-        secondNavItems: {
-          overview: "Overview",
-          history: "History",
-          leadership: "Leadership",
-          governance: "Governance",
-          strategicPlan: "Strategic Plan",
-          academicPrograms: "Academic Programs",
-          courses: "Courses",
-          academicCalendar: "Academic Calendar",
-          faculty: "Faculty",
-          departments: "Departments",
-          researchAreas: "Research Areas",
-          laboratories: "Laboratories",
-          publications: "Publications",
-          innovation: "Innovation",
-          collaborations: "Collaborations",
-          exchangePrograms: "Exchange Programs",
-          globalPartnerships: "Global Partnerships",
-          internationalStudents: "International Students",
-          studyAbroad: "Study Abroad",
-          globalInitiatives: "Global Initiatives",
-          campusLife: "Campus Life",
-          studentClubs: "Student Clubs",
-          housing: "Housing",
-          dining: "Dining",
-          wellness: "Wellness",
-          requirements: "Requirements",
-          applicationProcess: "Application Process",
-          deadlines: "Deadlines",
-          scholarships: "Scholarships",
-          faqs: "FAQs",
-          library: "Library",
-          itServices: "IT Services",
-          onlineResources: "Online Resources",
-          support: "Support",
-          helpDesk: "Help Desk",
-          academicPositions: "Academic Positions",
-          administrativePositions: "Administrative Positions",
-          researchPositions: "Research Positions",
-          howToApply: "How to Apply",
-          benefits: "Benefits",
-        },
-      },
-      common: {
-        previous: "Previous",
-        next: "Next",
-      },
-      hero: {
-        announcement: "Announcement",
-        learnMore: "Learn More",
-        slideAriaLabel: "Slide {{number}}",
-        hideAnnouncement: "Hide announcement",
-        showAnnouncement: "Show announcement",
-      },
-      news: {
-        title: "News",
-        subtitle: "Stay up to date with the latest from TUES—research highlights and campus updates.",
-        searchPlaceholder: "Search news by title, excerpt, category, or author...",
-        searchAriaLabel: "Search news",
-        filterAriaLabel: "Filter by category",
-        allCategories: "All categories",
-        noArticlesYet: "No articles yet.",
-        noMatch: "No news match your search or filter. Try different keywords or category.",
-      },
-      events: {
-        title: "Events",
-        mainPage: "Main page",
-        subtitle:
-          "University events take place throughout the year, from educational showcases to public lectures, national tours and one-off exhibitions.",
-        upcomingEvents: "Upcoming events",
-        pastEvents: "Past events",
-        noUpcoming: "No upcoming events at the moment.",
-        noPast: "No past events to display.",
-        seeMore: "See more events",
-        shareEvent: "Share event",
-        linkCopied: "Link copied",
-      },
-      programs: {
-        title: "All Programs.",
-        subtitle: "Explore our full range of programs across economics, business, finance, and more.",
-        searchPlaceholder: "Search programs...",
-        testimonialsTitleLine1: "Loved by",
-        testimonialsTitleLine2: "Students & Alumni",
-        testimonialsSubtitle: "Trusted by students and graduates worldwide.",
-      },
-      notFound: {
-        title: "Oops! Page not found",
-        description: "The page you’re looking for doesn’t exist or has been moved.",
-        returnHome: "Return to Home",
-      },
-      home: {
-        about: {
-          badge: "About us",
-          titleLine1: "The Termez University",
-          titleLine2: "of Economics and Service",
-          description:
-            "Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step.",
-          stats: {
-            students: { label: "Students", description: "From over 150 countries\nworldwide" },
-            professors: { label: "Professors & Teachers", description: "Leading innovation\nacross disciplines" },
-            faculties: { label: "Faculties", description: "Independent, self-governing\ncommunities" },
-            irc: { label: "IRC Fund", description: "A legacy of\nacademic achievement" },
-          },
-        },
-        programs: {
-          title: "Browse programs by.",
-          description: "This user-friendly tool offers options to filter programs by field of study, degree level, and even learning formats like online or on-campus.",
-          exploreAll: "Explore All",
-        },
-        news: {
-          title: "News & Announcements",
-          subtitle: "Stay up to date with the latest from TUES—research, campus updates, and stories.",
-          noArticles: "No articles yet.",
-          viewAll: "View All News",
-          onDate: "on {{date}}",
-          comments_one: "{{count}} Comment",
-          comments_other: "{{count}} Comments",
-        },
-        campus: {
-          title: "Campus life",
-          tags: {
-            sports: "Sports",
-            libraries: "Libraries",
-            careerSeminars: "Career Development Seminars",
-            research: "Research",
-            business: "Business & Enterprise",
-          },
-        },
-        events: {
-          titleLine1: "Upcoming Events",
-          titleLine2: "& Activities",
-          viewAll: "View All Events",
-          noUpcoming: "No upcoming events.",
-        },
-        alumni: {
-          badge: "Our Community",
-          title: "Alumni Network",
-          description:
-            "Join a global network of accomplished professionals, leaders, and innovators who are making a difference around the world. Connect with fellow alumni and stay engaged with your alma mater.",
-          moreStories: "More Alumni Stories",
-          stats: {
-            alumniWorldwide: "Alumni Worldwide",
-            nobel: "Nobel Laureates",
-            countries: "Countries Represented",
-            careerRate: "Career Success Rate",
-          },
-        },
-        research: {
-          badge: "Research & scholarship",
-          title: "Journals, research & innovation",
-          description: "From peer-reviewed journals to research centers and doctoral programs—TUES supports scholarship that shapes policy and practice.",
-          ctaText: "Interested in publishing with us or partnering on research?",
-          ctaButton: "Get in touch",
-        },
-        eduhub: {
-          badge: "Platform",
-          titleSubtitle: "Your learning and campus hub",
-          description: "Find out how EduHub supports your learning, keeps your course materials in one place, and connects you with the TUES community. Access assignments, events, support, and announcements all in one platform.",
-          quote: "\"Your courses, community, and support in one place. EduHub keeps you connected and on track.\"",
-          learningPlatform: "Learning Platform",
-          goTo: "Go to EduHub",
-          features: {
-            "course-materials": { title: "Course materials", description: "Access all your course materials, lecture notes, and resources in one place. EduHub keeps everything organised and easy to find, so you can focus on learning." },
-            community: { title: "Community & connect", description: "Connect with peers, instructors, and staff through forums and messaging. Get answers, join study groups, and be part of the TUES community." },
-            events: { title: "Events & opportunities", description: "Stay updated on campus events, workshops, and opportunities. Never miss a deadline or an event that matters for your studies and career." },
-            support: { title: "Support", description: "Get help when you need it. EduHub connects you with academic and technical support so you can resolve issues quickly and keep moving forward." },
-            assignments: { title: "Assignments & submissions", description: "Submit assignments, track deadlines, and receive feedback through EduHub. All your coursework is in one place with clear status and instructor comments." },
-            notifications: { title: "Notifications & announcements", description: "Get timely alerts and announcements from your faculty and the university. EduHub keeps you informed about schedule changes, new content, and important updates." },
-          },
-        },
-      },
-      footer: {
-        newsletterTitle: "Get the latest TUES news and updates straight to your inbox.",
-        emailAddress: "Email address",
-        subscribeNow: "Subscribe now",
-        consent: "Yes, I agree to receive email communications from TUES.",
-        copyright: "© 2026 {{brand}}. All rights reserved.",
-        privacyPolicy: "Privacy Policy",
-        termsOfUse: "Terms of Use",
-        accessibility: "Accessibility",
-      },
-    },
-  },
-  uz: {
-    translation: {
-      header: {
-        universityNameLine1: "Termiz Iqtisodiyot",
-        universityNameLine2: "va Servis Universiteti",
-        exploreMore: "Ko'proq ko'rish",
-        menu: "Menyu",
-        secondMenu: "Ikkinchi menyu",
-        languageNames: { uz: "O'z", en: "In", ru: "Ru" },
-        nav: {
-          about: "Universitet haqida",
-          research: "Ilm-fan",
-          admissions: "Qabul",
-          news: "Yangiliklar",
-          community: "Hamjamiyat",
-          colleges: "Kollejlar",
-          journal: "Jurnal",
-        },
-        secondNav: {
-          university: "Universitet",
-          education: "Ta'lim",
-          science: "Ilm-fan",
-          internationalization: "Xalqaro hamkorlik",
-          studentLife: "Talabalar hayoti",
-          admission2025: "Qabul 2025",
-          informationServices: "Axborot xizmatlari",
-          vacancies: "Bo'sh ish o'rinlari",
-        },
-        secondNavItems: {
-          overview: "Umumiy ma'lumot",
-          history: "Tarix",
-          leadership: "Rahbariyat",
-          governance: "Boshqaruv",
-          strategicPlan: "Strategik reja",
-          academicPrograms: "Akademik dasturlar",
-          courses: "Kurslar",
-          academicCalendar: "Akademik taqvim",
-          faculty: "Fakultet",
-          departments: "Kafedralar",
-          researchAreas: "Tadqiqot yo'nalishlari",
-          laboratories: "Laboratoriyalar",
-          publications: "Nashrlar",
-          innovation: "Innovatsiya",
-          collaborations: "Hamkorliklar",
-          exchangePrograms: "Almashinuv dasturlari",
-          globalPartnerships: "Global hamkorliklar",
-          internationalStudents: "Xalqaro talabalar",
-          studyAbroad: "Xorijda ta'lim",
-          globalInitiatives: "Global tashabbuslar",
-          campusLife: "Kampus hayoti",
-          studentClubs: "Talabalar klublari",
-          housing: "Turar joy",
-          dining: "Ovqatlanish",
-          wellness: "Salomatlik",
-          requirements: "Talablar",
-          applicationProcess: "Ariza topshirish jarayoni",
-          deadlines: "Muddatlar",
-          scholarships: "Stipendiyalar",
-          faqs: "Ko'p so'raladigan savollar",
-          library: "Kutubxona",
-          itServices: "IT xizmatlari",
-          onlineResources: "Onlayn resurslar",
-          support: "Qo'llab-quvvatlash",
-          helpDesk: "Yordam markazi",
-          academicPositions: "Akademik lavozimlar",
-          administrativePositions: "Ma'muriy lavozimlar",
-          researchPositions: "Tadqiqot lavozimlari",
-          howToApply: "Qanday ariza topshirish",
-          benefits: "Imtiyozlar",
-        },
-      },
-      common: {
-        previous: "Oldingi",
-        next: "Keyingi",
-      },
-      hero: {
-        announcement: "E'lon",
-        learnMore: "Batafsil",
-        slideAriaLabel: "{{number}}-slayd",
-        hideAnnouncement: "E'lonni yashirish",
-        showAnnouncement: "E'lonni ko'rsatish",
-      },
-      news: {
-        title: "Yangiliklar",
-        subtitle: "TUESdagi so'nggi yangiliklar, ilmiy yutuqlar va kampus yangilanishlaridan xabardor bo'ling.",
-        searchPlaceholder: "Sarlavha, qisqa matn, toifa yoki muallif bo'yicha qidiring...",
-        searchAriaLabel: "Yangiliklarni qidirish",
-        filterAriaLabel: "Toifa bo'yicha filtrlash",
-        allCategories: "Barcha toifalar",
-        noArticlesYet: "Hozircha maqolalar yo'q.",
-        noMatch: "Qidiruv yoki filtrga mos yangilik topilmadi. Boshqa kalit so'z yoki toifani sinab ko'ring.",
-      },
-      events: {
-        title: "Tadbirlar",
-        mainPage: "Bosh sahifa",
-        subtitle:
-          "Universitet tadbirlari yil davomida o'tkaziladi: ta'lim ko'rgazmalari, ommaviy ma'ruzalar, milliy turlar va maxsus ko'rgazmalar.",
-        upcomingEvents: "Yaqinlashayotgan tadbirlar",
-        pastEvents: "O'tgan tadbirlar",
-        noUpcoming: "Hozircha yaqinlashayotgan tadbirlar yo'q.",
-        noPast: "Ko'rsatish uchun o'tgan tadbirlar yo'q.",
-        seeMore: "Ko'proq tadbirlar",
-        shareEvent: "Tadbirni ulashish",
-        linkCopied: "Havola nusxalandi",
-      },
-      programs: {
-        title: "Barcha dasturlar.",
-        subtitle: "Iqtisodiyot, biznes, moliya va boshqa yo'nalishlardagi barcha dasturlarimizni o'rganing.",
-        searchPlaceholder: "Dasturlarni qidiring...",
-        testimonialsTitleLine1: "Sevilgan",
-        testimonialsTitleLine2: "Talabalar va bitiruvchilar tomonidan",
-        testimonialsSubtitle: "Talabalar va bitiruvchilar ishonch bilan tanlaydi.",
-      },
-      notFound: {
-        title: "Voy! Sahifa topilmadi",
-        description: "Siz izlayotgan sahifa mavjud emas yoki boshqa joyga ko'chirilgan.",
-        returnHome: "Bosh sahifaga qaytish",
-      },
-      home: {
-        about: {
-          badge: "Biz haqimizda",
-          titleLine1: "Termiz universiteti",
-          titleLine2: "iqtisodiyot va servis",
-          description: "TUES'ga xush kelibsiz — iqtisodiyot va servis ta'limida ishonchli maskan. Biz sifatli ta'lim, tadqiqot va sanoat hamkorligi orqali kelajagingizni shakllantirishga xizmat qilamiz.",
-          stats: {
-            students: { label: "Talabalar", description: "150+ davlatdan\nkelgan" },
-            professors: { label: "Professor va o'qituvchilar", description: "Yo'nalishlar bo'ylab\ninnovatsiya" },
-            faculties: { label: "Fakultetlar", description: "Mustaqil, o'zini-o'zi boshqaruvchi\nhamjamiyatlar" },
-            irc: { label: "IRC fondi", description: "Akademik yutuqlarning\nmerosi" },
-          },
-        },
-        programs: { title: "Dasturlarni ko'rib chiqing.", description: "Ushbu qulay vosita dasturlarni yo'nalish, daraja va o'qish formatiga ko'ra filtrlash imkonini beradi.", exploreAll: "Barchasini ko'rish" },
-        news: { title: "Yangiliklar va e'lonlar", subtitle: "TUESdagi so'nggi yangiliklar, kampus yangilanishlari va hikoyalardan xabardor bo'ling.", noArticles: "Hozircha maqolalar yo'q.", viewAll: "Barcha yangiliklar", onDate: "{{date}} kuni", comments_one: "{{count}} izoh", comments_other: "{{count}} izoh" },
-        campus: { title: "Kampus hayoti", tags: { sports: "Sport", libraries: "Kutubxonalar", careerSeminars: "Karyera seminarlari", research: "Tadqiqot", business: "Biznes va tadbirkorlik" } },
-        events: { titleLine1: "Yaqinlashayotgan tadbirlar", titleLine2: "va faoliyatlar", viewAll: "Barcha tadbirlar", noUpcoming: "Yaqinlashayotgan tadbirlar yo'q." },
-        alumni: { badge: "Hamjamiyatimiz", title: "Bitiruvchilar tarmog'i", description: "Dunyo bo'ylab muvaffaqiyatli mutaxassislar, yetakchilar va innovatorlar tarmog'iga qo'shiling.", moreStories: "Yana bitiruvchilar hikoyalari", stats: { alumniWorldwide: "Dunyo bo'ylab bitiruvchilar", nobel: "Nobel laureatlari", countries: "Ta'lim olgan davlatlar", careerRate: "Karyera muvaffaqiyati" } },
-        research: { badge: "Tadqiqot va ilm", title: "Jurnallar, tadqiqot va innovatsiya", description: "TUES ilmiy jurnallar, tadqiqot markazlari va doktorantura dasturlari orqali siyosat hamda amaliyotni shakllantiruvchi ilmni qo'llab-quvvatlaydi.", ctaText: "Biz bilan nashr etish yoki tadqiqotda hamkorlik qilishni xohlaysizmi?", ctaButton: "Bog'lanish" },
-        eduhub: {
-          badge: "Platforma",
-          titleSubtitle: "Ta'lim va kampus markazingiz",
-          description: "EduHub o'qishingizni qo'llab-quvvatlaydi, kurs materiallarini bir joyda jamlaydi va TUES hamjamiyati bilan bog'laydi.",
-          quote: "\"Kurslar, hamjamiyat va yordam bir joyda. EduHub sizni doimo bog'lab turadi.\"",
-          learningPlatform: "Ta'lim platformasi",
-          goTo: "EduHub'ga o'tish",
-          features: {
-            "course-materials": { title: "Kurs materiallari", description: "Barcha kurs materiallari, ma'ruza yozuvlari va resurslarni bitta joyda toping." },
-            community: { title: "Hamjamiyat va aloqa", description: "Forum va xabarlar orqali talaba, o'qituvchi va xodimlar bilan bog'laning." },
-            events: { title: "Tadbirlar va imkoniyatlar", description: "Kampus tadbirlari, seminarlar va imkoniyatlardan xabardor bo'ling." },
-            support: { title: "Yordam", description: "Kerak bo'lganda akademik va texnik yordam oling." },
-            assignments: { title: "Topshiriqlar va yuborish", description: "Topshiriqlarni yuboring, muddatlarni kuzating va fikr-mulohazalarni oling." },
-            notifications: { title: "Bildirishnomalar va e'lonlar", description: "Fakultet va universitetdan muhim e'lonlarni o'z vaqtida oling." },
-          },
-        },
-      },
-      footer: {
-        newsletterTitle: "TUES yangiliklari va yangilanishlarini emailingizga oling.",
-        emailAddress: "Email manzil",
-        subscribeNow: "Obuna bo'lish",
-        consent: "Ha, men TUESdan email xabarlarini olishga roziman.",
-        copyright: "© 2026 {{brand}}. Barcha huquqlar himoyalangan.",
-        privacyPolicy: "Maxfiylik siyosati",
-        termsOfUse: "Foydalanish shartlari",
-        accessibility: "Qulaylik",
-      },
-    },
-  },
-  ru: {
-    translation: {
-      header: {
-        universityNameLine1: "Термезский университет",
-        universityNameLine2: "экономики и сервиса",
-        exploreMore: "Узнать больше",
-        menu: "Меню",
-        secondMenu: "Второе меню",
-        languageNames: { uz: "Уз", en: "Анг", ru: "Рус" },
-        nav: {
-          about: "Об университете",
-          research: "Наука",
-          admissions: "Поступление",
-          news: "Новости",
-          community: "Сообщество",
-          colleges: "Колледжи",
-          journal: "Журнал",
-        },
-        secondNav: {
-          university: "Университет",
-          education: "Образование",
-          science: "Наука",
-          internationalization: "Интернационализация",
-          studentLife: "Студенческая жизнь",
-          admission2025: "Прием 2025",
-          informationServices: "Информационные услуги",
-          vacancies: "Вакансии",
-        },
-        secondNavItems: {
-          overview: "Обзор",
-          history: "История",
-          leadership: "Руководство",
-          governance: "Управление",
-          strategicPlan: "Стратегический план",
-          academicPrograms: "Академические программы",
-          courses: "Курсы",
-          academicCalendar: "Академический календарь",
-          faculty: "Факультет",
-          departments: "Кафедры",
-          researchAreas: "Направления исследований",
-          laboratories: "Лаборатории",
-          publications: "Публикации",
-          innovation: "Инновации",
-          collaborations: "Сотрудничество",
-          exchangePrograms: "Программы обмена",
-          globalPartnerships: "Глобальные партнерства",
-          internationalStudents: "Иностранные студенты",
-          studyAbroad: "Обучение за рубежом",
-          globalInitiatives: "Глобальные инициативы",
-          campusLife: "Жизнь кампуса",
-          studentClubs: "Студенческие клубы",
-          housing: "Проживание",
-          dining: "Питание",
-          wellness: "Благополучие",
-          requirements: "Требования",
-          applicationProcess: "Процесс подачи заявки",
-          deadlines: "Сроки",
-          scholarships: "Стипендии",
-          faqs: "Частые вопросы",
-          library: "Библиотека",
-          itServices: "ИТ-сервисы",
-          onlineResources: "Онлайн-ресурсы",
-          support: "Поддержка",
-          helpDesk: "Служба поддержки",
-          academicPositions: "Академические должности",
-          administrativePositions: "Административные должности",
-          researchPositions: "Исследовательские должности",
-          howToApply: "Как подать заявку",
-          benefits: "Преимущества",
-        },
-      },
-      common: {
-        previous: "Назад",
-        next: "Вперед",
-      },
-      hero: {
-        announcement: "Объявление",
-        learnMore: "Подробнее",
-        slideAriaLabel: "Слайд {{number}}",
-        hideAnnouncement: "Скрыть объявление",
-        showAnnouncement: "Показать объявление",
-      },
-      news: {
-        title: "Новости",
-        subtitle: "Будьте в курсе последних новостей TUES: научные достижения и обновления кампуса.",
-        searchPlaceholder: "Поиск по заголовку, описанию, категории или автору...",
-        searchAriaLabel: "Поиск новостей",
-        filterAriaLabel: "Фильтр по категории",
-        allCategories: "Все категории",
-        noArticlesYet: "Пока нет статей.",
-        noMatch: "Новости не найдены по вашему запросу или фильтру. Попробуйте другие ключевые слова или категорию.",
-      },
-      events: {
-        title: "События",
-        mainPage: "Главная страница",
-        subtitle:
-          "Университетские события проходят в течение всего года: от образовательных выставок до публичных лекций, национальных туров и разовых экспозиций.",
-        upcomingEvents: "Предстоящие события",
-        pastEvents: "Прошедшие события",
-        noUpcoming: "Сейчас нет предстоящих событий.",
-        noPast: "Нет прошедших событий для отображения.",
-        seeMore: "Смотреть больше событий",
-        shareEvent: "Поделиться событием",
-        linkCopied: "Ссылка скопирована",
-      },
-      programs: {
-        title: "Все программы.",
-        subtitle: "Изучите полный спектр наших программ по экономике, бизнесу, финансам и другим направлениям.",
-        searchPlaceholder: "Поиск программ...",
-        testimonialsTitleLine1: "Любимы",
-        testimonialsTitleLine2: "Студентами и выпускниками",
-        testimonialsSubtitle: "Нам доверяют студенты и выпускники по всему миру.",
-      },
-      notFound: {
-        title: "Упс! Страница не найдена",
-        description: "Страница, которую вы ищете, не существует или была перемещена.",
-        returnHome: "Вернуться на главную",
-      },
-      home: {
-        about: {
-          badge: "О нас",
-          titleLine1: "Термезский университет",
-          titleLine2: "экономики и сервиса",
-          description: "Добро пожаловать в TUES — надежный университет в сфере экономики и сервиса. Мы объединяем качественное обучение, исследования и партнерства с индустрией.",
-          stats: {
-            students: { label: "Студенты", description: "Из более чем 150 стран\nмира" },
-            professors: { label: "Профессора и преподаватели", description: "Инновации\nв разных дисциплинах" },
-            faculties: { label: "Факультеты", description: "Независимые\nакадемические сообщества" },
-            irc: { label: "Фонд IRC", description: "Наследие\nакадемических достижений" },
-          },
-        },
-        programs: { title: "Выберите программу.", description: "Этот удобный инструмент позволяет фильтровать программы по направлению, уровню и формату обучения.", exploreAll: "Смотреть все" },
-        news: { title: "Новости и объявления", subtitle: "Следите за последними новостями TUES: исследования, обновления кампуса и истории.", noArticles: "Пока нет статей.", viewAll: "Все новости", onDate: "от {{date}}", comments_one: "{{count}} комментарий", comments_few: "{{count}} комментария", comments_many: "{{count}} комментариев", comments_other: "{{count}} комментариев" },
-        campus: { title: "Жизнь кампуса", tags: { sports: "Спорт", libraries: "Библиотеки", careerSeminars: "Семинары по карьере", research: "Исследования", business: "Бизнес и предпринимательство" } },
-        events: { titleLine1: "Предстоящие события", titleLine2: "и активности", viewAll: "Все события", noUpcoming: "Нет предстоящих событий." },
-        alumni: { badge: "Наше сообщество", title: "Сеть выпускников", description: "Присоединяйтесь к глобальной сети успешных профессионалов, лидеров и новаторов.", moreStories: "Больше историй выпускников", stats: { alumniWorldwide: "Выпускники по всему миру", nobel: "Нобелевские лауреаты", countries: "Представленные страны", careerRate: "Успешность карьеры" } },
-        research: { badge: "Исследования и наука", title: "Журналы, исследования и инновации", description: "От рецензируемых журналов до исследовательских центров — TUES поддерживает науку, влияющую на практику.", ctaText: "Хотите публиковаться у нас или сотрудничать в исследованиях?", ctaButton: "Связаться" },
-        eduhub: {
-          badge: "Платформа",
-          titleSubtitle: "Ваш учебный и кампус-хаб",
-          description: "EduHub поддерживает обучение, хранит материалы в одном месте и связывает вас с сообществом TUES.",
-          quote: "\"Курсы, сообщество и поддержка в одном месте. EduHub помогает оставаться в ритме.\"",
-          learningPlatform: "Учебная платформа",
-          goTo: "Перейти в EduHub",
-          features: {
-            "course-materials": { title: "Материалы курса", description: "Все материалы курса, конспекты и ресурсы в одном месте." },
-            community: { title: "Сообщество и связи", description: "Общайтесь с однокурсниками и преподавателями через форумы и сообщения." },
-            events: { title: "События и возможности", description: "Следите за событиями кампуса, воркшопами и возможностями." },
-            support: { title: "Поддержка", description: "Получайте академическую и техническую поддержку, когда это нужно." },
-            assignments: { title: "Задания и отправка", description: "Сдавайте задания, отслеживайте сроки и получайте обратную связь." },
-            notifications: { title: "Уведомления и объявления", description: "Своевременно получайте важные объявления от факультета и университета." },
-          },
-        },
-      },
-      footer: {
-        newsletterTitle: "Получайте новости и обновления TUES прямо на почту.",
-        emailAddress: "Email адрес",
-        subscribeNow: "Подписаться",
-        consent: "Да, я согласен получать email-рассылку от TUES.",
-        copyright: "© 2026 {{brand}}. Все права защищены.",
-        privacyPolicy: "Политика конфиденциальности",
-        termsOfUse: "Условия использования",
-        accessibility: "Доступность",
-      },
-    },
-  },
-} as const;
+import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 const supportedLngs = ["uz", "en", "ru"] as const;
+export type SupportedLanguage = (typeof supportedLngs)[number];
 
-const getInitialLanguage = () => {
-  const saved = localStorage.getItem("app-language");
-  if (saved && supportedLngs.includes(saved as (typeof supportedLngs)[number])) {
-    return saved;
-  }
+i18n
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    // Supported languages
+    supportedLngs,
+    fallbackLng: "en",
 
-  const browser = (navigator.language ?? "en").slice(0, 2).toLowerCase();
-  if (supportedLngs.includes(browser as (typeof supportedLngs)[number])) {
-    return browser;
-  }
+    // Namespaces
+    ns: [
+      "common",
+      "header",
+      "hero",
+      "home",
+      "news",
+      "events",
+      "programs",
+      "footer",
+      "notFound",
+    ],
+    defaultNS: "common",
 
-  return "en";
-};
+    // Backend: load from public/locales/{lng}/{ns}.json
+    backend: {
+      loadPath: "/locales/{{lng}}/{{ns}}.json",
+    },
 
-i18n.use(initReactI18next).init({
-  resources,
-  lng: getInitialLanguage(),
-  fallbackLng: "en",
-  interpolation: { escapeValue: false },
-});
+    // Language detection order (localStorage → browser navigator)
+    detection: {
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
+      lookupLocalStorage: "app-language",
+    },
 
+    interpolation: {
+      escapeValue: false, // React already escapes by default
+    },
+
+    // Set to false when using Suspense (translations load async)
+    react: {
+      useSuspense: true,
+    },
+  });
+
+// Keep <html lang> in sync with the active language
 i18n.on("languageChanged", (lng) => {
   document.documentElement.lang = lng;
-  localStorage.setItem("app-language", lng);
 });
 
-document.documentElement.lang = i18n.language;
+// Set initial lang attribute
+if (i18n.language) {
+  document.documentElement.lang = i18n.language;
+}
 
 export default i18n;

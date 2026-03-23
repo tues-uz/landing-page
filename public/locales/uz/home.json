@@ -1,0 +1,109 @@
+{
+  "about": {
+    "badge": "Biz haqimizda",
+    "titleLine1": "Termiz universiteti",
+    "titleLine2": "iqtisodiyot va servis",
+    "description": "TUES'ga xush kelibsiz — iqtisodiyot va servis ta'limida ishonchli maskan. Biz sifatli ta'lim, tadqiqot va sanoat hamkorligi orqali kelajagingizni shakllantirishga xizmat qilamiz.",
+    "stats": {
+      "students": {
+        "label": "Talabalar",
+        "description": "150+ davlatdan\nkelgan"
+      },
+      "professors": {
+        "label": "Professor va o'qituvchilar",
+        "description": "Yo'nalishlar bo'ylab\ninnovatsiya"
+      },
+      "faculties": {
+        "label": "Fakultetlar",
+        "description": "Mustaqil, o'zini-o'zi boshqaruvchi\nhamjamiyatlar"
+      },
+      "irc": {
+        "label": "IRC fondi",
+        "description": "Akademik yutuqlarning\nmerosi"
+      }
+    }
+  },
+  "programs": {
+    "title": "Dasturlarni ko'rib chiqing.",
+    "description": "Ushbu qulay vosita dasturlarni yo'nalish, daraja va o'qish formatiga ko'ra filtrlash imkonini beradi.",
+    "exploreAll": "Barchasini ko'rish"
+  },
+  "news": {
+    "title": "Yangiliklar va e'lonlar",
+    "subtitle": "TUESdagi so'nggi yangiliklar, kampus yangilanishlari va hikoyalardan xabardor bo'ling.",
+    "noArticles": "Hozircha maqolalar yo'q.",
+    "viewAll": "Barcha yangiliklar",
+    "onDate": "{{date}} kuni",
+    "comments_one": "{{count}} izoh",
+    "comments_other": "{{count}} izoh"
+  },
+  "campus": {
+    "title": "Kampus hayoti",
+    "tags": {
+      "sports": "Sport",
+      "libraries": "Kutubxonalar",
+      "careerSeminars": "Karyera seminarlari",
+      "research": "Tadqiqot",
+      "business": "Biznes va tadbirkorlik"
+    }
+  },
+  "events": {
+    "titleLine1": "Yaqinlashayotgan tadbirlar",
+    "titleLine2": "va faoliyatlar",
+    "viewAll": "Barcha tadbirlar",
+    "noUpcoming": "Yaqinlashayotgan tadbirlar yo'q."
+  },
+  "alumni": {
+    "badge": "Hamjamiyatimiz",
+    "title": "Bitiruvchilar tarmog'i",
+    "description": "Dunyo bo'ylab muvaffaqiyatli mutaxassislar, yetakchilar va innovatorlar tarmog'iga qo'shiling.",
+    "moreStories": "Yana bitiruvchilar hikoyalari",
+    "stats": {
+      "alumniWorldwide": "Dunyo bo'ylab bitiruvchilar",
+      "nobel": "Nobel laureatlari",
+      "countries": "Ta'lim olgan davlatlar",
+      "careerRate": "Karyera muvaffaqiyati"
+    }
+  },
+  "research": {
+    "badge": "Tadqiqot va ilm",
+    "title": "Jurnallar, tadqiqot va innovatsiya",
+    "description": "TUES ilmiy jurnallar, tadqiqot markazlari va doktorantura dasturlari orqali siyosat hamda amaliyotni shakllantiruvchi ilmni qo'llab-quvvatlaydi.",
+    "ctaText": "Biz bilan nashr etish yoki tadqiqotda hamkorlik qilishni xohlaysizmi?",
+    "ctaButton": "Bog'lanish"
+  },
+  "eduhub": {
+    "badge": "Platforma",
+    "titleSubtitle": "Ta'lim va kampus markazingiz",
+    "description": "EduHub o'qishingizni qo'llab-quvvatlaydi, kurs materiallarini bir joyda jamlaydi va TUES hamjamiyati bilan bog'laydi.",
+    "quote": "\"Kurslar, hamjamiyat va yordam bir joyda. EduHub sizni doimo bog'lab turadi.\"",
+    "learningPlatform": "Ta'lim platformasi",
+    "goTo": "EduHub'ga o'tish",
+    "features": {
+      "course-materials": {
+        "title": "Kurs materiallari",
+        "description": "Barcha kurs materiallari, ma'ruza yozuvlari va resurslarni bitta joyda toping."
+      },
+      "community": {
+        "title": "Hamjamiyat va aloqa",
+        "description": "Forum va xabarlar orqali talaba, o'qituvchi va xodimlar bilan bog'laning."
+      },
+      "events": {
+        "title": "Tadbirlar va imkoniyatlar",
+        "description": "Kampus tadbirlari, seminarlar va imkoniyatlardan xabardor bo'ling."
+      },
+      "support": {
+        "title": "Yordam",
+        "description": "Kerak bo'lganda akademik va texnik yordam oling."
+      },
+      "assignments": {
+        "title": "Topshiriqlar va yuborish",
+        "description": "Topshiriqlarni yuboring, muddatlarni kuzating va fikr-mulohazalarni oling."
+      },
+      "notifications": {
+        "title": "Bildirishnomalar va e'lonlar",
+        "description": "Fakultet va universitetdan muhim e'lonlarni o'z vaqtida oling."
+      }
+    }
+  }
+}

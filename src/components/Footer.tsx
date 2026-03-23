@@ -13,7 +13,7 @@ const socialLinks = [
 ];
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["footer", "header"]);
   const location = useLocation();
   const isEduHubPage = location.pathname === "/eduhub" || location.pathname.startsWith("/eduhub/");
   const isJournalPage = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
@@ -207,17 +207,17 @@ const Footer = () => {
                 </Link>
                 <div className="flex flex-1 flex-col gap-4">
                   <h3 className="text-base font-semibold leading-snug text-white/90">
-                    {t("footer.newsletterTitle")}
+                    {t("newsletterTitle")}
                   </h3>
                   <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                       <label htmlFor="footer-email" className="sr-only">
-                        {t("footer.emailAddress")}
+                        {t("emailAddress")}
                       </label>
                       <input
                         id="footer-email"
                         type="email"
-                        placeholder={t("footer.emailAddress")}
+                        placeholder={t("emailAddress")}
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -227,7 +227,7 @@ const Footer = () => {
                         type="submit"
                         className="shrink-0 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
                       >
-                        {t("footer.subscribeNow")}
+                        {t("subscribeNow")}
                       </button>
                     </div>
                     <label className="flex cursor-pointer items-center gap-3 text-center">
@@ -237,7 +237,7 @@ const Footer = () => {
                         className="h-4 w-4 shrink-0 rounded border-white/30 bg-white/10 text-primary focus:ring-primary/50"
                       />
                       <span className="text-xs text-white/60">
-                        {t("footer.consent")}
+                        {t("consent")}
                       </span>
                     </label>
                   </form>
@@ -303,15 +303,15 @@ const Footer = () => {
                 className="flex flex-wrap items-center justify-center gap-4 text-sm md:justify-start"
                 style={{ color: creamMuted }}
               >
-                <span>{t("footer.copyright", { brand: isEduHubPage ? "EduHub" : "TUES" })}</span>
+                <span>{t("copyright", { brand: isEduHubPage ? "EduHub" : "TUES" })}</span>
                 <a href="#" className="transition-colors hover:text-white">
-                  {t("footer.privacyPolicy")}
+                  {t("privacyPolicy")}
                 </a>
                 <a href="#" className="transition-colors hover:text-white">
-                  {t("footer.termsOfUse")}
+                  {t("termsOfUse")}
                 </a>
                 <a href="#" className="transition-colors hover:text-white">
-                  {t("footer.accessibility")}
+                  {t("accessibility")}
                 </a>
               </div>
               <div className="flex items-center gap-4">

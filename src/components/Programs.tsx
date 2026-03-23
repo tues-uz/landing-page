@@ -64,7 +64,7 @@ const TITLE_COLOR = "rgb(30, 30, 30)";
 const ICON_BG = "rgb(35, 47, 58)";
 
 const Programs = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const bentoRef = useRef<HTMLDivElement>(null);
 
   const { data = staticPrograms } = useQuery({
@@ -143,10 +143,10 @@ const Programs = () => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 md:mb-12 items-center sm:items-end">
           <div className="text-center sm:text-left">
             <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: TITLE_COLOR }}>
-              {t("home.programs.title")}
+              {t("programs.title")}
             </h2>
             <p className="text-base max-w-2xl sm:max-w-2xl mx-auto sm:mx-0" style={{ color: TITLE_COLOR }}>
-              {t("home.programs.description")}
+              {t("programs.description")}
             </p>
           </div>
           <Link
@@ -154,7 +154,7 @@ const Programs = () => {
             className="inline-flex items-center justify-center gap-2 font-medium transition-opacity hover:opacity-90 shrink-0 border border-current/10 rounded-lg px-4 py-2.5 self-center sm:self-auto sm:border-0 sm:rounded-none sm:px-0 sm:py-0"
             style={{ color: TITLE_COLOR }}
           >
-            <span>{t("home.programs.exploreAll")}</span>
+            <span>{t("programs.exploreAll")}</span>
             <span
               className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
               style={{ backgroundColor: ICON_BG }}
