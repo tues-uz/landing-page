@@ -252,19 +252,14 @@ function NewsFramerCardSkeleton({ big = false }: { big?: boolean }) {
   );
 }
 
-const NewsEvents = () => {
-  const { t } = useTranslation("home");
-  const {
-    data: newsData,
-    isLoading: newsLoading,
-  } = useQuery({
-    queryKey: contentKeys.news.list(),
-    queryFn: contentApi.news.list,
-    staleTime: 5 * 60 * 1000,
-    retry: 1,
+const LatestNews = () => {
+  const { t, i18n } = useTranslation("home");
+  const { data: allNews = [], isLoading: newsLoading } = useQuery({
+    queryKey: [...contentKeys.news.list(), i18n.language],
+    queryFn: () => contentApi.news.list(i18n.language),
   });
 
-  const newsItems = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
+  const newsItems = allNews && allNews.length > 0 ? allNews : FALLBACK_NEWS;
   const featured = newsItems[0];
   const smallCards = newsItems.slice(1, 5);
   const newsGridRef = useRef<HTMLDivElement>(null);
@@ -356,4 +351,4 @@ const NewsEvents = () => {
   );
 };
 
-export default NewsEvents;
+export default LatestNews;

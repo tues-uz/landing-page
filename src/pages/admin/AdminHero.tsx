@@ -13,15 +13,20 @@ import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient
 import { AdminPageShell } from "./AdminPageShell";
 import { Loader2, Plus, Pencil, Trash2, Search, Video, Image, Upload, CheckCircle2 } from "lucide-react";
 import { usePermissions } from "@/hooks/usePermissions";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 export default function AdminHero() {
-  const { canEditHero } = usePermissions();
+  const { t, i18n } = useTranslation("admin");
+  const { canAccessHero } = usePermissions();
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [background, setBackground] = useState<HeroBackground | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
   const [newSlide, setNewSlide] = useState<Partial<HeroSlide>>({ title: "", subtitle: "", year: "", linkUrl: "" });
+  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [loadingLocale, setLoadingLocale] = useState(false);
   const [searchSlides, setSearchSlides] = useState("");
   const [addSlideOpen, setAddSlideOpen] = useState(false);
   const [uploadingMedia, setUploadingMedia] = useState<"video" | "fallback" | "image" | null>(null);
@@ -122,7 +127,7 @@ export default function AdminHero() {
   const load = async () => {
     setLoading(true);
     try {
-      const [s, b] = await Promise.all([adminApi.heroSlides.list(), adminApi.heroBackground.get()]);
+      const [s, b] = await Promise.all([adminApi.heroSlides.list(i18n.language), adminApi.heroBackground.get()]);
       setSlides(s);
       // Always show Video tab active when opening the page; keep saved videoUrl/imageUrl
       const merged = b
@@ -138,7 +143,7 @@ export default function AdminHero() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [i18n.language]);
 
   const filteredSlides = useMemo(() => {
     if (!searchSlides.trim()) return slides;
@@ -191,18 +196,50 @@ export default function AdminHero() {
     }
   };
 
+  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+    if (newLocale === editLocale || !editingSlide || !editingSlide.id) return;
+    setLoadingLocale(true);
+    try {
+      const allSlides = await adminApi.heroSlides.list(newLocale);
+      const localeData = allSlides.find(s => s.id === editingSlide.id);
+      if (localeData && localeData.id) {
+        setEditingSlide(prev => prev ? ({
+          ...prev, 
+          title: localeData.title || "",
+          subtitle: localeData.subtitle || "",
+        }) : null);
+      } else {
+        setEditingSlide(prev => prev ? ({ ...prev, title: "", subtitle: "" }) : null);
+      }
+      setEditLocale(newLocale);
+    } catch (e) {
+      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+    } finally {
+      setLoadingLocale(false);
+    }
+  };
+
   const handleUpdateSlide = async () => {
     if (!editingSlide?.id) return;
     setSaving(true);
     try {
-      await adminApi.heroSlides.update(editingSlide.id, {
-        title: editingSlide.title,
-        subtitle: editingSlide.subtitle,
-        year: editingSlide.year,
-        linkUrl: editingSlide.linkUrl ?? null,
-      });
+      if (editLocale === "uz") {
+        await adminApi.heroSlides.update(editingSlide.id, {
+          title: editingSlide.title,
+          subtitle: editingSlide.subtitle,
+          year: editingSlide.year,
+          linkUrl: editingSlide.linkUrl ?? null,
+        });
+        toast({ title: "Slide updated" });
+      } else {
+        await adminApi.heroSlides.upsertTranslation(editingSlide.id, editLocale, {
+          title: editingSlide.title,
+          subtitle: editingSlide.subtitle,
+        });
+        toast({ title: `${editLocale.toUpperCase()} translation updated` });
+      }
       setEditingSlide(null);
-      toast({ title: "Slide updated" });
+      setEditLocale("uz");
       load();
     } catch (e) {
       toast({ title: "Failed to update slide", description: String(e), variant: "destructive" });
@@ -257,7 +294,7 @@ export default function AdminHero() {
                 onClick={() => setBackground({ ...bg, mediaType: "video" })}
               >
                 <Video className="h-4 w-4" />
-                video
+                {t("video", "Video")}
               </button>
               <button
                 type="button"
@@ -265,13 +302,13 @@ export default function AdminHero() {
                 onClick={() => setBackground({ ...bg, mediaType: "image" })}
               >
                 <Image className="h-4 w-4" />
-                image
+                {t("image", "Image")}
               </button>
             </div>
             {bg.mediaType === "video" && (
               <>
                 <div className="grid gap-2">
-                  <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Upload video file</Label>
+                  <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{t("uploadVideo", "Upload video file")}</Label>
                   <div className="space-y-2">
                     <div
                       role="button"
@@ -424,7 +461,7 @@ export default function AdminHero() {
               disabled={saving}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
             >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save background"}
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("saveBackground", "Save background")}
             </button>
           </div>
         </div>
@@ -439,14 +476,14 @@ export default function AdminHero() {
               onChange={(e) => setSearchSlides(e.target.value)}
             />
           </div>
-          <button
+            <button
             type="button"
             onClick={() => setAddSlideOpen(true)}
             disabled={saving}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 gap-1.5 shrink-0"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-            Add slide
+            {t("addSlide", "Add slide")}
           </button>
         </div>
 
@@ -516,6 +553,22 @@ export default function AdminHero() {
               >
                 {editingSlide?.id === slide.id ? (
                   <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-sm">{t("editSlide", "Edit Slide")}</h4>
+                      <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[180px]">
+                        <TabsList className="grid w-full grid-cols-3">
+                          <TabsTrigger value="uz" disabled={loadingLocale}>UZ</TabsTrigger>
+                          <TabsTrigger value="en" disabled={loadingLocale}>EN</TabsTrigger>
+                          <TabsTrigger value="ru" disabled={loadingLocale}>RU</TabsTrigger>
+                        </TabsList>
+                      </Tabs>
+                    </div>
+                    {loadingLocale && (
+                      <div className="flex items-center justify-center py-2">
+                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                        <span className="ml-2 text-xs text-muted-foreground">Loading translation...</span>
+                      </div>
+                    )}
                     <div className="space-y-2">
                       <Label className="text-sm font-medium">Title</Label>
                       <Input
@@ -532,7 +585,7 @@ export default function AdminHero() {
                         placeholder="Subtitle"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
                       <Label className="text-sm font-medium">Year</Label>
                       <Input
                         value={editingSlide.year ?? ""}
@@ -544,7 +597,7 @@ export default function AdminHero() {
                       <Button size="sm" onClick={handleUpdateSlide} disabled={saving}>
                         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
                       </Button>
-                      <Button size="sm" variant="outline" onClick={() => setEditingSlide(null)}>
+                      <Button size="sm" variant="outline" onClick={() => { setEditingSlide(null); setEditLocale("uz"); }}>
                         Cancel
                       </Button>
                     </div>
@@ -570,7 +623,7 @@ export default function AdminHero() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => setEditingSlide(slide)}
+                        onClick={() => { setEditingSlide(slide); setEditLocale("uz"); }}
                         className="h-8 px-3"
                         aria-label="Edit slide"
                       >

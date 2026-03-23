@@ -26,6 +26,7 @@ i18n
       "programs",
       "footer",
       "notFound",
+      "admin",
     ],
     defaultNS: "common",
 

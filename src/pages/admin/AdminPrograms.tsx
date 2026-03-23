@@ -11,14 +11,16 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { ExternalLink, GraduationCap, Search, Copy, FileText, Loader2, Pencil } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function AdminPrograms() {
+  const { t, i18n } = useTranslation("admin");
   const { toast } = useToast();
   const [q, setQ] = useState("");
 
   const { data: programs = staticPrograms, isLoading } = useQuery({
-    queryKey: programsKeys.list(),
-    queryFn: adminApi.programs.list,
+    queryKey: [...programsKeys.list(), i18n.language],
+    queryFn: () => adminApi.programs.list(i18n.language),
   });
 
   const filtered = useMemo(() => {
@@ -43,13 +45,13 @@ export default function AdminPrograms() {
 
   return (
     <AdminPageShell
-      title="Programs"
-      description="Manage program catalog — edit entries via the CMS; upload PDFs in public/program-brochures/."
+      title={t("programs", "Programs")}
+      description={t("programsDescription", "Manage program catalog — edit entries via the CMS; upload PDFs in public/program-brochures/.")}
       actions={
         <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
           <Link to="/programs" target="_blank" rel="noopener noreferrer">
             <ExternalLink className="h-4 w-4" />
-            Open programs page
+            {t("openProgramsPage", "Open programs page")}
           </Link>
         </Button>
       }
@@ -58,7 +60,7 @@ export default function AdminPrograms() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <FileText className="h-4 w-4 text-muted-foreground" />
-            PDF brochures
+            {t("pdfBrochures", "PDF brochures")}
           </CardTitle>
           <CardDescription className="text-sm leading-relaxed">
             Default: three files in{" "}
@@ -72,7 +74,7 @@ export default function AdminPrograms() {
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search by title, slug, or description…"
+          placeholder={t("searchProgramsPlaceholder", "Search by title, slug, or description…")}
           value={q}
           onChange={(e) => setQ(e.target.value)}
           className="pl-9 h-10 rounded-lg"
@@ -86,8 +88,8 @@ export default function AdminPrograms() {
       ) : (
         <>
           <p className="text-sm text-muted-foreground">
-            {filtered.length} of {programs.length} programs
-            {q.trim() ? ` matching "${q.trim()}"` : ""}
+            {filtered.length} {t("of", "of")} {programs.length} {t("programsCount", "programs")}
+            {q.trim() ? ` ${t("matching", "matching")} "${q.trim()}"` : ""}
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

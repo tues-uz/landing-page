@@ -4,7 +4,7 @@ import type { EventItem } from "@/api/client";
 import { eventsKeys } from "@/api/queryKeys";
 
 export function useEventsQuery() {
-  return useQuery({ queryKey: eventsKeys.list(), queryFn: adminApi.events.list });
+  return useQuery({ queryKey: eventsKeys.list(), queryFn: () => adminApi.events.list() });
 }
 
 export function useEventsMutations() {

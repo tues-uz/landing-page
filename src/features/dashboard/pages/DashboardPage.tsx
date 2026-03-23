@@ -12,9 +12,9 @@ import { eventsKeys } from "@/api/queryKeys";
 const B = "/admin";
 
 export function DashboardPage() {
-  const { data: heroSlides = [] } = useQuery({ queryKey: heroKeys.list(), queryFn: adminApi.heroSlides.list });
-  const { data: news = [] } = useQuery({ queryKey: newsKeys.list(), queryFn: adminApi.news.list });
-  const { data: events = [] } = useQuery({ queryKey: eventsKeys.list(), queryFn: adminApi.events.list });
+  const { data: heroSlides = [] } = useQuery({ queryKey: heroKeys.list(), queryFn: () => adminApi.heroSlides.list() });
+  const { data: news = [] } = useQuery({ queryKey: newsKeys.list(), queryFn: () => adminApi.news.list() });
+  const { data: events = [] } = useQuery({ queryKey: eventsKeys.list(), queryFn: () => adminApi.events.list() });
 
   const totalContent = heroSlides.length + news.length + events.length;
 

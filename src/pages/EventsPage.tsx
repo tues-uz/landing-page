@@ -131,10 +131,10 @@ function EventCard({ event }: { event: EventItem }) {
 }
 
 const EventsPage = () => {
-  const { t } = useTranslation("events");
+  const { t, i18n } = useTranslation("events");
   const { data: eventData, isLoading: eventsLoading } = useQuery({
-    queryKey: contentKeys.events.list(),
-    queryFn: contentApi.events.list,
+    queryKey: [...contentKeys.events.list(), i18n.language],
+    queryFn: () => contentApi.events.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

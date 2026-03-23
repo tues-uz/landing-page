@@ -14,8 +14,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, ExternalLink, Copy, FileText, Loader2, Pencil, Plus, Save, Trash2, Upload } from "lucide-react";
 import type { ProgramItem } from "@/api/client";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const MAX_PDF_MB = 40;
 
@@ -24,6 +26,7 @@ type PdfKind = "brochure" | "admissions" | "curriculum";
 export default function AdminProgramEdit() {
   const { slug } = useParams<{ slug: string }>();
   const { toast } = useToast();
+  const { t } = useTranslation("admin");
   const queryClient = useQueryClient();
 
   const { data: program, isLoading } = useQuery({
@@ -62,6 +65,9 @@ export default function AdminProgramEdit() {
   const admissionsPdfInputRef = useRef<HTMLInputElement>(null);
   const curriculumPdfInputRef = useRef<HTMLInputElement>(null);
 
+  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [loadingLocale, setLoadingLocale] = useState(false);
+
   useEffect(() => {
     if (!program) return;
     setTitle(program.title);
@@ -94,12 +100,53 @@ export default function AdminProgramEdit() {
     setLocalPdfFileName({});
   }, [program]);
 
+  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+    if (newLocale === editLocale || !program || !slug) return;
+    setLoadingLocale(true);
+    try {
+      const localeData = await adminApi.programs.getBySlug(slug, newLocale);
+      if (localeData && localeData.id) {
+        setTitle(localeData.title || "");
+        setDescription(localeData.description || "");
+        setLongDescription(localeData.longDescription || "");
+        setHighlightsText((localeData.highlights || []).join("\n"));
+        setIntroduction(localeData.introduction || "");
+        setCareerOutcomes(localeData.careerOutcomes || "");
+      } else {
+        setTitle("");
+        setDescription("");
+        setLongDescription("");
+        setHighlightsText("");
+        setIntroduction("");
+        setCareerOutcomes("");
+      }
+      setEditLocale(newLocale);
+    } catch (e) {
+      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+    } finally {
+      setLoadingLocale(false);
+    }
+  };
+
   const saveMutation = useMutation({
-    mutationFn: (payload: Partial<ProgramItem>) => adminApi.programs.update(program!.id, payload),
+    mutationFn: async (payload: Partial<ProgramItem>) => {
+      if (editLocale === "uz") {
+        return adminApi.programs.update(program!.id, payload);
+      } else {
+        return adminApi.programs.upsertTranslation(program!.id, editLocale, {
+          title: payload.title,
+          description: payload.description,
+          longDescription: payload.longDescription,
+          highlights: payload.highlights,
+          introduction: payload.introduction,
+          careerOutcomes: payload.careerOutcomes,
+        });
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: programsKeys.list() });
       queryClient.invalidateQueries({ queryKey: programsKeys.detail(slug!) });
-      toast({ title: "Saved", description: "Program updated." });
+      toast({ title: "Saved", description: editLocale === "uz" ? "Program updated." : `${editLocale.toUpperCase()} translation updated.` });
     },
     onError: (err) =>
       toast({ title: "Save failed", description: String(err), variant: "destructive" }),
@@ -269,7 +316,7 @@ export default function AdminProgramEdit() {
 
   if (isLoading) {
     return (
-      <AdminPageShell title="Loading program…" description="">
+      <AdminPageShell title={`${t("loading")} program…`} description="">
         <div className="flex items-center justify-center py-16">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
@@ -279,11 +326,11 @@ export default function AdminProgramEdit() {
 
   if (!slug || !program) {
     return (
-      <AdminPageShell title="Program not found" description="Check the URL or pick a program from the list.">
+      <AdminPageShell title={t("programNotFound", "Program not found")} description={t("programNotFoundDesc", "Check the URL or pick a program from the list.")}>
         <Button asChild variant="outline" className="rounded-lg">
           <Link to="/admin/programs">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to programs
+            {t("backToPrograms", "Back to programs")}
           </Link>
         </Button>
       </AdminPageShell>
@@ -294,49 +341,68 @@ export default function AdminProgramEdit() {
 
   return (
     <AdminPageShell
-      title="Edit program details"
-      description="Fields match the public program detail page (listing + body + At a glance sidebar)."
+      title={t("editProgramDetails", "Edit program details")}
+      description={t("editProgramDetailsDesc", "Fields match the public program detail page (listing + body + At a glance sidebar).")}
       actions={
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
             <Link to="/admin/programs">
               <ArrowLeft className="h-4 w-4" />
-              All programs
+              {t("allPrograms", "All programs")}
             </Link>
           </Button>
           <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
             <Link to={`/programs/${slug}`} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-4 w-4" />
-              View live
+              {t("viewLive", "View live")}
             </Link>
           </Button>
         </div>
       }
     >
-      <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-muted">
-          <Icon className="h-6 w-6 text-muted-foreground" />
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-muted">
+            <Icon className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-foreground flex items-center gap-2">
+              <Pencil className="h-4 w-4 text-muted-foreground" />
+              {program.title}
+            </p>
+            <p className="text-xs font-mono text-muted-foreground mt-0.5">{slug}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm font-medium text-foreground flex items-center gap-2">
-            <Pencil className="h-4 w-4 text-muted-foreground" />
-            {program.title}
-          </p>
-          <p className="text-xs font-mono text-muted-foreground mt-0.5">{slug}</p>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground mr-2">{t("language")}:</span>
+          <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[200px]">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="uz" disabled={loadingLocale}>UZ</TabsTrigger>
+              <TabsTrigger value="en" disabled={loadingLocale}>EN</TabsTrigger>
+              <TabsTrigger value="ru" disabled={loadingLocale}>RU</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </div>
 
+      {loadingLocale && (
+        <div className="flex items-center justify-center py-4">
+          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          <span className="ml-2 text-sm text-muted-foreground">{t("loadingTranslation", "Loading translation...")}</span>
+        </div>
+      )}
+
       <Card className={ADMIN_CARD_CLASS}>
         <CardHeader>
-          <CardTitle className="text-base">Catalog (programs grid + detail header)</CardTitle>
-          <CardDescription>Title, count, short description, about, key areas, and icon.</CardDescription>
+          <CardTitle className="text-base">{t("catalog", "Catalog (programs grid + detail header)")}</CardTitle>
+          <CardDescription>{t("catalogDesc", "Title, count, short description, about, key areas, and icon.")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="prog-title">Title</Label>
+            <Label htmlFor="prog-title">{t("titleLabel", "Title")}</Label>
             <Input id="prog-title" value={title} onChange={(e) => setTitle(e.target.value)} className="rounded-lg" />
           </div>
-          <div className="space-y-2">
+          <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
             <Label htmlFor="prog-slug">URL slug (from title)</Label>
             <Input
               id="prog-slug"
@@ -357,7 +423,7 @@ export default function AdminProgramEdit() {
               ) : null}
             </p>
           </div>
-          <div className="space-y-2">
+          <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
             <Label htmlFor="prog-icon">Icon</Label>
             <select
               id="prog-icon"
@@ -370,7 +436,7 @@ export default function AdminProgramEdit() {
               ))}
             </select>
           </div>
-          <div className="space-y-2">
+          <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
             <Label htmlFor="prog-count">Count label</Label>
             <Input
               id="prog-count"
@@ -413,11 +479,9 @@ export default function AdminProgramEdit() {
 
       <Card className={ADMIN_CARD_CLASS}>
         <CardHeader>
-          <CardTitle className="text-base">Detail page &amp; sidebar</CardTitle>
+          <CardTitle className="text-base">{t("detailPageSidebar", "Detail page & sidebar")}</CardTitle>
           <CardDescription>
-            Introduction, career outcomes, &quot;At a glance&quot; facts, hero image, and PDF download URLs.
-            Upload uses the same media API as Events/Hero; empty PDF fields fall back to{" "}
-            <code className="text-xs">/program-brochures/</code> on the site.
+            {t("detailPageSidebarDesc", "Introduction, career outcomes, \"At a glance\" facts, hero image, and PDF download URLs.")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -439,7 +503,7 @@ export default function AdminProgramEdit() {
               className="rounded-lg min-h-[100px] resize-y"
             />
           </div>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className={`grid gap-6 sm:grid-cols-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
             <div className="space-y-2">
               <Label htmlFor="prog-degree">Degree type</Label>
               <Input id="prog-degree" value={degreeType} onChange={(e) => setDegreeType(e.target.value)} className="rounded-lg" />
@@ -478,7 +542,7 @@ export default function AdminProgramEdit() {
               <Input id="prog-tuition" value={tuition} onChange={(e) => setTuition(e.target.value)} className="rounded-lg" />
             </div>
           </div>
-          <div className="space-y-2">
+          <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
             <Label htmlFor="prog-hero">Hero image URL (optional)</Label>
             <Input
               id="prog-hero"
@@ -489,7 +553,7 @@ export default function AdminProgramEdit() {
             />
           </div>
 
-          <div className="space-y-5 border-t border-slate-200 pt-6">
+          <div className={`space-y-5 border-t border-slate-200 pt-6 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
             <div>
               <h4 className="text-sm font-semibold text-slate-900">Program PDFs (download cards)</h4>
               <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
@@ -617,7 +681,7 @@ export default function AdminProgramEdit() {
           disabled={saveMutation.isPending}
         >
           {saveMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          Save changes
+          {t("saveChanges", "Save changes")}
         </Button>
         <Button type="button" variant="outline" className="rounded-lg gap-1.5" onClick={copyJson}>
           <Copy className="h-4 w-4" />

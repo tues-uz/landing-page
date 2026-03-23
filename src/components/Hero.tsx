@@ -32,14 +32,14 @@ const FALLBACK_SLIDES: HeroSlide[] = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const Hero = () => {
-  const { t } = useTranslation("hero");
+  const { t, i18n } = useTranslation("hero");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isCardVisible, setIsCardVisible] = useState(true);
 
   // Fetch slides from API — gracefully falls back to static content
-  const { data: slidesData } = useQuery({
-    queryKey: contentKeys.heroSlides(),
-    queryFn: contentApi.heroSlides.list,
+  const { data: slidesData, isLoading: slidesLoading } = useQuery({
+    queryKey: [...contentKeys.heroSlides(), i18n.language],
+    queryFn: () => contentApi.heroSlides.list(i18n.language),
     staleTime: 5 * 60 * 1000, // 5 min
     retry: 1,
   });

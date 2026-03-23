@@ -4,7 +4,7 @@ import type { NewsItem } from "@/api/client";
 import { newsKeys } from "@/api/queryKeys";
 
 export function useNewsQuery() {
-  return useQuery({ queryKey: newsKeys.list(), queryFn: adminApi.news.list });
+  return useQuery({ queryKey: newsKeys.list(), queryFn: () => adminApi.news.list() });
 }
 
 export function useNewsDetailQuery(slug: string) {

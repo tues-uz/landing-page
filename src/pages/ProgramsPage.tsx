@@ -48,13 +48,13 @@ const TESTIMONIALS = [
 ];
 
 const ProgramsPage = () => {
-  const { t } = useTranslation(["programs", "common"]);
+  const { t, i18n } = useTranslation(["programs", "common"]);
   const [selectedCategory, setSelectedCategory] = useState<(typeof CATEGORIES)[number]>(CATEGORIES[0]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: programs = staticPrograms } = useQuery({
-    queryKey: contentKeys.programs.list(),
-    queryFn: contentApi.programs.list,
+    queryKey: [...contentKeys.programs.list(), i18n.language],
+    queryFn: () => contentApi.programs.list(i18n.language),
     initialData: staticPrograms,
   });
   const [testimonialIndex, setTestimonialIndex] = useState(0);

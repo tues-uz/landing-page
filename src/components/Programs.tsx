@@ -64,13 +64,12 @@ const TITLE_COLOR = "rgb(30, 30, 30)";
 const ICON_BG = "rgb(35, 47, 58)";
 
 const Programs = () => {
-  const { t } = useTranslation("home");
+  const { t, i18n } = useTranslation("home");
   const bentoRef = useRef<HTMLDivElement>(null);
 
-  const { data = staticPrograms } = useQuery({
-    queryKey: contentKeys.programs.list(),
-    queryFn: contentApi.programs.list,
-    initialData: staticPrograms,
+  const { data: programs = [], isLoading } = useQuery({
+    queryKey: [...contentKeys.programs.list(), i18n.language],
+    queryFn: () => contentApi.programs.list(i18n.language),
   });
 
   useEffect(() => {
@@ -166,7 +165,7 @@ const Programs = () => {
 
         {/* Programs grid — 3 columns, 2 rows, 6 programs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.slice(0, 6).map((program) => (
+          {programs.slice(0, 6).map((program) => (
               <Link
                 key={program.id}
                 to={`/programs/${program.slug}`}

@@ -105,13 +105,13 @@ function filterNews(items: NewsItem[], search: string, category: string): NewsIt
 }
 
 const NewsEventsPage = () => {
-  const { t } = useTranslation("news");
+  const { t, i18n } = useTranslation("news");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
   const { data: newsData, isLoading: newsLoading } = useQuery({
-    queryKey: contentKeys.news.list(),
-    queryFn: contentApi.news.list,
+    queryKey: [...contentKeys.news.list(), i18n.language],
+    queryFn: () => contentApi.news.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

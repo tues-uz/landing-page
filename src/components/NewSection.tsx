@@ -55,13 +55,13 @@ function EventFramerSkeleton() {
 }
 
 const NewSection = () => {
-  const { t } = useTranslation("home");
+  const { t, i18n } = useTranslation("home");
   const {
     data: eventData,
     isLoading: eventsLoading,
   } = useQuery({
-    queryKey: contentKeys.events.list(),
-    queryFn: contentApi.events.list,
+    queryKey: [...contentKeys.events.list(), i18n.language],
+    queryFn: () => contentApi.events.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
