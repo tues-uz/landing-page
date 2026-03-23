@@ -15,11 +15,11 @@ import {
   LayoutGrid,
   List,
   LogOut,
-  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/features/auth/context";
 import { adminApi, type MenuItem } from "@/api/auth";
@@ -47,6 +47,7 @@ const newsSubNav = [
 ];
 
 export function Sidebar() {
+  const { t } = useTranslation("admin");
   const location = useLocation();
   const { logout } = useAuth();
   const isNewsActive = location.pathname.startsWith(`${CMS_BASE}/news`);
@@ -76,14 +77,14 @@ export function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 z-30 w-64 h-[100dvh] flex flex-col bg-sidebar border-r border-sidebar-border">
       <div className="p-4 border-b border-sidebar-border">
-        <h1 className="font-semibold text-lg text-foreground">TUES CMS</h1>
-        <p className="text-xs text-muted-foreground">Content management</p>
+        <h1 className="font-semibold text-lg text-foreground">{t("title")}</h1>
+        <p className="text-xs text-muted-foreground">{t("subtitle")}</p>
       </div>
       <div className="p-3">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search..."
+            placeholder={t("search")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 h-9 rounded-lg bg-muted/50 text-sm"
@@ -96,7 +97,7 @@ export function Sidebar() {
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
         <div className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground">
           <Bell className="h-3.5 w-3.5" />
-          Notifications
+          {t("notifications", "Notifications")}
         </div>
 
         {regularItems.map((item) => {
@@ -117,7 +118,7 @@ export function Sidebar() {
               }
             >
               <Icon className="h-4 w-4 shrink-0" />
-              {item.label}
+              {t(item.id, item.label)}
             </NavLink>
           );
         })}
@@ -136,7 +137,7 @@ export function Sidebar() {
             >
               <span className="flex items-center gap-3">
                 <Newspaper className="h-4 w-4 shrink-0" />
-                News
+                {t("news")}
               </span>
               <ChevronDown className={cn("h-4 w-4 transition-transform", newsOpen && "rotate-180")} />
             </button>
@@ -157,7 +158,7 @@ export function Sidebar() {
                     }
                   >
                     <Icon className="h-3.5 w-3.5 shrink-0" />
-                    {label}
+                    {t(label.toLowerCase().replace(/\s+/g, ""), label)}
                   </NavLink>
                 ))}
               </div>
@@ -174,7 +175,7 @@ export function Sidebar() {
             >
               <span className="flex items-center gap-3">
                 <Shield className="h-4 w-4 shrink-0" />
-                Admin
+                {t("admin")}
               </span>
               <ChevronDown className={cn("h-4 w-4 transition-transform", adminOpen && "rotate-180")} />
             </button>
@@ -197,7 +198,7 @@ export function Sidebar() {
                       }
                     >
                       <Icon className="h-3.5 w-3.5 shrink-0" />
-                      {item.label}
+                      {t(item.id, item.label)}
                     </NavLink>
                   );
                 })}
@@ -207,11 +208,11 @@ export function Sidebar() {
         )}
 
         <div className="mt-4 rounded-xl border border-border bg-card p-4 shadow-sm">
-          <p className="text-sm font-medium text-foreground">Need help?</p>
-          <p className="text-xs text-muted-foreground mt-0.5">View docs and guides for the CMS.</p>
+          <p className="text-sm font-medium text-foreground">{t("needHelp")}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">{t("viewDocsDesc")}</p>
           <Button variant="outline" size="sm" className="mt-3 w-full rounded-lg" asChild>
             <a href="/" target="_blank" rel="noopener noreferrer">
-              View docs
+              {t("viewDocs")}
             </a>
           </Button>
         </div>
@@ -222,7 +223,7 @@ export function Sidebar() {
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           <Settings className="h-4 w-4" />
-          Settings
+          {t("settings")}
         </button>
         <button
           type="button"
@@ -230,7 +231,7 @@ export function Sidebar() {
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground hover:text-destructive"
         >
           <LogOut className="h-4 w-4 shrink-0" />
-          Log out
+          {t("logout")}
         </button>
       </div>
     </aside>

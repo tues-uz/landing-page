@@ -1,0 +1,12 @@
+{
+  "title": "Tadbirlar",
+  "mainPage": "Bosh sahifa",
+  "subtitle": "Universitet tadbirlari yil davomida o'tkaziladi: ta'lim ko'rgazmalari, ommaviy ma'ruzalar, milliy turlar va maxsus ko'rgazmalar.",
+  "upcomingEvents": "Yaqinlashayotgan tadbirlar",
+  "pastEvents": "O'tgan tadbirlar",
+  "noUpcoming": "Hozircha yaqinlashayotgan tadbirlar yo'q.",
+  "noPast": "Ko'rsatish uchun o'tgan tadbirlar yo'q.",
+  "seeMore": "Ko'proq tadbirlar",
+  "shareEvent": "Tadbirni ulashish",
+  "linkCopied": "Havola nusxalandi"
+}

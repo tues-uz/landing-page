@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS } from "@/data/fallbackContent";
+import { useTranslation } from "react-i18next";
 
 const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80";
@@ -81,10 +82,11 @@ function EventListCard({ event }: { event: EventItem }) {
 
 const EventDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const { i18n } = useTranslation();
 
   const { data: eventData, isLoading } = useQuery({
-    queryKey: contentKeys.events.list(),
-    queryFn: contentApi.events.list,
+    queryKey: [...contentKeys.events.list(), i18n.language],
+    queryFn: () => contentApi.events.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

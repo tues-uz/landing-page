@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contentApi, type HeroSlide } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
+import { useTranslation } from "react-i18next";
 
 // ─── Fallback slides shown when the API is unavailable ───────────────────────
 
@@ -31,13 +32,14 @@ const FALLBACK_SLIDES: HeroSlide[] = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const Hero = () => {
+  const { t, i18n } = useTranslation("hero");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isCardVisible, setIsCardVisible] = useState(true);
 
   // Fetch slides from API — gracefully falls back to static content
-  const { data: slidesData } = useQuery({
-    queryKey: contentKeys.heroSlides(),
-    queryFn: contentApi.heroSlides.list,
+  const { data: slidesData, isLoading: slidesLoading } = useQuery({
+    queryKey: [...contentKeys.heroSlides(), i18n.language],
+    queryFn: () => contentApi.heroSlides.list(i18n.language),
     staleTime: 5 * 60 * 1000, // 5 min
     retry: 1,
   });
@@ -136,7 +138,7 @@ const Hero = () => {
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 rounded-full bg-oxford-gold" />
                 <span className="text-muted-foreground text-sm uppercase tracking-wider">
-                  Announcement
+                  {t("announcement")}
                 </span>
               </div>
               <h2 className="text-2xl lg:text-3xl text-foreground mb-3 leading-tight">
@@ -149,10 +151,10 @@ const Hero = () => {
               >
                 {current.linkUrl ? (
                   <a href={current.linkUrl} target="_blank" rel="noopener noreferrer">
-                    Learn More
+                    {t("learnMore")}
                   </a>
                 ) : (
-                  <span>Learn More</span>
+                  <span>{t("learnMore")}</span>
                 )}
               </Button>
             </div>
@@ -167,7 +169,7 @@ const Hero = () => {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                aria-label={`Slide ${index + 1}`}
+                aria-label={t("slideAriaLabel", { number: index + 1 })}
                 className={`h-2 rounded-full transition-all ${index === currentSlide
                   ? "bg-primary-foreground w-8"
                   : "bg-primary-foreground/40 hover:bg-primary-foreground/60 w-2"
@@ -199,7 +201,7 @@ const Hero = () => {
               size="icon"
               onClick={() => setIsCardVisible(!isCardVisible)}
               className="rounded-full border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
-              aria-label={isCardVisible ? "Hide announcement" : "Show announcement"}
+              aria-label={isCardVisible ? t("hideAnnouncement") : t("showAnnouncement")}
             >
               {isCardVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </Button>

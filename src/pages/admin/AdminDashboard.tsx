@@ -6,15 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { adminApi } from "@/api/adminClient";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
+import { useTranslation } from "react-i18next";
 
 export default function AdminDashboard() {
+  const { t, i18n } = useTranslation("admin");
   const [counts, setCounts] = useState({ hero: 0, news: 0, events: 0 });
 
   useEffect(() => {
     Promise.all([
-      adminApi.heroSlides.list(),
-      adminApi.news.list(),
-      adminApi.events.list(),
+      adminApi.heroSlides.list(i18n.language),
+      adminApi.news.list(i18n.language),
+      adminApi.events.list(i18n.language),
     ])
       .then(([slides, articles, events]) => {
         setCounts({
@@ -24,35 +26,35 @@ export default function AdminDashboard() {
         });
       })
       .catch(() => {});
-  }, []);
+  }, [i18n.language]);
 
   const total = counts.hero + counts.news + counts.events;
 
   const statCards = [
-    { to: "/admin/hero", label: "Hero slides", value: counts.hero },
-    { to: "/admin/news", label: "News articles", value: counts.news },
-    { to: "/admin/events", label: "Upcoming events", value: counts.events },
-    { label: "Total content", value: total },
+    { to: "/admin/hero", label: t("heroSlides"), value: counts.hero },
+    { to: "/admin/news", label: t("newsArticles"), value: counts.news },
+    { to: "/admin/events", label: t("upcomingEvents"), value: counts.events },
+    { label: t("totalContent"), value: total },
   ];
 
   const quickActions = [
-    { to: "/admin/hero", title: "Manage hero slides", description: "Carousel and announcements" },
-    { to: "/admin/news", title: "Manage news", description: "Articles and updates" },
-    { to: "/admin/events", title: "Manage events", description: "Upcoming events" },
+    { to: "/admin/hero", title: t("manageHero"), description: t("carouselDesc") },
+    { to: "/admin/news", title: t("manageNews"), description: t("articlesDesc") },
+    { to: "/admin/events", title: t("manageEvents"), description: t("eventsDesc") },
   ];
 
   return (
-    <AdminPageShell title="Dashboard" description="Welcome back, Admin 👋">
+    <AdminPageShell title={t("dashboard")} description={t("welcome")}>
       <Card className={ADMIN_CARD_CLASS}>
         <CardContent className="flex flex-row flex-wrap items-center justify-between gap-4 py-4">
           <div>
-            <h3 className="font-semibold text-slate-900">Need help?</h3>
-            <p className="text-sm text-slate-500">View docs and guides for the CMS.</p>
+            <h3 className="font-semibold text-slate-900">{t("needHelp")}</h3>
+            <p className="text-sm text-slate-500">{t("viewDocsDesc")}</p>
           </div>
           <Button variant="outline" size="sm" className="border-slate-200" asChild>
             <a href="/" target="_blank" rel="noopener noreferrer" className="gap-2">
               <FileText className="h-4 w-4" />
-              View docs
+              {t("viewDocs")}
             </a>
           </Button>
         </CardContent>
@@ -90,12 +92,12 @@ export default function AdminDashboard() {
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Input
-          placeholder="Search content..."
+          placeholder={t("searchContent", "Search content...")}
           className="max-w-xs rounded-lg border-slate-200 text-sm"
         />
         <Button size="sm" className="bg-blue-600 hover:bg-blue-700" asChild>
           <Link to="/admin/news" className="gap-1">
-            + New
+            + {t("new", "New")}
           </Link>
         </Button>
       </div>
@@ -122,22 +124,22 @@ export default function AdminDashboard() {
 
       <Card className={ADMIN_CARD_CLASS}>
         <CardHeader>
-          <CardTitle className="text-lg text-slate-900">Recent content</CardTitle>
+          <CardTitle className="text-lg text-slate-900">{t("recentContent", "Recent content")}</CardTitle>
           <CardDescription className="text-slate-500">
-            Latest updates across hero, news, and events.
+            {t("recentContentDesc", "Latest updates across hero, news, and events.")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-slate-500">
-            No recent activity. Add hero slides, news, or events to see them here.
+            {t("noRecentActivity", "No recent activity. Add hero slides, news, or events to see them here.")}
           </p>
         </CardContent>
       </Card>
 
       <Card className={ADMIN_CARD_CLASS}>
         <CardHeader>
-          <CardTitle className="text-lg text-slate-900">Quick actions</CardTitle>
-          <CardDescription className="text-slate-500">Jump to content sections.</CardDescription>
+          <CardTitle className="text-lg text-slate-900">{t("quickActions", "Quick actions")}</CardTitle>
+          <CardDescription className="text-slate-500">{t("jumpToSections", "Jump to content sections.")}</CardDescription>
         </CardHeader>
         <CardContent className="divide-y divide-slate-100">
           {quickActions.map(({ to, title, description }) => (
@@ -160,14 +162,14 @@ export default function AdminDashboard() {
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle className="text-lg text-slate-900">
-              Roles registered by super admin
+              {t("rolesTitle", "Roles registered by super admin")}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              Roles created and assigned to platforms.
+              {t("rolesDesc", "Roles created and assigned to platforms.")}
             </CardDescription>
           </div>
           <Button variant="outline" size="sm" className="border-slate-200" disabled>
-            Add role
+            {t("addRole", "Add role")}
           </Button>
         </CardHeader>
       </Card>

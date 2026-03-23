@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
+import { useTranslation } from "react-i18next";
 
 const formatDateLong = (dateStr: string) => {
   const d = new Date(dateStr);
@@ -38,10 +39,11 @@ function ArticleSkeleton() {
 
 const NewsDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { i18n } = useTranslation();
 
   const { data: remoteArticle, isLoading, error } = useQuery({
-    queryKey: contentKeys.news.detail(slug ?? ""),
-    queryFn: () => contentApi.news.getBySlug(slug!),
+    queryKey: [...contentKeys.news.detail(slug ?? ""), i18n.language],
+    queryFn: () => contentApi.news.getBySlug(slug!, i18n.language),
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
     retry: 1,
@@ -49,8 +51,8 @@ const NewsDetailPage = () => {
 
   // Fetch all news for related articles
   const { data: remoteAllNews } = useQuery({
-    queryKey: contentKeys.news.list(),
-    queryFn: contentApi.news.list,
+    queryKey: [...contentKeys.news.list(), i18n.language],
+    queryFn: () => contentApi.news.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

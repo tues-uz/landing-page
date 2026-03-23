@@ -1,0 +1,10 @@
+{
+  "title": "News",
+  "subtitle": "Stay up to date with the latest from TUES—research highlights and campus updates.",
+  "searchPlaceholder": "Search news by title, excerpt, category, or author...",
+  "searchAriaLabel": "Search news",
+  "filterAriaLabel": "Filter by category",
+  "allCategories": "All categories",
+  "noArticlesYet": "No articles yet.",
+  "noMatch": "No news match your search or filter. Try different keywords or category."
+}

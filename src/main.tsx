@@ -1,7 +1,9 @@
 import { createRoot } from "react-dom/client";
+import { Suspense } from "react";
 import App from "./App.tsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./index.css";
+import "./lib/i18n";
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root not found");
@@ -10,7 +12,9 @@ if (!rootEl) throw new Error("Root element #root not found");
 const Root = () => (
   <div style={{ minHeight: "100vh", backgroundColor: "hsl(210 20% 98%)", color: "hsl(210 50% 14%)" }}>
     <ErrorBoundary>
-      <App />
+      <Suspense fallback={null}>
+        <App />
+      </Suspense>
     </ErrorBoundary>
   </div>
 );

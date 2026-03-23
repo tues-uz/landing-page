@@ -25,9 +25,11 @@ import {
 import { adminApi, type NewsItem, type NewsSection } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
 import { ArticleEditor } from "@/components/admin/ArticleEditor";
-import { sectionsToTiptapDoc, tiptapJsonToSections } from "@/lib/newsEditorUtils";
+import { tiptapJsonToSections, sectionsToTiptapDoc } from "@/lib/newsEditorUtils";
 import type { TiptapDocJSON } from "@/types/article";
 import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload, Search } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 const CATEGORIES = ["News", "Announcements", "Events", "Blog"];
 const DISPLAY_OPTIONS = ["Regular", "Featured", "Highlight", "Pinned"];
@@ -44,6 +46,7 @@ function titleToSlug(title: string): string {
 }
 
 export default function AdminNews() {
+  const { t, i18n } = useTranslation("admin");
   const [articles, setArticles] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -55,6 +58,8 @@ export default function AdminNews() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("all");
   const [displayFilter, setDisplayFilter] = useState<string>("all");
+  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [loadingLocale, setLoadingLocale] = useState(false);
   const [form, setForm] = useState<Partial<NewsItem>>({
     slug: "",
     category: "News",
@@ -72,7 +77,7 @@ export default function AdminNews() {
   const load = async () => {
     setLoading(true);
     try {
-      const list = await adminApi.news.list();
+      const list = await adminApi.news.list(i18n.language);
       setArticles(list);
     } catch (e) {
       toast({ title: "Failed to load news", description: String(e), variant: "destructive" });
@@ -83,7 +88,7 @@ export default function AdminNews() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [i18n.language]);
 
   useEffect(() => {
     if (searchParams.get("new") === "1") {
@@ -137,6 +142,7 @@ export default function AdminNews() {
   const openCreate = () => {
     setEditing(null);
     setDisplay("Regular");
+    setEditLocale("uz");
     setForm({
       slug: "",
       category: "News",
@@ -154,6 +160,7 @@ export default function AdminNews() {
   const openEdit = (a: NewsItem) => {
     setEditing(a);
     setDisplay(a.display || "Regular");
+    setEditLocale("uz");
     setForm({ ...a, body: Array.isArray(a.body) ? a.body : [] });
     setFormOpen(true);
   };
@@ -161,6 +168,30 @@ export default function AdminNews() {
   const closeForm = () => {
     setFormOpen(false);
     setEditing(null);
+    setEditLocale("uz");
+  };
+
+  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+    if (newLocale === editLocale || !editing || !editing.id) return;
+    setLoadingLocale(true);
+    try {
+      const localeData = await adminApi.news.getBySlug(editing.slug, newLocale);
+      if (localeData && localeData.id) {
+        setForm(prev => ({
+          ...prev, 
+          title: localeData.title || "",
+          excerpt: localeData.excerpt || "",
+          body: Array.isArray(localeData.body) ? localeData.body : [],
+        }));
+      } else {
+        setForm(prev => ({ ...prev, title: "", excerpt: "", body: [] }));
+      }
+      setEditLocale(newLocale);
+    } catch (e) {
+      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+    } finally {
+      setLoadingLocale(false);
+    }
   };
 
   const handleSave = async () => {
@@ -172,9 +203,18 @@ export default function AdminNews() {
     const payload = { ...form, body, display };
     setSaving(true);
     try {
-      if (editing) {
-        await adminApi.news.update(editing.slug, payload);
-        toast({ title: "Article updated" });
+      if (editing && editing.id) {
+        if (editLocale === "uz") {
+          await adminApi.news.update(editing.id, payload);
+          toast({ title: "Article updated" });
+        } else {
+          await adminApi.news.upsertTranslation(editing.id, editLocale, {
+            title: form.title!,
+            excerpt: form.excerpt,
+            body: body,
+          });
+          toast({ title: `${editLocale.toUpperCase()} translation updated` });
+        }
       } else {
         await adminApi.news.create(payload as Omit<NewsItem, "id">);
         toast({ title: "Article created" });
@@ -241,10 +281,31 @@ export default function AdminNews() {
 
           {/* Story settings */}
           <div className="pb-8 mb-8 border-b border-border/60">
-            <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Story settings
-            </p>
-            <div className="flex flex-wrap gap-6 gap-y-4">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Story settings
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground mr-2">Language:</span>
+                <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[200px]">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="uz" disabled={!editing || loadingLocale}>UZ</TabsTrigger>
+                    <TabsTrigger value="en" disabled={!editing || loadingLocale}>EN</TabsTrigger>
+                    <TabsTrigger value="ru" disabled={!editing || loadingLocale}>RU</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {!editing && <span className="text-xs text-muted-foreground/70 ml-2">Save first to translate</span>}
+              </div>
+            </div>
+            
+            {loadingLocale && (
+              <div className="mb-4 flex items-center justify-center py-4">
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                <span className="ml-2 text-sm text-muted-foreground">Loading translation...</span>
+              </div>
+            )}
+
+            <div className={`flex flex-wrap gap-6 gap-y-4 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Category</label>
                 <Select
@@ -321,7 +382,7 @@ export default function AdminNews() {
           />
 
           {/* Metadata line: Author · Date · Read time · words */}
-          <div className="mb-10 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+          <div className={`mb-10 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm ${editLocale !== 'uz' ? 'opacity-50 pointer-events-none' : ''}`}>
             <input
               type="text"
               value={form.author ?? ""}
@@ -350,20 +411,20 @@ export default function AdminNews() {
           </div>
 
           {/* Add a cover image */}
-          <div className="mb-10">
+          <div className={`mb-10 ${editLocale !== 'uz' ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="space-y-2">
               <div className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border p-6 transition-colors hover:border-primary/60 hover:bg-muted/50 cursor-pointer">
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <div className="text-center">
-                  <p className="text-sm font-medium text-foreground">Add a cover image</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">Drag & drop or click to browse</p>
-                  <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
+                  <p className="text-sm font-medium text-foreground">{t("addCoverImage", "Add a cover image")}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{t("dragDropClick", "Drag & drop or click to browse")}</p>
+                  <p className="text-xs text-muted-foreground">{t("imageFileLimit", "Image files, max 50 MB")}</p>
                 </div>
                 <Input
                   type="url"
                   value={form.imageUrl ?? ""}
                   onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
-                  placeholder="Or paste image URL"
+                  placeholder={t("pasteImageUrl", "Or paste image URL")}
                   className="mt-2 max-w-xs rounded-md border-0 bg-transparent text-center text-sm focus-visible:ring-2"
                   onClick={(e) => e.stopPropagation()}
                 />
@@ -378,7 +439,7 @@ export default function AdminNews() {
                 key={editing?.slug ?? "new"}
                 value={sectionsToTiptapDoc(form.body ?? []) as TiptapDocJSON}
                 onChange={(doc) => setForm((f) => ({ ...f, body: tiptapJsonToSections(doc) }))}
-                placeholder="Tell your story..."
+                placeholder={t("tellYourStory", "Tell your story...")}
                 showStats
               />
             </div>
@@ -391,14 +452,14 @@ export default function AdminNews() {
               disabled={saving}
               className="h-9 rounded-full bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("save", "Save")}
             </Button>
             <Button
               variant="ghost"
               onClick={closeForm}
               className="h-9 rounded-full px-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             >
-              Cancel
+              {t("cancel", "Cancel")}
             </Button>
           </div>
         </article>
@@ -451,28 +512,28 @@ export default function AdminNews() {
 
   return (
     <AdminPageShell
-      title="News"
-      description="Manage articles and featured content."
+      title={t("newsArticles", "News")}
+      description={t("articlesDescription", "Manage articles and featured content.")}
       actions={
         <Button onClick={openCreate} className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="h-4 w-4" /> Add article
+          <Plus className="h-4 w-4" /> {t("addArticle", "Add article")}
         </Button>
       }
     >
       <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
         <div className="border-b border-border/60 px-4 py-4 bg-muted/30 space-y-4">
           <div className="flex flex-row items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-foreground">Articles</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t("articles", "Articles")}</h2>
             <p className="text-sm text-muted-foreground">
-              {filteredArticles.length} of {articles.length}{" "}
-              {articles.length === 1 ? "article" : "articles"}
+              {filteredArticles.length} {t("of", "of")} {articles.length}{" "}
+              {articles.length === 1 ? t("article", "article") : t("articles", "articles")}
             </p>
           </div>
           <div className="flex flex-wrap gap-3 items-center justify-between">
             <div className="relative min-w-[200px] flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Search by title or slug..."
+                placeholder={t("searchByTitleOrSlug", "Search by title or slug...")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 h-9"
@@ -481,10 +542,10 @@ export default function AdminNews() {
             <div className="flex flex-wrap gap-2 items-center">
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger className="w-full sm:w-[180px] h-9">
-                  <SelectValue placeholder="Category" />
+                  <SelectValue placeholder={t("category", "Category")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All categories</SelectItem>
+                  <SelectItem value="all">{t("allCategories", "All categories")}</SelectItem>
                   {CATEGORIES.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
@@ -494,22 +555,22 @@ export default function AdminNews() {
               </Select>
               <Select value={dateFilter} onValueChange={setDateFilter}>
                 <SelectTrigger className="w-full sm:w-[180px] h-9">
-                  <SelectValue placeholder="Date" />
+                  <SelectValue placeholder={t("date", "Date")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All time</SelectItem>
-                  <SelectItem value="week">Last 7 days</SelectItem>
-                  <SelectItem value="month">Last 30 days</SelectItem>
-                  <SelectItem value="quarter">Last 3 months</SelectItem>
-                  <SelectItem value="year">Last year</SelectItem>
+                  <SelectItem value="all">{t("allTime", "All time")}</SelectItem>
+                  <SelectItem value="week">{t("last7Days", "Last 7 days")}</SelectItem>
+                  <SelectItem value="month">{t("last30Days", "Last 30 days")}</SelectItem>
+                  <SelectItem value="quarter">{t("last3Months", "Last 3 months")}</SelectItem>
+                  <SelectItem value="year">{t("lastYear", "Last year")}</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={displayFilter} onValueChange={setDisplayFilter}>
                 <SelectTrigger className="w-full sm:w-[180px] h-9">
-                  <SelectValue placeholder="Display" />
+                  <SelectValue placeholder={t("display", "Display")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All displays</SelectItem>
+                  <SelectItem value="all">{t("allDisplays", "All displays")}</SelectItem>
                   {DISPLAY_OPTIONS.map((d) => (
                     <SelectItem key={d} value={d}>
                       {d}
@@ -541,7 +602,7 @@ export default function AdminNews() {
               <div className="flex items-center gap-1 shrink-0">
                 <Link to={`/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
                   <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
-                    View
+                    {t("view", "View")}
                   </Button>
                 </Link>
                 <Button
@@ -549,7 +610,7 @@ export default function AdminNews() {
                   variant="ghost"
                   className="h-8 w-8 text-muted-foreground hover:text-foreground"
                   onClick={() => openEdit(a)}
-                  aria-label="Edit"
+                  aria-label={t("edit", "Edit")}
                 >
                   <Pencil className="h-4 w-4" />
                 </Button>
@@ -558,7 +619,7 @@ export default function AdminNews() {
                   variant="ghost"
                   className="h-8 w-8 text-muted-foreground hover:text-destructive"
                   onClick={() => setDeleteConfirmSlug(a.slug)}
-                  aria-label="Delete"
+                  aria-label={t("delete", "Delete")}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -571,19 +632,13 @@ export default function AdminNews() {
       <AlertDialog open={deleteConfirmSlug !== null} onOpenChange={(open) => !open && setDeleteConfirmSlug(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete article?</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteArticle", "Delete article?")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete{" "}
-              {deleteConfirmSlug && articles.find((a) => a.slug === deleteConfirmSlug)?.title ? (
-                <strong>"{articles.find((a) => a.slug === deleteConfirmSlug)?.title}"</strong>
-              ) : (
-                "this article"
-              )}
-              . This action cannot be undone.
+              {t("deleteArticleConfirm", { title: articles.find((a) => a.slug === deleteConfirmSlug)?.title || "this article", defaultValue: "This will permanently delete this article. This action cannot be undone." })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
             <Button
               variant="destructive"
               onClick={async () => {
@@ -594,7 +649,7 @@ export default function AdminNews() {
               }}
               disabled={saving}
             >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete"}
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("delete", "Delete")}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

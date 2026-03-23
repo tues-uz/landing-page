@@ -58,8 +58,9 @@ function normalizeHeroBackground(raw: { mediaType?: string; videoUrl?: string | 
 
 export const adminApi = {
   heroSlides: {
-    list: async (): Promise<HeroSlide[]> => {
-      const data = await fetch(`${API_BASE}/content/hero-slides`).then((r) => r.json());
+    list: async (locale?: string): Promise<HeroSlide[]> => {
+      const url = locale ? `${API_BASE}/content/hero-slides?locale=${locale}` : `${API_BASE}/content/hero-slides`;
+      const data = await fetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.slides ?? [];
     },
@@ -86,6 +87,14 @@ export const adminApi = {
       });
       await handleResponse<unknown>(res);
     },
+    upsertTranslation: async (id: string, locale: string, payload: Partial<HeroSlide>): Promise<HeroSlide> => {
+      const res = await fetch(`${API_BASE}/content/hero-slides/${id}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<HeroSlide>(res);
+    },
   },
   heroBackground: {
     get: async (): Promise<HeroBackground | null> => {
@@ -109,14 +118,16 @@ export const adminApi = {
     },
   },
   news: {
-    list: async (): Promise<NewsItem[]> => {
-      const data = await fetch(`${API_BASE}/content/news`).then((r) => r.json());
+    list: async (locale?: string): Promise<NewsItem[]> => {
+      const url = locale ? `${API_BASE}/content/news?locale=${locale}` : `${API_BASE}/content/news`;
+      const data = await fetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.news ?? [];
     },
-    getBySlug: async (slug: string): Promise<NewsItem | null> => {
+    getBySlug: async (slug: string, locale?: string): Promise<NewsItem | null> => {
       try {
-        const res = await fetch(`${API_BASE}/content/news/${slug}`);
+        const url = locale ? `${API_BASE}/content/news/${slug}?locale=${locale}` : `${API_BASE}/content/news/${slug}`;
+        const res = await fetch(url);
         if (!res.ok) return null;
         const data = await res.json();
         const unwrapped = data?.data ?? data;
@@ -147,6 +158,14 @@ export const adminApi = {
         headers: getAuthHeaders(),
       });
       await handleResponse<unknown>(res);
+    },
+    upsertTranslation: async (id: string, locale: string, payload: Partial<NewsItem>): Promise<NewsItem> => {
+      const res = await fetch(`${API_BASE}/content/news/${id}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<NewsItem>(res);
     },
   },
   /** Article drafts (Medium-style block editor). Body = Tiptap JSON. Implement backend to match. */
@@ -211,14 +230,16 @@ export const adminApi = {
     },
   },
   programs: {
-    list: async (): Promise<ProgramItem[]> => {
-      const data = await fetch(`${API_BASE}/content/programs`).then((r) => r.json());
+    list: async (locale?: string): Promise<ProgramItem[]> => {
+      const url = locale ? `${API_BASE}/content/programs?locale=${locale}` : `${API_BASE}/content/programs`;
+      const data = await fetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.programs ?? [];
     },
-    getBySlug: async (slug: string): Promise<ProgramItem | null> => {
+    getBySlug: async (slug: string, locale?: string): Promise<ProgramItem | null> => {
       try {
-        const res = await fetch(`${API_BASE}/content/programs/${slug}`);
+        const url = locale ? `${API_BASE}/content/programs/${slug}?locale=${locale}` : `${API_BASE}/content/programs/${slug}`;
+        const res = await fetch(url);
         if (!res.ok) return null;
         const data = await res.json();
         const unwrapped = data?.data ?? data;
@@ -250,10 +271,19 @@ export const adminApi = {
       });
       await handleResponse<unknown>(res);
     },
+    upsertTranslation: async (id: string, locale: string, payload: Partial<ProgramItem>): Promise<ProgramItem> => {
+      const res = await fetch(`${API_BASE}/content/programs/${id}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<ProgramItem>(res);
+    },
   },
   events: {
-    list: async (): Promise<EventItem[]> => {
-      const data = await fetch(`${API_BASE}/content/events`).then((r) => r.json());
+    list: async (locale?: string): Promise<EventItem[]> => {
+      const url = locale ? `${API_BASE}/content/events?locale=${locale}` : `${API_BASE}/content/events`;
+      const data = await fetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.events ?? [];
     },
@@ -279,6 +309,14 @@ export const adminApi = {
         headers: getAuthHeaders(),
       });
       await handleResponse<unknown>(res);
+    },
+    upsertTranslation: async (id: string, locale: string, payload: Partial<EventItem>): Promise<EventItem> => {
+      const res = await fetch(`${API_BASE}/content/events/${id}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<EventItem>(res);
     },
   },
 };

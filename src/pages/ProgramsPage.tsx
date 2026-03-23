@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { staticPrograms } from "@/components/Programs";
@@ -47,12 +48,13 @@ const TESTIMONIALS = [
 ];
 
 const ProgramsPage = () => {
+  const { t, i18n } = useTranslation(["programs", "common"]);
   const [selectedCategory, setSelectedCategory] = useState<(typeof CATEGORIES)[number]>(CATEGORIES[0]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: programs = staticPrograms } = useQuery({
-    queryKey: contentKeys.programs.list(),
-    queryFn: contentApi.programs.list,
+    queryKey: [...contentKeys.programs.list(), i18n.language],
+    queryFn: () => contentApi.programs.list(i18n.language),
     initialData: staticPrograms,
   });
   const [testimonialIndex, setTestimonialIndex] = useState(0);
@@ -140,15 +142,13 @@ const ProgramsPage = () => {
                   className="text-4xl md:text-5xl font-bold"
                   style={{ color: TITLE_COLOR }}
                 >
-                  All Programs.
+                  {t("title")}
                 </h2>
                 <p
                   className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto"
                   style={{ color: TITLE_COLOR }}
                 >
-                  Explore our full range of programs across
-                  <br />
-                  economics, business, finance, and more.
+                  {t("subtitle")}
                 </p>
               </div>
 
@@ -164,7 +164,7 @@ const ProgramsPage = () => {
                   />
                   <input
                     type="search"
-                    placeholder="Search programs..."
+                    placeholder={t("searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-9 pr-4 py-2.5 rounded-lg border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
@@ -240,10 +240,10 @@ const ProgramsPage = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
               <div className="mb-8">
                 <h2 className="text-3xl md:text-4xl font-semibold text-center text-foreground mb-2">
-                  Loved by<br />Students & Alumni
+                  {t("testimonialsTitleLine1")}<br />{t("testimonialsTitleLine2")}
                 </h2>
                 <p className="text-center text-muted-foreground max-w-xl mx-auto">
-                  Trusted by students and graduates worldwide.
+                  {t("testimonialsSubtitle")}
                 </p>
               </div>
               <div className="relative overflow-hidden">
@@ -293,7 +293,7 @@ const ProgramsPage = () => {
                   <button
                     type="button"
                     onClick={goPrev}
-                    aria-label="Previous"
+                    aria-label={t("previous")}
                     className="w-7 h-7 rounded-full bg-white border border-[rgb(227,229,229)] hover:bg-muted/50 transition-colors flex items-center justify-center"
                   >
                     <ChevronLeft className="w-4 h-4 text-foreground" />
@@ -301,7 +301,7 @@ const ProgramsPage = () => {
                   <button
                     type="button"
                     onClick={goNext}
-                    aria-label="Next"
+                    aria-label={t("next")}
                     className="w-7 h-7 rounded-full bg-white border border-[rgb(227,229,229)] hover:bg-muted/50 transition-colors flex items-center justify-center"
                   >
                     <ChevronRight className="w-4 h-4 text-foreground" />

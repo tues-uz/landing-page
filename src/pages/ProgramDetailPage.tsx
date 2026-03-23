@@ -19,16 +19,18 @@ import Footer from "@/components/Footer";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { getProgramDetailViewModelFromItem } from "@/lib/programDetailDisplay";
+import { useTranslation } from "react-i18next";
 
 const ABOUT_SCHOOL =
   "TUES is a leading institution in economics and business education. We combine academic excellence with practical skills, preparing students for leadership roles in industry, government, and the nonprofit sector. Our faculty are experts in their fields, and our campus fosters a supportive, inclusive community.";
 
 const ProgramDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { i18n } = useTranslation();
 
   const { data: programItem, isLoading } = useQuery({
-    queryKey: contentKeys.programs.detail(slug!),
-    queryFn: () => contentApi.programs.getBySlug(slug!),
+    queryKey: [...contentKeys.programs.detail(slug!), i18n.language],
+    queryFn: () => contentApi.programs.getBySlug(slug!, i18n.language),
     enabled: !!slug,
   });
 

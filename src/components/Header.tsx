@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -53,7 +54,7 @@ import {
 } from "@/components/ui/accordion";
 
 type MegaMenuLink = { href: string; label: string; icon: LucideIcon };
-type MegaMenuItem = { label: string; description: string; links: MegaMenuLink[] };
+type MegaMenuItem = { key: string; labelKey: string; description: string; links: MegaMenuLink[] };
 
 const universityMegaLinks: MegaMenuLink[] = [
   { href: "#license", label: "License", icon: FileCheck },
@@ -77,13 +78,15 @@ const universityMegaLinks: MegaMenuLink[] = [
 
 const secondNavMega: MegaMenuItem[] = [
   {
-    label: "University",
+    key: "university",
+    labelKey: "secondNav.university",
     description:
       "Currently, the university has 24 Bachelor's and 13 master's degrees. An electronic IRC is formed on the necessary books on the education of students. Applicants may be aware of the information on the admission process to the University remotely.",
     links: universityMegaLinks,
   },
   {
-    label: "Education",
+    key: "education",
+    labelKey: "secondNav.education",
     description: "Academic programs, courses, calendar, faculty and departments.",
     links: [
       { href: "#academic-programs", label: "Academic Programs", icon: BookOpen },
@@ -94,7 +97,8 @@ const secondNavMega: MegaMenuItem[] = [
     ],
   },
   {
-    label: "Science",
+    key: "science",
+    labelKey: "secondNav.science",
     description: "Research areas, laboratories, publications and collaborations.",
     links: [
       { href: "#research-areas", label: "Research Areas", icon: FlaskConical },
@@ -105,7 +109,8 @@ const secondNavMega: MegaMenuItem[] = [
     ],
   },
   {
-    label: "Internationalization",
+    key: "internationalization",
+    labelKey: "secondNav.internationalization",
     description: "Exchange programs, global partnerships and international students.",
     links: [
       { href: "#exchange", label: "Exchange Programs", icon: Globe },
@@ -116,7 +121,8 @@ const secondNavMega: MegaMenuItem[] = [
     ],
   },
   {
-    label: "Student Life",
+    key: "studentLife",
+    labelKey: "secondNav.studentLife",
     description: "Campus life, clubs, housing, dining and wellness.",
     links: [
       { href: "#campus-life", label: "Campus Life", icon: Heart },
@@ -127,7 +133,8 @@ const secondNavMega: MegaMenuItem[] = [
     ],
   },
   {
-    label: "Admission 2025",
+    key: "admission2025",
+    labelKey: "secondNav.admission2025",
     description: "Requirements, application process, deadlines and scholarships.",
     links: [
       { href: "#requirements", label: "Requirements", icon: FileText },
@@ -138,7 +145,8 @@ const secondNavMega: MegaMenuItem[] = [
     ],
   },
   {
-    label: "Information Services",
+    key: "informationServices",
+    labelKey: "secondNav.informationServices",
     description: "Library, IT services, online resources and support.",
     links: [
       { href: "#library", label: "Library", icon: BookOpen },
@@ -149,7 +157,8 @@ const secondNavMega: MegaMenuItem[] = [
     ],
   },
   {
-    label: "Vacancies",
+    key: "vacancies",
+    labelKey: "secondNav.vacancies",
     description: "Academic, administrative and research positions.",
     links: [
       { href: "#academic-positions", label: "Academic Positions", icon: Briefcase },
@@ -163,57 +172,113 @@ const secondNavMega: MegaMenuItem[] = [
 
 const navItems = [
   {
-    label: "About",
+    labelKey: "nav.about",
     items: ["History", "Leadership", "Facts & Figures", "Mission & Values"],
   },
   {
-    label: "Research",
+    labelKey: "nav.research",
     items: ["Research Areas", "Publications", "Partnerships", "Innovation"],
   },
   {
-    label: "Admissions",
+    labelKey: "nav.admissions",
     items: ["Undergraduate", "Graduate", "International", "Financial Aid"],
   },
   {
-    label: "News",
+    labelKey: "nav.news",
     items: ["Latest News", "Events", "Press Releases", "Media Center"],
   },
 ];
 
-const secondaryNav = ["Community", "Colleges", "Journal"];
+const secondaryNav = ["nav.community", "nav.colleges", "nav.journal"];
 
 const secondNavItems = [
   {
-    label: "University",
-    items: ["Overview", "History", "Leadership", "Governance", "Strategic Plan"],
+    key: "university",
+    labelKey: "secondNav.university",
+    itemKeys: [
+      "secondNavItems.overview",
+      "secondNavItems.history",
+      "secondNavItems.leadership",
+      "secondNavItems.governance",
+      "secondNavItems.strategicPlan",
+    ],
   },
   {
-    label: "Education",
-    items: ["Academic Programs", "Courses", "Academic Calendar", "Faculty", "Departments"],
+    key: "education",
+    labelKey: "secondNav.education",
+    itemKeys: [
+      "secondNavItems.academicPrograms",
+      "secondNavItems.courses",
+      "secondNavItems.academicCalendar",
+      "secondNavItems.faculty",
+      "secondNavItems.departments",
+    ],
   },
   {
-    label: "Science",
-    items: ["Research Areas", "Laboratories", "Publications", "Innovation", "Collaborations"],
+    key: "science",
+    labelKey: "secondNav.science",
+    itemKeys: [
+      "secondNavItems.researchAreas",
+      "secondNavItems.laboratories",
+      "secondNavItems.publications",
+      "secondNavItems.innovation",
+      "secondNavItems.collaborations",
+    ],
   },
   {
-    label: "Internationalization",
-    items: ["Exchange Programs", "Global Partnerships", "International Students", "Study Abroad", "Global Initiatives"],
+    key: "internationalization",
+    labelKey: "secondNav.internationalization",
+    itemKeys: [
+      "secondNavItems.exchangePrograms",
+      "secondNavItems.globalPartnerships",
+      "secondNavItems.internationalStudents",
+      "secondNavItems.studyAbroad",
+      "secondNavItems.globalInitiatives",
+    ],
   },
   {
-    label: "Student Life",
-    items: ["Campus Life", "Student Clubs", "Housing", "Dining", "Wellness"],
+    key: "studentLife",
+    labelKey: "secondNav.studentLife",
+    itemKeys: [
+      "secondNavItems.campusLife",
+      "secondNavItems.studentClubs",
+      "secondNavItems.housing",
+      "secondNavItems.dining",
+      "secondNavItems.wellness",
+    ],
   },
   {
-    label: "Admission 2025",
-    items: ["Requirements", "Application Process", "Deadlines", "Scholarships", "FAQs"],
+    key: "admission2025",
+    labelKey: "secondNav.admission2025",
+    itemKeys: [
+      "secondNavItems.requirements",
+      "secondNavItems.applicationProcess",
+      "secondNavItems.deadlines",
+      "secondNavItems.scholarships",
+      "secondNavItems.faqs",
+    ],
   },
   {
-    label: "Information Services",
-    items: ["Library", "IT Services", "Online Resources", "Support", "Help Desk"],
+    key: "informationServices",
+    labelKey: "secondNav.informationServices",
+    itemKeys: [
+      "secondNavItems.library",
+      "secondNavItems.itServices",
+      "secondNavItems.onlineResources",
+      "secondNavItems.support",
+      "secondNavItems.helpDesk",
+    ],
   },
   {
-    label: "Vacancies",
-    items: ["Academic Positions", "Administrative Positions", "Research Positions", "How to Apply", "Benefits"],
+    key: "vacancies",
+    labelKey: "secondNav.vacancies",
+    itemKeys: [
+      "secondNavItems.academicPositions",
+      "secondNavItems.administrativePositions",
+      "secondNavItems.researchPositions",
+      "secondNavItems.howToApply",
+      "secondNavItems.benefits",
+    ],
   },
 ];
 
@@ -228,9 +293,9 @@ type HeaderProps = {
 };
 
 const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
+  const { t, i18n } = useTranslation("header");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState(languages[1]); // Default to English
   const [topBarVisible, setTopBarVisible] = useState(true);
   const lastScrollY = useRef(0);
   const secondNavRef = useRef<HTMLElement>(null);
@@ -240,6 +305,8 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
   const [openMegaKey, setOpenMegaKey] = useState<string | null>(null);
   const [openMegaTriggerRect, setOpenMegaTriggerRect] = useState<{ left: number; width: number } | null>(null);
   const [panelTop, setPanelTop] = useState(128);
+  const activeCode = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
+  const currentLanguage = languages.find((lang) => lang.code === activeCode) ?? languages[1];
 
   useEffect(() => {
     onMobileMenuOpenChange?.(mobileMenuOpen);
@@ -412,22 +479,22 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 <Accordion type="single" collapsible className="w-full [&>*]:border-b-0">
                   {secondNavItems.map((item, index) => (
                     <AccordionItem
-                      key={item.label}
-                      value={item.label}
+                      key={item.key}
+                      value={item.key}
                       className={index === secondNavItems.length - 1 ? "border-b-0 border-primary-foreground/10" : "border-primary-foreground/10"}
                     >
                       <AccordionTrigger className="py-3 text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                        {item.label}
+                        {t(item.labelKey)}
                       </AccordionTrigger>
                       <AccordionContent className="pb-3 pt-0">
                         <ul className="flex flex-col gap-0.5">
-                          {item.items.map((subItem) => (
-                            <li key={subItem}>
+                          {item.itemKeys.map((subItemKey) => (
+                            <li key={subItemKey}>
                               <button
                                 type="button"
                                 className="w-full rounded px-3 py-2 text-left text-sm text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground transition-colors"
                               >
-                                {subItem}
+                                {t(subItemKey)}
                               </button>
                             </li>
                           ))}
@@ -464,14 +531,14 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           <nav className="hidden min-w-0 flex-1 lg:flex lg:justify-center" aria-label="Main">
             <ul role="list" className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-1 list-none p-0 text-[14px]">
               {navItems.map((item) => (
-                <li key={item.label} className="px-0">
+                <li key={item.labelKey} className="px-0">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
                         className="text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 font-medium h-auto py-1.5 text-[14px]"
                       >
-                        {item.label}
+                        {t(item.labelKey)}
                         <ChevronDown className="ml-0.5 h-3.5 w-3.5" />
                       </Button>
                     </DropdownMenuTrigger>
@@ -510,7 +577,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     <DropdownMenuItem
                       key={lang.code}
                       className="cursor-pointer hover:bg-muted"
-                      onClick={() => setCurrentLanguage(lang)}
+                      onClick={() => void i18n.changeLanguage(lang.code)}
                     >
                       <span className="mr-2">{lang.flag}</span>
                       {lang.name}
@@ -526,7 +593,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 aria-expanded={secondNavMobileOpen}
                 onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
               >
-                <span>Explore more</span>
+                <span>{t("exploreMore")}</span>
                 {secondNavMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
@@ -548,25 +615,25 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
               {/* Desktop nav (lg+) - centered with space between items */}
               <div className="hidden lg:flex flex-1 justify-between items-center">
                 {secondNavMega.map((item) => (
-                  <div key={item.label} className="h-14 flex items-center">
+                  <div key={item.key} className="h-14 flex items-center">
                     <button
                       type="button"
-                      aria-expanded={openMegaKey === item.label}
+                      aria-expanded={openMegaKey === item.key}
                       aria-haspopup="true"
                       onClick={(e) => {
                         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                         setOpenMegaKey((k) => {
-                          if (k === item.label) {
+                          if (k === item.key) {
                             setOpenMegaTriggerRect(null);
                             return null;
                           }
                           setOpenMegaTriggerRect({ left: rect.left, width: rect.width });
-                          return item.label;
+                          return item.key;
                         });
                       }}
                       className="flex items-center gap-1 text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors py-2 whitespace-nowrap"
                     >
-                      {item.label}
+                      {t(item.labelKey)}
                       <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200" />
                     </button>
                   </div>
@@ -575,7 +642,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
 
               {/* Single fixed mega menu panel (same width as nav, never exceeds) - portaled to body */}
               {openMegaKey && (() => {
-                const item = secondNavMega.find((m) => m.label === openMegaKey);
+                const item = secondNavMega.find((m) => m.key === openMegaKey);
                 if (!item) return null;
                 const panelLeftPx = 32; // left-8 = 2rem
                 const arrowLeft =
@@ -603,7 +670,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     )}
                     <div className="flex gap-6 overflow-hidden p-4 w-full min-w-0">
                       <div className="w-[300px] flex-shrink-0 flex flex-col p-4 bg-slate-50 rounded-none">
-                        <h3 className="text-base font-semibold text-slate-900 mt-0">{item.label}</h3>
+                        <h3 className="text-base font-semibold text-slate-900 mt-0">{t(item.labelKey)}</h3>
                         <p className="text-sm text-slate-600 leading-relaxed mt-2">{item.description}</p>
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-x-0 gap-y-0 auto-rows-[36px] min-w-0">
@@ -650,7 +717,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                       <DropdownMenuItem
                         key={lang.code}
                         className="cursor-pointer hover:bg-muted"
-                        onClick={() => setCurrentLanguage(lang)}
+                        onClick={() => void i18n.changeLanguage(lang.code)}
                       >
                         <span className="mr-2">{lang.flag}</span>
                         {lang.name}
@@ -685,13 +752,13 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             <div className="lg:hidden border-t border-primary-foreground/10 bg-primary">
               <nav className="px-6 py-4 flex flex-col gap-2 max-h-[70vh] overflow-y-auto">
                 {secondNavItems.map((item) => (
-                  <DropdownMenu key={item.label}>
+                  <DropdownMenu key={item.key}>
                     <DropdownMenuTrigger asChild>
                       <button
                         type="button"
                         className="flex items-center justify-between w-full py-3 text-left text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                       >
-                        {item.label}
+                        {t(item.labelKey)}
                         <ChevronDown className="h-4 w-4 shrink-0" />
                       </button>
                     </DropdownMenuTrigger>
@@ -700,12 +767,12 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                       align="start"
                       side="right"
                     >
-                      {item.items.map((subItem) => (
+                      {item.itemKeys.map((subItemKey) => (
                         <DropdownMenuItem
-                          key={subItem}
+                          key={subItemKey}
                           className="cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm"
                         >
-                          {subItem}
+                          {t(subItemKey)}
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -722,8 +789,8 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           <div className="lg:hidden max-h-[100dvh] overflow-y-auto px-4 py-4 pb-24 border-t border-primary-foreground/10 lg:px-6">
             <nav className="flex flex-col gap-2">
               {navItems.map((item) => (
-                <div key={item.label} className="py-2">
-                  <span className="text-primary-foreground font-medium">{item.label}</span>
+                <div key={item.labelKey} className="py-2">
+                  <span className="text-primary-foreground font-medium">{t(item.labelKey)}</span>
                 </div>
               ))}
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
@@ -733,27 +800,27 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     href="#"
                     className="block py-2 text-primary-foreground/70"
                   >
-                    {item}
+                    {t(item)}
                   </a>
                 ))}
               </div>
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
-                <p className="text-primary-foreground/50 text-xs uppercase tracking-wider mb-2">Second Menu</p>
+                <p className="text-primary-foreground/50 text-xs uppercase tracking-wider mb-2">{t("header.secondMenu")}</p>
                 <Accordion type="single" collapsible className="w-full [&>*]:border-b [&>*]:border-primary-foreground/10">
                   {secondNavItems.map((item) => (
-                    <AccordionItem key={item.label} value={item.label} className="border-none border-b border-primary-foreground/10 last:border-b-0">
+                    <AccordionItem key={item.key} value={item.key} className="border-none border-b border-primary-foreground/10 last:border-b-0">
                       <AccordionTrigger className="py-3 text-primary-foreground font-medium hover:no-underline hover:text-primary-foreground [&[data-state=open]>svg]:rotate-180">
-                        {item.label}
+                        {t(item.labelKey)}
                       </AccordionTrigger>
                       <AccordionContent className="pb-3 pt-0">
                         <div className="flex flex-col gap-1 pl-0">
-                          {item.items.map((subItem) => (
+                          {item.itemKeys.map((subItemKey) => (
                             <a
-                              key={subItem}
+                              key={subItemKey}
                               href="#"
                               className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
                             >
-                              {subItem}
+                              {t(subItemKey)}
                             </a>
                           ))}
                         </div>
