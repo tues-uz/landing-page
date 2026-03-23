@@ -58,7 +58,7 @@ const DARK_TEAL = "rgb(15, 61, 58)";
 const BODY_COLOR = "rgb(37, 37, 37)";
 
 const EduHubSection = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const [openItem, setOpenItem] = useState<string | null>("course-materials");
 
   return (
@@ -71,18 +71,18 @@ const EduHubSection = () => {
             style={{ backgroundColor: "rgb(235, 235, 235)" }}
           >
             <span className="text-sm font-medium" style={{ color: BODY_COLOR }}>
-              {t("home.eduhub.badge")}
+              {t("eduhub.badge")}
             </span>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8 mb-4">
             <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground tracking-tight">
               EduHub
               <span className="block font-normal leading-relaxed mt-1 text-xl" style={{ color: BODY_COLOR }}>
-                {t("home.eduhub.titleSubtitle")}
+                {t("eduhub.titleSubtitle")}
               </span>
             </h2>
             <p className="leading-relaxed max-w-2xl lg:text-right" style={{ color: BODY_COLOR, fontSize: '16px' }}>
-              {t("home.eduhub.description")}
+              {t("eduhub.description")}
             </p>
           </div>
         </div>
@@ -108,7 +108,7 @@ const EduHubSection = () => {
                 className="leading-relaxed font-medium"
                 style={{ color: DARK_TEAL, fontSize: '16px' }}
               >
-                {t("home.eduhub.quote")}
+                {t("eduhub.quote")}
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 bg-neutral-200">
@@ -123,7 +123,7 @@ const EduHubSection = () => {
                     EduHub
                   </p>
                   <p className="text-sm" style={{ color: DARK_TEAL, opacity: 0.9 }}>
-                    {t("home.eduhub.learningPlatform")}
+                    {t("eduhub.learningPlatform")}
                   </p>
                 </div>
               </div>
@@ -132,7 +132,7 @@ const EduHubSection = () => {
                 className="flex items-center justify-between gap-3 w-full rounded-[5px] px-6 py-4 text-white font-medium transition-opacity hover:opacity-90"
                 style={{ backgroundColor: DARK_TEAL }}
               >
-                <span>{t("home.eduhub.goTo")}</span>
+                <span>{t("eduhub.goTo")}</span>
                 <ArrowRight className="h-5 w-5 shrink-0" />
               </Link>
             </div>
@@ -172,7 +172,7 @@ const EduHubSection = () => {
                             <Icon className="h-5 w-5" style={{ color: DARK_TEAL }} />
                           </div>
                           <h5 className="text-left font-semibold text-foreground">
-                            {t(`home.eduhub.features.${feature.id}.title`)}
+                            {t(`eduhub.features.${feature.id}.title`)}
                           </h5>
                         </div>
                       </AccordionTrigger>
@@ -181,7 +181,7 @@ const EduHubSection = () => {
                           className="text-base leading-relaxed"
                           style={{ color: BODY_COLOR }}
                         >
-                          {t(`home.eduhub.features.${feature.id}.description`)}
+                          {t(`eduhub.features.${feature.id}.description`)}
                         </p>
                       </AccordionContent>
                     </AccordionItem>

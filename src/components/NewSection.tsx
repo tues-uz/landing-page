@@ -55,7 +55,7 @@ function EventFramerSkeleton() {
 }
 
 const NewSection = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const {
     data: eventData,
     isLoading: eventsLoading,
@@ -75,16 +75,16 @@ const NewSection = () => {
         {/* Title + View All Events button (Framer style) */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 md:mb-12">
           <h2 className="text-3xl md:text-4xl font-bold" style={{ color: EVENTS_TITLE_COLOR }}>
-            {t("home.events.titleLine1")}
+            {t("events.titleLine1")}
             <br />
-            {t("home.events.titleLine2")}
+            {t("events.titleLine2")}
           </h2>
           <Link
             to="/events"
             className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5 shrink-0 sm:self-end"
             style={{ borderColor: EVENTS_TITLE_COLOR, color: EVENTS_TITLE_COLOR }}
           >
-            {t("home.events.viewAll")}
+            {t("events.viewAll")}
           </Link>
         </div>
 
@@ -98,7 +98,7 @@ const NewSection = () => {
             ))
           ) : (
             <p className="text-sm col-span-full text-center py-8" style={{ color: EVENTS_DATE_COLOR }}>
-              {t("home.events.noUpcoming")}
+              {t("events.noUpcoming")}
             </p>
           )}
         </div>

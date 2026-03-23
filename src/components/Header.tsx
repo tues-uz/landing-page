@@ -79,14 +79,14 @@ const universityMegaLinks: MegaMenuLink[] = [
 const secondNavMega: MegaMenuItem[] = [
   {
     key: "university",
-    labelKey: "header.secondNav.university",
+    labelKey: "secondNav.university",
     description:
       "Currently, the university has 24 Bachelor's and 13 master's degrees. An electronic IRC is formed on the necessary books on the education of students. Applicants may be aware of the information on the admission process to the University remotely.",
     links: universityMegaLinks,
   },
   {
     key: "education",
-    labelKey: "header.secondNav.education",
+    labelKey: "secondNav.education",
     description: "Academic programs, courses, calendar, faculty and departments.",
     links: [
       { href: "#academic-programs", label: "Academic Programs", icon: BookOpen },
@@ -98,7 +98,7 @@ const secondNavMega: MegaMenuItem[] = [
   },
   {
     key: "science",
-    labelKey: "header.secondNav.science",
+    labelKey: "secondNav.science",
     description: "Research areas, laboratories, publications and collaborations.",
     links: [
       { href: "#research-areas", label: "Research Areas", icon: FlaskConical },
@@ -110,7 +110,7 @@ const secondNavMega: MegaMenuItem[] = [
   },
   {
     key: "internationalization",
-    labelKey: "header.secondNav.internationalization",
+    labelKey: "secondNav.internationalization",
     description: "Exchange programs, global partnerships and international students.",
     links: [
       { href: "#exchange", label: "Exchange Programs", icon: Globe },
@@ -122,7 +122,7 @@ const secondNavMega: MegaMenuItem[] = [
   },
   {
     key: "studentLife",
-    labelKey: "header.secondNav.studentLife",
+    labelKey: "secondNav.studentLife",
     description: "Campus life, clubs, housing, dining and wellness.",
     links: [
       { href: "#campus-life", label: "Campus Life", icon: Heart },
@@ -134,7 +134,7 @@ const secondNavMega: MegaMenuItem[] = [
   },
   {
     key: "admission2025",
-    labelKey: "header.secondNav.admission2025",
+    labelKey: "secondNav.admission2025",
     description: "Requirements, application process, deadlines and scholarships.",
     links: [
       { href: "#requirements", label: "Requirements", icon: FileText },
@@ -146,7 +146,7 @@ const secondNavMega: MegaMenuItem[] = [
   },
   {
     key: "informationServices",
-    labelKey: "header.secondNav.informationServices",
+    labelKey: "secondNav.informationServices",
     description: "Library, IT services, online resources and support.",
     links: [
       { href: "#library", label: "Library", icon: BookOpen },
@@ -158,7 +158,7 @@ const secondNavMega: MegaMenuItem[] = [
   },
   {
     key: "vacancies",
-    labelKey: "header.secondNav.vacancies",
+    labelKey: "secondNav.vacancies",
     description: "Academic, administrative and research positions.",
     links: [
       { href: "#academic-positions", label: "Academic Positions", icon: Briefcase },
@@ -172,112 +172,112 @@ const secondNavMega: MegaMenuItem[] = [
 
 const navItems = [
   {
-    labelKey: "header.nav.about",
+    labelKey: "nav.about",
     items: ["History", "Leadership", "Facts & Figures", "Mission & Values"],
   },
   {
-    labelKey: "header.nav.research",
+    labelKey: "nav.research",
     items: ["Research Areas", "Publications", "Partnerships", "Innovation"],
   },
   {
-    labelKey: "header.nav.admissions",
+    labelKey: "nav.admissions",
     items: ["Undergraduate", "Graduate", "International", "Financial Aid"],
   },
   {
-    labelKey: "header.nav.news",
+    labelKey: "nav.news",
     items: ["Latest News", "Events", "Press Releases", "Media Center"],
   },
 ];
 
-const secondaryNav = ["header.nav.community", "header.nav.colleges", "header.nav.journal"];
+const secondaryNav = ["nav.community", "nav.colleges", "nav.journal"];
 
 const secondNavItems = [
   {
     key: "university",
-    labelKey: "header.secondNav.university",
+    labelKey: "secondNav.university",
     itemKeys: [
-      "header.secondNavItems.overview",
-      "header.secondNavItems.history",
-      "header.secondNavItems.leadership",
-      "header.secondNavItems.governance",
-      "header.secondNavItems.strategicPlan",
+      "secondNavItems.overview",
+      "secondNavItems.history",
+      "secondNavItems.leadership",
+      "secondNavItems.governance",
+      "secondNavItems.strategicPlan",
     ],
   },
   {
     key: "education",
-    labelKey: "header.secondNav.education",
+    labelKey: "secondNav.education",
     itemKeys: [
-      "header.secondNavItems.academicPrograms",
-      "header.secondNavItems.courses",
-      "header.secondNavItems.academicCalendar",
-      "header.secondNavItems.faculty",
-      "header.secondNavItems.departments",
+      "secondNavItems.academicPrograms",
+      "secondNavItems.courses",
+      "secondNavItems.academicCalendar",
+      "secondNavItems.faculty",
+      "secondNavItems.departments",
     ],
   },
   {
     key: "science",
-    labelKey: "header.secondNav.science",
+    labelKey: "secondNav.science",
     itemKeys: [
-      "header.secondNavItems.researchAreas",
-      "header.secondNavItems.laboratories",
-      "header.secondNavItems.publications",
-      "header.secondNavItems.innovation",
-      "header.secondNavItems.collaborations",
+      "secondNavItems.researchAreas",
+      "secondNavItems.laboratories",
+      "secondNavItems.publications",
+      "secondNavItems.innovation",
+      "secondNavItems.collaborations",
     ],
   },
   {
     key: "internationalization",
-    labelKey: "header.secondNav.internationalization",
+    labelKey: "secondNav.internationalization",
     itemKeys: [
-      "header.secondNavItems.exchangePrograms",
-      "header.secondNavItems.globalPartnerships",
-      "header.secondNavItems.internationalStudents",
-      "header.secondNavItems.studyAbroad",
-      "header.secondNavItems.globalInitiatives",
+      "secondNavItems.exchangePrograms",
+      "secondNavItems.globalPartnerships",
+      "secondNavItems.internationalStudents",
+      "secondNavItems.studyAbroad",
+      "secondNavItems.globalInitiatives",
     ],
   },
   {
     key: "studentLife",
-    labelKey: "header.secondNav.studentLife",
+    labelKey: "secondNav.studentLife",
     itemKeys: [
-      "header.secondNavItems.campusLife",
-      "header.secondNavItems.studentClubs",
-      "header.secondNavItems.housing",
-      "header.secondNavItems.dining",
-      "header.secondNavItems.wellness",
+      "secondNavItems.campusLife",
+      "secondNavItems.studentClubs",
+      "secondNavItems.housing",
+      "secondNavItems.dining",
+      "secondNavItems.wellness",
     ],
   },
   {
     key: "admission2025",
-    labelKey: "header.secondNav.admission2025",
+    labelKey: "secondNav.admission2025",
     itemKeys: [
-      "header.secondNavItems.requirements",
-      "header.secondNavItems.applicationProcess",
-      "header.secondNavItems.deadlines",
-      "header.secondNavItems.scholarships",
-      "header.secondNavItems.faqs",
+      "secondNavItems.requirements",
+      "secondNavItems.applicationProcess",
+      "secondNavItems.deadlines",
+      "secondNavItems.scholarships",
+      "secondNavItems.faqs",
     ],
   },
   {
     key: "informationServices",
-    labelKey: "header.secondNav.informationServices",
+    labelKey: "secondNav.informationServices",
     itemKeys: [
-      "header.secondNavItems.library",
-      "header.secondNavItems.itServices",
-      "header.secondNavItems.onlineResources",
-      "header.secondNavItems.support",
-      "header.secondNavItems.helpDesk",
+      "secondNavItems.library",
+      "secondNavItems.itServices",
+      "secondNavItems.onlineResources",
+      "secondNavItems.support",
+      "secondNavItems.helpDesk",
     ],
   },
   {
     key: "vacancies",
-    labelKey: "header.secondNav.vacancies",
+    labelKey: "secondNav.vacancies",
     itemKeys: [
-      "header.secondNavItems.academicPositions",
-      "header.secondNavItems.administrativePositions",
-      "header.secondNavItems.researchPositions",
-      "header.secondNavItems.howToApply",
-      "header.secondNavItems.benefits",
+      "secondNavItems.academicPositions",
+      "secondNavItems.administrativePositions",
+      "secondNavItems.researchPositions",
+      "secondNavItems.howToApply",
+      "secondNavItems.benefits",
     ],
   },
 ];
@@ -593,7 +593,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 aria-expanded={secondNavMobileOpen}
                 onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
               >
-                <span>{t("header.exploreMore")}</span>
+                <span>{t("exploreMore")}</span>
                 {secondNavMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>

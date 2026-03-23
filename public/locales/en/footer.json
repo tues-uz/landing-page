@@ -1,4 +1,5 @@
 {
+  "logoAlt": "TUES University logo",
   "newsletterTitle": "Get the latest TUES news and updates straight to your inbox.",
   "emailAddress": "Email address",
   "subscribeNow": "Subscribe now",
@@ -6,5 +7,22 @@
   "copyright": "© 2026 {{brand}}. All rights reserved.",
   "privacyPolicy": "Privacy Policy",
   "termsOfUse": "Terms of Use",
-  "accessibility": "Accessibility"
+  "accessibility": "Accessibility",
+  "journal": {
+    "title": "TUES Journal",
+    "description": "Research, commentary, and analysis from economists, scholars, and policy thinkers.",
+    "quickLinks": "Quick Links",
+    "about": "About",
+    "contact": "Contact",
+    "links": {
+      "home": "Home",
+      "articles": "Articles",
+      "authors": "Authors",
+      "topics": "Topics",
+      "aboutUs": "About Us",
+      "editorialTeam": "Editorial Team",
+      "submissionGuidelines": "Submission Guidelines",
+      "contactUs": "Contact Us"
+    }
+  }
 }

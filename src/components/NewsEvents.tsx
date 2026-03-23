@@ -54,7 +54,7 @@ export function ArticleCard({
   featured?: boolean;
   stretch?: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const sizeClass = featured ? "h-full min-h-0" : stretch ? "flex-1 min-h-0" : "";
   return (
     <Link
@@ -81,10 +81,10 @@ export function ArticleCard({
             <p className="text-muted-foreground text-sm line-clamp-2">{item.excerpt}</p>
             <div className="mt-auto flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
               <span className="font-medium text-foreground">{item.author}</span>
-              <span>{t("home.news.onDate", { date: item.date })}</span>
+              <span>{t("news.onDate", { date: item.date })}</span>
               <span className="flex items-center gap-1">
                 <MessageCircle className="h-3 w-3" />
-                {t("home.news.comments", { count: 0 })}
+                {t("news.comments", { count: 0 })}
               </span>
             </div>
           </div>
@@ -101,7 +101,7 @@ export function ArticleCard({
             </h3>
             <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
               <span className="font-medium text-foreground">{item.author}</span>
-              <span>{t("home.news.onDate", { date: item.date })}</span>
+              <span>{t("news.onDate", { date: item.date })}</span>
             </div>
           </div>
           <div className="w-full p-2">
@@ -253,7 +253,7 @@ function NewsFramerCardSkeleton({ big = false }: { big?: boolean }) {
 }
 
 const NewsEvents = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const {
     data: newsData,
     isLoading: newsLoading,
@@ -303,10 +303,10 @@ const NewsEvents = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px] relative z-10">
         {/* Section title — centered */}
         <h2 className="text-center text-3xl md:text-4xl font-bold mb-2" style={{ color: NEWS_CARD_COLOR }}>
-          {t("home.news.title")}
+          {t("news.title")}
         </h2>
         <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-12" style={{ fontSize: '16px' }}>
-          {t("home.news.subtitle")}
+          {t("news.subtitle")}
         </p>
 
         {/* Card list: 1 big + 4 small (Framer layout) */}
@@ -322,7 +322,7 @@ const NewsEvents = () => {
               <NewsFramerCard item={featured} big />
             ) : (
               <div className="flex items-center justify-center rounded border border-dashed border-border text-muted-foreground text-sm min-h-[200px]">
-                {t("home.news.noArticles")}
+                {t("news.noArticles")}
               </div>
             )}
           </div>
@@ -348,7 +348,7 @@ const NewsEvents = () => {
             className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
             style={{ borderColor: NEWS_CARD_COLOR, color: NEWS_CARD_COLOR }}
           >
-            {t("home.news.viewAll")}
+            {t("news.viewAll")}
           </Link>
         </div>
       </div>

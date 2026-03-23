@@ -69,7 +69,7 @@ function EventSkeleton() {
 }
 
 function EventCard({ event }: { event: EventItem }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("events");
   const { day, month } = formatEventDate(event.date);
   const imageUrl = getEventImageUrl(event, PLACEHOLDER_IMAGE);
   const [copied, setCopied] = useState(false);
@@ -113,7 +113,7 @@ function EventCard({ event }: { event: EventItem }) {
           type="button"
           onClick={handleShare}
           className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-          aria-label={copied ? t("events.linkCopied") : t("events.shareEvent")}
+          aria-label={copied ? t("linkCopied") : t("shareEvent")}
         >
           {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
         </button>
@@ -131,7 +131,7 @@ function EventCard({ event }: { event: EventItem }) {
 }
 
 const EventsPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("events");
   const { data: eventData, isLoading: eventsLoading } = useQuery({
     queryKey: contentKeys.events.list(),
     queryFn: contentApi.events.list,
@@ -151,24 +151,24 @@ const EventsPage = () => {
             {/* Breadcrumb */}
             <nav className="text-sm text-muted-foreground mb-4">
               <Link to="/" className="hover:text-foreground">
-                {t("events.mainPage")}
+                {t("mainPage")}
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-foreground">{t("events.title")}</span>
+              <span className="text-foreground">{t("title")}</span>
             </nav>
 
             {/* Large title + description */}
             <div className="relative mb-12">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
-                {t("events.title")}
+                {t("title")}
               </h1>
               <p className="mt-4 max-w-2xl text-muted-foreground">
-                {t("events.subtitle")}
+                {t("subtitle")}
               </p>
             </div>
 
             {/* Upcoming events */}
-            <h2 className="text-xl font-semibold text-foreground mb-6">{t("events.upcomingEvents")}</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-6">{t("upcomingEvents")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {eventsLoading ? (
                 Array.from({ length: 8 }).map((_, i) => <EventSkeleton key={i} />)
@@ -176,19 +176,19 @@ const EventsPage = () => {
                 upcomingEvents.map((event) => <EventCard key={event.id} event={event} />)
               ) : (
                 <p className="col-span-full text-muted-foreground py-8">
-                  {t("events.noUpcoming")}
+                  {t("noUpcoming")}
                 </p>
               )}
             </div>
 
             {/* Past events */}
-            <h2 className="text-xl font-semibold text-foreground mt-14 mb-6">{t("events.pastEvents")}</h2>
+            <h2 className="text-xl font-semibold text-foreground mt-14 mb-6">{t("pastEvents")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {pastEvents.length > 0 ? (
                 pastEvents.map((event) => <EventCard key={event.id} event={event} />)
               ) : (
                 <p className="col-span-full text-muted-foreground py-8">
-                  {t("events.noPast")}
+                  {t("noPast")}
                 </p>
               )}
             </div>
@@ -199,7 +199,7 @@ const EventsPage = () => {
                 to="/events"
                 className="inline-flex rounded-md border border-border bg-background px-8 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
-                {t("events.seeMore")}
+                {t("seeMore")}
               </Link>
             </div>
           </div>

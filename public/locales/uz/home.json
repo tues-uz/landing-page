@@ -70,7 +70,29 @@
     "title": "Jurnallar, tadqiqot va innovatsiya",
     "description": "TUES ilmiy jurnallar, tadqiqot markazlari va doktorantura dasturlari orqali siyosat hamda amaliyotni shakllantiruvchi ilmni qo'llab-quvvatlaydi.",
     "ctaText": "Biz bilan nashr etish yoki tadqiqotda hamkorlik qilishni xohlaysizmi?",
-    "ctaButton": "Bog'lanish"
+    "ctaButton": "Bog'lanish",
+    "items": {
+      "research": {
+        "title": "Tadqiqot",
+        "description": "TUES iqtisodiyot, biznes va siyosat sohalarida ilg'or tadqiqotlarni qo'llab-quvvatlaydi.",
+        "label": "Tadqiqotlarni o'rganish"
+      },
+      "journals": {
+        "title": "Jurnallar va nashrlar",
+        "description": "Taqriz qilinadigan jurnallarimiz va nashrlar seriyasiga kiring.",
+        "label": "Nashrlarni ko'rish"
+      },
+      "labs": {
+        "title": "Laboratoriya va markazlar",
+        "description": "Maxsus tadqiqot laboratoriyalari va markazlari iqtisodiy siyosat hamda innovatsiyalarga e'tibor qaratadi.",
+        "label": "Laboratoriyalarni kashf etish"
+      },
+      "doctoral": {
+        "title": "Doktorantura va postdoc",
+        "description": "Bizning doktorantura va postdoc dasturlarimizga qo'shiling. Yetakchi tadqiqotchilar bilan birga ishlang.",
+        "label": "Dasturlar"
+      }
+    }
   },
   "eduhub": {
     "badge": "Platforma",

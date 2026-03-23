@@ -4,23 +4,23 @@ import { useTranslation } from "react-i18next";
 const stats = [
   {
     value: "25,000+",
-    labelKey: "home.about.stats.students.label",
-    descriptionKey: "home.about.stats.students.description",
+    labelKey: "about.stats.students.label",
+    descriptionKey: "about.stats.students.description",
   },
   {
     value: "412",
-    labelKey: "home.about.stats.professors.label",
-    descriptionKey: "home.about.stats.professors.description",
+    labelKey: "about.stats.professors.label",
+    descriptionKey: "about.stats.professors.description",
   },
   {
     value: "3+",
-    labelKey: "home.about.stats.faculties.label",
-    descriptionKey: "home.about.stats.faculties.description",
+    labelKey: "about.stats.faculties.label",
+    descriptionKey: "about.stats.faculties.description",
   },
   {
     value: "27,447",
-    labelKey: "home.about.stats.irc.label",
-    descriptionKey: "home.about.stats.irc.description",
+    labelKey: "about.stats.irc.label",
+    descriptionKey: "about.stats.irc.description",
   },
 ];
 
@@ -78,7 +78,7 @@ const TICKER_IMAGES = [
 ];
 
 const AboutStats = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -111,16 +111,16 @@ const AboutStats = () => {
             }`}
           >
             <div className="inline-flex items-center rounded-2xl bg-[rgb(40,40,44)] px-4 py-2 mb-6">
-              <h2 className="text-sm font-medium text-white">{t("home.about.badge")}</h2>
+              <h2 className="text-sm font-medium text-white">{t("about.badge")}</h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               <h3 className="text-[40px] text-foreground tracking-tight leading-[120%] md:text-5xl lg:text-[56px]">
-                {t("home.about.titleLine1")}
+                {t("about.titleLine1")}
                 <br />
-                {t("home.about.titleLine2")}
+                {t("about.titleLine2")}
               </h3>
               <p className="font-dm-sans text-[16px] text-[rgb(61,61,71)] leading-relaxed self-start">
-                {t("home.about.description")}
+                {t("about.description")}
               </p>
             </div>
           </div>

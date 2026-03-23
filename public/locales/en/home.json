@@ -69,8 +69,30 @@
     "badge": "Research & scholarship",
     "title": "Journals, research & innovation",
     "description": "From peer-reviewed journals to research centers and doctoral programs—TUES supports scholarship that shapes policy and practice.",
-    "ctaText": "Interested in publishing with us or partnering on research?",
-    "ctaButton": "Get in touch"
+    "ctaText": "Would you like to publish with us or collaborate on research?",
+    "ctaButton": "Get in touch",
+    "items": {
+      "research": {
+        "title": "Research",
+        "description": "TUES fosters cutting-edge research in economics, business, and policy.",
+        "label": "Explore research"
+      },
+      "journals": {
+        "title": "Journals & publications",
+        "description": "Access our peer-reviewed journals and publication series.",
+        "label": "View publications"
+      },
+      "labs": {
+        "title": "Labs & centers",
+        "description": "Dedicated research labs and centers focus on areas such as economic policy and innovation.",
+        "label": "Discover labs"
+      },
+      "doctoral": {
+        "title": "Doctoral & postdoc",
+        "description": "Join our doctoral and postdoctoral programs. Work alongside leading researchers.",
+        "label": "Programs"
+      }
+    }
   },
   "eduhub": {
     "badge": "Platform",

@@ -6,15 +6,15 @@ import { useTranslation } from "react-i18next";
 gsap.registerPlugin(ScrollTrigger);
 
 const campusLifeCards = [
-  { tagKey: "home.campus.tags.sports", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop", titleKey: "home.campus.tags.sports" },
-  { tagKey: "home.campus.tags.libraries", image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop", titleKey: "home.campus.tags.libraries" },
-  { tagKey: "home.campus.tags.careerSeminars", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=1000&fit=crop", titleKey: "home.campus.tags.careerSeminars" },
-  { tagKey: "home.campus.tags.research", image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop", titleKey: "home.campus.tags.research" },
-  { tagKey: "home.campus.tags.business", image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=800&h=600&fit=crop", titleKey: "home.campus.tags.business" },
+  { tagKey: "campus.tags.sports", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop", titleKey: "campus.tags.sports" },
+  { tagKey: "campus.tags.libraries", image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop", titleKey: "campus.tags.libraries" },
+  { tagKey: "campus.tags.careerSeminars", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=1000&fit=crop", titleKey: "campus.tags.careerSeminars" },
+  { tagKey: "campus.tags.research", image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop", titleKey: "campus.tags.research" },
+  { tagKey: "campus.tags.business", image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=800&h=600&fit=crop", titleKey: "campus.tags.business" },
 ];
 
 const StudentActivities = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const StudentActivities = () => {
         {/* Section Title - centered */}
         <div className="flex justify-center mb-12 md:mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[rgb(18,22,26)] tracking-tight">
-            {t("home.campus.title")}
+            {t("campus.title")}
           </h2>
         </div>
 

@@ -33,34 +33,34 @@ const Footer = () => {
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
             <div className="md:col-span-1">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">TUES Journal</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">{t("footer:journal.title")}</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Research, commentary, and analysis from economists, scholars, and policy thinkers.
+                {t("footer:journal.description")}
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Quick Links</h4>
+              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">{t("footer:journal.quickLinks")}</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/journal" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Home
+                    {t("footer:journal.links.home")}
                   </a>
                 </li>
                 <li>
                   <a href="/journal/articles" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Articles
+                    {t("footer:journal.links.articles")}
                   </a>
                 </li>
                 <li>
                   <a href="/journal/authors" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Authors
+                    {t("footer:journal.links.authors")}
                   </a>
                 </li>
                 <li>
                   <a href="/journal/topics" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Topics
+                    {t("footer:journal.links.topics")}
                   </a>
                 </li>
               </ul>
@@ -68,26 +68,26 @@ const Footer = () => {
 
             {/* About */}
             <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">About</h4>
+              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">{t("footer:journal.about")}</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/journal/about" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    About Us
+                    {t("footer:journal.links.aboutUs")}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Editorial Team
+                    {t("footer:journal.links.editorialTeam")}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Submission Guidelines
+                    {t("footer:journal.links.submissionGuidelines")}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Contact
+                    {t("footer:journal.links.contactUs")}
                   </a>
                 </li>
               </ul>
@@ -95,7 +95,7 @@ const Footer = () => {
 
             {/* Contact */}
             <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Contact</h4>
+              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">{t("footer:journal.contact")}</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
@@ -142,56 +142,56 @@ const Footer = () => {
   const creamMuted = "rgb(249, 249, 247)";
   const dark = "rgb(38, 41, 46)";
   const sectionTitleKeyMap: Record<string, string> = {
-    University: "header.secondNav.university",
-    Education: "header.secondNav.education",
-    Science: "header.secondNav.science",
-    Internationalization: "header.secondNav.internationalization",
-    "Student Life": "header.secondNav.studentLife",
-    "Admission 2025": "header.secondNav.admission2025",
-    "Information Services": "header.secondNav.informationServices",
-    Vacancies: "header.secondNav.vacancies",
+    University: "header:secondNav.university",
+    Education: "header:secondNav.education",
+    Science: "header:secondNav.science",
+    Internationalization: "header:secondNav.internationalization",
+    "Student Life": "header:secondNav.studentLife",
+    "Admission 2025": "header:secondNav.admission2025",
+    "Information Services": "header:secondNav.informationServices",
+    Vacancies: "header:secondNav.vacancies",
   };
   const sectionLinkKeyMap: Record<string, string> = {
-    Overview: "header.secondNavItems.overview",
-    History: "header.secondNavItems.history",
-    Leadership: "header.secondNavItems.leadership",
-    Governance: "header.secondNavItems.governance",
-    "Strategic Plan": "header.secondNavItems.strategicPlan",
-    "Academic Programs": "header.secondNavItems.academicPrograms",
-    Courses: "header.secondNavItems.courses",
-    "Academic Calendar": "header.secondNavItems.academicCalendar",
-    Faculty: "header.secondNavItems.faculty",
-    Departments: "header.secondNavItems.departments",
-    "Research Areas": "header.secondNavItems.researchAreas",
-    Laboratories: "header.secondNavItems.laboratories",
-    Publications: "header.secondNavItems.publications",
-    Innovation: "header.secondNavItems.innovation",
-    Collaborations: "header.secondNavItems.collaborations",
-    "Exchange Programs": "header.secondNavItems.exchangePrograms",
-    "Global Partnerships": "header.secondNavItems.globalPartnerships",
-    "International Students": "header.secondNavItems.internationalStudents",
-    "Study Abroad": "header.secondNavItems.studyAbroad",
-    "Global Initiatives": "header.secondNavItems.globalInitiatives",
-    "Campus Life": "header.secondNavItems.campusLife",
-    "Student Clubs": "header.secondNavItems.studentClubs",
-    Housing: "header.secondNavItems.housing",
-    Dining: "header.secondNavItems.dining",
-    Wellness: "header.secondNavItems.wellness",
-    Requirements: "header.secondNavItems.requirements",
-    "Application Process": "header.secondNavItems.applicationProcess",
-    Deadlines: "header.secondNavItems.deadlines",
-    Scholarships: "header.secondNavItems.scholarships",
-    FAQs: "header.secondNavItems.faqs",
-    Library: "header.secondNavItems.library",
-    "IT Services": "header.secondNavItems.itServices",
-    "Online Resources": "header.secondNavItems.onlineResources",
-    Support: "header.secondNavItems.support",
-    "Help Desk": "header.secondNavItems.helpDesk",
-    "Academic Positions": "header.secondNavItems.academicPositions",
-    "Administrative Positions": "header.secondNavItems.administrativePositions",
-    "Research Positions": "header.secondNavItems.researchPositions",
-    "How to Apply": "header.secondNavItems.howToApply",
-    Benefits: "header.secondNavItems.benefits",
+    Overview: "header:secondNavItems.overview",
+    History: "header:secondNavItems.history",
+    Leadership: "header:secondNavItems.leadership",
+    Governance: "header:secondNavItems.governance",
+    "Strategic Plan": "header:secondNavItems.strategicPlan",
+    "Academic Programs": "header:secondNavItems.academicPrograms",
+    Courses: "header:secondNavItems.courses",
+    "Academic Calendar": "header:secondNavItems.academicCalendar",
+    Faculty: "header:secondNavItems.faculty",
+    Departments: "header:secondNavItems.departments",
+    "Research Areas": "header:secondNavItems.researchAreas",
+    Laboratories: "header:secondNavItems.laboratories",
+    Publications: "header:secondNavItems.publications",
+    Innovation: "header:secondNavItems.innovation",
+    Collaborations: "header:secondNavItems.collaborations",
+    "Exchange Programs": "header:secondNavItems.exchangePrograms",
+    "Global Partnerships": "header:secondNavItems.globalPartnerships",
+    "International Students": "header:secondNavItems.internationalStudents",
+    "Study Abroad": "header:secondNavItems.studyAbroad",
+    "Global Initiatives": "header:secondNavItems.globalInitiatives",
+    "Campus Life": "header:secondNavItems.campusLife",
+    "Student Clubs": "header:secondNavItems.studentClubs",
+    Housing: "header:secondNavItems.housing",
+    Dining: "header:secondNavItems.dining",
+    Wellness: "header:secondNavItems.wellness",
+    Requirements: "header:secondNavItems.requirements",
+    "Application Process": "header:secondNavItems.applicationProcess",
+    Deadlines: "header:secondNavItems.deadlines",
+    Scholarships: "header:secondNavItems.scholarships",
+    FAQs: "header:secondNavItems.faqs",
+    Library: "header:secondNavItems.library",
+    "IT Services": "header:secondNavItems.itServices",
+    "Online Resources": "header:secondNavItems.onlineResources",
+    Support: "header:secondNavItems.support",
+    "Help Desk": "header:secondNavItems.helpDesk",
+    "Academic Positions": "header:secondNavItems.academicPositions",
+    "Administrative Positions": "header:secondNavItems.administrativePositions",
+    "Research Positions": "header:secondNavItems.researchPositions",
+    "How to Apply": "header:secondNavItems.howToApply",
+    Benefits: "header:secondNavItems.benefits",
   };
 
   return (
@@ -203,7 +203,7 @@ const Footer = () => {
             <div className="flex flex-col justify-between gap-8 lg:col-span-4">
               <div className="flex min-h-0 flex-1 flex-col gap-6">
                 <Link to="/" className="shrink-0 self-start rounded-[8px]">
-                  <img src="/logo_white.png" alt="TUES University logo" className="h-10 w-auto object-contain sm:h-12" />
+                  <img src="/logo_white.png" alt={t("footer:logoAlt")} className="h-10 w-auto object-contain sm:h-12" />
                 </Link>
                 <div className="flex flex-1 flex-col gap-4">
                   <h3 className="text-base font-semibold leading-snug text-white/90">
@@ -320,8 +320,8 @@ const Footer = () => {
                     <img src="/logo-eduhub.png" alt="EduHub" className="h-8 w-auto object-contain opacity-90" />
                   </Link>
                 ) : (
-                  <Link to="/" className="flex shrink-0 items-center">
-                    <img src="/logo_white.png" alt="TUES University logo" className="h-8 w-auto object-contain opacity-90" />
+                  <Link to="/" className="shrink-0 self-start rounded-[8px]">
+                    <img src="/logo_white.png" alt={t("footer:logoAlt")} className="h-8 w-auto object-contain opacity-90" />
                   </Link>
                 )}
               </div>
