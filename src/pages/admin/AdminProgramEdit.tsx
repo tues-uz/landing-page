@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useMatch, useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { adminApi } from "@/api/adminClient";
@@ -22,14 +22,16 @@ const MAX_PDF_MB = 40;
 type PdfKind = "brochure" | "admissions" | "curriculum";
 
 export default function AdminProgramEdit() {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: editSlug } = useParams<{ slug: string }>();
+  const isCreate = !!useMatch({ path: "/admin/programs/new", end: true });
+  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: program, isLoading } = useQuery({
-    queryKey: programsKeys.detail(slug!),
-    queryFn: () => adminApi.programs.getBySlug(slug!),
-    enabled: !!slug,
+    queryKey: programsKeys.detail(editSlug!),
+    queryFn: () => adminApi.programs.getBySlug(editSlug!),
+    enabled: !isCreate && !!editSlug,
   });
 
   const [title, setTitle] = useState("");
@@ -98,14 +100,64 @@ export default function AdminProgramEdit() {
     mutationFn: (payload: Partial<ProgramItem>) => adminApi.programs.update(program!.id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: programsKeys.list() });
-      queryClient.invalidateQueries({ queryKey: programsKeys.detail(slug!) });
+      queryClient.invalidateQueries({ queryKey: programsKeys.detail(editSlug!) });
       toast({ title: "Saved", description: "Program updated." });
     },
     onError: (err) =>
       toast({ title: "Save failed", description: String(err), variant: "destructive" }),
   });
 
+  const createMutation = useMutation({
+    mutationFn: (payload: Omit<ProgramItem, "id">) => adminApi.programs.create(payload),
+    onSuccess: (created) => {
+      queryClient.invalidateQueries({ queryKey: programsKeys.list() });
+      toast({ title: "Created", description: "Program added." });
+      navigate(`/admin/programs/${created.slug}/edit`, { replace: true });
+    },
+    onError: (err) =>
+      toast({ title: "Could not create program", description: String(err), variant: "destructive" }),
+  });
+
+  const buildPayload = (): Omit<ProgramItem, "id"> => {
+    const highlights = highlightsText
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    return {
+      slug: slugifyFromTitle(title),
+      title,
+      count,
+      description,
+      longDescription,
+      highlights,
+      iconName,
+      introduction,
+      careerOutcomes,
+      degreeType,
+      duration,
+      languages,
+      pace,
+      studyFormat,
+      applicationDeadline,
+      startDate,
+      tuition,
+      heroImageUrl,
+      brochurePdfUrl,
+      admissionsPdfUrl,
+      curriculumPdfUrl,
+    };
+  };
+
   const handleSave = () => {
+    const newSlug = slugifyFromTitle(title);
+    if (!newSlug.trim()) {
+      toast({ title: "Title required", description: "Enter a title to generate the URL slug.", variant: "destructive" });
+      return;
+    }
+    if (isCreate) {
+      createMutation.mutate(buildPayload());
+      return;
+    }
     if (!program) return;
     const highlights = highlightsText
       .split("\n")
@@ -167,6 +219,9 @@ export default function AdminProgramEdit() {
     }
   };
 
+  /** Slug used in PDF path hints — from title when creating, from URL when editing. */
+  const slugForPdf = isCreate ? slugifyFromTitle(title) || "your-slug" : (editSlug ?? "");
+
   const PDF_SLOTS: {
     kind: PdfKind;
     label: string;
@@ -178,21 +233,21 @@ export default function AdminProgramEdit() {
       kind: "brochure",
       label: "PDF 1 · Brochure",
       hint: "Overview & highlights (matches first download card)",
-      placeholder: `Default file: /program-brochures/${slug}.pdf`,
+      placeholder: `Default file: /program-brochures/${slugForPdf}.pdf`,
       inputRef: brochurePdfInputRef,
     },
     {
       kind: "admissions",
       label: "PDF 2 · Admissions",
       hint: "Apply & requirements (second card)",
-      placeholder: `Default file: /program-brochures/${slug}-admissions.pdf`,
+      placeholder: `Default file: /program-brochures/${slugForPdf}-admissions.pdf`,
       inputRef: admissionsPdfInputRef,
     },
     {
       kind: "curriculum",
       label: "PDF 3 · Curriculum",
       hint: "Courses & structure (third card)",
-      placeholder: `Default file: /program-brochures/${slug}-curriculum.pdf`,
+      placeholder: `Default file: /program-brochures/${slugForPdf}-curriculum.pdf`,
       inputRef: curriculumPdfInputRef,
     },
   ];
@@ -231,13 +286,22 @@ export default function AdminProgramEdit() {
   };
 
   const copyJson = async () => {
-    if (!program || !slug) return;
+    if (isCreate) {
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(buildPayload(), null, 2));
+        toast({ title: "Copied JSON", description: "Draft program data." });
+      } catch {
+        toast({ title: "Could not copy", variant: "destructive" });
+      }
+      return;
+    }
+    if (!program || !editSlug) return;
     const highlights = highlightsText
       .split("\n")
       .map((s) => s.trim())
       .filter(Boolean);
     const payload = {
-      slug,
+      slug: editSlug,
       title,
       count,
       description,
@@ -267,7 +331,7 @@ export default function AdminProgramEdit() {
     }
   };
 
-  if (isLoading) {
+  if (!isCreate && isLoading) {
     return (
       <AdminPageShell title="Loading program…" description="">
         <div className="flex items-center justify-center py-16">
@@ -277,7 +341,7 @@ export default function AdminProgramEdit() {
     );
   }
 
-  if (!slug || !program) {
+  if (!isCreate && (!editSlug || !program)) {
     return (
       <AdminPageShell title="Program not found" description="Check the URL or pick a program from the list.">
         <Button asChild variant="outline" className="rounded-lg">
@@ -294,7 +358,7 @@ export default function AdminProgramEdit() {
 
   return (
     <AdminPageShell
-      title="Edit program details"
+      title={isCreate ? "Add program" : "Edit program details"}
       description="Fields match the public program detail page (listing + body + At a glance sidebar)."
       actions={
         <div className="flex flex-wrap gap-2">
@@ -304,12 +368,14 @@ export default function AdminProgramEdit() {
               All programs
             </Link>
           </Button>
-          <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
-            <Link to={`/programs/${slug}`} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4" />
-              View live
-            </Link>
-          </Button>
+          {!isCreate && editSlug ? (
+            <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
+              <Link to={`/programs/${editSlug}`} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4" />
+                View live
+              </Link>
+            </Button>
+          ) : null}
         </div>
       }
     >
@@ -320,9 +386,9 @@ export default function AdminProgramEdit() {
         <div>
           <p className="text-sm font-medium text-foreground flex items-center gap-2">
             <Pencil className="h-4 w-4 text-muted-foreground" />
-            {program.title}
+            {isCreate ? title.trim() || "New program" : program!.title}
           </p>
-          <p className="text-xs font-mono text-muted-foreground mt-0.5">{slug}</p>
+          <p className="text-xs font-mono text-muted-foreground mt-0.5">{slugForPdf}</p>
         </div>
       </div>
 
@@ -346,12 +412,14 @@ export default function AdminProgramEdit() {
               aria-describedby="prog-slug-hint"
             />
             <p id="prog-slug-hint" className="text-xs text-muted-foreground">
-              Generated from the title above — slug cannot be changed via this form.
-              {slug && slugifyFromTitle(title) !== slug ? (
+              {isCreate
+                ? "Generated from the title — this becomes the public URL path when you create the program."
+                : "Generated from the title above — slug cannot be changed via this form."}
+              {!isCreate && editSlug && slugifyFromTitle(title) !== editSlug ? (
                 <>
                   {" "}
                   <span className="text-amber-700">
-                    This editor URL uses <code className="rounded bg-amber-100 px-1">{slug}</code>.
+                    This editor URL uses <code className="rounded bg-amber-100 px-1">{editSlug}</code>.
                   </span>
                 </>
               ) : null}
@@ -496,9 +564,9 @@ export default function AdminProgramEdit() {
                 Add up to three PDFs (brochure → admissions → curriculum), matching the public program page cards. Start with
                 one; use <span className="font-medium text-slate-700">Add PDF</span> for more (max 3). Choose a file from your
                 computer to upload via the API, or paste a full URL. Leave a URL blank to fall back to{" "}
-                <span className="font-mono">/program-brochures/{slug}.pdf</span>,{" "}
-                <span className="font-mono">{slug}-admissions.pdf</span>, and{" "}
-                <span className="font-mono">{slug}-curriculum.pdf</span>.
+                <span className="font-mono">/program-brochures/{slugForPdf}.pdf</span>,{" "}
+                <span className="font-mono">{slugForPdf}-admissions.pdf</span>, and{" "}
+                <span className="font-mono">{slugForPdf}-curriculum.pdf</span>.
               </p>
             </div>
 
@@ -608,16 +676,20 @@ export default function AdminProgramEdit() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-end gap-2">
         <Button
           type="button"
           variant="default"
           className="rounded-lg gap-1.5"
           onClick={handleSave}
-          disabled={saveMutation.isPending}
+          disabled={saveMutation.isPending || createMutation.isPending}
         >
-          {saveMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          Save changes
+          {saveMutation.isPending || createMutation.isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="h-4 w-4" />
+          )}
+          {isCreate ? "Create program" : "Save changes"}
         </Button>
         <Button type="button" variant="outline" className="rounded-lg gap-1.5" onClick={copyJson}>
           <Copy className="h-4 w-4" />

@@ -15,7 +15,6 @@ import {
   LayoutGrid,
   List,
   LogOut,
-  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";

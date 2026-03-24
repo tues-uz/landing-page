@@ -1,20 +1,22 @@
 import { Link } from "react-router-dom";
 import { Box, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const VirtualTour = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-oxford-gold font-medium text-sm tracking-wider uppercase">
-            Explore Our Campus
+            {t("virtualTour.kicker")}
           </span>
           <h2 className="text-4xl lg:text-5xl text-foreground mt-3 mb-6">
-            Take a Virtual Tour
+            {t("virtualTour.title")}
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-            Discover our state-of-the-art facilities, beautiful campus grounds, and modern learning environments from anywhere in the world.
+            {t("virtualTour.description")}
           </p>
         </div>
 
@@ -41,7 +43,7 @@ const VirtualTour = () => {
             to="/virtual-tour"
             className="inline-flex h-11 shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-xl border border-oxford-blue bg-oxford-blue px-8 text-sm font-medium text-white transition-colors hover:bg-oxford-blue/90 hover:border-oxford-blue/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50"
           >
-            <span className="whitespace-nowrap">Start Virtual Tour</span>
+            <span className="whitespace-nowrap">{t("virtualTour.cta")}</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

@@ -1,12 +1,8 @@
 import { GraduationCap, Award, Users, Globe, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
-const alumniStats = [
-  { icon: GraduationCap, number: "50,000+", label: "Alumni Worldwide" },
-  { icon: Award, number: "120+", label: "Nobel Laureates" },
-  { icon: Users, number: "150+", label: "Countries Represented" },
-  { icon: Globe, number: "85%", label: "Career Success Rate" },
-];
+const ALUMNI_STAT_ICONS = [GraduationCap, Award, Users, Globe] as const;
 
 const testimonials = [
   { id: 1, name: "Dr. Sarah Johnson", role: "CEO, Global Finance Corp", year: "Class of 2010", quote: "The Termez University of Economics and Service provided me with the knowledge and network that shaped my career.", image: "https://picsum.photos/seed/alumni-1/96/96" },
@@ -18,6 +14,17 @@ const testimonials = [
 ];
 
 const Alumni = () => {
+  const { t } = useTranslation();
+  const alumniStats = useMemo(
+    () =>
+      [
+        { icon: ALUMNI_STAT_ICONS[0], number: "50,000+", label: t("alumni.stat1") },
+        { icon: ALUMNI_STAT_ICONS[1], number: "120+", label: t("alumni.stat2") },
+        { icon: ALUMNI_STAT_ICONS[2], number: "150+", label: t("alumni.stat3") },
+        { icon: ALUMNI_STAT_ICONS[3], number: "85%", label: t("alumni.stat4") },
+      ] as const,
+    [t]
+  );
   const [currentIndex, setCurrentIndex] = useState(1);
   const [slidePercent, setSlidePercent] = useState(50);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -92,13 +99,13 @@ const Alumni = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-xs font-semibold tracking-[0.2em] uppercase text-foreground/50 mb-3">
-            Our Community
+            {t("alumni.community")}
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight mb-4">
-            Alumni Network
+            {t("alumni.networkTitle")}
           </h2>
           <p className="text-foreground/70 text-base leading-relaxed">
-            Join a global network of accomplished professionals, leaders, and innovators who are making a difference around the world. Connect with fellow alumni and stay engaged with your alma mater.
+            {t("alumni.networkDesc")}
           </p>
         </div>
 
@@ -119,7 +126,7 @@ const Alumni = () => {
         {/* More Alumni Stories — carousel */}
         <div>
           <h3 className="text-xl font-semibold text-foreground mb-6">
-            More Alumni Stories
+            {t("alumni.moreStories")}
           </h3>
           <div className="relative">
             <div className="overflow-hidden">
@@ -128,21 +135,21 @@ const Alumni = () => {
                 className="flex transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(calc(-${currentIndex} * ${slidePercent}%))` }}
               >
-                {infiniteTestimonials.map((t, i) => (
-                  <div key={`${t.id}-${i}`} className="flex-shrink-0 w-full sm:w-1/2 px-0 sm:px-2">
+                {infiniteTestimonials.map((item, i) => (
+                  <div key={`${item.id}-${i}`} className="flex-shrink-0 w-full sm:w-1/2 px-0 sm:px-2">
                     <div className="bg-white rounded-xl p-5 border border-black/[0.06] shadow-sm h-full">
                       <p className="text-foreground/75 text-sm leading-relaxed mb-4 line-clamp-3">
-                        {t.quote}
+                        {item.quote}
                       </p>
                       <div className="flex items-center gap-3">
                         <img
-                          src={t.image}
+                          src={item.image}
                           alt=""
                           className="w-10 h-10 rounded-full object-cover bg-muted"
                         />
                         <div>
-                          <p className="font-medium text-foreground text-sm">{t.name}</p>
-                          <p className="text-xs text-foreground/55">{t.role} · {t.year}</p>
+                          <p className="font-medium text-foreground text-sm">{item.name}</p>
+                          <p className="text-xs text-foreground/55">{item.role} · {item.year}</p>
                         </div>
                       </div>
                     </div>
@@ -155,7 +162,7 @@ const Alumni = () => {
                 type="button"
                 onClick={() => go(-1)}
                 className="w-10 h-10 rounded-full border border-foreground/15 flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
-                aria-label="Previous"
+                aria-label={t("programsPage.prev")}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -163,7 +170,7 @@ const Alumni = () => {
                 type="button"
                 onClick={() => go(1)}
                 className="w-10 h-10 rounded-full border border-foreground/15 flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
-                aria-label="Next"
+                aria-label={t("programsPage.next")}
               >
                 <ChevronRight className="w-5 h-5" />
               </button>

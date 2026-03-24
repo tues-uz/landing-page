@@ -1,18 +1,20 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const campusLifeCards = [
-  { tag: "Sports", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop", title: "Sports" },
-  { tag: "Libraries", image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop", title: "Libraries" },
-  { tag: "Career Development Seminars", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=1000&fit=crop", title: "Career Development Seminars" },
-  { tag: "Research", image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop", title: "Research" },
-  { tag: "Business & Enterprise", image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=800&h=600&fit=crop", title: "Business & Enterprise" },
+  { tagKey: "sports" as const, image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop" },
+  { tagKey: "libraries" as const, image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop" },
+  { tagKey: "careerSeminars" as const, image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=1000&fit=crop" },
+  { tagKey: "research" as const, image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop" },
+  { tagKey: "business" as const, image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=800&h=600&fit=crop" },
 ];
 
 const StudentActivities = () => {
+  const { t } = useTranslation();
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const StudentActivities = () => {
         {/* Section Title - centered */}
         <div className="flex justify-center mb-12 md:mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[rgb(18,22,26)] tracking-tight">
-            Campus life
+            {t("studentLife.title")}
           </h2>
         </div>
 
@@ -61,53 +63,53 @@ const StudentActivities = () => {
           <div className="activity-card group relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-auto md:min-h-[280px]">
             <img
               src={campusLifeCards[0].image}
-              alt={campusLifeCards[0].title}
+              alt={t(`studentLife.${campusLifeCards[0].tagKey}`)}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <span className="absolute top-3 left-3 bg-[rgb(207,16,45)] text-white text-sm font-medium rounded px-2.5 py-1">
-              {campusLifeCards[0].tag}
+              {t(`studentLife.${campusLifeCards[0].tagKey}`)}
             </span>
           </div>
           <div className="activity-card group relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-auto md:min-h-[280px]">
             <img
               src={campusLifeCards[1].image}
-              alt={campusLifeCards[1].title}
+              alt={t(`studentLife.${campusLifeCards[1].tagKey}`)}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <span className="absolute top-3 left-3 bg-[rgb(207,16,45)] text-white text-sm font-medium rounded px-2.5 py-1">
-              {campusLifeCards[1].tag}
+              {t(`studentLife.${campusLifeCards[1].tagKey}`)}
             </span>
           </div>
           {/* Big card - spans 2 rows on md+ */}
           <div className="activity-card group relative overflow-hidden rounded-lg md:row-span-2 aspect-[4/3] md:aspect-auto md:min-h-0">
             <img
               src={campusLifeCards[2].image}
-              alt={campusLifeCards[2].title}
+              alt={t(`studentLife.${campusLifeCards[2].tagKey}`)}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <span className="absolute top-3 left-3 bg-[rgb(207,16,45)] text-white text-sm font-medium rounded px-2.5 py-1">
-              {campusLifeCards[2].tag}
+              {t(`studentLife.${campusLifeCards[2].tagKey}`)}
             </span>
           </div>
           {/* Row 2 - small */}
           <div className="activity-card group relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-auto md:min-h-[280px]">
             <img
               src={campusLifeCards[3].image}
-              alt={campusLifeCards[3].title}
+              alt={t(`studentLife.${campusLifeCards[3].tagKey}`)}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <span className="absolute top-3 left-3 bg-[rgb(207,16,45)] text-white text-sm font-medium rounded px-2.5 py-1">
-              {campusLifeCards[3].tag}
+              {t(`studentLife.${campusLifeCards[3].tagKey}`)}
             </span>
           </div>
           <div className="activity-card group relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-auto md:min-h-[280px]">
             <img
               src={campusLifeCards[4].image}
-              alt={campusLifeCards[4].title}
+              alt={t(`studentLife.${campusLifeCards[4].tagKey}`)}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <span className="absolute top-3 left-3 bg-[rgb(207,16,45)] text-white text-sm font-medium rounded px-2.5 py-1">
-              {campusLifeCards[4].tag}
+              {t(`studentLife.${campusLifeCards[4].tagKey}`)}
             </span>
           </div>
         </div>

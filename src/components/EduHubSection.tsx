@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Users, Calendar, HeadphonesIcon, FileText, Bell } from "lucide-react";
 import {
@@ -8,56 +9,32 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const features = [
-  {
-    id: "course-materials",
-    icon: BookOpen,
-    title: "Course materials",
-    description:
-      "Access all your course materials, lecture notes, and resources in one place. EduHub keeps everything organised and easy to find, so you can focus on learning.",
-  },
-  {
-    id: "community",
-    icon: Users,
-    title: "Community & connect",
-    description:
-      "Connect with peers, instructors, and staff through forums and messaging. Get answers, join study groups, and be part of the TUES community.",
-  },
-  {
-    id: "events",
-    icon: Calendar,
-    title: "Events & opportunities",
-    description:
-      "Stay updated on campus events, workshops, and opportunities. Never miss a deadline or an event that matters for your studies and career.",
-  },
-  {
-    id: "support",
-    icon: HeadphonesIcon,
-    title: "Support",
-    description:
-      "Get help when you need it. EduHub connects you with academic and technical support so you can resolve issues quickly and keep moving forward.",
-  },
-  {
-    id: "assignments",
-    icon: FileText,
-    title: "Assignments & submissions",
-    description:
-      "Submit assignments, track deadlines, and receive feedback through EduHub. All your coursework is in one place with clear status and instructor comments.",
-  },
-  {
-    id: "notifications",
-    icon: Bell,
-    title: "Notifications & announcements",
-    description:
-      "Get timely alerts and announcements from your faculty and the university. EduHub keeps you informed about schedule changes, new content, and important updates.",
-  },
-];
+const FEATURE_DEFS = [
+  { id: "course-materials", icon: BookOpen, n: 1 },
+  { id: "community", icon: Users, n: 2 },
+  { id: "events", icon: Calendar, n: 3 },
+  { id: "support", icon: HeadphonesIcon, n: 4 },
+  { id: "assignments", icon: FileText, n: 5 },
+  { id: "notifications", icon: Bell, n: 6 },
+] as const;
 
 const DARK_TEAL = "rgb(15, 61, 58)";
 const BODY_COLOR = "rgb(37, 37, 37)";
 
 const EduHubSection = () => {
+  const { t } = useTranslation();
   const [openItem, setOpenItem] = useState<string | null>("course-materials");
+
+  const features = useMemo(
+    () =>
+      FEATURE_DEFS.map(({ id, icon, n }) => ({
+        id,
+        icon,
+        title: t(`eduhub.f${n}t`),
+        description: t(`eduhub.f${n}d`),
+      })),
+    [t]
+  );
 
   return (
     <section className="py-24 bg-white relative overflow-hidden" id="eduhub">
@@ -69,18 +46,18 @@ const EduHubSection = () => {
             style={{ backgroundColor: "rgb(235, 235, 235)" }}
           >
             <span className="text-sm font-medium" style={{ color: BODY_COLOR }}>
-              Platform
+              {t("eduhub.platform")}
             </span>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8 mb-4">
             <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground tracking-tight">
-              EduHub
+              {t("eduhub.title")}
               <span className="block font-normal leading-relaxed mt-1 text-xl" style={{ color: BODY_COLOR }}>
-                Your learning and campus hub
+                {t("eduhub.subtitle")}
               </span>
             </h2>
             <p className="leading-relaxed max-w-2xl lg:text-right" style={{ color: BODY_COLOR, fontSize: '16px' }}>
-              Find out how EduHub supports your learning, keeps your course materials in one place, and connects you with the TUES community. Access assignments, events, support, and announcements all in one platform.
+              {t("eduhub.intro")}
             </p>
           </div>
         </div>
@@ -106,7 +83,7 @@ const EduHubSection = () => {
                 className="leading-relaxed font-medium"
                 style={{ color: DARK_TEAL, fontSize: '16px' }}
               >
-                &ldquo;Your courses, community, and support in one place. EduHub keeps you connected and on track.&rdquo;
+                &ldquo;{t("eduhub.quote")}&rdquo;
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 bg-neutral-200">
@@ -118,10 +95,10 @@ const EduHubSection = () => {
                 </div>
                 <div>
                   <p className="font-medium" style={{ color: DARK_TEAL }}>
-                    EduHub
+                    {t("eduhub.title")}
                   </p>
                   <p className="text-sm" style={{ color: DARK_TEAL, opacity: 0.9 }}>
-                    Learning Platform
+                    {t("eduhub.role")}
                   </p>
                 </div>
               </div>
@@ -130,7 +107,7 @@ const EduHubSection = () => {
                 className="flex items-center justify-between gap-3 w-full rounded-[5px] px-6 py-4 text-white font-medium transition-opacity hover:opacity-90"
                 style={{ backgroundColor: DARK_TEAL }}
               >
-                <span>Go to EduHub</span>
+                <span>{t("eduhub.goButton")}</span>
                 <ArrowRight className="h-5 w-5 shrink-0" />
               </Link>
             </div>

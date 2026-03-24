@@ -1,27 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-
-const stats = [
-  {
-    value: "25,000+",
-    label: "Students",
-    description: "From over 150 countries\nworldwide",
-  },
-  {
-    value: "412",
-    label: "Professors & Teachers",
-    description: "Leading innovation\nacross disciplines",
-  },
-  {
-    value: "3+",
-    label: "Faculties",
-    description: "Independent, self-governing\ncommunities",
-  },
-  {
-    value: "27,447",
-    label: "IRC Fund",
-    description: "A legacy of\nacademic achievement",
-  },
-];
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const useCounter = (target: number, duration: number = 2000, isVisible: boolean) => {
   const [count, setCount] = useState(0);
@@ -77,8 +55,35 @@ const TICKER_IMAGES = [
 ];
 
 const AboutStats = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  const stats = useMemo(
+    () => [
+      {
+        value: "25,000+",
+        label: t("about.statStudents"),
+        description: t("about.statStudentsDesc"),
+      },
+      {
+        value: "412",
+        label: t("about.statFaculty"),
+        description: t("about.statFacultyDesc"),
+      },
+      {
+        value: "3+",
+        label: t("about.statFaculties"),
+        description: t("about.statFacultiesDesc"),
+      },
+      {
+        value: "27,447",
+        label: t("about.statIrc"),
+        description: t("about.statIrcDesc"),
+      },
+    ],
+    [t]
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -109,16 +114,16 @@ const AboutStats = () => {
             }`}
           >
             <div className="inline-flex items-center rounded-2xl bg-[rgb(40,40,44)] px-4 py-2 mb-6">
-              <h2 className="text-sm font-medium text-white">About us</h2>
+              <h2 className="text-sm font-medium text-white">{t("about.badge")}</h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               <h3 className="text-[40px] text-foreground tracking-tight leading-[120%] md:text-5xl lg:text-[56px]">
-                The Termez University
+                {t("about.title1")}
                 <br />
-                of Economics and Service
+                {t("about.title2")}
               </h3>
               <p className="font-dm-sans text-[16px] text-[rgb(61,61,71)] leading-relaxed self-start">
-                Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step.
+                {t("about.paragraph")}
               </p>
             </div>
           </div>

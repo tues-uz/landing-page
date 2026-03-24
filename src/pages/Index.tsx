@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChevronUp } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AboutStats from "@/components/AboutStats";
@@ -18,6 +19,7 @@ import Footer from "@/components/Footer";
 gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
+  const { t } = useTranslation();
   const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -91,7 +93,7 @@ const Index = () => {
         className={`fixed bottom-8 right-8 z-[100] w-14 h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full shadow-2xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center hover:scale-110 border-2 border-white ${
           showScrollTop && !mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
-        aria-label="Scroll to top"
+        aria-label={t("common.scrollToTop")}
       >
         <ChevronUp className="h-7 w-7" />
       </button>

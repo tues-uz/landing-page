@@ -1,7 +1,8 @@
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
-import { footerMenuSections } from "@/data/footerNav";
+import { useTranslation } from "react-i18next";
+import { footerNavSections } from "@/data/footerNavI18n";
 
 const socialLinks = [
   { icon: Twitter, href: "#", label: "Twitter" },
@@ -12,6 +13,7 @@ const socialLinks = [
 ];
 
 const Footer = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const isEduHubPage = location.pathname === "/eduhub" || location.pathname.startsWith("/eduhub/");
   const isJournalPage = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
@@ -31,34 +33,34 @@ const Footer = () => {
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
             <div className="md:col-span-1">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">TUES Journal</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">{t("footerJournal.brand")}</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Research, commentary, and analysis from economists, scholars, and policy thinkers.
+                {t("footerJournal.tagline")}
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Quick Links</h4>
+              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">{t("footerJournal.quickLinks")}</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/journal" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Home
+                    {t("footerJournal.home")}
                   </a>
                 </li>
                 <li>
                   <a href="/journal/articles" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Articles
+                    {t("footerJournal.articles")}
                   </a>
                 </li>
                 <li>
                   <a href="/journal/authors" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Authors
+                    {t("footerJournal.authors")}
                   </a>
                 </li>
                 <li>
                   <a href="/journal/topics" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Topics
+                    {t("footerJournal.topics")}
                   </a>
                 </li>
               </ul>
@@ -66,26 +68,26 @@ const Footer = () => {
 
             {/* About */}
             <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">About</h4>
+              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">{t("footerJournal.about")}</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/journal/about" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    About Us
+                    {t("footerJournal.aboutUs")}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Editorial Team
+                    {t("footerJournal.editorial")}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Submission Guidelines
+                    {t("footerJournal.submission")}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                    Contact
+                    {t("footerJournal.contact")}
                   </a>
                 </li>
               </ul>
@@ -93,7 +95,7 @@ const Footer = () => {
 
             {/* Contact */}
             <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Contact</h4>
+              <h4 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">{t("footerJournal.contactHeading")}</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
@@ -119,14 +121,14 @@ const Footer = () => {
           <div className="border-t border-gray-300 mt-8 pt-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-sm text-gray-600">
-                © 2026 TUES Economics Journal. All rights reserved.
+                {t("footerJournal.bottom", { rights: t("common.allRights") })}
               </div>
               <div className="flex items-center gap-4">
                 <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  Privacy Policy
+                  {t("common.privacyPolicy")}
                 </a>
                 <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                  Terms of Use
+                  {t("common.termsOfUse")}
                 </a>
               </div>
             </div>
@@ -153,17 +155,17 @@ const Footer = () => {
                 </Link>
                 <div className="flex flex-1 flex-col gap-4">
                   <h3 className="text-base font-semibold leading-snug text-white/90">
-                    Get the latest TUES news and updates straight to your inbox.
+                    {t("footer.newsletterHeading")}
                   </h3>
                   <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                       <label htmlFor="footer-email" className="sr-only">
-                        Email address
+                        {t("footer.emailLabel")}
                       </label>
                       <input
                         id="footer-email"
                         type="email"
-                        placeholder="Email address"
+                        placeholder={t("footer.emailLabel")}
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -173,7 +175,7 @@ const Footer = () => {
                         type="submit"
                         className="shrink-0 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
                       >
-                        Subscribe now
+                        {t("footer.subscribeNow")}
                       </button>
                     </div>
                     <label className="flex cursor-pointer items-center gap-3 text-center">
@@ -183,7 +185,7 @@ const Footer = () => {
                         className="h-4 w-4 shrink-0 rounded border-white/30 bg-white/10 text-primary focus:ring-primary/50"
                       />
                       <span className="text-xs text-white/60">
-                        Yes, I agree to receive email communications from TUES.
+                        {t("footer.subscribeConsent")}
                       </span>
                     </label>
                   </form>
@@ -208,27 +210,27 @@ const Footer = () => {
 
             {/* Right: menu columns from navbar */}
             <div className="grid grid-cols-4 grid-rows-2 gap-8 lg:col-span-8 lg:gap-6">
-              {footerMenuSections.map((section) => (
-                <div key={section.title} className="flex flex-col gap-4">
+              {footerNavSections.map((section) => (
+                <div key={section.titleKey} className="flex flex-col gap-4">
                   <h3 className="text-xs font-medium uppercase tracking-wider text-white/50">
-                    {section.title}
+                    {t(section.titleKey)}
                   </h3>
                   <ul className="list-none space-y-3 p-0">
                     {section.links.map((link) => (
-                      <li key={link.label}>
+                      <li key={link.labelKey}>
                         {link.href.startsWith("/") ? (
                           <Link
                             to={link.href}
                             className="text-sm text-white/80 transition-colors hover:text-white"
                           >
-                            {link.label}
+                            {t(link.labelKey)}
                           </Link>
                         ) : (
                           <a
                             href={link.href}
                             className="text-sm text-white/80 transition-colors hover:text-white"
                           >
-                            {link.label}
+                            {t(link.labelKey)}
                           </a>
                         )}
                       </li>
@@ -249,15 +251,20 @@ const Footer = () => {
                 className="flex flex-wrap items-center justify-center gap-4 text-sm md:justify-start"
                 style={{ color: creamMuted }}
               >
-                <span>© 2026 {isEduHubPage ? "EduHub" : "TUES"}. All rights reserved.</span>
+                <span>
+                  {t("footer.copyright", {
+                    name: isEduHubPage ? "EduHub" : "TUES",
+                    rights: t("common.allRights"),
+                  })}
+                </span>
                 <a href="#" className="transition-colors hover:text-white">
-                  Privacy Policy
+                  {t("common.privacyPolicy")}
                 </a>
                 <a href="#" className="transition-colors hover:text-white">
-                  Terms of Use
+                  {t("common.termsOfUse")}
                 </a>
                 <a href="#" className="transition-colors hover:text-white">
-                  Accessibility
+                  {t("common.accessibility")}
                 </a>
               </div>
               <div className="flex items-center gap-4">
