@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (skipAuth) {
-      setUser({ id: "dev", name: "Dev User", email: "dev@local", role: "admin" });
+      setUser({ id: "dev", name: "Dev User", email: "dev@local", role: "admin", permissions: ["*"] });
       setIsLoading(false);
       return;
     }

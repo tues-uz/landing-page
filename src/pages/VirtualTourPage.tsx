@@ -116,7 +116,7 @@ export default function VirtualTourPage() {
       requestAnimationFrame(() => {
         if (cancelled) return;
 
-        const viewer = new Viewer(createViewerOptions(container) as Parameters<typeof Viewer>[0]);
+        const viewer = new Viewer(createViewerOptions(container) as ConstructorParameters<typeof Viewer>[0]);
         viewerRef.current = viewer;
 
         const virtualTour = viewer.getPlugin(VirtualTourPlugin);

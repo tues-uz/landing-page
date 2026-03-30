@@ -304,7 +304,9 @@ export function ArticleEditor({
       if (from === to) setLinkMenuOpen(false);
     };
     editor.on("selectionUpdate", onSelectionUpdate);
-    return () => editor.off("selectionUpdate", onSelectionUpdate);
+    return () => {
+      editor.off("selectionUpdate", onSelectionUpdate);
+    };
   }, [editor]);
 
   const handleImageFile = useCallback(

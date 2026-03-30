@@ -28,3 +28,10 @@ export const PROGRAM_HERO_IMAGES: Record<string, string> = {
 
 export const DEFAULT_PROGRAM_HERO_IMAGE =
   "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=2070&q=80";
+
+/** Hero URL for CMS row: custom `heroImageUrl`, else slug map, else default. */
+export function getProgramHeroImageUrl(program: { slug: string; heroImageUrl?: string | null }): string {
+  const custom = program.heroImageUrl?.trim();
+  if (custom) return custom;
+  return PROGRAM_HERO_IMAGES[program.slug] ?? DEFAULT_PROGRAM_HERO_IMAGE;
+}

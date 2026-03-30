@@ -57,6 +57,7 @@ const App = () => (
                 <Route path="/admin/news/articles" element={<AdminNews />} />
                 <Route path="/admin/events" element={<AdminEvents />} />
                 <Route path="/admin/programs" element={<AdminPrograms />} />
+                <Route path="/admin/programs/new" element={<AdminProgramEdit />} />
                 <Route path="/admin/programs/:slug/edit" element={<AdminProgramEdit />} />
                 <Route path="/admin/users" element={<AdminsPage />} />
               </Route>

@@ -5,7 +5,7 @@ interface PMNode {
   type: string;
   content?: PMNode[];
   text?: string;
-  attrs?: { level?: number; href?: string };
+  attrs?: { level?: number; href?: string; src?: string };
   marks?: { type: string; attrs?: { href?: string } }[];
 }
 
