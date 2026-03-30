@@ -1,12 +1,10 @@
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS } from "@/data/fallbackContent";
-import { getUiLang, mergeEventTitlesForEnglish } from "@/lib/localeContent";
 import type { EventItem } from "@/api/client";
+import { useTranslation } from "react-i18next";
 
 const EVENTS_TITLE_COLOR = "rgb(22, 13, 3)";
 const EVENTS_DATE_COLOR = "rgb(74, 73, 73)";
@@ -57,23 +55,19 @@ function EventFramerSkeleton() {
 }
 
 const NewSection = () => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("home");
   const {
     data: eventData,
     isLoading: eventsLoading,
   } = useQuery({
-    queryKey: contentKeys.events.list(),
-    queryFn: contentApi.events.list,
+    queryKey: [...contentKeys.events.list(), i18n.language],
+    queryFn: () => contentApi.events.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
-  /** CMS may return Uzbek titles; when UI is English, use FALLBACK_EVENTS titles by index (keep id, dates, images). */
-  const displayEvents = useMemo(() => {
-    const base = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
-    const slice = base.slice(0, 3);
-    return getUiLang(i18n) === "en" ? mergeEventTitlesForEnglish(slice) : slice;
-  }, [eventData, i18n.resolvedLanguage, i18n.language]);
+  const eventItems = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
+  const displayEvents = eventItems.slice(0, 3);
 
   return (
     <section className="py-24 bg-background relative overflow-hidden">
@@ -81,16 +75,16 @@ const NewSection = () => {
         {/* Title + View All Events button (Framer style) */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 md:mb-12">
           <h2 className="text-3xl md:text-4xl font-bold" style={{ color: EVENTS_TITLE_COLOR }}>
-            {t("homeEventsSection.titleLine1")}
+            {t("events.titleLine1")}
             <br />
-            {t("homeEventsSection.titleLine2")}
+            {t("events.titleLine2")}
           </h2>
           <Link
             to="/events"
             className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5 shrink-0 sm:self-end"
             style={{ borderColor: EVENTS_TITLE_COLOR, color: EVENTS_TITLE_COLOR }}
           >
-            {t("homeEventsSection.viewAll")}
+            {t("events.viewAll")}
           </Link>
         </div>
 
@@ -104,7 +98,7 @@ const NewSection = () => {
             ))
           ) : (
             <p className="text-sm col-span-full text-center py-8" style={{ color: EVENTS_DATE_COLOR }}>
-              {t("homeEventsSection.noUpcoming")}
+              {t("events.noUpcoming")}
             </p>
           )}
         </div>

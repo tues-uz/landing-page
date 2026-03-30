@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -7,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { contentApi, type ProgramItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { getUiLang, withEnglishProgramTitles } from "@/lib/localeContent";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,20 +64,13 @@ const TITLE_COLOR = "rgb(30, 30, 30)";
 const ICON_BG = "rgb(35, 47, 58)";
 
 const Programs = () => {
+  const { t, i18n } = useTranslation("home");
   const bentoRef = useRef<HTMLDivElement>(null);
-  const { t, i18n } = useTranslation();
 
-  const { data = staticPrograms } = useQuery({
-    queryKey: contentKeys.programs.list(),
-    queryFn: contentApi.programs.list,
-    initialData: staticPrograms,
+  const { data: programs = [], isLoading } = useQuery({
+    queryKey: [...contentKeys.programs.list(), i18n.language],
+    queryFn: () => contentApi.programs.list(i18n.language),
   });
-
-  /** CMS often returns Uzbek titles; when UI is English, use static English titles by slug. */
-  const displayPrograms = useMemo(() => {
-    const list = data.slice(0, 6);
-    return getUiLang(i18n) === "en" ? withEnglishProgramTitles(list) : list;
-  }, [data, i18n.resolvedLanguage, i18n.language]);
 
   useEffect(() => {
     const section = bentoRef.current;
@@ -150,10 +142,10 @@ const Programs = () => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 md:mb-12 items-center sm:items-end">
           <div className="text-center sm:text-left">
             <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: TITLE_COLOR }}>
-              {t("homePrograms.title")}
+              {t("programs.title")}
             </h2>
             <p className="text-base max-w-2xl sm:max-w-2xl mx-auto sm:mx-0" style={{ color: TITLE_COLOR }}>
-              {t("homePrograms.description")}
+              {t("programs.description")}
             </p>
           </div>
           <Link
@@ -161,7 +153,7 @@ const Programs = () => {
             className="inline-flex items-center justify-center gap-2 font-medium transition-opacity hover:opacity-90 shrink-0 border border-current/10 rounded-lg px-4 py-2.5 self-center sm:self-auto sm:border-0 sm:rounded-none sm:px-0 sm:py-0"
             style={{ color: TITLE_COLOR }}
           >
-            <span>{t("homePrograms.exploreAll")}</span>
+            <span>{t("programs.exploreAll")}</span>
             <span
               className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
               style={{ backgroundColor: ICON_BG }}
@@ -173,7 +165,7 @@ const Programs = () => {
 
         {/* Programs grid — 3 columns, 2 rows, 6 programs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayPrograms.map((program) => (
+          {programs.slice(0, 6).map((program) => (
               <Link
                 key={program.id}
                 to={`/programs/${program.slug}`}

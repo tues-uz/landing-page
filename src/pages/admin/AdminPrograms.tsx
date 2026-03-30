@@ -5,44 +5,34 @@ import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { staticPrograms } from "@/components/Programs";
 import { adminApi } from "@/api/adminClient";
 import { programsKeys } from "@/api/queryKeys";
-import { withEnglishProgramTitles } from "@/lib/localeContent";
-import { getProgramHeroImageUrl } from "@/data/programHeroImages";
+import { getProgramIcon } from "@/lib/programIconMap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  ExternalLink,
-  GraduationCap,
-  Search,
-  Copy,
-  Loader2,
-  Pencil,
-  Plus,
-} from "lucide-react";
+import { ExternalLink, GraduationCap, Search, Copy, FileText, Loader2, Pencil } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function AdminPrograms() {
+  const { t, i18n } = useTranslation("admin");
   const { toast } = useToast();
   const [q, setQ] = useState("");
 
   const { data: programs = staticPrograms, isLoading } = useQuery({
-    queryKey: programsKeys.list(),
-    queryFn: adminApi.programs.list,
+    queryKey: [...programsKeys.list(), i18n.language],
+    queryFn: () => adminApi.programs.list(i18n.language),
   });
-
-  /** Same English catalog overlay as the public site — CMS rows are often Uzbek. */
-  const programsDisplay = useMemo(() => withEnglishProgramTitles(programs), [programs]);
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
-    if (!s) return programsDisplay;
-    return programsDisplay.filter(
+    if (!s) return programs;
+    return programs.filter(
       (p) =>
         p.title.toLowerCase().includes(s) ||
         p.slug.toLowerCase().includes(s) ||
         p.description.toLowerCase().includes(s)
     );
-  }, [q, programsDisplay]);
+  }, [q, programs]);
 
   const copySlug = async (slug: string) => {
     try {
@@ -55,29 +45,36 @@ export default function AdminPrograms() {
 
   return (
     <AdminPageShell
-      title="Programs"
-      description="Manage program catalog — edit entries via the CMS;\nupload PDFs in public/program-brochures/."
+      title={t("programs", "Programs")}
+      description={t("programsDescription", "Manage program catalog — edit entries via the CMS; upload PDFs in public/program-brochures/.")}
       actions={
-        <>
-          <Button size="sm" className="rounded-lg gap-1.5" asChild>
-            <Link to="/admin/programs/new">
-              <Plus className="h-4 w-4" />
-              Add program
-            </Link>
-          </Button>
-          <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
-            <Link to="/programs" target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4" />
-              Open programs page
-            </Link>
-          </Button>
-        </>
+        <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
+          <Link to="/programs" target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="h-4 w-4" />
+            {t("openProgramsPage", "Open programs page")}
+          </Link>
+        </Button>
       }
     >
+      <Card className={ADMIN_CARD_CLASS}>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <FileText className="h-4 w-4 text-muted-foreground" />
+            {t("pdfBrochures", "PDF brochures")}
+          </CardTitle>
+          <CardDescription className="text-sm leading-relaxed">
+            Default: three files in{" "}
+            <code className="rounded bg-muted px-1 py-0.5 text-xs">public/program-brochures/</code> by slug. In{" "}
+            <strong>Edit details</strong> you can upload PDFs (media API) or set URLs to override the public
+            download cards.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search by title, slug, or description…"
+          placeholder={t("searchProgramsPlaceholder", "Search by title, slug, or description…")}
           value={q}
           onChange={(e) => setQ(e.target.value)}
           className="pl-9 h-10 rounded-lg"
@@ -91,97 +88,63 @@ export default function AdminPrograms() {
       ) : (
         <>
           <p className="text-sm text-muted-foreground">
-            {filtered.length} of {programsDisplay.length} programs
-            {q.trim() ? ` matching "${q.trim()}"` : ""}
+            {filtered.length} {t("of", "of")} {programs.length} {t("programsCount", "programs")}
+            {q.trim() ? ` ${t("matching", "matching")} "${q.trim()}"` : ""}
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((p) => {
+              const Icon = getProgramIcon(p.iconName);
               return (
                 <article
                   key={p.id}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_2px_12px_-4px_rgba(15,23,42,0.06)] ring-1 ring-slate-900/[0.04] transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(15,23,42,0.12)]"
+                  className="group flex flex-col rounded-xl border border-slate-200/65 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-[box-shadow,transform] duration-200 hover:-translate-y-px hover:shadow-[0_6px_16px_-4px_rgba(15,23,42,0.08)]"
                 >
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-200">
-                    <img
-                      src={getProgramHeroImageUrl(p)}
-                      alt=""
-                      className="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.04]"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-slate-950/10"
+                  <div className="flex items-start gap-3">
+                    <Icon
+                      className="mt-0.5 h-[18px] w-[18px] shrink-0 text-slate-400 transition-colors group-hover:text-slate-600"
                       aria-hidden
                     />
-                    <div className="absolute inset-x-0 bottom-0 p-4 pt-10">
-                      <div className="flex items-end justify-between gap-3">
-                        <h3 className="min-w-0 flex-1 text-lg font-semibold leading-snug tracking-tight text-white drop-shadow-md [text-shadow:0_1px_2px_rgba(0,0,0,0.35)] line-clamp-2">
-                          {p.title}
-                        </h3>
-                        {p.count ? (
-                          <span className="shrink-0 rounded-md border border-white/25 bg-white/15 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-md">
-                            {p.count}
-                          </span>
-                        ) : null}
-                      </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-[15px] font-medium leading-snug tracking-tight text-slate-900">{p.title}</h3>
+                      <p className="mt-2 flex min-w-0 flex-nowrap items-center gap-2 text-xs text-slate-500">
+                        <span className="min-w-0 truncate font-mono text-[11px] text-slate-400" title={p.slug}>
+                          {p.slug}
+                        </span>
+                        <span className="shrink-0 text-slate-300 select-none" aria-hidden>
+                          ·
+                        </span>
+                        <span className="shrink-0 text-slate-500">{p.count}</span>
+                      </p>
                     </div>
                   </div>
-
-                  <div className="flex flex-1 flex-col gap-3 px-5 pb-4 pt-4">
-                    <div className="border-b border-slate-100 pb-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Slug</p>
-                      <code className="mt-1 block truncate font-mono text-[12px] text-slate-800" title={p.slug}>
-                        {p.slug}
-                      </code>
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-relaxed text-slate-600">{p.description}</p>
-                  </div>
-
-                  <div className="bg-white px-5 pb-4 pt-0">
-                    <nav
-                      className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-1.5"
-                      aria-label="Program actions"
-                    >
-                      <Button
-                        size="sm"
-                        className="h-10 flex-1 gap-2 rounded-xl font-medium shadow-sm sm:min-h-0"
-                        asChild
-                      >
-                        <Link to={`/admin/programs/${p.slug}/edit`}>
-                          <Pencil className="h-4 w-4 opacity-90" aria-hidden />
-                          Edit
+                  <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-slate-600">{p.description}</p>
+                  <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-slate-100 pt-4">
+                    <Button size="sm" className="h-8 rounded-md px-3 text-xs font-medium shadow-none" asChild>
+                      <Link to={`/admin/programs/${p.slug}/edit`}>
+                        <Pencil className="h-3.5 w-3.5" />
+                        Edit
+                      </Link>
+                    </Button>
+                    <div className="flex flex-wrap items-center gap-x-1 text-xs text-slate-400">
+                      <Button variant="ghost" size="sm" className="h-8 px-2 text-xs font-normal text-slate-600 hover:text-slate-900" asChild>
+                        <Link to={`/programs/${p.slug}`} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          View page
                         </Link>
                       </Button>
-                      <div className="flex min-h-[2.5rem] shrink-0 gap-1.5 sm:min-h-0">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-10 w-10 shrink-0 rounded-xl border-slate-200/90 bg-white/90 text-slate-700 shadow-sm hover:bg-white"
-                          asChild
-                        >
-                          <Link
-                            to={`/programs/${p.slug}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`View public page: ${p.title}`}
-                          >
-                            <ExternalLink className="h-4 w-4 opacity-90" aria-hidden />
-                          </Link>
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="icon"
-                          title={`Copy slug: ${p.slug}`}
-                          aria-label={`Copy slug: ${p.slug}`}
-                          className="h-10 w-10 shrink-0 rounded-xl border-slate-200/90 bg-white/90 text-slate-700 shadow-sm hover:bg-white"
-                          onClick={() => copySlug(p.slug)}
-                        >
-                          <Copy className="h-4 w-4 opacity-90" aria-hidden />
-                        </Button>
-                      </div>
-                    </nav>
+                      <span className="hidden sm:inline text-slate-200">|</span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 px-2 text-xs font-normal text-slate-600 hover:text-slate-900"
+                        onClick={() => copySlug(p.slug)}
+                      >
+                        <Copy className="h-3.5 w-3.5" />
+                        Copy slug
+                      </Button>
+                    </div>
                   </div>
                 </article>
               );

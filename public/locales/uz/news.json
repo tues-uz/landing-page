@@ -1,0 +1,10 @@
+{
+  "title": "Yangiliklar",
+  "subtitle": "TUESdagi so'nggi yangiliklar, ilmiy yutuqlar va kampus yangilanishlaridan xabardor bo'ling.",
+  "searchPlaceholder": "Sarlavha, qisqa matn, toifa yoki muallif bo'yicha qidiring...",
+  "searchAriaLabel": "Yangiliklarni qidirish",
+  "filterAriaLabel": "Toifa bo'yicha filtrlash",
+  "allCategories": "Barcha toifalar",
+  "noArticlesYet": "Hozircha maqolalar yo'q.",
+  "noMatch": "Qidiruv yoki filtrga mos yangilik topilmadi. Boshqa kalit so'z yoki toifani sinab ko'ring."
+}

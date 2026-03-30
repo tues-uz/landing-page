@@ -1,6 +1,7 @@
 import { UserCog, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { adminApi, AdminUser } from "@/api/auth";
 import { ProvisionUserModal } from "../components/ProvisionUserModal";
 import {
@@ -16,6 +17,7 @@ import {
 import { useState } from "react";
 
 export default function AdminsPage() {
+  const { t } = useTranslation("admin");
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
   const [deletingUser, setDeletingUser] = useState<AdminUser | null>(null);
@@ -53,8 +55,8 @@ export default function AdminsPage() {
   return (
     <div className="p-6 space-y-6">
       <section>
-        <h2 className="text-2xl font-semibold text-foreground mb-1">Admins</h2>
-        <p className="text-muted-foreground text-sm">Manage admin users and roles registered by super admin.</p>
+        <h2 className="text-2xl font-semibold text-foreground mb-1">{t("admins")}</h2>
+        <p className="text-muted-foreground text-sm">{t("adminsDesc", "Manage admin users and roles registered by super admin.")}</p>
       </section>
 
       <div className="rounded-xl border border-border bg-card overflow-hidden shadow-sm">
@@ -62,32 +64,32 @@ export default function AdminsPage() {
           <div>
             <h3 className="font-semibold text-foreground flex items-center gap-2">
               <UserCog className="h-4 w-4 text-muted-foreground" />
-              Roles registered by super admin
+              {t("rolesTitle")}
             </h3>
-            <p className="text-xs text-muted-foreground mt-0.5">Roles created and assigned to platforms.</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{t("rolesDesc")}</p>
           </div>
           <Button size="sm" className="rounded-lg gap-1.5" onClick={handleAdd}>
             <Plus className="h-4 w-4" />
-            Add admin
+            {t("addAdmin", "Add admin")}
           </Button>
         </div>
         
         {usersLoading ? (
-          <div className="px-6 py-8 text-center text-muted-foreground">Loading...</div>
+          <div className="px-6 py-8 text-center text-muted-foreground">{t("loading")}...</div>
         ) : users.length === 0 ? (
           <div className="px-6 py-8 text-center text-muted-foreground">
-            No admins yet. Click "Add admin" to create one.
+            {t("noAdminsYet", "No admins yet. Click \"Add admin\" to create one.")}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left font-medium text-foreground px-6 py-3">Name</th>
-                  <th className="text-left font-medium text-foreground px-6 py-3">Email</th>
-                  <th className="text-left font-medium text-foreground px-6 py-3">Permissions</th>
-                  <th className="text-left font-medium text-foreground px-6 py-3">Status</th>
-                  <th className="text-right font-medium text-foreground px-6 py-3">Actions</th>
+                  <th className="text-left font-medium text-foreground px-6 py-3">{t("name", "Name")}</th>
+                  <th className="text-left font-medium text-foreground px-6 py-3">{t("email", "Email")}</th>
+                  <th className="text-left font-medium text-foreground px-6 py-3">{t("permissions", "Permissions")}</th>
+                  <th className="text-left font-medium text-foreground px-6 py-3">{t("status", "Status")}</th>
+                  <th className="text-right font-medium text-foreground px-6 py-3">{t("actions", "Actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -98,7 +100,7 @@ export default function AdminsPage() {
                     <td className="px-6 py-3">
                       <div className="flex flex-wrap gap-1">
                         {user.permissions.length === 0 ? (
-                          <span className="text-xs text-muted-foreground italic">No access</span>
+                          <span className="text-xs text-muted-foreground italic">{t("noAccess", "No access")}</span>
                         ) : (
                           <>
                             {user.permissions.slice(0, 4).map((perm) => {
@@ -126,11 +128,11 @@ export default function AdminsPage() {
                     <td className="px-6 py-3">
                       {user.isActive ? (
                         <span className="inline-flex items-center rounded-full border border-green-500/30 bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600">
-                          Active
+                          {t("active", "Active")}
                         </span>
                       ) : (
                         <span className="inline-flex items-center rounded-full border border-red-500/30 bg-red-500/10 px-2 py-0.5 text-xs font-medium text-red-600">
-                          Inactive
+                          {t("inactive", "Inactive")}
                         </span>
                       )}
                     </td>
@@ -141,7 +143,7 @@ export default function AdminsPage() {
                         className="h-8 text-muted-foreground hover:text-primary transition-colors"
                         onClick={() => handleEdit(user)}
                       >
-                        Edit
+                        {t("edit", "Edit")}
                       </Button>
                       <Button
                         variant="ghost"
@@ -169,20 +171,19 @@ export default function AdminsPage() {
       <AlertDialog open={!!deletingUser} onOpenChange={() => setDeletingUser(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete admin?</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteAdmin", "Delete admin?")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete <strong>{deletingUser?.name}</strong> ({deletingUser?.email})?
-              This action cannot be undone.
+              {t("deleteConfirmDesc", { name: deletingUser?.name, email: deletingUser?.email, defaultValue: `Are you sure you want to delete ${deletingUser?.name} (${deletingUser?.email})? This action cannot be undone.` })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-red-600 hover:bg-red-700 text-white"
               onClick={() => deletingUser && deleteMutation.mutate(deletingUser.id)}
               disabled={deleteMutation.isPending}
             >
-              {deleteMutation.isPending ? "Deleting..." : "Delete"}
+              {deleteMutation.isPending ? `${t("deleting", "Deleting")}...` : t("delete", "Delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import {
   ChevronDown,
+  ChevronRight,
   Menu,
   X,
   Twitter,
@@ -10,7 +11,32 @@ import {
   Youtube,
   Phone,
   Mail,
+  Rocket,
+  FileCheck,
+  Target,
+  FileText,
+  Network,
+  Users,
+  Award,
+  FileSearch,
+  DollarSign,
+  BarChart3,
+  GraduationCap,
+  School,
+  Building2,
+  FolderOpen,
+  ExternalLink,
+  Handshake,
+  ClipboardList,
+  BookOpen,
+  FlaskConical,
+  Globe,
+  Heart,
+  CalendarCheck,
+  Info,
+  Briefcase,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -26,53 +52,235 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { megaSections, type MegaSectionId } from "@/data/headerMegaConfig";
-import { footerNavSections } from "@/data/footerNavI18n";
 
-const MAIN_NAV: { labelKey: string; itemKeys: string[] }[] = [
+type MegaMenuLink = { href: string; label: string; icon: LucideIcon };
+type MegaMenuItem = { key: string; labelKey: string; description: string; links: MegaMenuLink[] };
+
+const universityMegaLinks: MegaMenuLink[] = [
+  { href: "#license", label: "License", icon: FileCheck },
+  { href: "#mission", label: "University Mission", icon: Target },
+  { href: "#charter", label: "Charter", icon: FileText },
+  { href: "#structure", label: "Organizational structure", icon: Network },
+  { href: "#councils", label: "Councils", icon: Users },
+  { href: "#ratings", label: "Ratings", icon: Award },
+  { href: "#requisites", label: "Requisites", icon: FileSearch },
+  { href: "#financial-statements", label: "Financial statements", icon: DollarSign },
+  { href: "#numbers", label: "University in numbers", icon: BarChart3 },
+  { href: "#accreditation", label: "Accreditation", icon: Award },
+  { href: "#graduates", label: "Famous graduates", icon: GraduationCap },
+  { href: "#faculties", label: "Faculties", icon: School },
+  { href: "#departments", label: "Departments", icon: Building2 },
+  { href: "#centers", label: "Center and departments", icon: FolderOpen },
+  { href: "#open-data", label: "Open data", icon: ExternalLink },
+  { href: "#trade-union", label: "Trade union committee", icon: Handshake },
+  { href: "#contract-prices", label: "Contract prices", icon: ClipboardList },
+];
+
+const secondNavMega: MegaMenuItem[] = [
   {
-    labelKey: "header.navAbout",
-    itemKeys: [
-      "header.aboutSub.history",
-      "header.aboutSub.leadership",
-      "header.aboutSub.facts",
-      "header.aboutSub.mission",
+    key: "university",
+    labelKey: "secondNav.university",
+    description:
+      "Currently, the university has 24 Bachelor's and 13 master's degrees. An electronic IRC is formed on the necessary books on the education of students. Applicants may be aware of the information on the admission process to the University remotely.",
+    links: universityMegaLinks,
+  },
+  {
+    key: "education",
+    labelKey: "secondNav.education",
+    description: "Academic programs, courses, calendar, faculty and departments.",
+    links: [
+      { href: "#academic-programs", label: "Academic Programs", icon: BookOpen },
+      { href: "#courses", label: "Courses", icon: BookOpen },
+      { href: "#academic-calendar", label: "Academic Calendar", icon: CalendarCheck },
+      { href: "#faculty", label: "Faculty", icon: Users },
+      { href: "#departments", label: "Departments", icon: Building2 },
     ],
   },
   {
-    labelKey: "header.navResearch",
-    itemKeys: [
-      "header.researchSub.areas",
-      "header.researchSub.publications",
-      "header.researchSub.partnerships",
-      "header.researchSub.innovation",
+    key: "science",
+    labelKey: "secondNav.science",
+    description: "Research areas, laboratories, publications and collaborations.",
+    links: [
+      { href: "#research-areas", label: "Research Areas", icon: FlaskConical },
+      { href: "#laboratories", label: "Laboratories", icon: FlaskConical },
+      { href: "#publications", label: "Publications", icon: FileText },
+      { href: "#innovation", label: "Innovation", icon: Award },
+      { href: "#collaborations", label: "Collaborations", icon: Network },
     ],
   },
   {
-    labelKey: "header.navAdmissions",
-    itemKeys: [
-      "header.admissionsSub.undergrad",
-      "header.admissionsSub.graduate",
-      "header.admissionsSub.international",
-      "header.admissionsSub.aid",
+    key: "internationalization",
+    labelKey: "secondNav.internationalization",
+    description: "Exchange programs, global partnerships and international students.",
+    links: [
+      { href: "#exchange", label: "Exchange Programs", icon: Globe },
+      { href: "#partnerships", label: "Global Partnerships", icon: Globe },
+      { href: "#international-students", label: "International Students", icon: Users },
+      { href: "#study-abroad", label: "Study Abroad", icon: Globe },
+      { href: "#global-initiatives", label: "Global Initiatives", icon: Globe },
     ],
   },
   {
-    labelKey: "header.navNews",
-    itemKeys: [
-      "header.newsSub.latest",
-      "header.newsSub.events",
-      "header.newsSub.press",
-      "header.newsSub.media",
+    key: "studentLife",
+    labelKey: "secondNav.studentLife",
+    description: "Campus life, clubs, housing, dining and wellness.",
+    links: [
+      { href: "#campus-life", label: "Campus Life", icon: Heart },
+      { href: "#student-clubs", label: "Student Clubs", icon: Users },
+      { href: "#housing", label: "Housing", icon: Building2 },
+      { href: "#dining", label: "Dining", icon: Heart },
+      { href: "#wellness", label: "Wellness", icon: Heart },
+    ],
+  },
+  {
+    key: "admission2025",
+    labelKey: "secondNav.admission2025",
+    description: "Requirements, application process, deadlines and scholarships.",
+    links: [
+      { href: "#requirements", label: "Requirements", icon: FileText },
+      { href: "#application", label: "Application Process", icon: ClipboardList },
+      { href: "#deadlines", label: "Deadlines", icon: CalendarCheck },
+      { href: "#scholarships", label: "Scholarships", icon: Award },
+      { href: "#faqs", label: "FAQs", icon: Info },
+    ],
+  },
+  {
+    key: "informationServices",
+    labelKey: "secondNav.informationServices",
+    description: "Library, IT services, online resources and support.",
+    links: [
+      { href: "#library", label: "Library", icon: BookOpen },
+      { href: "#it-services", label: "IT Services", icon: Info },
+      { href: "#online-resources", label: "Online Resources", icon: ExternalLink },
+      { href: "#support", label: "Support", icon: Info },
+      { href: "#help-desk", label: "Help Desk", icon: Info },
+    ],
+  },
+  {
+    key: "vacancies",
+    labelKey: "secondNav.vacancies",
+    description: "Academic, administrative and research positions.",
+    links: [
+      { href: "#academic-positions", label: "Academic Positions", icon: Briefcase },
+      { href: "#administrative-positions", label: "Administrative Positions", icon: Briefcase },
+      { href: "#research-positions", label: "Research Positions", icon: FlaskConical },
+      { href: "#how-to-apply", label: "How to Apply", icon: FileText },
+      { href: "#benefits", label: "Benefits", icon: Award },
     ],
   },
 ];
 
-const SECONDARY_KEYS = ["header.secondaryCommunity", "header.secondaryColleges", "header.secondaryJournal"] as const;
+const navItems = [
+  {
+    labelKey: "nav.about",
+    items: ["History", "Leadership", "Facts & Figures", "Mission & Values"],
+  },
+  {
+    labelKey: "nav.research",
+    items: ["Research Areas", "Publications", "Partnerships", "Innovation"],
+  },
+  {
+    labelKey: "nav.admissions",
+    items: ["Undergraduate", "Graduate", "International", "Financial Aid"],
+  },
+  {
+    labelKey: "nav.news",
+    items: ["Latest News", "Events", "Press Releases", "Media Center"],
+  },
+];
 
-/** Official university name — always English (proper name). */
-const HEADER_BRAND_LINE1 = "Termez University of";
-const HEADER_BRAND_LINE2 = "Economics and Service";
+const secondaryNav = ["nav.community", "nav.colleges", "nav.journal"];
+
+const secondNavItems = [
+  {
+    key: "university",
+    labelKey: "secondNav.university",
+    itemKeys: [
+      "secondNavItems.overview",
+      "secondNavItems.history",
+      "secondNavItems.leadership",
+      "secondNavItems.governance",
+      "secondNavItems.strategicPlan",
+    ],
+  },
+  {
+    key: "education",
+    labelKey: "secondNav.education",
+    itemKeys: [
+      "secondNavItems.academicPrograms",
+      "secondNavItems.courses",
+      "secondNavItems.academicCalendar",
+      "secondNavItems.faculty",
+      "secondNavItems.departments",
+    ],
+  },
+  {
+    key: "science",
+    labelKey: "secondNav.science",
+    itemKeys: [
+      "secondNavItems.researchAreas",
+      "secondNavItems.laboratories",
+      "secondNavItems.publications",
+      "secondNavItems.innovation",
+      "secondNavItems.collaborations",
+    ],
+  },
+  {
+    key: "internationalization",
+    labelKey: "secondNav.internationalization",
+    itemKeys: [
+      "secondNavItems.exchangePrograms",
+      "secondNavItems.globalPartnerships",
+      "secondNavItems.internationalStudents",
+      "secondNavItems.studyAbroad",
+      "secondNavItems.globalInitiatives",
+    ],
+  },
+  {
+    key: "studentLife",
+    labelKey: "secondNav.studentLife",
+    itemKeys: [
+      "secondNavItems.campusLife",
+      "secondNavItems.studentClubs",
+      "secondNavItems.housing",
+      "secondNavItems.dining",
+      "secondNavItems.wellness",
+    ],
+  },
+  {
+    key: "admission2025",
+    labelKey: "secondNav.admission2025",
+    itemKeys: [
+      "secondNavItems.requirements",
+      "secondNavItems.applicationProcess",
+      "secondNavItems.deadlines",
+      "secondNavItems.scholarships",
+      "secondNavItems.faqs",
+    ],
+  },
+  {
+    key: "informationServices",
+    labelKey: "secondNav.informationServices",
+    itemKeys: [
+      "secondNavItems.library",
+      "secondNavItems.itServices",
+      "secondNavItems.onlineResources",
+      "secondNavItems.support",
+      "secondNavItems.helpDesk",
+    ],
+  },
+  {
+    key: "vacancies",
+    labelKey: "secondNav.vacancies",
+    itemKeys: [
+      "secondNavItems.academicPositions",
+      "secondNavItems.administrativePositions",
+      "secondNavItems.researchPositions",
+      "secondNavItems.howToApply",
+      "secondNavItems.benefits",
+    ],
+  },
+];
 
 const languages = [
   { code: "uz", name: "Uz", flag: "🇺🇿" },
@@ -85,20 +293,20 @@ type HeaderProps = {
 };
 
 const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("header");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
-  const activeCode = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
-  const currentLanguage = languages.find((l) => l.code === activeCode) ?? languages[1];
   const [topBarVisible, setTopBarVisible] = useState(true);
   const lastScrollY = useRef(0);
   const secondNavRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const mainRowRef = useRef<HTMLDivElement>(null);
   const megaPanelRef = useRef<HTMLDivElement>(null);
-  const [openMegaKey, setOpenMegaKey] = useState<MegaSectionId | null>(null);
+  const [openMegaKey, setOpenMegaKey] = useState<string | null>(null);
   const [openMegaTriggerRect, setOpenMegaTriggerRect] = useState<{ left: number; width: number } | null>(null);
   const [panelTop, setPanelTop] = useState(128);
+  const activeCode = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
+  const currentLanguage = languages.find((lang) => lang.code === activeCode) ?? languages[1];
 
   useEffect(() => {
     onMobileMenuOpenChange?.(mobileMenuOpen);
@@ -189,8 +397,6 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [openMegaKey]);
 
-  const openMegaItem = openMegaKey ? megaSections.find((m) => m.id === openMegaKey) : undefined;
-
   return (
     <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 flex flex-col bg-primary">
       <div className="container mx-auto flex w-full flex-col px-0">
@@ -239,14 +445,14 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 <Button
                   className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
                 >
-                  {t("eduhub.title")}
+                  EduHub
                 </Button>
               </Link>
               <Link to="/eduhub" className="self-stretch flex items-stretch min-h-[44px]">
                 <Button
                   className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
                 >
-                  {t("header.journal")}
+                  Journal
                 </Button>
               </Link>
               </div>
@@ -267,28 +473,28 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
               className="fixed right-0 z-50 w-full max-w-sm border-l border-t border-primary-foreground/10 bg-primary shadow-xl overflow-y-auto"
               style={{ top: panelTop, maxHeight: `calc(100vh - ${panelTop}px)`, scrollbarGutter: 'stable' }}
               role="dialog"
-              aria-label={t("header.menuDialogAria")}
+              aria-label="Menu"
             >
               <nav className="py-4 pl-4 pr-4 border-b-0">
                 <Accordion type="single" collapsible className="w-full [&>*]:border-b-0">
-                  {footerNavSections.map((section, index) => (
+                  {secondNavItems.map((item, index) => (
                     <AccordionItem
-                      key={section.titleKey}
-                      value={section.titleKey}
-                      className={index === footerNavSections.length - 1 ? "border-b-0 border-primary-foreground/10" : "border-primary-foreground/10"}
+                      key={item.key}
+                      value={item.key}
+                      className={index === secondNavItems.length - 1 ? "border-b-0 border-primary-foreground/10" : "border-primary-foreground/10"}
                     >
                       <AccordionTrigger className="py-3 text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                        {t(section.titleKey)}
+                        {t(item.labelKey)}
                       </AccordionTrigger>
                       <AccordionContent className="pb-3 pt-0">
                         <ul className="flex flex-col gap-0.5">
-                          {section.links.map((link) => (
-                            <li key={link.labelKey}>
+                          {item.itemKeys.map((subItemKey) => (
+                            <li key={subItemKey}>
                               <button
                                 type="button"
                                 className="w-full rounded px-3 py-2 text-left text-sm text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground transition-colors"
                               >
-                                {t(link.labelKey)}
+                                {t(subItemKey)}
                               </button>
                             </li>
                           ))}
@@ -307,24 +513,24 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
         <div ref={mainRowRef} className="relative flex min-h-16 flex-nowrap items-center justify-between gap-3 overflow-hidden px-4 py-2 lg:gap-0 lg:px-6">
           {/* Logo - left */}
           <div className="flex min-w-0 shrink items-center">
-            <Link to="/" aria-label={t("header.backHomeAria")} className="flex min-w-0 items-center gap-2 overflow-hidden sm:gap-4">
+            <Link to="/" aria-label="Back to University Home" className="flex min-w-0 items-center gap-2 overflow-hidden sm:gap-4">
               <img
                 src="/logo_white.png"
                 alt="TUES LOGO"
                 className="h-10 w-auto max-w-[140px] shrink-0 object-contain cursor-pointer sm:max-w-[180px] sm:h-14 lg:max-w-[240px] lg:h-16"
               />
               <span className="truncate text-primary-foreground text-xs sm:text-sm">
-                {HEADER_BRAND_LINE1}
+                Termez University of
                 <br />
-                {HEADER_BRAND_LINE2}
+                Economics and Service
               </span>
             </Link>
           </div>
 
           {/* Nav: About, Research, Admissions, News - right of logo */}
-          <nav className="hidden min-w-0 flex-1 lg:flex lg:justify-center" aria-label={t("header.mainNavAria")}>
+          <nav className="hidden min-w-0 flex-1 lg:flex lg:justify-center" aria-label="Main">
             <ul role="list" className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-1 list-none p-0 text-[14px]">
-              {MAIN_NAV.map((item) => (
+              {navItems.map((item) => (
                 <li key={item.labelKey} className="px-0">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -337,12 +543,12 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-card border-border">
-                      {item.itemKeys.map((subKey) => (
+                      {item.items.map((subItem) => (
                         <DropdownMenuItem
-                          key={subKey}
+                          key={subItem}
                           className="cursor-pointer hover:bg-muted"
                         >
-                          {t(subKey)}
+                          {subItem}
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -383,11 +589,11 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 type="button"
                 variant="ghost"
                 className="shrink-0 h-10 gap-2 px-3 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 text-sm font-medium"
-                aria-label={t("header.menuDialogAria")}
+                aria-label="Menu"
                 aria-expanded={secondNavMobileOpen}
                 onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
               >
-                <span>{t("header.exploreMore")}</span>
+                <span>{t("exploreMore")}</span>
                 {secondNavMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
@@ -395,7 +601,6 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
               variant="ghost"
               size="icon"
               className="lg:hidden text-primary-foreground"
-              aria-label={t("header.menuDialogAria")}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -409,26 +614,26 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             <div className="flex h-14 items-center justify-between">
               {/* Desktop nav (lg+) - centered with space between items */}
               <div className="hidden lg:flex flex-1 justify-between items-center">
-                {megaSections.map((item) => (
-                  <div key={item.id} className="h-14 flex items-center">
+                {secondNavMega.map((item) => (
+                  <div key={item.key} className="h-14 flex items-center">
                     <button
                       type="button"
-                      aria-expanded={openMegaKey === item.id}
+                      aria-expanded={openMegaKey === item.key}
                       aria-haspopup="true"
                       onClick={(e) => {
                         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                         setOpenMegaKey((k) => {
-                          if (k === item.id) {
+                          if (k === item.key) {
                             setOpenMegaTriggerRect(null);
                             return null;
                           }
                           setOpenMegaTriggerRect({ left: rect.left, width: rect.width });
-                          return item.id;
+                          return item.key;
                         });
                       }}
                       className="flex items-center gap-1 text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors py-2 whitespace-nowrap"
                     >
-                      {t(item.titleKey)}
+                      {t(item.labelKey)}
                       <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200" />
                     </button>
                   </div>
@@ -436,8 +641,9 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
               </div>
 
               {/* Single fixed mega menu panel (same width as nav, never exceeds) - portaled to body */}
-              {openMegaItem && (() => {
-                const item = openMegaItem;
+              {openMegaKey && (() => {
+                const item = secondNavMega.find((m) => m.key === openMegaKey);
+                if (!item) return null;
                 const panelLeftPx = 32; // left-8 = 2rem
                 const arrowLeft =
                   openMegaTriggerRect != null
@@ -464,15 +670,15 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     )}
                     <div className="flex gap-6 overflow-hidden p-4 w-full min-w-0">
                       <div className="w-[300px] flex-shrink-0 flex flex-col p-4 bg-slate-50 rounded-none">
-                        <h3 className="text-base font-semibold text-slate-900 mt-0">{t(item.titleKey)}</h3>
-                        <p className="text-sm text-slate-600 leading-relaxed mt-2">{t(item.descriptionKey)}</p>
+                        <h3 className="text-base font-semibold text-slate-900 mt-0">{t(item.labelKey)}</h3>
+                        <p className="text-sm text-slate-600 leading-relaxed mt-2">{item.description}</p>
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-x-0 gap-y-0 auto-rows-[36px] min-w-0">
                         {item.links.map((link) => {
                           const Icon = link.icon;
                           return (
                             <a
-                              key={link.href + link.labelKey}
+                              key={link.href + link.label}
                               href={link.href}
                               onClick={() => {
                                 setOpenMegaKey(null);
@@ -481,7 +687,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                               className="block px-4 py-1.5 h-9 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors line-clamp-1 flex items-center gap-2"
                             >
                               <Icon className="h-4 w-4 flex-shrink-0" aria-hidden />
-                              <span>{t(link.labelKey)}</span>
+                              <span>{link.label}</span>
                             </a>
                           );
                         })}
@@ -524,7 +730,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     variant="outline"
                     className="bg-yellow-400 hover:bg-yellow-500 text-black border-yellow-400 hover:border-yellow-500 text-[13px] px-4 h-11"
                   >
-                    {t("eduhub.title")}
+                    EduHub
                   </Button>
                 </Link>
                 <Button
@@ -532,7 +738,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                   variant="ghost"
                   size="icon"
                   className="p-2 text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
-                  aria-label={t("header.menuDialogAria")}
+                  aria-label="Menu"
                   onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
                 >
                   {secondNavMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -545,14 +751,14 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           {secondNavMobileOpen && (
             <div className="lg:hidden border-t border-primary-foreground/10 bg-primary">
               <nav className="px-6 py-4 flex flex-col gap-2 max-h-[70vh] overflow-y-auto">
-                {footerNavSections.map((section) => (
-                  <DropdownMenu key={section.titleKey}>
+                {secondNavItems.map((item) => (
+                  <DropdownMenu key={item.key}>
                     <DropdownMenuTrigger asChild>
                       <button
                         type="button"
                         className="flex items-center justify-between w-full py-3 text-left text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                       >
-                        {t(section.titleKey)}
+                        {t(item.labelKey)}
                         <ChevronDown className="h-4 w-4 shrink-0" />
                       </button>
                     </DropdownMenuTrigger>
@@ -561,12 +767,12 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                       align="start"
                       side="right"
                     >
-                      {section.links.map((link) => (
+                      {item.itemKeys.map((subItemKey) => (
                         <DropdownMenuItem
-                          key={link.labelKey}
+                          key={subItemKey}
                           className="cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm"
                         >
-                          {t(link.labelKey)}
+                          {t(subItemKey)}
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -582,39 +788,39 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           <>
           <div className="lg:hidden max-h-[100dvh] overflow-y-auto px-4 py-4 pb-24 border-t border-primary-foreground/10 lg:px-6">
             <nav className="flex flex-col gap-2">
-              {MAIN_NAV.map((item) => (
+              {navItems.map((item) => (
                 <div key={item.labelKey} className="py-2">
                   <span className="text-primary-foreground font-medium">{t(item.labelKey)}</span>
                 </div>
               ))}
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
-                {SECONDARY_KEYS.map((key) => (
+                {secondaryNav.map((item) => (
                   <a
-                    key={key}
+                    key={item}
                     href="#"
                     className="block py-2 text-primary-foreground/70"
                   >
-                    {t(key)}
+                    {t(item)}
                   </a>
                 ))}
               </div>
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
-                <p className="text-primary-foreground/50 text-xs uppercase tracking-wider mb-2">{t("header.secondMenuHeading")}</p>
+                <p className="text-primary-foreground/50 text-xs uppercase tracking-wider mb-2">{t("header.secondMenu")}</p>
                 <Accordion type="single" collapsible className="w-full [&>*]:border-b [&>*]:border-primary-foreground/10">
-                  {footerNavSections.map((section) => (
-                    <AccordionItem key={section.titleKey} value={section.titleKey} className="border-none border-b border-primary-foreground/10 last:border-b-0">
+                  {secondNavItems.map((item) => (
+                    <AccordionItem key={item.key} value={item.key} className="border-none border-b border-primary-foreground/10 last:border-b-0">
                       <AccordionTrigger className="py-3 text-primary-foreground font-medium hover:no-underline hover:text-primary-foreground [&[data-state=open]>svg]:rotate-180">
-                        {t(section.titleKey)}
+                        {t(item.labelKey)}
                       </AccordionTrigger>
                       <AccordionContent className="pb-3 pt-0">
                         <div className="flex flex-col gap-1 pl-0">
-                          {section.links.map((link) => (
+                          {item.itemKeys.map((subItemKey) => (
                             <a
-                              key={link.labelKey}
-                              href={link.href}
+                              key={subItemKey}
+                              href="#"
                               className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
                             >
-                              {t(link.labelKey)}
+                              {t(subItemKey)}
                             </a>
                           ))}
                         </div>
@@ -628,12 +834,12 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           <div className="fixed bottom-0 left-0 right-0 z-50 flex flex-wrap gap-2 border-t border-primary-foreground/10 bg-primary p-4 lg:hidden">
             <Link to="/eduhub" className="flex-1 min-w-[120px]">
               <Button className="w-full rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-sm px-4 py-2.5 font-medium">
-                {t("eduhub.title")}
+                EduHub
               </Button>
             </Link>
             <Link to="/eduhub" className="flex-1 min-w-[120px]">
               <Button className="w-full rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-sm px-4 py-2.5 font-medium">
-                {t("header.journal")}
+                Journal
               </Button>
             </Link>
           </div>

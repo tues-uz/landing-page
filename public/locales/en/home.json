@@ -1,0 +1,131 @@
+{
+  "about": {
+    "badge": "About us",
+    "titleLine1": "The Termez University",
+    "titleLine2": "of Economics and Service",
+    "description": "Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step.",
+    "stats": {
+      "students": {
+        "label": "Students",
+        "description": "From over 150 countries\nworldwide"
+      },
+      "professors": {
+        "label": "Professors & Teachers",
+        "description": "Leading innovation\nacross disciplines"
+      },
+      "faculties": {
+        "label": "Faculties",
+        "description": "Independent, self-governing\ncommunities"
+      },
+      "irc": {
+        "label": "IRC Fund",
+        "description": "A legacy of\nacademic achievement"
+      }
+    }
+  },
+  "programs": {
+    "title": "Browse programs by.",
+    "description": "This user-friendly tool offers options to filter programs by field of study, degree level, and even learning formats like online or on-campus.",
+    "exploreAll": "Explore All"
+  },
+  "news": {
+    "title": "News & Announcements",
+    "subtitle": "Stay up to date with the latest from TUES—research, campus updates, and stories.",
+    "noArticles": "No articles yet.",
+    "viewAll": "View All News",
+    "onDate": "on {{date}}",
+    "comments_one": "{{count}} Comment",
+    "comments_other": "{{count}} Comments"
+  },
+  "campus": {
+    "title": "Campus life",
+    "tags": {
+      "sports": "Sports",
+      "libraries": "Libraries",
+      "careerSeminars": "Career Development Seminars",
+      "research": "Research",
+      "business": "Business & Enterprise"
+    }
+  },
+  "events": {
+    "titleLine1": "Upcoming Events",
+    "titleLine2": "& Activities",
+    "viewAll": "View All Events",
+    "noUpcoming": "No upcoming events."
+  },
+  "alumni": {
+    "badge": "Our Community",
+    "title": "Alumni Network",
+    "description": "Join a global network of accomplished professionals, leaders, and innovators who are making a difference around the world. Connect with fellow alumni and stay engaged with your alma mater.",
+    "moreStories": "More Alumni Stories",
+    "stats": {
+      "alumniWorldwide": "Alumni Worldwide",
+      "nobel": "Nobel Laureates",
+      "countries": "Countries Represented",
+      "careerRate": "Career Success Rate"
+    }
+  },
+  "research": {
+    "badge": "Research & scholarship",
+    "title": "Journals, research & innovation",
+    "description": "From peer-reviewed journals to research centers and doctoral programs—TUES supports scholarship that shapes policy and practice.",
+    "ctaText": "Would you like to publish with us or collaborate on research?",
+    "ctaButton": "Get in touch",
+    "items": {
+      "research": {
+        "title": "Research",
+        "description": "TUES fosters cutting-edge research in economics, business, and policy.",
+        "label": "Explore research"
+      },
+      "journals": {
+        "title": "Journals & publications",
+        "description": "Access our peer-reviewed journals and publication series.",
+        "label": "View publications"
+      },
+      "labs": {
+        "title": "Labs & centers",
+        "description": "Dedicated research labs and centers focus on areas such as economic policy and innovation.",
+        "label": "Discover labs"
+      },
+      "doctoral": {
+        "title": "Doctoral & postdoc",
+        "description": "Join our doctoral and postdoctoral programs. Work alongside leading researchers.",
+        "label": "Programs"
+      }
+    }
+  },
+  "eduhub": {
+    "badge": "Platform",
+    "titleSubtitle": "Your learning and campus hub",
+    "description": "Find out how EduHub supports your learning, keeps your course materials in one place, and connects you with the TUES community. Access assignments, events, support, and announcements all in one platform.",
+    "quote": "\"Your courses, community, and support in one place. EduHub keeps you connected and on track.\"",
+    "learningPlatform": "Learning Platform",
+    "goTo": "Go to EduHub",
+    "features": {
+      "course-materials": {
+        "title": "Course materials",
+        "description": "Access all your course materials, lecture notes, and resources in one place. EduHub keeps everything organised and easy to find, so you can focus on learning."
+      },
+      "community": {
+        "title": "Community & connect",
+        "description": "Connect with peers, instructors, and staff through forums and messaging. Get answers, join study groups, and be part of the TUES community."
+      },
+      "events": {
+        "title": "Events & opportunities",
+        "description": "Stay updated on campus events, workshops, and opportunities. Never miss a deadline or an event that matters for your studies and career."
+      },
+      "support": {
+        "title": "Support",
+        "description": "Get help when you need it. EduHub connects you with academic and technical support so you can resolve issues quickly and keep moving forward."
+      },
+      "assignments": {
+        "title": "Assignments & submissions",
+        "description": "Submit assignments, track deadlines, and receive feedback through EduHub. All your coursework is in one place with clear status and instructor comments."
+      },
+      "notifications": {
+        "title": "Notifications & announcements",
+        "description": "Get timely alerts and announcements from your faculty and the university. EduHub keeps you informed about schedule changes, new content, and important updates."
+      }
+    }
+  }
+}

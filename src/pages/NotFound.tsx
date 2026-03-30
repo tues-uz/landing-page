@@ -1,11 +1,11 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Home, LayoutDashboard } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("notFound");
   const location = useLocation();
 
   useEffect(() => {
@@ -18,22 +18,22 @@ const NotFound = () => {
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted px-6">
       <div className="text-center">
         <h1 className="mb-2 text-6xl font-bold text-foreground">404</h1>
-        <p className="mb-6 text-xl text-muted-foreground">{t("notFound.title")}</p>
+        <p className="mb-6 text-xl text-muted-foreground">{t("title")}</p>
         <p className="mb-8 text-sm text-muted-foreground/80">
-          {t("notFound.description")}
+          {t("description")}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link to="/">
             <Button className="rounded-full" variant="default">
               <Home className="mr-2 h-4 w-4" />
-              {t("notFound.home")}
+              {t("returnHome")}
             </Button>
           </Link>
           {isLoggedIn && (
             <Link to="/dashboard">
               <Button className="rounded-full" variant="outline">
                 <LayoutDashboard className="mr-2 h-4 w-4" />
-                {t("notFound.dashboard")}
+                Dashboard
               </Button>
             </Link>
           )}

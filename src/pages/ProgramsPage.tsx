@@ -1,20 +1,24 @@
-import { useState, useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { staticPrograms } from "@/components/Programs";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { getUiLang, withEnglishProgramTitles } from "@/lib/localeContent";
 
 const TITLE_COLOR = "rgb(30, 30, 30)";
 const BORDER_COLOR = "rgb(227, 229, 229)";
 const ICON_BG = "rgb(35, 47, 58)";
 
-const CATEGORY_KEYS = ["catGraduate", "catUndergrad", "catCertificate", "catOnline"] as const;
+const CATEGORIES = [
+  "Graduate programs",
+  "Undergraduate",
+  "Certificate / Diploma",
+  "Harbor online programs",
+] as const;
 
 const TESTIMONIALS = [
   {
@@ -44,20 +48,15 @@ const TESTIMONIALS = [
 ];
 
 const ProgramsPage = () => {
-  const { t, i18n } = useTranslation();
-  const [selectedCategoryKey, setSelectedCategoryKey] =
-    useState<(typeof CATEGORY_KEYS)[number]>(CATEGORY_KEYS[0]);
+  const { t, i18n } = useTranslation(["programs", "common"]);
+  const [selectedCategory, setSelectedCategory] = useState<(typeof CATEGORIES)[number]>(CATEGORIES[0]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: programs = staticPrograms } = useQuery({
-    queryKey: contentKeys.programs.list(),
-    queryFn: contentApi.programs.list,
+    queryKey: [...contentKeys.programs.list(), i18n.language],
+    queryFn: () => contentApi.programs.list(i18n.language),
     initialData: staticPrograms,
   });
-
-  const programsLocalized = useMemo(() => {
-    return getUiLang(i18n) === "en" ? withEnglishProgramTitles(programs) : programs;
-  }, [programs, i18n.resolvedLanguage, i18n.language]);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [slideTransition, setSlideTransition] = useState(true);
   const [twoCardsVisible, setTwoCardsVisible] = useState(
@@ -108,9 +107,11 @@ const ProgramsPage = () => {
     }
   };
 
-  const sectionTitle = `${t(`programsPage.${selectedCategoryKey}`)}.`;
+  const sectionTitle =
+    selectedCategory.replace(/\b\w/g, (c) => c.toUpperCase()) +
+    (selectedCategory.endsWith(".") ? "" : ".");
 
-  const filteredPrograms = programsLocalized.filter((p) =>
+  const filteredPrograms = programs.filter((p) =>
     p.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
   );
 
@@ -125,7 +126,7 @@ const ProgramsPage = () => {
               src="https://picsum.photos/seed/tues-programs/2112/1308"
               srcSet="https://picsum.photos/seed/tues-programs/512/308 512w, https://picsum.photos/seed/tues-programs/1024/615 1024w, https://picsum.photos/seed/tues-programs/2048/1231 2048w, https://picsum.photos/seed/tues-programs/2112/1308 2112w"
               sizes="(max-width: 512px) 512px, (max-width: 1024px) 1024px, (max-width: 2048px) 2048px, 2112px"
-              alt=""
+              alt="University campus and academic programs"
               width={2112}
               height={1308}
               decoding="async"
@@ -141,15 +142,13 @@ const ProgramsPage = () => {
                   className="text-4xl md:text-5xl font-bold"
                   style={{ color: TITLE_COLOR }}
                 >
-                  {t("programsPage.title")}
+                  {t("title")}
                 </h2>
                 <p
                   className="mt-3 text-base md:text-lg text-foreground/80 max-w-2xl mx-auto"
                   style={{ color: TITLE_COLOR }}
                 >
-                  {t("programsPage.subtitleLine1")}
-                  <br />
-                  {t("programsPage.subtitleLine2")}
+                  {t("subtitle")}
                 </p>
               </div>
 
@@ -165,7 +164,7 @@ const ProgramsPage = () => {
                   />
                   <input
                     type="search"
-                    placeholder={t("programsPage.searchPlaceholder")}
+                    placeholder={t("searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-9 pr-4 py-2.5 rounded-lg border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
@@ -173,13 +172,13 @@ const ProgramsPage = () => {
                   />
                 </div>
                 <div className="flex flex-wrap gap-3">
-                {CATEGORY_KEYS.map((catKey) => {
-                  const isSelected = selectedCategoryKey === catKey;
+                {CATEGORIES.map((cat) => {
+                  const isSelected = selectedCategory === cat;
                   return (
                     <button
-                      key={catKey}
+                      key={cat}
                       type="button"
-                      onClick={() => setSelectedCategoryKey(catKey)}
+                      onClick={() => setSelectedCategory(cat)}
                       className="px-5 py-2.5 rounded-[76px] border-[1.5px] text-sm font-medium transition-colors"
                       style={{
                         backgroundColor: isSelected ? TITLE_COLOR : "transparent",
@@ -187,7 +186,7 @@ const ProgramsPage = () => {
                         borderColor: isSelected ? "transparent" : BORDER_COLOR,
                       }}
                     >
-                      {t(`programsPage.${catKey}`)}
+                      {cat}
                     </button>
                   );
                 })}
@@ -241,12 +240,10 @@ const ProgramsPage = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
               <div className="mb-8">
                 <h2 className="text-3xl md:text-4xl font-semibold text-center text-foreground mb-2">
-                  {t("programsPage.testimonialTitle1")}
-                  <br />
-                  {t("programsPage.testimonialTitle2")}
+                  {t("testimonialsTitleLine1")}<br />{t("testimonialsTitleLine2")}
                 </h2>
                 <p className="text-center text-muted-foreground max-w-xl mx-auto">
-                  {t("programsPage.testimonialSubtitle")}
+                  {t("testimonialsSubtitle")}
                 </p>
               </div>
               <div className="relative overflow-hidden">
@@ -261,30 +258,30 @@ const ProgramsPage = () => {
                       : "none",
                   }}
                 >
-                  {testimonialTrack.map((item, i) => (
+                  {testimonialTrack.map((t, i) => (
                     <li
-                      key={`${item.id}-${i}`}
+                      key={`${t.id}-${i}`}
                       className="flex-shrink-0 w-[calc(50%-10px)] max-lg:w-full"
                       style={{ minWidth: "min(100%, calc(50% - 10px))" }}
                     >
                       <div className="bg-[rgb(249,250,251)] rounded-[12px] p-5 h-full flex flex-col">
                         <div className="mb-4">
                           <h6 className="text-base font-semibold text-foreground leading-snug">
-                            {item.quote}
+                            {t.quote}
                           </h6>
                         </div>
                         <div className="flex items-center gap-3 mt-auto">
                           <img
-                            src={item.avatar}
+                            src={t.avatar}
                             alt=""
                             className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                           />
                           <div>
                             <p className="font-medium text-foreground text-sm">
-                              {item.name}
+                              {t.name}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                              {item.designation}
+                              {t.designation}
                             </p>
                           </div>
                         </div>
@@ -296,7 +293,7 @@ const ProgramsPage = () => {
                   <button
                     type="button"
                     onClick={goPrev}
-                    aria-label={t("programsPage.prev")}
+                    aria-label={t("previous")}
                     className="w-7 h-7 rounded-full bg-white border border-[rgb(227,229,229)] hover:bg-muted/50 transition-colors flex items-center justify-center"
                   >
                     <ChevronLeft className="w-4 h-4 text-foreground" />
@@ -304,7 +301,7 @@ const ProgramsPage = () => {
                   <button
                     type="button"
                     onClick={goNext}
-                    aria-label={t("programsPage.next")}
+                    aria-label={t("next")}
                     className="w-7 h-7 rounded-full bg-white border border-[rgb(227,229,229)] hover:bg-muted/50 transition-colors flex items-center justify-center"
                   >
                     <ChevronRight className="w-4 h-4 text-foreground" />

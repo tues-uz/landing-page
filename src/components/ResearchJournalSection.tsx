@@ -1,46 +1,16 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { BookOpen, FlaskConical, FileSearch, ArrowRight, GraduationCap } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+const researchItems = [
+  { id: "research", icon: FileSearch, href: "/research" },
+  { id: "journals", icon: BookOpen, href: "#" },
+  { id: "labs", icon: FlaskConical, href: "#" },
+  { id: "doctoral", icon: GraduationCap, href: "#" },
+];
 
 const ResearchJournalSection = () => {
-  const { t } = useTranslation();
-
-  const items = useMemo(
-    () =>
-      [
-        {
-          icon: FileSearch,
-          title: t("research.card1t"),
-          description: t("research.card1d"),
-          href: "/research",
-          label: t("research.card1l"),
-        },
-        {
-          icon: BookOpen,
-          title: t("research.card2t"),
-          description: t("research.card2d"),
-          href: "#",
-          label: t("research.card2l"),
-        },
-        {
-          icon: FlaskConical,
-          title: t("research.card3t"),
-          description: t("research.card3d"),
-          href: "#",
-          label: t("research.card3l"),
-        },
-        {
-          icon: GraduationCap,
-          title: t("research.card4t"),
-          description: t("research.card4d"),
-          href: "#",
-          label: t("research.card4l"),
-        },
-      ] as const,
-    [t]
-  );
-
+  const { t } = useTranslation("home");
   return (
     <section className="py-20 md:py-28 bg-muted/30 relative overflow-hidden" id="research-journal">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1320px]">
@@ -53,35 +23,39 @@ const ResearchJournalSection = () => {
             {t("research.title")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            {t("research.subtitle")}
+            {t("research.description")}
           </p>
         </div>
 
         {/* Cards grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {items.map((item) => {
+          {researchItems.map((item) => {
             const Icon = item.icon;
             const content = (
               <div className="group h-full flex flex-col rounded-2xl border border-border bg-background p-6 md:p-7 hover:border-foreground/15 hover:shadow-md transition-all duration-200">
                 <div className="w-11 h-11 rounded-xl bg-foreground/5 flex items-center justify-center shrink-0 mb-4 group-hover:bg-foreground/10 transition-colors">
                   <Icon className="h-5 w-5 text-foreground" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed flex-1">{item.description}</p>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  {t(`research.items.${item.id}.title`)}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+                  {t(`research.items.${item.id}.description`)}
+                </p>
                 {item.href && (
                   <div className="mt-5 flex items-center gap-1.5 text-sm font-medium text-foreground group-hover:gap-2.5 transition-all">
-                    <span>{item.label}</span>
+                    <span>{t(`research.items.${item.id}.label`)}</span>
                     <ArrowRight className="h-4 w-4 shrink-0" />
                   </div>
                 )}
               </div>
             );
             return item.href && item.href !== "#" ? (
-              <Link key={item.title} to={item.href} className="block h-full">
+              <Link key={item.id} to={item.href} className="block h-full">
                 {content}
               </Link>
             ) : (
-              <div key={item.title}>{content}</div>
+              <div key={item.id}>{content}</div>
             );
           })}
         </div>
@@ -89,7 +63,7 @@ const ResearchJournalSection = () => {
         {/* Optional CTA strip */}
         <div className="mt-12 md:mt-16 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl border border-border bg-background">
           <p className="text-foreground font-medium">
-            {t("research.ctaPrompt")}
+            {t("research.ctaText")}
           </p>
           <Link
             to="#"

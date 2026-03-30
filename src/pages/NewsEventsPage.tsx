@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ArticleCard } from "@/components/NewsEvents";
@@ -23,7 +23,6 @@ import { useQuery } from "@tanstack/react-query";
 import { contentApi, type NewsItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
-import { getUiLang, mergeNewsForEnglish } from "@/lib/localeContent";
 
 function NewsCardSkeleton() {
   return (
@@ -106,21 +105,18 @@ function filterNews(items: NewsItem[], search: string, category: string): NewsIt
 }
 
 const NewsEventsPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("news");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
   const { data: newsData, isLoading: newsLoading } = useQuery({
-    queryKey: contentKeys.news.list(),
-    queryFn: contentApi.news.list,
+    queryKey: [...contentKeys.news.list(), i18n.language],
+    queryFn: () => contentApi.news.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
-  const newsItems = useMemo(() => {
-    const base = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
-    return getUiLang(i18n) === "en" ? mergeNewsForEnglish(base) : base;
-  }, [newsData, i18n.resolvedLanguage, i18n.language]);
+  const newsItems = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
   const heroSlides = newsItems.slice(0, 5);
   const categories = useMemo(
     () => Array.from(new Set(newsItems.map((item) => item.category))).sort(),
@@ -157,7 +153,7 @@ const NewsEventsPage = () => {
               </Carousel>
             ) : (
               <div className="w-full aspect-[21/9] min-h-[280px] flex items-center justify-center text-muted-foreground text-sm border-b border-border">
-                {t("newsPage.emptyHero")}
+                {t("noArticlesYet")}
               </div>
             )}
           </div>
@@ -165,31 +161,31 @@ const NewsEventsPage = () => {
 
         <section className="pt-[48px] pb-24 bg-background relative overflow-hidden">
           <div className="container mx-auto px-6 relative z-10">
-            <h2 className="text-3xl text-foreground mb-2">{t("newsPage.pageTitle")}</h2>
+            <h2 className="text-3xl text-foreground mb-2">{t("title")}</h2>
             <p className="text-muted-foreground mb-8">
-              {t("newsPage.subtitle")}
+              {t("subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <input
                   type="search"
-                  placeholder={t("newsPage.searchPlaceholder")}
+                  placeholder={t("searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full h-11 pl-10 pr-4 rounded-lg border border-input bg-background text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  aria-label={t("newsPage.searchAria")}
+                  aria-label={t("searchAriaLabel")}
                 />
               </div>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger
                   className="h-11 rounded-lg w-32 sm:w-36"
-                  aria-label={t("newsPage.filterAria")}
+                  aria-label={t("filterAriaLabel")}
                 >
-                  <SelectValue placeholder={t("newsPage.allCategories")} />
+                  <SelectValue placeholder={t("allCategories")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">{t("newsPage.allCategories")}</SelectItem>
+                  <SelectItem value="all">{t("allCategories")}</SelectItem>
                   {categories.map((cat) => (
                     <SelectItem key={cat} value={cat}>
                       {cat}
@@ -209,8 +205,8 @@ const NewsEventsPage = () => {
               ) : (
                 <p className="text-muted-foreground col-span-full text-center py-12">
                   {newsItems.length === 0
-                    ? t("newsPage.noArticles")
-                    : t("newsPage.noMatch")}
+                    ? t("noArticlesYet")
+                    : t("noMatch")}
                 </p>
               )}
             </div>

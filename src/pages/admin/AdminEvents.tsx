@@ -18,9 +18,12 @@ import { adminApi, type EventItem } from "@/api/adminClient";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload, Calendar, MapPin, ExternalLink } from "lucide-react";
 import { usePermissions } from "@/hooks/usePermissions";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 export default function AdminEvents() {
-  const { canEditEvents } = usePermissions();
+  const { t, i18n } = useTranslation("admin");
+  const { canAccessEvents } = usePermissions();
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -35,13 +38,15 @@ export default function AdminEvents() {
   });
   const [uploadingImage, setUploadingImage] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<{ id: string; title: string } | null>(null);
+  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [loadingLocale, setLoadingLocale] = useState(false);
   const eventImageInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const load = async () => {
     setLoading(true);
     try {
-      const list = await adminApi.events.list();
+      const list = await adminApi.events.list(i18n.language);
       setEvents(list);
     } catch (e) {
       toast({ title: "Failed to load events", description: String(e), variant: "destructive" });
@@ -52,10 +57,11 @@ export default function AdminEvents() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [i18n.language]);
 
   const openCreate = () => {
     setEditing(null);
+    setEditLocale("uz");
     setForm({
       title: "",
       date: new Date().toISOString().slice(0, 10),
@@ -68,6 +74,7 @@ export default function AdminEvents() {
 
   const openEdit = (e: EventItem) => {
     setEditing(e);
+    setEditLocale("uz");
     setForm(e);
     setFormOpen(true);
   };
@@ -75,6 +82,29 @@ export default function AdminEvents() {
   const closeForm = () => {
     setFormOpen(false);
     setEditing(null);
+    setEditLocale("uz");
+  };
+
+  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+    if (newLocale === editLocale || !editing || !editing.id) return;
+    setLoadingLocale(true);
+    try {
+      const allEvents = await adminApi.events.list(newLocale);
+      const localeData = allEvents.find(ev => ev.id === editing.id);
+      if (localeData && localeData.id) {
+        setForm(prev => ({
+          ...prev, 
+          title: localeData.title || "",
+        }));
+      } else {
+        setForm(prev => ({ ...prev, title: "" }));
+      }
+      setEditLocale(newLocale);
+    } catch (e) {
+      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+    } finally {
+      setLoadingLocale(false);
+    }
   };
 
   const handleSave = async () => {
@@ -84,9 +114,16 @@ export default function AdminEvents() {
     }
     setSaving(true);
     try {
-      if (editing) {
-        await adminApi.events.update(editing.id, form);
-        toast({ title: "Event updated" });
+      if (editing && editing.id) {
+        if (editLocale === "uz") {
+          await adminApi.events.update(editing.id, form);
+          toast({ title: "Event updated" });
+        } else {
+          await adminApi.events.upsertTranslation(editing.id, editLocale, {
+            title: form.title!,
+          });
+          toast({ title: `${editLocale.toUpperCase()} translation updated` });
+        }
       } else {
         await adminApi.events.create(form as Omit<EventItem, "id">);
         toast({ title: "Event created" });
@@ -154,10 +191,31 @@ export default function AdminEvents() {
         </Button>
         <Card className={ADMIN_CARD_CLASS}>
           <CardHeader>
-            <CardTitle className="text-slate-900">{editing ? "Edit event" : "New event"}</CardTitle>
-            <CardDescription className="text-slate-500">Events appear on the events page.</CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-slate-900">{editing ? "Edit event" : "New event"}</CardTitle>
+                <CardDescription className="text-slate-500">Events appear on the events page.</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground mr-2">Language:</span>
+                <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[200px]">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="uz" disabled={!editing || loadingLocale}>UZ</TabsTrigger>
+                    <TabsTrigger value="en" disabled={!editing || loadingLocale}>EN</TabsTrigger>
+                    <TabsTrigger value="ru" disabled={!editing || loadingLocale}>RU</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                {!editing && <span className="text-xs text-muted-foreground/70 ml-2">Save first<br/>to translate</span>}
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
+            {loadingLocale && (
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                <span className="ml-2 text-sm text-muted-foreground">Loading translation...</span>
+              </div>
+            )}
             <div className="space-y-2">
               <Label className="text-slate-700">Title</Label>
               <Input
@@ -167,7 +225,7 @@ export default function AdminEvents() {
                 className="rounded-lg border-slate-200"
               />
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className={`grid gap-4 sm:grid-cols-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
               <div className="space-y-2">
                 <Label className="text-slate-700">Date</Label>
                 <Input
@@ -187,7 +245,7 @@ export default function AdminEvents() {
                 />
               </div>
             </div>
-            <div className="space-y-2">
+            <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
               <Label className="text-slate-700">Location</Label>
               <Input
                 value={form.location ?? ""}
@@ -196,7 +254,7 @@ export default function AdminEvents() {
                 className="rounded-lg border-slate-200"
               />
             </div>
-            <div className="space-y-2">
+            <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
               <Label className="text-slate-700">Event image (optional)</Label>
               <div
                 role="button"
@@ -246,102 +304,101 @@ export default function AdminEvents() {
 
   return (
     <AdminPageShell
-      title="Events"
-      description="Manage upcoming events."
+      title={t("upcomingEvents", "Upcoming Events")}
+      description={t("eventsDescription", "Manage the schedule and details for university events.")}
       actions={
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4" /> Add event
+        <Button onClick={openCreate} className="bg-blue-600 hover:bg-blue-700">
+          <Plus className="h-4 w-4" /> {t("addEvent", "Add event")}
         </Button>
       }
     >
       <div className="space-y-6">
-        <p className="text-sm text-muted-foreground">{events.length} event(s)</p>
-        <AlertDialog open={!!eventToDelete} onOpenChange={(open) => { if (!open) setEventToDelete(null); }}>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">{events.length} {t("eventsCount", "event(s)")}</p>
+        </div>
+
+        <AlertDialog open={!!eventToDelete} onOpenChange={(open) => !open && setEventToDelete(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete event?</AlertDialogTitle>
+              <AlertDialogTitle>{t("deleteEvent", "Delete event?")}</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete &quot;{eventToDelete?.title}&quot;? This cannot be undone.
+                {t("deleteEventConfirm", { title: eventToDelete?.title || "this event", defaultValue: "This will permanently delete this event. This action cannot be undone." })}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
               <Button
                 variant="destructive"
+                onClick={async () => {
+                  if (eventToDelete) {
+                    await handleDelete(eventToDelete.id);
+                    setEventToDelete(null);
+                  }
+                }}
                 disabled={saving}
-                onClick={() => eventToDelete && handleDelete(eventToDelete.id)}
               >
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete"}
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("delete", "Delete")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map((ev) => (
-            <div
-              key={ev.id}
-              className="group flex flex-col overflow-hidden rounded-2xl bg-card text-left shadow-sm ring-1 ring-border/40 transition-all duration-200 hover:shadow-md hover:ring-border/60"
-            >
-              <div className="relative aspect-[5/3] w-full overflow-hidden bg-muted">
-                <img
-                  src={ev.imageUrl?.trim() || placeholderImage}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-                />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {events.map((event) => (
+            <Card key={event.id} className={`${ADMIN_CARD_CLASS} group overflow-hidden`}>
+              <div className="aspect-video w-full bg-muted relative overflow-hidden">
+                {event.imageUrl ? (
+                  <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-muted-foreground whitespace-nowrap">
+                    <Calendar className="h-8 w-8 opacity-20 mr-2" />
+                    <span className="text-sm font-medium">{t("noImage", "No image")}</span>
+                  </div>
+                )}
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" aria-hidden />
                 <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm">
                   <Calendar className="h-3 w-3 opacity-70" />
-                  {ev.date}
+                  {event.date}
                 </span>
               </div>
-              <div className="flex flex-1 flex-col p-4">
-                <h3 className="font-semibold text-foreground text-[15px] leading-snug line-clamp-2 tracking-tight">
-                  {ev.title}
-                </h3>
-                {ev.location?.trim() ? (
-                  <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <MapPin className="h-3.5 w-3.5 shrink-0 opacity-70" />
-                    <span className="truncate">{ev.location}</span>
-                  </p>
-                ) : (
-                  <div className="mt-1.5 h-[1.25rem]" />
-                )}
-                <div className="mt-4 flex items-center justify-between gap-2">
-                  <Link
-                    to={`/events/${ev.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-                  >
-                    View
-                    <ExternalLink className="h-3.5 w-3.5 opacity-80" />
-                  </Link>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-                      onClick={() => openEdit(ev)}
-                      aria-label="Edit"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-                      onClick={() => setEventToDelete({ id: ev.id, title: ev.title })}
-                      aria-label="Delete"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+              <CardHeader className="p-4 pb-2">
+                <CardTitle className="text-base line-clamp-1">{event.title}</CardTitle>
+                <CardDescription className="flex items-center gap-1.5 text-xs">
+                  <MapPin className="h-3 w-3" />
+                  {event.location || "No location"}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4 pt-0 flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Calendar className="h-3 w-3" />
+                  {event.time || "No time set"}
                 </div>
-              </div>
-            </div>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => openEdit(event)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive" onClick={() => setEventToDelete({ id: event.id, title: event.title })}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
+
+        {events.length === 0 && !loading && (
+          <div className="text-center py-20 border-2 border-dashed border-border rounded-xl">
+            <Calendar className="h-12 w-12 text-muted-foreground/20 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-foreground">{t("noEvents", "No events found")}</h3>
+            <p className="text-sm text-muted-foreground mt-1 mb-6">
+              {t("noEventsDesc", "Start by adding your first university event.")}
+            </p>
+            <Button onClick={openCreate} className="rounded-lg gap-2">
+              <Plus className="h-4 w-4" />
+              {t("addEvent", "Add event")}
+            </Button>
+          </div>
+        )}
       </div>
     </AdminPageShell>
   );

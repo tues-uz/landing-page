@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { adminApi, type NewsItem } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
+import { useTranslation } from "react-i18next";
 import { useToast } from "@/components/ui/use-toast";
 
 /** Sort by sortOrder (lower first); items without sortOrder go last. */
@@ -114,26 +115,28 @@ export default function AdminNewsBoard() {
   const dragImageRef = useRef<HTMLElement | null>(null);
   const dropSuccessTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
+  const { t, i18n } = useTranslation("admin");
+  const currentLocale = i18n.language;
 
   const load = useCallback(() => {
     setLoading(true);
     adminApi.news
-      .list()
+      .list(currentLocale)
       .then(setArticles)
       .catch(() => setArticles([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [currentLocale]);
 
   const handleDelete = useCallback(
     async (slug: string) => {
       setDeleting(true);
       try {
         await adminApi.news.delete(slug);
-        toast({ title: "Article deleted" });
+        toast({ title: t("articleDeleted", "Article deleted") });
         setDeleteConfirmSlug(null);
         load();
       } catch (e) {
-        toast({ title: "Failed to delete", description: String(e), variant: "destructive" });
+        toast({ title: t("failedToDelete", "Failed to delete"), description: String(e), variant: "destructive" });
       } finally {
         setDeleting(false);
       }
@@ -231,11 +234,11 @@ export default function AdminNewsBoard() {
       const fullOrder = [...highlightIds.map((oid) => articles.find((a) => a.id === oid)).filter(Boolean) as NewsItem[], ...rest];
       Promise.all(fullOrder.map((a, i) => adminApi.news.update(a.slug || a.id, { sortOrder: String(i) })))
         .then(() => {
-          toast({ title: "Order saved", description: "Highlight order updated." });
+          toast({ title: t("orderSaved", "Order saved"), description: t("highlightOrderUpdated", "Highlight order updated.") });
           load();
         })
         .catch((err) => {
-          toast({ title: "Failed to save order", description: String(err), variant: "destructive" });
+          toast({ title: t("failedToSaveOrder", "Failed to save order"), description: String(err), variant: "destructive" });
           setHighlightOrder(displayList.map((a) => a.id));
         })
         .finally(() => setSavingOrder(false));
@@ -250,13 +253,13 @@ export default function AdminNewsBoard() {
 
   return (
     <AdminPageShell
-      title="News board"
-      description="Overview and quick access to news content."
+      title={t("newsboard")}
+      description={t("newsBoardDesc", "Overview and quick access to news content.")}
       actions={
         <Button className="bg-blue-600 hover:bg-blue-700" asChild>
           <Link to="/admin/news/articles" className="gap-2">
             <List className="h-4 w-4" />
-            Manage articles
+            {t("manageArticles", "Manage articles")}
           </Link>
         </Button>
       }
@@ -264,15 +267,15 @@ export default function AdminNewsBoard() {
       <div className="space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold text-foreground">Highlight Articles</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t("highlightArticles", "Highlight Articles")}</h2>
             <p className="text-sm text-muted-foreground">
-              Feature up to 5 articles in the top section. Set an article to Highlight in the editor.
+              {t("highlightArticlesDesc", "Feature up to 5 articles in the top section. Set an article to Highlight in the editor.")}
             </p>
           </div>
         </div>
         {loading ? (
           <div className="rounded-xl border border-dashed border-border bg-muted/30 py-12 px-6 text-center">
-            <p className="text-sm text-muted-foreground">Loading…</p>
+            <p className="text-sm text-muted-foreground">{t("loading")}…</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -285,7 +288,7 @@ export default function AdminNewsBoard() {
               </p>
             )}
             {savingOrder && (
-              <p className="text-xs text-muted-foreground">Saving order…</p>
+              <p className="text-xs text-muted-foreground">{t("savingOrder", "Saving order")}…</p>
             )}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-fr">
             {effectiveList.map((a, index) => (
@@ -316,18 +319,18 @@ export default function AdminNewsBoard() {
                     <DropdownMenuContent align="start">
                       <DropdownMenuItem asChild>
                         <a href={a.id.startsWith("dummy-") ? "#" : `/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
-                          View
+                              {t("view")}
                         </a>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link to="/admin/news/articles">Edit</Link>
+                        <Link to="/admin/news/articles">{t("edit")}</Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
                         disabled={a.id.startsWith("dummy-")}
                         onSelect={() => !a.id.startsWith("dummy-") && setDeleteConfirmSlug(a.slug)}
                       >
-                        Delete
+                        {t("delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -337,8 +340,8 @@ export default function AdminNewsBoard() {
                   onDragStart={(e) => handleDragStart(e, a.id)}
                   onDragEnd={handleDragEnd}
                   className="absolute top-2 right-2 z-10 cursor-grab active:cursor-grabbing rounded p-1.5 bg-background/80 hover:bg-muted border border-border touch-none"
-                  title="Drag to reorder"
-                  aria-label="Drag to reorder"
+                  title={t("dragToReorder", "Drag to reorder")}
+                  aria-label={t("dragToReorder", "Drag to reorder")}
                 >
                   <GripVertical className="h-4 w-4 text-muted-foreground" />
                 </div>
@@ -365,7 +368,7 @@ export default function AdminNewsBoard() {
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
-                        No image
+                        {t("noImage", "No image")}
                       </div>
                     )}
                   </div>
@@ -391,20 +394,20 @@ export default function AdminNewsBoard() {
 
       <div className="space-y-3 pt-8 border-t border-border">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">Regular Articles</h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("regularArticles", "Regular Articles")}</h2>
           <p className="text-sm text-muted-foreground">
-            Articles not set as Highlight. They appear in the main news list.
+            {t("regularArticlesDesc", "Articles not set as Highlight. They appear in the main news list.")}
           </p>
         </div>
         {loading ? (
           <div className="rounded-xl border border-dashed border-border bg-muted/30 py-8 px-4 text-center">
-            <p className="text-sm text-muted-foreground">Loading…</p>
+            <p className="text-sm text-muted-foreground">{t("loading")}…</p>
           </div>
         ) : regularArticles.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border bg-muted/30 py-8 px-4 text-center">
-            <p className="text-sm text-muted-foreground">No regular articles. All articles are set as Highlight, or there are no articles yet.</p>
+            <p className="text-sm text-muted-foreground">{t("noRegularArticles", "No regular articles. All articles are set as Highlight, or there are no articles yet.")}</p>
             <Button variant="outline" size="sm" className="mt-2" asChild>
-              <Link to="/admin/news/articles?new=1">Add article</Link>
+              <Link to="/admin/news/articles?new=1">{t("addArticle", "Add article")}</Link>
             </Button>
           </div>
         ) : (
@@ -422,12 +425,12 @@ export default function AdminNewsBoard() {
                   <div className="flex items-center gap-2 shrink-0">
                     <Button variant="ghost" size="sm" asChild>
                       <a href={`/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
-                        View
+                        {t("view")}
                       </a>
                     </Button>
                     <Button variant="ghost" size="sm" asChild>
                       <Link to={`/admin/news/articles?edit=${encodeURIComponent(a.slug || "")}`}>
-                        Edit
+                        {t("edit")}
                       </Link>
                     </Button>
                   </div>
@@ -441,25 +444,19 @@ export default function AdminNewsBoard() {
       <AlertDialog open={deleteConfirmSlug !== null} onOpenChange={(open) => !open && setDeleteConfirmSlug(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete article?</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteArticle", "Delete article?")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete{" "}
-              {deleteConfirmSlug && articles.find((x) => x.slug === deleteConfirmSlug)?.title ? (
-                <strong>"{articles.find((x) => x.slug === deleteConfirmSlug)?.title}"</strong>
-              ) : (
-                "this article"
-              )}
-              . This action cannot be undone.
+              {t("deleteArticleConfirm", { title: articles.find((x) => x.slug === deleteConfirmSlug)?.title || "this article", defaultValue: "This will permanently delete this article. This action cannot be undone." })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <Button
               variant="destructive"
               disabled={deleting}
               onClick={() => deleteConfirmSlug && handleDelete(deleteConfirmSlug)}
             >
-              {deleting ? "Deleting…" : "Delete"}
+              {deleting ? `${t("deleting")}…` : t("delete")}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

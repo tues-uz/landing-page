@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contentApi, type HeroSlide } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
+import { useTranslation } from "react-i18next";
 
 // ─── Fallback slides shown when the API is unavailable ───────────────────────
 
@@ -29,39 +29,17 @@ const FALLBACK_SLIDES: HeroSlide[] = [
   },
 ];
 
-/** Russian slide copy when UI language is Russian (CMS may only store one locale). */
-const RU_FALLBACK_SLIDES: HeroSlide[] = [
-  {
-    id: "ru-fallback-1",
-    title: "Полностью финансируемая аспирантура на 2025–2026",
-    subtitle: "Открыт приём для сильных кандидатов",
-    year: "2025",
-  },
-  {
-    id: "ru-fallback-2",
-    title: "Мировые исследования в области климата",
-    subtitle: "Исследователи TUES — в авангарде устойчивого развития",
-    year: "2025",
-  },
-  {
-    id: "ru-fallback-3",
-    title: "Открыт новый центр совместных исследований",
-    subtitle: "Современные площадки для междисциплинарных проектов",
-    year: "2025",
-  },
-];
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const Hero = () => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("hero");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isCardVisible, setIsCardVisible] = useState(true);
 
   // Fetch slides from API — gracefully falls back to static content
-  const { data: slidesData } = useQuery({
-    queryKey: contentKeys.heroSlides(),
-    queryFn: contentApi.heroSlides.list,
+  const { data: slidesData, isLoading: slidesLoading } = useQuery({
+    queryKey: [...contentKeys.heroSlides(), i18n.language],
+    queryFn: () => contentApi.heroSlides.list(i18n.language),
     staleTime: 5 * 60 * 1000, // 5 min
     retry: 1,
   });
@@ -74,28 +52,7 @@ const Hero = () => {
     retry: 1,
   });
 
-  /** CMS often stores one locale (e.g. Uzbek). Map title/subtitle by active UI language. */
-  const slides = useMemo(() => {
-    const apiSlides = slidesData && slidesData.length > 0 ? slidesData : null;
-    const lang = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
-
-    if (lang === "en") {
-      const base = apiSlides ?? FALLBACK_SLIDES;
-      return base.map((slide, i) => {
-        const fb = FALLBACK_SLIDES[i % FALLBACK_SLIDES.length];
-        return { ...slide, title: fb.title, subtitle: fb.subtitle };
-      });
-    }
-    if (lang === "ru") {
-      const base = apiSlides ?? RU_FALLBACK_SLIDES;
-      return base.map((slide, i) => {
-        const fb = RU_FALLBACK_SLIDES[i % RU_FALLBACK_SLIDES.length];
-        return { ...slide, title: fb.title, subtitle: fb.subtitle };
-      });
-    }
-    // uz: show CMS copy as stored (e.g. Uzbek)
-    return apiSlides ?? FALLBACK_SLIDES;
-  }, [slidesData, i18n.resolvedLanguage, i18n.language]);
+  const slides = slidesData && slidesData.length > 0 ? slidesData : FALLBACK_SLIDES;
 
   // Auto-advance carousel
   useEffect(() => {
@@ -181,7 +138,7 @@ const Hero = () => {
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 rounded-full bg-oxford-gold" />
                 <span className="text-muted-foreground text-sm uppercase tracking-wider">
-                  Announcement
+                  {t("announcement")}
                 </span>
               </div>
               <h2 className="text-2xl lg:text-3xl text-foreground mb-3 leading-tight">
@@ -194,10 +151,10 @@ const Hero = () => {
               >
                 {current.linkUrl ? (
                   <a href={current.linkUrl} target="_blank" rel="noopener noreferrer">
-                    {t("hero.learnMore")}
+                    {t("learnMore")}
                   </a>
                 ) : (
-                  <span>{t("hero.learnMore")}</span>
+                  <span>{t("learnMore")}</span>
                 )}
               </Button>
             </div>
@@ -212,7 +169,7 @@ const Hero = () => {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                aria-label={t("hero.slideAria", { number: index + 1 })}
+                aria-label={t("slideAriaLabel", { number: index + 1 })}
                 className={`h-2 rounded-full transition-all ${index === currentSlide
                   ? "bg-primary-foreground w-8"
                   : "bg-primary-foreground/40 hover:bg-primary-foreground/60 w-2"
@@ -244,7 +201,7 @@ const Hero = () => {
               size="icon"
               onClick={() => setIsCardVisible(!isCardVisible)}
               className="rounded-full border-white/30 text-white hover:bg-white/80 hover:text-foreground bg-white/10 backdrop-blur-sm"
-              aria-label={isCardVisible ? t("hero.hideAnnouncement") : t("hero.showAnnouncement")}
+              aria-label={isCardVisible ? t("hideAnnouncement") : t("showAnnouncement")}
             >
               {isCardVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </Button>

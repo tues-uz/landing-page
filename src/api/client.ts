@@ -121,8 +121,8 @@ async function get<T>(path: string): Promise<T> {
 
 export const contentApi = {
     heroSlides: {
-        list: async (): Promise<HeroSlide[]> => {
-            const data = await get<{ slides: HeroSlide[] }>("/content/hero-slides");
+        list: async (locale: string = "uz"): Promise<HeroSlide[]> => {
+            const data = await get<{ slides: HeroSlide[] }>(`/content/hero-slides?locale=${locale}`);
             return data.slides ?? [];
         },
     },
@@ -134,8 +134,8 @@ export const contentApi = {
         },
     },
     news: {
-        list: async (): Promise<NewsItem[]> => {
-            const data = await get<{ news: NewsItem[] }>("/content/news");
+        list: async (locale: string = "uz"): Promise<NewsItem[]> => {
+            const data = await get<{ news: NewsItem[] }>(`/content/news?locale=${locale}`);
             const raw = data.news ?? [];
             // Sort by CMS order (sortOrder from "Update order"); items without sortOrder go last
             return [...raw].sort((a, b) => {
@@ -147,24 +147,24 @@ export const contentApi = {
                 return aOrder - bOrder;
             });
         },
-        getBySlug: async (slug: string): Promise<NewsItem> => {
-            const data = await get<{ news: NewsItem }>(`/content/news/${slug}`);
+        getBySlug: async (slug: string, locale: string = "uz"): Promise<NewsItem> => {
+            const data = await get<{ news: NewsItem }>(`/content/news/${slug}?locale=${locale}`);
             return data.news;
         },
     },
     events: {
-        list: async (): Promise<EventItem[]> => {
-            const data = await get<{ events: EventItem[] }>("/content/events");
+        list: async (locale: string = "uz"): Promise<EventItem[]> => {
+            const data = await get<{ events: EventItem[] }>(`/content/events?locale=${locale}`);
             return data.events ?? [];
         },
     },
     programs: {
-        list: async (): Promise<ProgramItem[]> => {
-            const data = await get<{ programs: ProgramItem[] }>("/content/programs");
+        list: async (locale: string = "uz"): Promise<ProgramItem[]> => {
+            const data = await get<{ programs: ProgramItem[] }>(`/content/programs?locale=${locale}`);
             return data.programs ?? [];
         },
-        getBySlug: async (slug: string): Promise<ProgramItem> => {
-            const data = await get<{ program: ProgramItem }>(`/content/programs/${slug}`);
+        getBySlug: async (slug: string, locale: string = "uz"): Promise<ProgramItem> => {
+            const data = await get<{ program: ProgramItem }>(`/content/programs/${slug}?locale=${locale}`);
             return data.program;
         },
     },

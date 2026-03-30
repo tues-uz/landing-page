@@ -1,8 +1,13 @@
 import { GraduationCap, Award, Users, Globe, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-const ALUMNI_STAT_ICONS = [GraduationCap, Award, Users, Globe] as const;
+const alumniStats = [
+  { icon: GraduationCap, number: "50,000+", labelKey: "alumni.stats.alumniWorldwide" },
+  { icon: Award, number: "120+", labelKey: "alumni.stats.nobel" },
+  { icon: Users, number: "150+", labelKey: "alumni.stats.countries" },
+  { icon: Globe, number: "85%", labelKey: "alumni.stats.careerRate" },
+];
 
 const testimonials = [
   { id: 1, name: "Dr. Sarah Johnson", role: "CEO, Global Finance Corp", year: "Class of 2010", quote: "The Termez University of Economics and Service provided me with the knowledge and network that shaped my career.", image: "https://picsum.photos/seed/alumni-1/96/96" },
@@ -14,17 +19,7 @@ const testimonials = [
 ];
 
 const Alumni = () => {
-  const { t } = useTranslation();
-  const alumniStats = useMemo(
-    () =>
-      [
-        { icon: ALUMNI_STAT_ICONS[0], number: "50,000+", label: t("alumni.stat1") },
-        { icon: ALUMNI_STAT_ICONS[1], number: "120+", label: t("alumni.stat2") },
-        { icon: ALUMNI_STAT_ICONS[2], number: "150+", label: t("alumni.stat3") },
-        { icon: ALUMNI_STAT_ICONS[3], number: "85%", label: t("alumni.stat4") },
-      ] as const,
-    [t]
-  );
+  const { t } = useTranslation(["home", "common"]);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [slidePercent, setSlidePercent] = useState(50);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -99,25 +94,25 @@ const Alumni = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-xs font-semibold tracking-[0.2em] uppercase text-foreground/50 mb-3">
-            {t("alumni.community")}
+            {t("alumni.badge")}
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight mb-4">
-            {t("alumni.networkTitle")}
+            {t("alumni.title")}
           </h2>
           <p className="text-foreground/70 text-base leading-relaxed">
-            {t("alumni.networkDesc")}
+            {t("alumni.description")}
           </p>
         </div>
 
         {/* Stats — minimal editorial */}
         <div className="mb-16 flex flex-wrap justify-center gap-x-14 gap-y-12 sm:gap-x-20 lg:gap-x-24">
           {alumniStats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center text-center">
+            <div key={stat.labelKey} className="flex flex-col items-center text-center">
               <span className="text-3xl font-bold tabular-nums tracking-tight text-foreground sm:text-4xl">
                 {stat.number}
               </span>
               <span className="mt-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                {stat.label}
+                {t(stat.labelKey)}
               </span>
             </div>
           ))}
@@ -135,21 +130,21 @@ const Alumni = () => {
                 className="flex transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(calc(-${currentIndex} * ${slidePercent}%))` }}
               >
-                {infiniteTestimonials.map((item, i) => (
-                  <div key={`${item.id}-${i}`} className="flex-shrink-0 w-full sm:w-1/2 px-0 sm:px-2">
+                {infiniteTestimonials.map((t, i) => (
+                  <div key={`${t.id}-${i}`} className="flex-shrink-0 w-full sm:w-1/2 px-0 sm:px-2">
                     <div className="bg-white rounded-xl p-5 border border-black/[0.06] shadow-sm h-full">
                       <p className="text-foreground/75 text-sm leading-relaxed mb-4 line-clamp-3">
-                        {item.quote}
+                        {t.quote}
                       </p>
                       <div className="flex items-center gap-3">
                         <img
-                          src={item.image}
+                          src={t.image}
                           alt=""
                           className="w-10 h-10 rounded-full object-cover bg-muted"
                         />
                         <div>
-                          <p className="font-medium text-foreground text-sm">{item.name}</p>
-                          <p className="text-xs text-foreground/55">{item.role} · {item.year}</p>
+                          <p className="font-medium text-foreground text-sm">{t.name}</p>
+                          <p className="text-xs text-foreground/55">{t.role} · {t.year}</p>
                         </div>
                       </div>
                     </div>
@@ -162,7 +157,7 @@ const Alumni = () => {
                 type="button"
                 onClick={() => go(-1)}
                 className="w-10 h-10 rounded-full border border-foreground/15 flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
-                aria-label={t("programsPage.prev")}
+                aria-label={t("previous")}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -170,7 +165,7 @@ const Alumni = () => {
                 type="button"
                 onClick={() => go(1)}
                 className="w-10 h-10 rounded-full border border-foreground/15 flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
-                aria-label={t("programsPage.next")}
+                aria-label={t("next")}
               >
                 <ChevronRight className="w-5 h-5" />
               </button>

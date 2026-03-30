@@ -1,6 +1,4 @@
-import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Share2, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
@@ -8,7 +6,13 @@ import Footer from "@/components/Footer";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
-import { getUiLang, mergeNewsArticleForEnglish, mergeNewsForEnglish } from "@/lib/localeContent";
+import { useTranslation } from "react-i18next";
+
+const formatDateLong = (dateStr: string) => {
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+};
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 
@@ -35,11 +39,11 @@ function ArticleSkeleton() {
 
 const NewsDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const { data: remoteArticle, isLoading, error } = useQuery({
-    queryKey: contentKeys.news.detail(slug ?? ""),
-    queryFn: () => contentApi.news.getBySlug(slug!),
+    queryKey: [...contentKeys.news.detail(slug ?? ""), i18n.language],
+    queryFn: () => contentApi.news.getBySlug(slug!, i18n.language),
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
     retry: 1,
@@ -47,37 +51,20 @@ const NewsDetailPage = () => {
 
   // Fetch all news for related articles
   const { data: remoteAllNews } = useQuery({
-    queryKey: contentKeys.news.list(),
-    queryFn: contentApi.news.list,
+    queryKey: [...contentKeys.news.list(), i18n.language],
+    queryFn: () => contentApi.news.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
   const fallbackArticle = FALLBACK_NEWS.find((n) => n.slug === slug);
-  const rawArticle = (error || !remoteArticle) && fallbackArticle ? fallbackArticle : remoteArticle;
-
-  const article = useMemo(() => {
-    if (!rawArticle) return null;
-    if (getUiLang(i18n) !== "en") return rawArticle;
-    return mergeNewsArticleForEnglish(rawArticle, slug);
-  }, [rawArticle, slug, i18n.resolvedLanguage, i18n.language]);
+  const article = (error || !remoteArticle) && fallbackArticle ? fallbackArticle : remoteArticle;
 
   const allNews = remoteAllNews && remoteAllNews.length > 0 ? remoteAllNews : FALLBACK_NEWS;
 
-  const relatedArticles = useMemo(() => {
-    if (!article) return [];
-    const others = allNews.filter((n) => n.slug !== slug);
-    const list = getUiLang(i18n) === "en" ? mergeNewsForEnglish(others) : others;
-    return list.slice(0, 4);
-  }, [article, allNews, slug, i18n.resolvedLanguage, i18n.language]);
-
-  const formatDateLong = (dateStr: string) => {
-    const lng = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    const locale = lng === "uz" ? "uz-UZ" : lng === "ru" ? "ru-RU" : "en-US";
-    return d.toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" });
-  };
+  const relatedArticles = article
+    ? allNews.filter((n) => n.slug !== slug).slice(0, 4)
+    : [];
 
   if (isLoading) {
     return (
@@ -98,10 +85,10 @@ const NewsDetailPage = () => {
       <div className="min-h-screen">
         <Header />
         <main className="below-header container mx-auto px-6 py-24 text-center">
-          <h1 className="text-2xl font-semibold text-foreground mb-4">{t("newsDetail.notFound")}</h1>
+          <h1 className="text-2xl font-semibold text-foreground mb-4">Article not found</h1>
           <Link to="/" className="inline-flex items-center gap-2 text-primary hover:underline">
             <ArrowLeft className="h-4 w-4" />
-            {t("common.backHome")}
+            Back to Home
           </Link>
         </main>
         <Footer />
@@ -121,8 +108,8 @@ const NewsDetailPage = () => {
           {/* Breadcrumb */}
           <div className="flex flex-col-reverse border-b border-border pb-3 pt-5 lg:h-12 lg:flex-row lg:items-center lg:gap-2 lg:py-0 lg:px-6">
             <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-5 scrollbar-hide lg:px-0">
-              <Link to="/news" className="font-medium text-foreground text-sm hover:text-primary">
-                {t("newsDetail.breadcrumbNews")}
+              <Link to="/" className="font-medium text-foreground text-sm hover:text-primary">
+                News
               </Link>
               <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
               {article.category && (
@@ -156,9 +143,7 @@ const NewsDetailPage = () => {
                 {article.author.charAt(0)}
               </div>
               <span className="font-semibold text-foreground text-sm">{article.author}</span>
-              <span className="text-muted-foreground text-sm">
-                {getUiLang(i18n) === "en" ? `on ${formatDateLong(article.date)}` : formatDateLong(article.date)}
-              </span>
+              <span className="text-muted-foreground text-sm">on {formatDateLong(article.date)}</span>
               {article.readTime && (
                 <span className="text-muted-foreground text-sm">· {article.readTime}</span>
               )}
@@ -209,12 +194,12 @@ const NewsDetailPage = () => {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm font-medium text-muted-foreground">{t("common.shareArticle")}:</span>
+                <span className="text-sm font-medium text-muted-foreground">Share article:</span>
                 <button
                   type="button"
                   onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}
                   className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                  aria-label={t("common.shareArticle")}
+                  aria-label="Share article"
                 >
                   <Share2 className="h-5 w-5" />
                 </button>
@@ -225,7 +210,7 @@ const NewsDetailPage = () => {
             {relatedArticles.length > 0 && (
               <div className="border-t border-border bg-muted/20 pb-12 pt-10">
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold text-foreground">{t("common.relatedArticles")}</h2>
+                  <h2 className="text-xl font-semibold text-foreground">Related articles</h2>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-2">
                   {relatedArticles.map((item) => (
@@ -243,9 +228,7 @@ const NewsDetailPage = () => {
                         </h3>
                         <div className="mt-auto flex items-center gap-2 text-sm">
                           <span className="font-medium text-foreground">{item.author}</span>
-                          <span className="text-muted-foreground">
-                            {getUiLang(i18n) === "en" ? `on ${formatDateLong(item.date)}` : formatDateLong(item.date)}
-                          </span>
+                          <span className="text-muted-foreground">on {formatDateLong(item.date)}</span>
                         </div>
                       </div>
                       {item.imageUrl && (

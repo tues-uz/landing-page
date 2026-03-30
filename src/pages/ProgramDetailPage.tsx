@@ -1,6 +1,5 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
   ArrowDownToLine,
@@ -17,37 +16,25 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getProgramBySlug } from "@/components/Programs";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { getUiLang } from "@/lib/localeContent";
 import { getProgramDetailViewModelFromItem } from "@/lib/programDetailDisplay";
+import { useTranslation } from "react-i18next";
+
+const ABOUT_SCHOOL =
+  "TUES is a leading institution in economics and business education. We combine academic excellence with practical skills, preparing students for leadership roles in industry, government, and the nonprofit sector. Our faculty are experts in their fields, and our campus fosters a supportive, inclusive community.";
 
 const ProgramDetailPage = () => {
-  const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
+  const { i18n } = useTranslation();
 
   const { data: programItem, isLoading } = useQuery({
-    queryKey: contentKeys.programs.detail(slug!),
-    queryFn: () => contentApi.programs.getBySlug(slug!),
+    queryKey: [...contentKeys.programs.detail(slug!), i18n.language],
+    queryFn: () => contentApi.programs.getBySlug(slug!, i18n.language),
     enabled: !!slug,
   });
 
-  const view = useMemo(() => {
-    if (!programItem) return null;
-    const fromApi = getProgramDetailViewModelFromItem(programItem);
-    if (getUiLang(i18n) !== "en") return fromApi;
-    const st = getProgramBySlug(programItem.slug);
-    if (!st) return fromApi;
-    return getProgramDetailViewModelFromItem({
-      ...programItem,
-      title: st.title,
-      description: st.description,
-      longDescription: st.longDescription || programItem.longDescription,
-      highlights: st.highlights?.length ? st.highlights : programItem.highlights,
-      count: st.count,
-    });
-  }, [programItem, i18n]);
+  const view = programItem ? getProgramDetailViewModelFromItem(programItem) : null;
 
   /** Force sidebar pin on large screens — CSS sticky is unreliable with some overflow/scroll roots. */
   const layoutRowRef = useRef<HTMLDivElement>(null);
@@ -160,13 +147,13 @@ const ProgramDetailPage = () => {
       <div className="min-h-screen">
         <Header />
         <main className="below-header container mx-auto px-6 py-24 text-center">
-          <h1 className="text-2xl font-semibold text-foreground mb-4">{t("programDetail.notFound")}</h1>
+          <h1 className="text-2xl font-semibold text-foreground mb-4">Program not found</h1>
           <Link
             to="/programs"
             className="inline-flex items-center gap-2 text-primary hover:underline"
           >
             <ArrowLeft className="h-4 w-4" />
-            {t("common.backToPrograms")}
+            Back to All Programs
           </Link>
         </main>
         <Footer />
@@ -197,14 +184,14 @@ const ProgramDetailPage = () => {
   } = view;
 
   const keyFacts = [
-    { label: t("programDetail.degreeType"), value: degreeType, icon: GraduationCap },
-    { label: t("programDetail.duration"), value: duration, icon: Clock },
-    { label: t("programDetail.languages"), value: languages, icon: Globe },
-    { label: t("programDetail.pace"), value: pace, icon: Zap },
-    { label: t("programDetail.studyFormat"), value: studyFormat, icon: BookOpen },
-    { label: t("programDetail.applicationDeadline"), value: applicationDeadline, icon: Calendar },
-    { label: t("programDetail.earliestStart"), value: startDate, icon: Calendar },
-    { label: t("programDetail.tuition"), value: tuition, icon: GraduationCap },
+    { label: "Degree type", value: degreeType, icon: GraduationCap },
+    { label: "Duration", value: duration, icon: Clock },
+    { label: "Languages", value: languages, icon: Globe },
+    { label: "Pace", value: pace, icon: Zap },
+    { label: "Study format", value: studyFormat, icon: BookOpen },
+    { label: "Application deadline", value: applicationDeadline, icon: Calendar },
+    { label: "Earliest start date", value: startDate, icon: Calendar },
+    { label: "Tuition fees", value: tuition, icon: GraduationCap },
   ];
 
   return (
@@ -238,18 +225,18 @@ const ProgramDetailPage = () => {
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mt-1 mb-1">
                     {title}
                   </h1>
-                  <p className="text-muted-foreground text-base">{t("programDetail.tagline")}</p>
+                  <p className="text-muted-foreground text-base">TUES · On campus & online</p>
                 </div>
 
                 {/* About */}
                 <div className="mb-12 md:mb-16">
-                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">{t("programDetail.about")}</h2>
+                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">About</h2>
                   <p className="text-foreground/90 leading-relaxed text-lg">{longDescription}</p>
                 </div>
 
                 {/* Introduction */}
                 <div className="mb-12 md:mb-16">
-                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">{t("programDetail.introduction")}</h2>
+                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">Introduction</h2>
                   <p className="text-foreground/90 leading-relaxed max-w-2xl">
                     {introduction}
                   </p>
@@ -258,10 +245,10 @@ const ProgramDetailPage = () => {
                 {/* Program PDF downloads — 3 cards */}
                 <div className="mb-12 md:mb-16">
                   <div className="mb-5 max-w-xl">
-                    <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">{t("programDetail.downloads")}</h2>
-                    <p className="mt-2 text-base font-medium text-foreground sm:text-lg">{t("programDetail.downloadsLead")}</p>
+                    <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Downloads</h2>
+                    <p className="mt-2 text-base font-medium text-foreground sm:text-lg">Official PDFs for this program</p>
                     <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
-                      {t("programDetail.downloadsHint")}
+                      Brochure, admissions, and curriculum — save or print for offline reading.
                     </p>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -270,27 +257,28 @@ const ProgramDetailPage = () => {
                         {
                           key: "brochure",
                           Icon: FileText,
-                          eyebrow: t("programDetail.brochureEyebrow"),
-                          title: t("programDetail.brochureTitle"),
-                          description: t("programDetail.brochureDesc", { title }),
+                          eyebrow: "Brochure",
+                          title: "Overview & highlights",
+                          description: `Curriculum focus, career paths, and ${title} at TUES.`,
                           href: brochurePdfHref,
                           downloadName: `${programSlug}-tues-brochure.pdf`,
                         },
                         {
                           key: "admissions",
                           Icon: ClipboardList,
-                          eyebrow: t("programDetail.admissionsEyebrow"),
-                          title: t("programDetail.admissionsTitle"),
-                          description: t("programDetail.admissionsDesc"),
+                          eyebrow: "Admissions",
+                          title: "Apply & requirements",
+                          description:
+                            "Deadlines, documents, language requirements, and how to submit your application.",
                           href: admissionsPdfHref,
                           downloadName: `${programSlug}-tues-admissions.pdf`,
                         },
                         {
                           key: "curriculum",
                           Icon: BookOpen,
-                          eyebrow: t("programDetail.curriculumEyebrow"),
-                          title: t("programDetail.curriculumTitle"),
-                          description: t("programDetail.curriculumDesc"),
+                          eyebrow: "Curriculum",
+                          title: "Courses & structure",
+                          description: "Sample modules, credit structure, and study formats for this field.",
                           href: curriculumPdfHref,
                           downloadName: `${programSlug}-tues-curriculum.pdf`,
                         },
@@ -324,7 +312,7 @@ const ProgramDetailPage = () => {
                         </p>
                         <span className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border/80 bg-background/80 py-2.5 text-xs font-semibold text-foreground transition-colors group-hover:border-primary/20 group-hover:bg-primary group-hover:text-primary-foreground">
                           <ArrowDownToLine className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
-                          {t("programDetail.downloadPdf")}
+                          Download PDF
                         </span>
                       </a>
                     ))}
@@ -333,14 +321,14 @@ const ProgramDetailPage = () => {
 
                 {/* Career outcomes */}
                 <div className="mb-12 md:mb-16">
-                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">{t("programDetail.careerOutcomes")}</h2>
+                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">Career outcomes</h2>
                   <p className="text-foreground/90 leading-relaxed">{careerOutcomes}</p>
                 </div>
 
                 {/* Key areas */}
                 {highlights.length > 0 && (
                   <div className="mb-12 md:mb-16">
-                    <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">{t("programDetail.keyAreas")}</h2>
+                    <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">Key areas</h2>
                     <ul className="grid sm:grid-cols-2 gap-2">
                       {highlights.map((item) => (
                         <li key={item} className="flex items-center gap-2.5 text-foreground/80">
@@ -354,8 +342,8 @@ const ProgramDetailPage = () => {
 
                 {/* About the school */}
                 <div className="mb-12 md:mb-16 pl-4 border-l-2 border-border">
-                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">{t("programDetail.aboutSchool")}</h2>
-                  <p className="text-foreground/80 leading-relaxed">{t("programDetail.aboutSchoolBody")}</p>
+                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">About the school</h2>
+                  <p className="text-foreground/80 leading-relaxed">{ABOUT_SCHOOL}</p>
                 </div>
               </div>
 
@@ -370,7 +358,7 @@ const ProgramDetailPage = () => {
                     className="w-full rounded-2xl bg-card border border-border p-6 lg:z-10 lg:max-h-[calc(100dvh-var(--header-height)-2rem)] lg:overflow-y-auto"
                     style={{ scrollbarGutter: "stable" }}
                   >
-                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">{t("programDetail.atAGlance")}</h3>
+                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">At a glance</h3>
                     <dl className="space-y-4">
                       {keyFacts.map(({ label, value, icon: FactIcon }) => (
                         <div key={label} className="flex gap-3">
@@ -387,7 +375,7 @@ const ProgramDetailPage = () => {
                         href="#"
                         className="inline-flex w-full items-center justify-center gap-2 rounded-lg text-sm font-medium h-11 px-5 bg-oxford-blue hover:bg-oxford-blue/90 text-white transition-colors"
                       >
-                        {t("programDetail.applyInquire")}
+                        Apply or inquire
                       </a>
                     </div>
                   </div>

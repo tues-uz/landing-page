@@ -11,8 +11,10 @@ import {
   LogOut,
   Star,
   Users,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,9 +50,19 @@ const navConfig = [
   },
 ] as const;
 
+const languages = [
+  { code: "uz", name: "Uz", flag: "🇺🇿" },
+  { code: "en", name: "En", flag: "🇬🇧" },
+  { code: "ru", name: "Ru", flag: "🇷🇺" },
+];
+
 export default function AdminLayout() {
   const { canAccessHero, canAccessNews, canAccessEvents } = usePermissions();
   const { user } = useAuth();
+  const { t, i18n } = useTranslation("admin");
+
+  const activeCode = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
+  const currentLanguage = languages.find((lang) => lang.code === activeCode) ?? languages[1];
 
   const isSuperAdmin = user?.role === "superadmin";
 
@@ -72,11 +84,37 @@ export default function AdminLayout() {
         <div className="flex flex-1 items-center gap-2">
           <Search className="h-4 w-4 shrink-0 text-slate-400" />
           <Input
-            placeholder="Search..."
+            placeholder={t("search")}
             className="max-w-xs border-0 bg-slate-50 text-sm placeholder:text-slate-400 focus-visible:ring-1 focus-visible:ring-slate-200"
           />
         </div>
-        <DropdownMenu>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-9 border-slate-200 bg-transparent text-slate-700 hover:bg-slate-100 px-2 flex items-center gap-1.5"
+              >
+                <span className="text-base leading-none block pt-0.5">{currentLanguage.flag}</span>
+                <span className="hidden sm:inline-block text-sm font-medium">{currentLanguage.name}</span>
+                <ChevronDown className="h-4 w-4 text-slate-500" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-white border-slate-200" align="end">
+              {languages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  className="cursor-pointer hover:bg-slate-50"
+                  onClick={() => i18n.changeLanguage(lang.code)}
+                >
+                  <span className="mr-2 text-base">{lang.flag}</span>
+                  {lang.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full hover:bg-slate-100">
               <span className="sr-only">Account</span>
@@ -89,19 +127,20 @@ export default function AdminLayout() {
             <DropdownMenuItem asChild>
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <FileText className="mr-2 h-4 w-4" />
-                View docs
+                {t("viewDocs")}
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
-              Settings
+              {t("settings")}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <LogOut className="mr-2 h-4 w-4" />
-              Log out
+              {t("logout")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
       </header>
 
       {/* pt-14 so content starts below the fixed header */}
@@ -113,9 +152,9 @@ export default function AdminLayout() {
               to="/admin"
               className="text-lg font-semibold text-slate-900 hover:text-blue-600"
             >
-              TUES CMS
+              {t("title")}
             </Link>
-            <p className="mt-0.5 text-xs text-slate-500">Content management</p>
+            <p className="mt-0.5 text-xs text-slate-500">{t("subtitle")}</p>
           </div>
           <nav className="flex flex-1 flex-col gap-0.5 p-3">
             <NavLink
@@ -131,7 +170,7 @@ export default function AdminLayout() {
               }
             >
               <LayoutDashboard className="h-4 w-4 shrink-0" />
-              Dashboard
+              {t("dashboard")}
             </NavLink>
             {canAccessHero && (
               <NavLink
@@ -146,7 +185,7 @@ export default function AdminLayout() {
                 }
               >
                 <Image className="h-4 w-4 shrink-0" />
-                Hero section
+                {t("hero")}
               </NavLink>
             )}
             {canAccessEvents && (
@@ -162,7 +201,7 @@ export default function AdminLayout() {
                 }
               >
                 <Calendar className="h-4 w-4 shrink-0" />
-                Events
+                {t("events")}
               </NavLink>
             )}
             {canAccessNews && (
@@ -178,7 +217,7 @@ export default function AdminLayout() {
                 }
               >
                 <Newspaper className="h-4 w-4 shrink-0" />
-                News
+                {t("news")}
               </NavLink>
             )}
             <div className="my-2 border-t border-slate-100" />
@@ -196,7 +235,7 @@ export default function AdminLayout() {
                   }
                 >
                   <GraduationCap className="h-4 w-4 shrink-0" />
-                  Programs
+                  {t("programs")}
                 </NavLink>
                 <NavLink
                   to="/admin/admins"
@@ -210,14 +249,14 @@ export default function AdminLayout() {
                   }
                 >
                   <Users className="h-4 w-4 shrink-0" />
-                  Admins
+                  {t("admins")}
                 </NavLink>
                 <button
                   type="button"
                   className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 >
                   <Star className="h-4 w-4 shrink-0" />
-                  Favorites
+                  {t("favorites")}
                 </button>
               </>
             )}
@@ -230,21 +269,21 @@ export default function AdminLayout() {
               className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900"
             >
               <FileText className="h-4 w-4 shrink-0" />
-              View docs
+              {t("viewDocs")}
             </a>
             <button
               type="button"
               className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900"
             >
               <Settings className="h-4 w-4 shrink-0" />
-              Settings
+              {t("settings")}
             </button>
             <button
               type="button"
               className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900"
             >
               <LogOut className="h-4 w-4 shrink-0" />
-              Log out
+              {t("logout")}
             </button>
           </div>
         </aside>
@@ -262,7 +301,7 @@ export default function AdminLayout() {
             }
           >
             <LayoutDashboard className="h-3.5 w-3.5" />
-            Dashboard
+            {t("dashboard")}
           </NavLink>
           {canAccessHero && (
             <NavLink
@@ -275,7 +314,7 @@ export default function AdminLayout() {
               }
             >
               <Image className="h-3.5 w-3.5" />
-              Hero
+              {t("hero")}
             </NavLink>
           )}
           {canAccessEvents && (
@@ -289,7 +328,7 @@ export default function AdminLayout() {
               }
             >
               <Calendar className="h-3.5 w-3.5" />
-              Events
+              {t("events")}
             </NavLink>
           )}
           {canAccessNews && (
@@ -303,7 +342,7 @@ export default function AdminLayout() {
               }
             >
               <Newspaper className="h-3.5 w-3.5" />
-              News
+              {t("news")}
             </NavLink>
           )}
           {isSuperAdmin && (
@@ -317,7 +356,7 @@ export default function AdminLayout() {
               }
             >
               <GraduationCap className="h-3.5 w-3.5" />
-              Programs
+              {t("programs")}
             </NavLink>
           )}
         </nav>

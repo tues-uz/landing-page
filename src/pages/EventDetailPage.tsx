@@ -1,6 +1,4 @@
-import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { ArrowLeft, MapPin, Calendar, Clock } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS } from "@/data/fallbackContent";
-import { getUiLang, mergeEventTitlesForEnglish } from "@/lib/localeContent";
+import { useTranslation } from "react-i18next";
 
 const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80";
@@ -44,7 +42,6 @@ function formatEventDateDisplay(dateStr: string): string {
 }
 
 function EventListCard({ event }: { event: EventItem }) {
-  const { t } = useTranslation();
   const { day, month } = formatEventDate(event.date);
   const imageUrl = getEventImageUrl(event, PLACEHOLDER_IMAGE);
 
@@ -60,7 +57,7 @@ function EventListCard({ event }: { event: EventItem }) {
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute left-3 top-3 rounded-md bg-white px-2 py-1 text-xs font-semibold text-foreground shadow-sm">
-          {t("eventDetail.freeBadge")}
+          FREE
         </div>
         <div className="absolute right-3 top-3 flex flex-col items-end rounded-md bg-white/95 px-2 py-1.5 text-right shadow-sm">
           <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
@@ -84,20 +81,17 @@ function EventListCard({ event }: { event: EventItem }) {
 }
 
 const EventDetailPage = () => {
-  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
+  const { i18n } = useTranslation();
 
   const { data: eventData, isLoading } = useQuery({
-    queryKey: contentKeys.events.list(),
-    queryFn: contentApi.events.list,
+    queryKey: [...contentKeys.events.list(), i18n.language],
+    queryFn: () => contentApi.events.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
-  const events = useMemo(() => {
-    const base = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
-    return getUiLang(i18n) === "en" ? mergeEventTitlesForEnglish(base) : base;
-  }, [eventData, i18n.resolvedLanguage, i18n.language]);
+  const events = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
   const event = id ? events.find((e) => e.id === id) : null;
   const otherEvents = event ? events.filter((e) => e.id !== id).slice(0, 6) : [];
 
@@ -106,9 +100,9 @@ const EventDetailPage = () => {
       <div className="min-h-screen">
         <Header />
         <main className="below-header flex flex-col items-center justify-center py-24">
-          <p className="text-muted-foreground mb-4">{t("eventDetail.notFound")}</p>
+          <p className="text-muted-foreground mb-4">Event not found.</p>
           <Link to="/events" className="text-primary font-medium hover:underline">
-            {t("common.backToEvents")}
+            Back to Events
           </Link>
         </main>
         <Footer />
@@ -148,7 +142,7 @@ const EventDetailPage = () => {
                 className="absolute left-6 top-6 inline-flex items-center gap-1.5 rounded-lg bg-black/40 px-3 py-2 text-sm font-medium text-white backdrop-blur-sm hover:bg-black/60"
               >
                 <ArrowLeft className="h-4 w-4" />
-                {t("eventDetail.back")}
+                Back
               </Link>
               <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-sm md:text-4xl lg:text-5xl">
                 {event.title}
@@ -167,17 +161,18 @@ const EventDetailPage = () => {
               {/* Main content */}
               <div className="lg:col-span-8 space-y-8">
                 <div>
-                  <h2 className="text-lg font-semibold text-foreground mb-3">{t("eventDetail.descriptionTitle")}</h2>
+                  <h2 className="text-lg font-semibold text-foreground mb-3">Description</h2>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {t("eventDetail.descriptionBody")}
+                    Join us for this event at TUES. For more details and registration, please contact
+                    the organizer or visit the campus events office.
                   </p>
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-foreground mb-3">
-                    {t("eventDetail.contactTitle")}
+                    How can I contact the organizer?
                   </h2>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {t("eventDetail.contactBody")}
+                    Please visit the TUES website or contact the events office for any questions.
                   </p>
                 </div>
               </div>
@@ -185,7 +180,7 @@ const EventDetailPage = () => {
               {/* Date & Time card */}
               <div className="lg:col-span-4">
                 <div className="rounded-xl border border-border bg-background p-6 shadow-sm sticky top-24">
-                  <h2 className="text-lg font-semibold text-foreground mb-4">{t("eventDetail.dateTime")}</h2>
+                  <h2 className="text-lg font-semibold text-foreground mb-4">Date & Time</h2>
                   <div className="flex items-center gap-2 text-foreground">
                     <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
                     <span>{formatEventDateDisplay(event.date)}</span>
@@ -198,7 +193,7 @@ const EventDetailPage = () => {
                     <p className="text-sm font-medium text-foreground">{event.title}</p>
                     <p className="text-sm text-muted-foreground mt-1">{event.location}</p>
                   </div>
-                  <p className="mt-4 text-xs text-muted-foreground">{t("eventDetail.freeNote")}</p>
+                  <p className="mt-4 text-xs text-muted-foreground">Free event — no registration required.</p>
                 </div>
               </div>
             </div>
@@ -207,7 +202,7 @@ const EventDetailPage = () => {
             {otherEvents.length > 0 && (
               <div className="mt-16">
                 <h2 className="text-xl font-semibold text-foreground mb-6">
-                  {t("eventDetail.otherEvents")}
+                  Other Events You May Like
                 </h2>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {otherEvents.map((e) => (

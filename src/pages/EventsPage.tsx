@@ -1,13 +1,12 @@
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS } from "@/data/fallbackContent";
-import { getUiLang, mergeEventTitlesForEnglish } from "@/lib/localeContent";
 import { Share2, Check } from "lucide-react";
 
 const PLACEHOLDER_IMAGE =
@@ -70,7 +69,7 @@ function EventSkeleton() {
 }
 
 function EventCard({ event }: { event: EventItem }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("events");
   const { day, month } = formatEventDate(event.date);
   const imageUrl = getEventImageUrl(event, PLACEHOLDER_IMAGE);
   const [copied, setCopied] = useState(false);
@@ -114,7 +113,7 @@ function EventCard({ event }: { event: EventItem }) {
           type="button"
           onClick={handleShare}
           className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-          aria-label={copied ? t("eventsPage.shareCopied") : t("eventsPage.shareEvent")}
+          aria-label={copied ? t("linkCopied") : t("shareEvent")}
         >
           {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
         </button>
@@ -132,18 +131,15 @@ function EventCard({ event }: { event: EventItem }) {
 }
 
 const EventsPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("events");
   const { data: eventData, isLoading: eventsLoading } = useQuery({
-    queryKey: contentKeys.events.list(),
-    queryFn: contentApi.events.list,
+    queryKey: [...contentKeys.events.list(), i18n.language],
+    queryFn: () => contentApi.events.list(i18n.language),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
-  const upcomingEvents = useMemo(() => {
-    const base = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
-    return getUiLang(i18n) === "en" ? mergeEventTitlesForEnglish(base) : base;
-  }, [eventData, i18n.resolvedLanguage, i18n.language]);
+  const upcomingEvents = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
   const pastEvents: EventItem[] = []; // No past events from API; extend later if needed
 
   return (
@@ -155,24 +151,24 @@ const EventsPage = () => {
             {/* Breadcrumb */}
             <nav className="text-sm text-muted-foreground mb-4">
               <Link to="/" className="hover:text-foreground">
-                {t("common.mainPage")}
+                {t("mainPage")}
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-foreground">{t("eventsPage.breadcrumbEvents")}</span>
+              <span className="text-foreground">{t("title")}</span>
             </nav>
 
             {/* Large title + description */}
             <div className="relative mb-12">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
-                {t("eventsPage.title")}
+                {t("title")}
               </h1>
               <p className="mt-4 max-w-2xl text-muted-foreground">
-                {t("eventsPage.description")}
+                {t("subtitle")}
               </p>
             </div>
 
             {/* Upcoming events */}
-            <h2 className="text-xl font-semibold text-foreground mb-6">{t("eventsPage.upcoming")}</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-6">{t("upcomingEvents")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {eventsLoading ? (
                 Array.from({ length: 8 }).map((_, i) => <EventSkeleton key={i} />)
@@ -180,19 +176,19 @@ const EventsPage = () => {
                 upcomingEvents.map((event) => <EventCard key={event.id} event={event} />)
               ) : (
                 <p className="col-span-full text-muted-foreground py-8">
-                  {t("eventsPage.noUpcoming")}
+                  {t("noUpcoming")}
                 </p>
               )}
             </div>
 
             {/* Past events */}
-            <h2 className="text-xl font-semibold text-foreground mt-14 mb-6">{t("eventsPage.past")}</h2>
+            <h2 className="text-xl font-semibold text-foreground mt-14 mb-6">{t("pastEvents")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {pastEvents.length > 0 ? (
                 pastEvents.map((event) => <EventCard key={event.id} event={event} />)
               ) : (
                 <p className="col-span-full text-muted-foreground py-8">
-                  {t("eventsPage.noPast")}
+                  {t("noPast")}
                 </p>
               )}
             </div>
@@ -203,7 +199,7 @@ const EventsPage = () => {
                 to="/events"
                 className="inline-flex rounded-md border border-border bg-background px-8 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
-                {t("eventsPage.seeMore")}
+                {t("seeMore")}
               </Link>
             </div>
           </div>

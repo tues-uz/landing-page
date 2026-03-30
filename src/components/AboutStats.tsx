@@ -1,5 +1,28 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+const stats = [
+  {
+    value: "25,000+",
+    labelKey: "about.stats.students.label",
+    descriptionKey: "about.stats.students.description",
+  },
+  {
+    value: "412",
+    labelKey: "about.stats.professors.label",
+    descriptionKey: "about.stats.professors.description",
+  },
+  {
+    value: "3+",
+    labelKey: "about.stats.faculties.label",
+    descriptionKey: "about.stats.faculties.description",
+  },
+  {
+    value: "27,447",
+    labelKey: "about.stats.irc.label",
+    descriptionKey: "about.stats.irc.description",
+  },
+];
 
 const useCounter = (target: number, duration: number = 2000, isVisible: boolean) => {
   const [count, setCount] = useState(0);
@@ -55,35 +78,9 @@ const TICKER_IMAGES = [
 ];
 
 const AboutStats = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-
-  const stats = useMemo(
-    () => [
-      {
-        value: "25,000+",
-        label: t("about.statStudents"),
-        description: t("about.statStudentsDesc"),
-      },
-      {
-        value: "412",
-        label: t("about.statFaculty"),
-        description: t("about.statFacultyDesc"),
-      },
-      {
-        value: "3+",
-        label: t("about.statFaculties"),
-        description: t("about.statFacultiesDesc"),
-      },
-      {
-        value: "27,447",
-        label: t("about.statIrc"),
-        description: t("about.statIrcDesc"),
-      },
-    ],
-    [t]
-  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -118,12 +115,12 @@ const AboutStats = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               <h3 className="text-[40px] text-foreground tracking-tight leading-[120%] md:text-5xl lg:text-[56px]">
-                {t("about.title1")}
+                {t("about.titleLine1")}
                 <br />
-                {t("about.title2")}
+                {t("about.titleLine2")}
               </h3>
               <p className="font-dm-sans text-[16px] text-[rgb(61,61,71)] leading-relaxed self-start">
-                {t("about.paragraph")}
+                {t("about.description")}
               </p>
             </div>
           </div>
@@ -151,7 +148,7 @@ const AboutStats = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {stats.map((stat, index) => (
             <div
-              key={stat.label}
+              key={stat.labelKey}
               className={`text-center transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
@@ -168,10 +165,10 @@ const AboutStats = () => {
               </div>
               <div className="mt-4 font-dm-sans">
                 <h4 className="text-lg font-semibold text-foreground">
-                  {stat.label}
+                  {t(stat.labelKey)}
                 </h4>
                 <p className="text-sm text-[rgb(61,61,71)] mt-1 leading-relaxed line-clamp-2">
-                  {stat.description.split("\n").map((line, i) => (
+                  {String(t(stat.descriptionKey)).split("\n").map((line, i) => (
                     <span key={i}>
                       {i > 0 && <br />}
                       {line}

@@ -4,11 +4,11 @@ import type { HeroSlide, HeroBackground } from "@/api/client";
 import { heroKeys } from "@/api/queryKeys";
 
 export function useHeroSlidesQuery() {
-  return useQuery({ queryKey: heroKeys.list(), queryFn: adminApi.heroSlides.list });
+  return useQuery({ queryKey: heroKeys.list(), queryFn: () => adminApi.heroSlides.list() });
 }
 
-export function useHeroBackgroundQuery() {
-  return useQuery({ queryKey: heroKeys.background(), queryFn: adminApi.heroBackground.get });
+export function useHeroBackground() {
+  return useQuery({ queryKey: heroKeys.background(), queryFn: () => adminApi.heroBackground.get() });
 }
 
 export function useHeroSlidesMutations() {

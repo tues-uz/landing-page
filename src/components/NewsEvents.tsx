@@ -1,16 +1,15 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useRef } from "react";
 import { Clock, MapPin, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 import { contentApi, type NewsItem, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
-import { getUiLang, mergeNewsForEnglish } from "@/lib/localeContent";
 
 // ─── Skeleton loaders ─────────────────────────────────────────────────────────
 
@@ -55,6 +54,7 @@ export function ArticleCard({
   featured?: boolean;
   stretch?: boolean;
 }) {
+  const { t } = useTranslation("home");
   const sizeClass = featured ? "h-full min-h-0" : stretch ? "flex-1 min-h-0" : "";
   return (
     <Link
@@ -81,10 +81,10 @@ export function ArticleCard({
             <p className="text-muted-foreground text-sm line-clamp-2">{item.excerpt}</p>
             <div className="mt-auto flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
               <span className="font-medium text-foreground">{item.author}</span>
-              <span>on {item.date}</span>
+              <span>{t("news.onDate", { date: item.date })}</span>
               <span className="flex items-center gap-1">
                 <MessageCircle className="h-3 w-3" />
-                0 Comments
+                {t("news.comments", { count: 0 })}
               </span>
             </div>
           </div>
@@ -101,7 +101,7 @@ export function ArticleCard({
             </h3>
             <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
               <span className="font-medium text-foreground">{item.author}</span>
-              <span>on {item.date}</span>
+              <span>{t("news.onDate", { date: item.date })}</span>
             </div>
           </div>
           <div className="w-full p-2">
@@ -252,23 +252,14 @@ function NewsFramerCardSkeleton({ big = false }: { big?: boolean }) {
   );
 }
 
-const NewsEvents = () => {
-  const { t, i18n } = useTranslation();
-  const {
-    data: newsData,
-    isLoading: newsLoading,
-  } = useQuery({
-    queryKey: contentKeys.news.list(),
-    queryFn: contentApi.news.list,
-    staleTime: 5 * 60 * 1000,
-    retry: 1,
+const LatestNews = () => {
+  const { t, i18n } = useTranslation("home");
+  const { data: allNews = [], isLoading: newsLoading } = useQuery({
+    queryKey: [...contentKeys.news.list(), i18n.language],
+    queryFn: () => contentApi.news.list(i18n.language),
   });
 
-  /** CMS may return Uzbek; when UI is English, overlay English copy from FALLBACK_NEWS by index (keep slug, dates, images). */
-  const newsItems = useMemo(() => {
-    const base = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
-    return getUiLang(i18n) === "en" ? mergeNewsForEnglish(base) : base;
-  }, [newsData, i18n.resolvedLanguage, i18n.language]);
+  const newsItems = allNews && allNews.length > 0 ? allNews : FALLBACK_NEWS;
   const featured = newsItems[0];
   const smallCards = newsItems.slice(1, 5);
   const newsGridRef = useRef<HTMLDivElement>(null);
@@ -307,10 +298,10 @@ const NewsEvents = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px] relative z-10">
         {/* Section title — centered */}
         <h2 className="text-center text-3xl md:text-4xl font-bold mb-2" style={{ color: NEWS_CARD_COLOR }}>
-          {t("homeNews.title")}
+          {t("news.title")}
         </h2>
         <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-12" style={{ fontSize: '16px' }}>
-          {t("homeNews.subtitle")}
+          {t("news.subtitle")}
         </p>
 
         {/* Card list: 1 big + 4 small (Framer layout) */}
@@ -326,7 +317,7 @@ const NewsEvents = () => {
               <NewsFramerCard item={featured} big />
             ) : (
               <div className="flex items-center justify-center rounded border border-dashed border-border text-muted-foreground text-sm min-h-[200px]">
-                {t("homeNews.noArticles")}
+                {t("news.noArticles")}
               </div>
             )}
           </div>
@@ -352,7 +343,7 @@ const NewsEvents = () => {
             className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
             style={{ borderColor: NEWS_CARD_COLOR, color: NEWS_CARD_COLOR }}
           >
-            {t("homeNews.viewAll")}
+            {t("news.viewAll")}
           </Link>
         </div>
       </div>
@@ -360,4 +351,4 @@ const NewsEvents = () => {
   );
 };
 
-export default NewsEvents;
+export default LatestNews;

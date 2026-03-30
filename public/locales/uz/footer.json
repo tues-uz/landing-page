@@ -1,0 +1,28 @@
+{
+  "logoAlt": "TUES universiteti logotipi",
+  "newsletterTitle": "TUES yangiliklari va yangilanishlarini emailingizga oling.",
+  "emailAddress": "Email manzil",
+  "subscribeNow": "Obuna bo'lish",
+  "consent": "Ha, men TUESdan email xabarlarini olishga roziman.",
+  "copyright": "© 2026 {{brand}}. Barcha huquqlar himoyalangan.",
+  "privacyPolicy": "Maxfiylik siyosati",
+  "termsOfUse": "Foydalanish shartlari",
+  "accessibility": "Qulaylik",
+  "journal": {
+    "title": "TUES jurnali",
+    "description": "Iqtisodchilar, olimlar va siyosatshunoslarning tadqiqotlari, sharhlari va tahlillari.",
+    "quickLinks": "Tezkor havolalar",
+    "about": "Haqida",
+    "contact": "Bog'lanish",
+    "links": {
+      "home": "Asosiy",
+      "articles": "Maqolalar",
+      "authors": "Mualliflar",
+      "topics": "Mavzular",
+      "aboutUs": "Biz haqimizda",
+      "editorialTeam": "Tahririyat hay'ati",
+      "submissionGuidelines": "Yuborish qoidalari",
+      "contactUs": "Biz bilan bog'lanish"
+    }
+  }
+}
