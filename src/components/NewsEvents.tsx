@@ -260,8 +260,10 @@ const LatestNews = () => {
   });
 
   const newsItems = allNews && allNews.length > 0 ? allNews : FALLBACK_NEWS;
-  const featured = newsItems[0];
-  const smallCards = newsItems.slice(1, 5);
+  const highlightItems = newsItems.filter((item) => (item.display || "").toLowerCase() === "highlight");
+  const featuredItems = (highlightItems.length > 0 ? highlightItems : newsItems).slice(0, 5);
+  const featured = featuredItems[0];
+  const smallCards = featuredItems.slice(1, 5);
   const newsGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

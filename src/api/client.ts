@@ -43,7 +43,7 @@ export interface NewsItem {
     body: NewsSection[];
     /** Set by CMS when "Update order" is used; lower = earlier (e.g. 0 = featured). */
     sortOrder?: string;
-    /** Display type: Regular (default), Featured, Pinned. Affects where article appears (e.g. list vs landing). */
+    /** Display type: Regular (default) or Highlight (max 5). Affects where article appears. */
     display?: string;
 }
 

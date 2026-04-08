@@ -113,14 +113,21 @@ const NewsEventsPage = () => {
   });
 
   const newsItems = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
-  const heroSlides = newsItems.slice(0, 5);
-  const categories = useMemo(
-    () => Array.from(new Set(newsItems.map((item) => item.category))).sort(),
+  const highlightItems = useMemo(
+    () => newsItems.filter((item) => (item.display || "").toLowerCase() === "highlight"),
     [newsItems]
   );
+  const heroSlides = highlightItems.length > 0 ? highlightItems.slice(0, 5) : newsItems.slice(0, 5);
+  const listItems = highlightItems.length > 0
+    ? newsItems.filter((item) => (item.display || "").toLowerCase() !== "highlight")
+    : newsItems;
+  const categories = useMemo(
+    () => Array.from(new Set(listItems.map((item) => item.category))).sort(),
+    [listItems]
+  );
   const filteredItems = useMemo(
-    () => filterNews(newsItems, searchQuery, categoryFilter),
-    [newsItems, searchQuery, categoryFilter]
+    () => filterNews(listItems, searchQuery, categoryFilter),
+    [listItems, searchQuery, categoryFilter]
   );
 
   return (
@@ -200,7 +207,7 @@ const NewsEventsPage = () => {
                 ))
               ) : (
                 <p className="text-muted-foreground col-span-full text-center py-12">
-                  {newsItems.length === 0
+                  {listItems.length === 0
                     ? t("noArticlesYet")
                     : t("noMatch")}
                 </p>

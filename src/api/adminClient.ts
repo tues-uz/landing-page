@@ -54,6 +54,17 @@ function normalizeHeroBackground(raw: { mediaType?: string; videoUrl?: string | 
   };
 }
 
+function sortNewsByOrder(items: NewsItem[]): NewsItem[] {
+  return [...items].sort((a, b) => {
+    const aOrder = a.sortOrder != null ? Number(a.sortOrder) : NaN;
+    const bOrder = b.sortOrder != null ? Number(b.sortOrder) : NaN;
+    if (Number.isNaN(aOrder) && Number.isNaN(bOrder)) return 0;
+    if (Number.isNaN(aOrder)) return 1;
+    if (Number.isNaN(bOrder)) return -1;
+    return aOrder - bOrder;
+  });
+}
+
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
 export const adminApi = {
@@ -122,7 +133,8 @@ export const adminApi = {
       const url = locale ? `${API_BASE}/content/news?locale=${locale}` : `${API_BASE}/content/news`;
       const data = await fetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
-      return unwrapped?.news ?? [];
+      const news = unwrapped?.news ?? [];
+      return sortNewsByOrder(news);
     },
     getBySlug: async (slug: string, locale?: string): Promise<NewsItem | null> => {
       try {
@@ -151,6 +163,14 @@ export const adminApi = {
         body: JSON.stringify(payload),
       });
       return handleResponse<NewsItem>(res);
+    },
+    reorder: async (highlightIds: string[]): Promise<void> => {
+      const res = await fetch(`${API_BASE}/content/news/reorder`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ highlightIds }),
+      });
+      await handleResponse<unknown>(res);
     },
     delete: async (id: string): Promise<void> => {
       const res = await fetch(`${API_BASE}/content/news/${id}`, {

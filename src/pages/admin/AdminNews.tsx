@@ -32,7 +32,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 
 const CATEGORIES = ["News", "Announcements", "Events", "Blog"];
-const DISPLAY_OPTIONS = ["Regular", "Featured", "Highlight", "Pinned"];
+const DISPLAY_OPTIONS = ["Regular", "Highlight"];
 
 /** Derive URL slug from title: lowercase, spaces to hyphens, strip non-alphanumeric. */
 function titleToSlug(title: string): string {
@@ -73,6 +73,9 @@ export default function AdminNews() {
   });
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const highlightCount = articles.filter((a) => (a.display || "").toLowerCase() === "highlight").length;
+  const isHighlightLimitReached = highlightCount >= 5 && display !== "Highlight";
 
   const load = async () => {
     setLoading(true);
@@ -342,15 +345,15 @@ export default function AdminNews() {
                   </SelectTrigger>
                   <SelectContent>
                     {DISPLAY_OPTIONS.map((d) => (
-                      <SelectItem key={d} value={d}>
-                        {d}
+                      <SelectItem key={d} value={d} disabled={d === "Highlight" && isHighlightLimitReached}>
+                        {d}{d === "Highlight" && isHighlightLimitReached ? " (max 5 reached)" : ""}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {display === "Highlight" && (
                   <p className="text-xs text-muted-foreground">
-                    This article will appear in the News board highlight section (max 5).
+                    This article will appear in the highlight section ({highlightCount}/5).
                   </p>
                 )}
               </div>

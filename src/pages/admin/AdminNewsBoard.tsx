@@ -34,75 +34,6 @@ function sortByOrder(items: NewsItem[]): NewsItem[] {
   });
 }
 
-/** Dummy highlight articles for preview when none are set. */
-const DUMMY_HIGHLIGHT_ARTICLES: NewsItem[] = [
-  {
-    id: "dummy-1",
-    slug: "campus-news-update",
-    title: "Campus news and updates",
-    excerpt: "Latest from campus.",
-    date: "Mar 10, 2026",
-    category: "News",
-    imageUrl: "",
-    author: "TUES",
-    readTime: "2 min read",
-    body: [],
-    display: "Highlight",
-  },
-  {
-    id: "dummy-2",
-    slug: "research-highlights",
-    title: "Research highlights",
-    excerpt: "Featured research stories.",
-    date: "Mar 8, 2026",
-    category: "News",
-    imageUrl: "",
-    author: "TUES",
-    readTime: "3 min read",
-    body: [],
-    display: "Highlight",
-  },
-  {
-    id: "dummy-3",
-    slug: "student-achievements",
-    title: "Student achievements",
-    excerpt: "Celebrating student success.",
-    date: "Mar 5, 2026",
-    category: "Announcements",
-    imageUrl: "",
-    author: "TUES",
-    readTime: "2 min read",
-    body: [],
-    display: "Highlight",
-  },
-  {
-    id: "dummy-4",
-    slug: "upcoming-events",
-    title: "Upcoming events",
-    excerpt: "What's on this month.",
-    date: "Mar 1, 2026",
-    category: "Events",
-    imageUrl: "",
-    author: "TUES",
-    readTime: "1 min read",
-    body: [],
-    display: "Highlight",
-  },
-  {
-    id: "dummy-5",
-    slug: "blog-insights",
-    title: "Blog insights",
-    excerpt: "Thoughts and updates.",
-    date: "Feb 28, 2026",
-    category: "Blog",
-    imageUrl: "",
-    author: "TUES",
-    readTime: "4 min read",
-    body: [],
-    display: "Highlight",
-  },
-];
-
 export default function AdminNewsBoard() {
   const [articles, setArticles] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -122,8 +53,12 @@ export default function AdminNewsBoard() {
     setLoading(true);
     adminApi.news
       .list(currentLocale)
-      .then(setArticles)
-      .catch(() => setArticles([]))
+      .then((data) => {
+        setArticles(data);
+      })
+      .catch(() => {
+        setArticles([]);
+      })
       .finally(() => setLoading(false));
   }, [currentLocale]);
 
@@ -141,7 +76,7 @@ export default function AdminNewsBoard() {
         setDeleting(false);
       }
     },
-    [load, toast]
+    [load, t, toast]
   );
 
   useEffect(() => {
@@ -155,23 +90,23 @@ export default function AdminNewsBoard() {
   }, []);
 
   const ordered = sortByOrder(articles);
-  const highlightArticles = articles.filter((a) => (a.display || "").toLowerCase() === "highlight").slice(0, 5);
-  const regularArticles = articles.filter((a) => (a.display || "").toLowerCase() !== "highlight");
-
-  const isDummy = highlightArticles.length === 0;
-  const displayList = isDummy ? DUMMY_HIGHLIGHT_ARTICLES : highlightArticles;
+  const highlightArticles = ordered.filter((a) => (a.display || "").toLowerCase() === "highlight").slice(0, 5);
+  const regularArticles = ordered.filter((a) => (a.display || "").toLowerCase() !== "highlight");
 
   useEffect(() => {
     if (loading) return;
-    const ids = (isDummy ? DUMMY_HIGHLIGHT_ARTICLES : highlightArticles).map((a) => a.id);
+    const currentHighlights = articles.filter((a) => (a.display || "").toLowerCase() === "highlight").slice(0, 5);
+    if (currentHighlights.length === 0) return;
+    const ids = currentHighlights.map((a) => a.id);
     setHighlightOrder((prev) => {
       const same = prev.length === ids.length && ids.every((id, i) => prev[i] === id);
       return same ? prev : ids;
     });
-  }, [loading, isDummy, highlightArticles.length, highlightArticles.map((a) => a.id).join(",")]);
+  }, [loading, articles.length, articles.map((a) => a.id + ":" + a.display).join(",")]);
 
-  const orderedDisplayList = displayList.length === 0 ? [] : highlightOrder.map((id) => displayList.find((a) => a.id === id)).filter(Boolean) as NewsItem[];
-  const effectiveList = orderedDisplayList.length > 0 ? orderedDisplayList : displayList;
+  const effectiveList = highlightOrder.length > 0
+    ? highlightOrder.map((id) => highlightArticles.find((a) => a.id === id)).filter(Boolean) as NewsItem[]
+    : highlightArticles;
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
     setDraggedId(id);
@@ -205,11 +140,13 @@ export default function AdminNewsBoard() {
     e.dataTransfer.dropEffect = "move";
   };
 
-  const handleDrop = (e: React.DragEvent, targetId: string) => {
+  const handleDrop = async (e: React.DragEvent, targetId: string) => {
     e.preventDefault();
+    e.stopPropagation();
     setDraggedId(null);
     const id = e.dataTransfer.getData("text/plain");
     if (!id || id === targetId) return;
+
     const from = highlightOrder.indexOf(id);
     const to = highlightOrder.indexOf(targetId);
     if (from === -1 || to === -1) return;
@@ -225,23 +162,16 @@ export default function AdminNewsBoard() {
       dropSuccessTimeoutRef.current = null;
     }, 1500);
 
-    if (isDummy) {
-      toast({ title: "Order updated", description: "Card position changed." });
-    } else if (highlightArticles.length > 0) {
-      setSavingOrder(true);
-      const highlightIds = newOrder.filter((oid) => articles.some((a) => a.id === oid && (a.display || "").toLowerCase() === "highlight"));
-      const rest = ordered.filter((a) => !highlightIds.includes(a.id));
-      const fullOrder = [...highlightIds.map((oid) => articles.find((a) => a.id === oid)).filter(Boolean) as NewsItem[], ...rest];
-      Promise.all(fullOrder.map((a, i) => adminApi.news.update(a.slug || a.id, { sortOrder: String(i) })))
-        .then(() => {
-          toast({ title: t("orderSaved", "Order saved"), description: t("highlightOrderUpdated", "Highlight order updated.") });
-          load();
-        })
-        .catch((err) => {
-          toast({ title: t("failedToSaveOrder", "Failed to save order"), description: String(err), variant: "destructive" });
-          setHighlightOrder(displayList.map((a) => a.id));
-        })
-        .finally(() => setSavingOrder(false));
+    setSavingOrder(true);
+    try {
+      await adminApi.news.reorder(newOrder);
+      toast({ title: t("orderSaved", "Order saved"), description: t("highlightOrderUpdated", "Highlight order updated.") });
+      load();
+    } catch (err) {
+      toast({ title: t("failedToSaveOrder", "Failed to save order"), description: String(err), variant: "destructive" });
+      setHighlightOrder(highlightArticles.map((a) => a.id));
+    } finally {
+      setSavingOrder(false);
     }
   };
 
@@ -281,9 +211,9 @@ export default function AdminNewsBoard() {
           <div className="space-y-2">
             {highlightArticles.length === 0 && (
               <p className="text-xs text-muted-foreground">
-                Sample preview — set &quot;Display on News page&quot; to Highlight on articles to feature them here (max 5).{" "}
+                {t("noHighlightsHint", "Set articles to \"Highlight\" to feature them here (max 5).")}{" "}
                 <Link to="/admin/news/articles?new=1" className="underline hover:text-foreground">
-                  Add article
+                  {t("addArticle", "Add article")}
                 </Link>
               </p>
             )}
@@ -318,7 +248,7 @@ export default function AdminNewsBoard() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                       <DropdownMenuItem asChild>
-                        <a href={a.id.startsWith("dummy-") ? "#" : `/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
+                        <a href={`/news/${a.slug}`} target="_blank" rel="noopener noreferrer">
                               {t("view")}
                         </a>
                       </DropdownMenuItem>
@@ -327,8 +257,7 @@ export default function AdminNewsBoard() {
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
-                        disabled={a.id.startsWith("dummy-")}
-                        onSelect={() => !a.id.startsWith("dummy-") && setDeleteConfirmSlug(a.slug)}
+                        onSelect={() => setDeleteConfirmSlug(a.slug)}
                       >
                         {t("delete")}
                       </DropdownMenuItem>
@@ -346,11 +275,12 @@ export default function AdminNewsBoard() {
                   <GripVertical className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <a
-                  href={a.id.startsWith("dummy-") ? "#" : `/news/${a.slug}`}
-                  target={a.id.startsWith("dummy-") ? undefined : "_blank"}
-                  rel={a.id.startsWith("dummy-") ? undefined : "noopener noreferrer"}
+                  href={`/news/${a.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`group flex flex-col flex-1 min-h-0 w-full opacity-100 transition-opacity hover:opacity-90 rounded-t-xl border border-border bg-card overflow-hidden ${draggedId === a.id ? "opacity-60" : ""}`}
-                  onClick={a.id.startsWith("dummy-") ? (e) => e.preventDefault() : undefined}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, a.id)}
                 >
                   <div
                     className={
