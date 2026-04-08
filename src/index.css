@@ -156,6 +156,28 @@
   }
 }
 
+/* FloatingAccessibilityButton: root font scale + stronger contrast tokens */
+@layer base {
+  html.a11y-large-text {
+    font-size: 112.5%;
+  }
+
+  html.a11y-high-contrast:not(.dark) {
+    --foreground: 210 55% 8%;
+    --muted-foreground: 210 40% 28%;
+    --border: 210 30% 52%;
+    --input: 210 30% 52%;
+    --ring: 213 100% 22%;
+  }
+
+  html.a11y-high-contrast.dark {
+    --foreground: 0 0% 100%;
+    --muted-foreground: 210 25% 82%;
+    --border: 210 25% 42%;
+    --input: 210 25% 42%;
+  }
+}
+
 @keyframes marquee-r2l {
   0% { transform: translateX(0); }
   100% { transform: translateX(-12.5%); }

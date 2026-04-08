@@ -2,6 +2,35 @@
   "universityNameLine1": "Termiz Iqtisodiyot",
   "universityNameLine2": "va Servis Universiteti",
   "exploreMore": "Ko'proq ko'rish",
+  "searchAria": "Qidiruvni ochish",
+  "searchTitle": "Qidiruv",
+  "searchPlaceholder": "Dasturlar, tadbirlar, yangiliklar, sahifalar…",
+  "searchSubmit": "Qidirish",
+  "searchCancel": "Bekor qilish",
+  "searchHint": "Dasturlar, tadbirlar, yangiliklar va asosiy sahifalar bo‘yicha qidiring.",
+  "searchNoResults": "Hech narsa topilmadi.",
+  "searchLoading": "Yuklanmoqda…",
+  "searchSeeAll": "Barcha natijalar ({{count}})",
+  "searchPageTitle": "Qidiruv natijalari",
+  "searchPageSubtitle": "Sahifalar, o‘quv dasturlari, tadbirlar va yangiliklar bo‘yicha mos kelishlar.",
+  "searchPageEmpty": "Dasturlar, tadbirlar, yangiliklar va asosiy sahifalar uchun sarlavhadagi qidiruvdan foydalaning.",
+  "searchRoutes": {
+    "home": "Bosh sahifa",
+    "about": "Universitet haqida",
+    "research": "Ilm-fan",
+    "admissions": "Qabul",
+    "programs": "Dasturlar",
+    "news": "Yangiliklar",
+    "events": "Tadbirlar",
+    "media": "Media galereya",
+    "virtualTour": "Virtual tur"
+  },
+  "searchKind": {
+    "page": "Sahifa",
+    "program": "Dastur",
+    "event": "Tadbir",
+    "news": "Yangilik"
+  },
   "menu": "Menyu",
   "secondMenu": "Ikkinchi menyu",
   "languageNames": {
@@ -16,7 +45,36 @@
     "news": "Yangiliklar",
     "community": "Hamjamiyat",
     "colleges": "Kollejlar",
-    "journal": "Jurnal"
+    "journal": "Jurnal",
+    "aboutMenu": {
+      "whoWeAre": "Biz kimmiz",
+      "regulation": "Nizom va qoidalar",
+      "universityInNumbers": "Raqamlarda universitet",
+      "organizationalStructure": "Tashkiliy tuzilma",
+      "leadershipAndCouncils": "Rahbariyat va kengashlar",
+      "accreditationAndLicense": "Akkreditatsiya va litsenziya",
+      "workersUnionCommittee": "Kasaba uyushmasi qo‘mitasi",
+      "whyTues": "Nima uchun TUES"
+    },
+    "researchMenu": {
+      "scientificPublicationsJournals": "Ilmiy nashrlar va jurnallar",
+      "seminarsConferences": "Seminarlar va konferensiyalar",
+      "academicCouncil": "Ilmiy kengash",
+      "researchPapersPublications": "Tadqiqot ishlari va nashrlar",
+      "entrepreneurialInnovationClubs": "Tadbirkorlik va innovatsiya klublari"
+    },
+    "admissionsMenu": {
+      "studyPrograms": "O'quv dasturlari",
+      "regulationsAndRequirements": "Nizomlar va talablar",
+      "secondaryEducationRequirements": "O'rta ta'lim talablari",
+      "contractAmountsTuition": "Shartnoma summalari / o'qitish haqi"
+    },
+    "newsMenu": {
+      "latestNews": "So'nggi yangiliklar",
+      "upcomingEvents": "Kutilayotgan tadbirlar",
+      "videoGallery": "Video galereya",
+      "photoGallery": "Foto galereya"
+    }
   },
   "secondNav": {
     "university": "Universitet",
@@ -69,5 +127,97 @@
     "researchPositions": "Tadqiqot lavozimlari",
     "howToApply": "Qanday ariza topshirish",
     "benefits": "Imtiyozlar"
+  },
+  "secondNavUniversity": {
+    "license": "Litsenziya",
+    "universityMission": "Universitet missiyasi",
+    "charter": "Nizomnoma",
+    "organizationalStructure": "Tashkiliy tuzilma",
+    "councils": "Kengashlar",
+    "ratings": "Reytinglar",
+    "requisites": "Rekvizitlar",
+    "financialStatements": "Moliyaviy hisobotlar",
+    "universityInNumbers": "Raqamlarda universitet",
+    "accreditation": "Akkreditatsiya",
+    "famousGraduates": "Mashhur bitiruvchilar",
+    "faculties": "Fakultetlar",
+    "departments": "Kafedralar",
+    "centerAndDepartments": "Markaz va bo'limlar",
+    "openData": "Ochiq ma'lumotlar",
+    "tradeUnionCommittee": "Kasaba uyushmasi qo'mitasi",
+    "contractPrices": "Shartnoma narxlari",
+    "campusCulture": "Kampus madaniyati"
+  },
+  "secondNavEducation": {
+    "courseCatalogue": "Kurslar katalogi",
+    "resources": "Resurslar",
+    "bachelor": "Bakalavr",
+    "mastersDegree": "Magistratura",
+    "qualificationRequirements": "Malaka talablari",
+    "studyPlans": "O'quv rejalar",
+    "syllabus": "Sillabus",
+    "distanceLearningSystem": "Masofaviy ta'lim tizimi"
+  },
+  "secondNavScience": {
+    "seminars": "Seminarlar",
+    "scientificArticles": "Ilmiy maqolalar",
+    "scientificJournals": "Ilmiy jurnallar",
+    "expectedConferences": "Rejalashtirilgan konferensiyalar",
+    "academicCouncil": "Ilmiy kengash",
+    "certificates": "Sertifikatlar",
+    "entrepreneurialClubs": "Tadbirkorlik klublari",
+    "centerResearchSustainableInnovativeDevelopment": "Tadqiqot va barqaror innovatsion rivojlanish markazi"
+  },
+  "secondNavInternationalization": {
+    "internationalRelations": "Xalqaro munosabatlar",
+    "tisuForeignLanguagesCenter": "TISU xorijiy tillarni o'qitish markazi",
+    "departmentInternationalRelationsEmployees": "Xalqaro aloqalar bo'limi xodimlari",
+    "internationalGrants": "Xalqaro grantlar",
+    "internationalScientificRelations": "Xalqaro ilmiy aloqalar",
+    "internationalConferences": "Xalqaro konferensiyalar",
+    "professionalDevelopmentEducationChoir": "Kasbiy rivojlanish va ta'lim",
+    "advancedTrainingProgramsForeignTeachers": "Chet el o'qituvchilari uchun malaka oshirish dasturlari",
+    "internationalSupportCenter": "Xalqaro qo'llab-quvvatlash markazi"
+  },
+  "secondNavStudentLife": {
+    "communityClubs": "Jamiyat klublari",
+    "healthSupportService": "Salomatlikni qo'llab-quvvatlash xizmati",
+    "socialLife": "Ijtimoiy hayot",
+    "socialRooms": "Ijtimoiy xonalar",
+    "contests": "Tanlovlar",
+    "supportCenterMinorityGroups": "Ozchilik guruhlari uchun qo'llab-quvvatlash markazi",
+    "dormitory": "Yotoqxona",
+    "sportFacilities": "Sport inshootlari",
+    "cafeterias": "Oshxonalar va kafelar",
+    "bookstore": "Kitob do'koni",
+    "facilitiesForDisabled": "Nogironligi bo'lganlar uchun sharoitlar",
+    "studentOpinion": "Talabalarning fikri",
+    "careerCentre": "Karyera markazi",
+    "help247": "24/7 yordam",
+    "studentAcademicSupport": "Talabalarga akademik yordam"
+  },
+  "secondNavAdmission2025": {
+    "listOfEducationalAreas": "Ta'lim yo'nalishlari ro'yxati",
+    "apply": "Ariza topshirish",
+    "regulationSecondaryEducation": "O'rta ta'lim bo'yicha nizom",
+    "admission2025": "Qabul 2025",
+    "transferOfStudies": "O'qishni ko'chirish",
+    "toLocalApplicants": "Mahalliy abituriyentlar uchun",
+    "informationTransferEducation": "O'qishni ko'chirish haqida ma'lumot",
+    "informationContractAmounts": "Shartnoma summalari haqida ma'lumot",
+    "menu": "Menyu",
+    "forInternationalApplicants": "Xorijiy abituriyentlar uchun",
+    "contactingAdmission": "Qabul bo'yicha aloqa",
+    "instructionsApplicants": "Abituriyentlar uchun ko'rsatmalar",
+    "registerUndergraduateAdmission": "Bakalavr qabuliga ro'yxatdan o'tish",
+    "faq": "Tez-tez beriladigan savollar"
+  },
+  "secondNavInformationServices": {
+    "latestNews": "So'nggi yangiliklar",
+    "directionsContractSums": "Yo'nalishlar va shartnoma summalari",
+    "aboutUniversity": "Universitet haqida",
+    "yashilUniversitet1": "Yashil universitet1",
+    "videoGallery": "Video galereya",
+    "photoGallery": "Foto galereya"
   }
 }

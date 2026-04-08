@@ -127,5 +127,11 @@
         "description": "Get timely alerts and announcements from your faculty and the university. EduHub keeps you informed about schedule changes, new content, and important updates."
       }
     }
+  },
+  "virtualTour": {
+    "kicker": "Explore Our Campus",
+    "title": "Take a Virtual Tour",
+    "description": "Discover our state-of-the-art facilities, beautiful campus grounds, and modern learning environments from anywhere in the world.",
+    "cta": "Start Virtual Tour"
   }
 }

@@ -127,5 +127,11 @@
         "description": "Fakultet va universitetdan muhim e'lonlarni o'z vaqtida oling."
       }
     }
+  },
+  "virtualTour": {
+    "kicker": "Kampusni kashf eting",
+    "title": "Virtual sayohat",
+    "description": "Zamonaviy infratuzilma va o‘quv muhitini masofadan ko‘ring.",
+    "cta": "Sayohatni boshlash"
   }
 }
