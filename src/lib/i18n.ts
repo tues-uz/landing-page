@@ -19,6 +19,7 @@ i18n
     ns: [
       "common",
       "header",
+      "topNav",
       "hero",
       "home",
       "news",

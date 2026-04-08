@@ -1,4 +1,24 @@
 {
+  "breadcrumbHome": "Home",
   "previous": "Previous",
-  "next": "Next"
+  "next": "Next",
+  "changeLanguage": "Change language",
+  "scrollToTop": "Scroll to top",
+  "accessibility": {
+    "openMenu": "Open accessibility options",
+    "skipToMain": "Skip to main content",
+    "largerText": "Larger text",
+    "highContrast": "Higher contrast",
+    "colorAdjustGroup": "Color and display",
+    "invertColors": "Invert colors",
+    "grayscale": "Grayscale",
+    "brightness": "Brightness",
+    "dim": "Dimmer screen",
+    "brighten": "Brighter screen",
+    "displayContrast": "Contrast (display)",
+    "lessDisplayContrast": "Lower display contrast",
+    "moreDisplayContrast": "Raise display contrast",
+    "reset": "Reset display options",
+    "remoteDecor": "Display"
+  }
 }

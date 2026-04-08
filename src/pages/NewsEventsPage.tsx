@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
@@ -23,6 +23,7 @@ import { useQuery } from "@tanstack/react-query";
 import { contentApi, type NewsItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
+import { filterNewsByQuery } from "@/lib/newsSearch";
 
 function NewsCardSkeleton() {
   return (
@@ -87,17 +88,7 @@ function HeroSlide({ item }: { item: NewsItem }) {
 }
 
 function filterNews(items: NewsItem[], search: string, category: string): NewsItem[] {
-  let result = items;
-  const q = search.trim().toLowerCase();
-  if (q) {
-    result = result.filter(
-      (item) =>
-        item.title.toLowerCase().includes(q) ||
-        item.excerpt.toLowerCase().includes(q) ||
-        item.category.toLowerCase().includes(q) ||
-        item.author.toLowerCase().includes(q)
-    );
-  }
+  let result = filterNewsByQuery(items, search);
   if (category && category !== "all") {
     result = result.filter((item) => item.category === category);
   }
@@ -106,8 +97,13 @@ function filterNews(items: NewsItem[], search: string, category: string): NewsIt
 
 const NewsEventsPage = () => {
   const { t, i18n } = useTranslation("news");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(() => searchParams.get("q") ?? "");
   const [categoryFilter, setCategoryFilter] = useState("all");
+
+  useEffect(() => {
+    setSearchQuery(searchParams.get("q") ?? "");
+  }, [searchParams]);
 
   const { data: newsData, isLoading: newsLoading } = useQuery({
     queryKey: [...contentKeys.news.list(), i18n.language],

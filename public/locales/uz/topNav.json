@@ -1,0 +1,67 @@
+{
+  "aboutIntro": "TUES haqida umumiy ma'lumot: boshqaruv, missiya, akkreditatsiya va muhim faktlar. Har bir havola alohida sahifaga olib boradi.",
+  "researchIntro": "TUESda tadqiqot, nashrlar, tadbirlar va innovatsiya. Kerakli sahifani oching.",
+  "admissionsIntro": "O'quv dasturlari, talablar va abituriyentlar uchun shartlar. Har bir mavzu alohida sahifada.",
+  "mediaIntro": "Kampus hayoti va universitet tadbirlaridan video va foto to'plamlari.",
+  "mediaPageTitle": "Media galereya",
+  "onThisPage": "Ushbu sahifada",
+  "hubPagesList": "Ushbu bo'limdagi sahifalar",
+  "subPageIntro": "Tanlangan mavzuga bag'ishlangan alohida sahifa. Bu yerga to'liq matn qo'shishingiz mumkin.",
+  "backToSection": "{{section}} bo'limiga qaytish",
+  "sectionPlaceholder": "Ushbu bo'lim uchun batafsil matn tez orada joylashtiriladi.",
+  "videoGallery": {
+    "gridIntro": "Kampus tadbirlari, ma'ruzalar va talabalik hayotidan tanlangan videolar. Har bir kartochkadagi pleyerdan foydalaning; yangi materiallar paydo bo'lishi bilan ro'yxat to'ldiriladi.",
+    "highlights": {
+      "title": "Tadbirlar dan yorqin lahzalar",
+      "description": "So'nggi madaniy va ilmiy tadbirlardan parchalar."
+    },
+    "campusLife": {
+      "title": "Kampus va o'quv joylari",
+      "description": "Talabalar o'qiydigan, tadqiq qiladigan va hamkorlik qiladigan binolarga qisqa qarash."
+    },
+    "guestLecture": {
+      "title": "Mehmon ma'ruzalar seriyasi",
+      "description": "Taklif etilgan ma'ruzachilar va ochiq ilmiy suhbatlardan yozuvlar."
+    },
+    "studentLife": {
+      "title": "Talabalik faoliyati",
+      "description": "Klublar, tanlovlar va talabalik hayotidan bayramlar."
+    }
+  },
+  "photoGallery": {
+    "gridIntro": "Kampus, o'quv joylari, tantanalar va tadbirlardan tanlangan fotosuratlar. Yangi albomlar chop etilishi bilan bu yerda paydo bo'ladi.",
+    "campus": {
+      "title": "Kampus manzaralari",
+      "description": "Universitet atrofidagi yo'laklar, binolar va ochiq makonlar."
+    },
+    "library": {
+      "title": "Kutubxona va o'qish",
+      "description": "O'qish zallari va talabalar mustaqil hamda jamoaviy ishlaydigan joylar."
+    },
+    "graduation": {
+      "title": "Tantanalar",
+      "description": "Bitiruv va muhim sanalar — talabalar va mehmonlar bilan."
+    },
+    "events": {
+      "title": "Tadbirlar va uchrashuvlar",
+      "description": "Konferensiyalar, madaniy tadbirlar va kampus hayoti lahzalari."
+    }
+  },
+  "charter": {
+    "documentTitle": "Universitet ustavi",
+    "institution": "Termiz iqtisodiyot va servis universiteti",
+    "downloadLead": "Universitet ustavini yuklab olishingiz yoki quyidagi bo'limlarni ochib, saytda o'qishingiz mumkin.",
+    "download": "Yuklab olish",
+    "pdfSoon": "PDF havolasi keyinroq qo'shiladi.",
+    "pdfUrl": "",
+    "emptySection": "Ushbu bo'lim matni tez orada joylashtiriladi.",
+    "section1Title": "1-bo'lim: I. Umumiy qoidalar",
+    "section1Body": "",
+    "section2Title": "2-bo'lim: II. Universitetning asosiy vazifalari",
+    "section2Body": "",
+    "section3Title": "3-bo'lim: III. O'quv va ilmiy-uslubiy ish subyektlari, ularning huquq va majburiyatlari",
+    "section3Body": "",
+    "section4Title": "4-bo'lim: IV. O'quv va ilmiy-uslubiy ish",
+    "section4Body": ""
+  }
+}

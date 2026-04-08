@@ -1,4 +1,24 @@
 {
+  "breadcrumbHome": "Главная",
   "previous": "Назад",
-  "next": "Вперед"
+  "next": "Вперед",
+  "changeLanguage": "Сменить язык",
+  "scrollToTop": "Наверх",
+  "accessibility": {
+    "openMenu": "Открыть настройки доступности",
+    "skipToMain": "Перейти к основному содержимому",
+    "largerText": "Увеличить текст",
+    "highContrast": "Повысить контраст",
+    "colorAdjustGroup": "Цвет и изображение",
+    "invertColors": "Инверсия цветов",
+    "grayscale": "Оттенки серого",
+    "brightness": "Яркость",
+    "dim": "Темнее",
+    "brighten": "Светлее",
+    "displayContrast": "Контраст (экран)",
+    "lessDisplayContrast": "Меньше контраста экрана",
+    "moreDisplayContrast": "Больше контраста экрана",
+    "reset": "Сбросить настройки отображения",
+    "remoteDecor": "Экран"
+  }
 }

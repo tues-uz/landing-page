@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import {
   ChevronDown,
@@ -35,9 +35,11 @@ import {
   CalendarCheck,
   Info,
   Briefcase,
+  Search,
+  Loader2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,6 +54,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useSiteSearchContent } from "@/hooks/useSiteSearchContent";
+import { buildSiteSearchHits, getStaticSearchRoutes } from "@/lib/siteSearch";
+import { cn } from "@/lib/utils";
+import { getTopNavItemHref } from "@/config/topNavHubData";
 
 type MegaMenuLink = { href: string; label: string; icon: LucideIcon };
 type MegaMenuItem = { key: string; labelKey: string; description: string; links: MegaMenuLink[] };
@@ -170,22 +185,47 @@ const secondNavMega: MegaMenuItem[] = [
   },
 ];
 
-const navItems = [
+const navItems: { labelKey: string; itemKeys: string[] }[] = [
   {
     labelKey: "nav.about",
-    items: ["History", "Leadership", "Facts & Figures", "Mission & Values"],
+    itemKeys: [
+      "nav.aboutMenu.whoWeAre",
+      "nav.aboutMenu.regulation",
+      "nav.aboutMenu.universityInNumbers",
+      "nav.aboutMenu.organizationalStructure",
+      "nav.aboutMenu.leadershipAndCouncils",
+      "nav.aboutMenu.accreditationAndLicense",
+      "nav.aboutMenu.workersUnionCommittee",
+      "nav.aboutMenu.whyTues",
+    ],
   },
   {
     labelKey: "nav.research",
-    items: ["Research Areas", "Publications", "Partnerships", "Innovation"],
+    itemKeys: [
+      "nav.researchMenu.scientificPublicationsJournals",
+      "nav.researchMenu.seminarsConferences",
+      "nav.researchMenu.academicCouncil",
+      "nav.researchMenu.researchPapersPublications",
+      "nav.researchMenu.entrepreneurialInnovationClubs",
+    ],
   },
   {
     labelKey: "nav.admissions",
-    items: ["Undergraduate", "Graduate", "International", "Financial Aid"],
+    itemKeys: [
+      "nav.admissionsMenu.studyPrograms",
+      "nav.admissionsMenu.regulationsAndRequirements",
+      "nav.admissionsMenu.secondaryEducationRequirements",
+      "nav.admissionsMenu.contractAmountsTuition",
+    ],
   },
   {
     labelKey: "nav.news",
-    items: ["Latest News", "Events", "Press Releases", "Media Center"],
+    itemKeys: [
+      "nav.newsMenu.latestNews",
+      "nav.newsMenu.upcomingEvents",
+      "nav.newsMenu.videoGallery",
+      "nav.newsMenu.photoGallery",
+    ],
   },
 ];
 
@@ -196,77 +236,120 @@ const secondNavItems = [
     key: "university",
     labelKey: "secondNav.university",
     itemKeys: [
-      "secondNavItems.overview",
-      "secondNavItems.history",
-      "secondNavItems.leadership",
-      "secondNavItems.governance",
-      "secondNavItems.strategicPlan",
+      "secondNavUniversity.license",
+      "secondNavUniversity.universityMission",
+      "secondNavUniversity.charter",
+      "secondNavUniversity.organizationalStructure",
+      "secondNavUniversity.councils",
+      "secondNavUniversity.ratings",
+      "secondNavUniversity.requisites",
+      "secondNavUniversity.financialStatements",
+      "secondNavUniversity.universityInNumbers",
+      "secondNavUniversity.accreditation",
+      "secondNavUniversity.famousGraduates",
+      "secondNavUniversity.faculties",
+      "secondNavUniversity.departments",
+      "secondNavUniversity.centerAndDepartments",
+      "secondNavUniversity.openData",
+      "secondNavUniversity.tradeUnionCommittee",
+      "secondNavUniversity.contractPrices",
+      "secondNavUniversity.campusCulture",
     ],
   },
   {
     key: "education",
     labelKey: "secondNav.education",
     itemKeys: [
-      "secondNavItems.academicPrograms",
-      "secondNavItems.courses",
-      "secondNavItems.academicCalendar",
-      "secondNavItems.faculty",
-      "secondNavItems.departments",
+      "secondNavEducation.courseCatalogue",
+      "secondNavEducation.resources",
+      "secondNavEducation.bachelor",
+      "secondNavEducation.mastersDegree",
+      "secondNavEducation.qualificationRequirements",
+      "secondNavEducation.studyPlans",
+      "secondNavEducation.syllabus",
+      "secondNavEducation.distanceLearningSystem",
     ],
   },
   {
     key: "science",
     labelKey: "secondNav.science",
     itemKeys: [
-      "secondNavItems.researchAreas",
-      "secondNavItems.laboratories",
-      "secondNavItems.publications",
-      "secondNavItems.innovation",
-      "secondNavItems.collaborations",
+      "secondNavScience.seminars",
+      "secondNavScience.scientificArticles",
+      "secondNavScience.scientificJournals",
+      "secondNavScience.expectedConferences",
+      "secondNavScience.academicCouncil",
+      "secondNavScience.certificates",
+      "secondNavScience.entrepreneurialClubs",
+      "secondNavScience.centerResearchSustainableInnovativeDevelopment",
     ],
   },
   {
     key: "internationalization",
     labelKey: "secondNav.internationalization",
     itemKeys: [
-      "secondNavItems.exchangePrograms",
-      "secondNavItems.globalPartnerships",
-      "secondNavItems.internationalStudents",
-      "secondNavItems.studyAbroad",
-      "secondNavItems.globalInitiatives",
+      "secondNavInternationalization.internationalRelations",
+      "secondNavInternationalization.tisuForeignLanguagesCenter",
+      "secondNavInternationalization.departmentInternationalRelationsEmployees",
+      "secondNavInternationalization.internationalGrants",
+      "secondNavInternationalization.internationalScientificRelations",
+      "secondNavInternationalization.internationalConferences",
+      "secondNavInternationalization.professionalDevelopmentEducationChoir",
+      "secondNavInternationalization.advancedTrainingProgramsForeignTeachers",
+      "secondNavInternationalization.internationalSupportCenter",
     ],
   },
   {
     key: "studentLife",
     labelKey: "secondNav.studentLife",
     itemKeys: [
-      "secondNavItems.campusLife",
-      "secondNavItems.studentClubs",
-      "secondNavItems.housing",
-      "secondNavItems.dining",
-      "secondNavItems.wellness",
+      "secondNavStudentLife.communityClubs",
+      "secondNavStudentLife.healthSupportService",
+      "secondNavStudentLife.socialLife",
+      "secondNavStudentLife.socialRooms",
+      "secondNavStudentLife.contests",
+      "secondNavStudentLife.supportCenterMinorityGroups",
+      "secondNavStudentLife.dormitory",
+      "secondNavStudentLife.sportFacilities",
+      "secondNavStudentLife.cafeterias",
+      "secondNavStudentLife.bookstore",
+      "secondNavStudentLife.facilitiesForDisabled",
+      "secondNavStudentLife.studentOpinion",
+      "secondNavStudentLife.careerCentre",
+      "secondNavStudentLife.help247",
+      "secondNavStudentLife.studentAcademicSupport",
     ],
   },
   {
     key: "admission2025",
     labelKey: "secondNav.admission2025",
     itemKeys: [
-      "secondNavItems.requirements",
-      "secondNavItems.applicationProcess",
-      "secondNavItems.deadlines",
-      "secondNavItems.scholarships",
-      "secondNavItems.faqs",
+      "secondNavAdmission2025.listOfEducationalAreas",
+      "secondNavAdmission2025.apply",
+      "secondNavAdmission2025.regulationSecondaryEducation",
+      "secondNavAdmission2025.admission2025",
+      "secondNavAdmission2025.transferOfStudies",
+      "secondNavAdmission2025.toLocalApplicants",
+      "secondNavAdmission2025.informationTransferEducation",
+      "secondNavAdmission2025.informationContractAmounts",
+      "secondNavAdmission2025.menu",
+      "secondNavAdmission2025.forInternationalApplicants",
+      "secondNavAdmission2025.contactingAdmission",
+      "secondNavAdmission2025.instructionsApplicants",
+      "secondNavAdmission2025.registerUndergraduateAdmission",
+      "secondNavAdmission2025.faq",
     ],
   },
   {
     key: "informationServices",
     labelKey: "secondNav.informationServices",
     itemKeys: [
-      "secondNavItems.library",
-      "secondNavItems.itServices",
-      "secondNavItems.onlineResources",
-      "secondNavItems.support",
-      "secondNavItems.helpDesk",
+      "secondNavInformationServices.latestNews",
+      "secondNavInformationServices.directionsContractSums",
+      "secondNavInformationServices.aboutUniversity",
+      "secondNavInformationServices.yashilUniversitet1",
+      "secondNavInformationServices.videoGallery",
+      "secondNavInformationServices.photoGallery",
     ],
   },
   {
@@ -282,20 +365,47 @@ const secondNavItems = [
   },
 ];
 
-const languages = [
-  { code: "uz", name: "Uz", flag: "🇺🇿" },
-  { code: "en", name: "En", flag: "🇬🇧" },
-  { code: "ru", name: "Ru", flag: "🇷🇺" },
-];
-
 type HeaderProps = {
   onMobileMenuOpenChange?: (open: boolean) => void;
 };
 
 const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
-  const { t, i18n } = useTranslation("header");
+  const { t } = useTranslation("header");
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchDraft, setSearchDraft] = useState("");
+  const { isPending: siteSearchPending, newsItems, eventItems, programItems } =
+    useSiteSearchContent(searchOpen);
+
+  const staticSearchRoutes = useMemo(() => getStaticSearchRoutes((key) => t(key)), [t]);
+
+  const searchKindLabels = useMemo(
+    () => ({
+      page: t("searchKind.page"),
+      program: t("searchKind.program"),
+      event: t("searchKind.event"),
+      news: t("searchKind.news"),
+    }),
+    [t],
+  );
+
+  const siteSearchHits = useMemo(
+    () =>
+      buildSiteSearchHits({
+        query: searchDraft,
+        news: newsItems,
+        events: eventItems,
+        programs: programItems,
+        staticRoutes: staticSearchRoutes,
+        kindLabels: searchKindLabels,
+      }),
+    [searchDraft, newsItems, eventItems, programItems, staticSearchRoutes, searchKindLabels],
+  );
+
+  const searchPreviewLimit = 12;
+  const suggestionList = siteSearchHits.slice(0, searchPreviewLimit);
   const [topBarVisible, setTopBarVisible] = useState(true);
   const lastScrollY = useRef(0);
   const secondNavRef = useRef<HTMLElement>(null);
@@ -305,8 +415,6 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
   const [openMegaKey, setOpenMegaKey] = useState<string | null>(null);
   const [openMegaTriggerRect, setOpenMegaTriggerRect] = useState<{ left: number; width: number } | null>(null);
   const [panelTop, setPanelTop] = useState(128);
-  const activeCode = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
-  const currentLanguage = languages.find((lang) => lang.code === activeCode) ?? languages[1];
 
   useEffect(() => {
     onMobileMenuOpenChange?.(mobileMenuOpen);
@@ -542,13 +650,14 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                         <ChevronDown className="ml-0.5 h-3.5 w-3.5" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-card border-border">
-                      {item.items.map((subItem) => (
+                    <DropdownMenuContent className="bg-card border-border min-w-[16rem]">
+                      {item.itemKeys.map((subKey) => (
                         <DropdownMenuItem
-                          key={subItem}
+                          key={subKey}
                           className="cursor-pointer hover:bg-muted"
+                          asChild
                         >
-                          {subItem}
+                          <Link to={getTopNavItemHref(subKey)}>{t(subKey)}</Link>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -558,33 +667,19 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             </ul>
           </nav>
 
-          {/* Right: language + EduHub + hamburger */}
-          <div className="flex shrink-0 items-center gap-2 min-w-[44px]">
+          {/* Right: search + EduHub + hamburger (language: floating FAB in App) */}
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2 min-w-[44px]">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="shrink-0 h-10 w-10 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+              aria-label={t("searchAria")}
+              onClick={() => setSearchOpen(true)}
+            >
+              <Search className="h-5 w-5" aria-hidden />
+            </Button>
             <div className="hidden lg:flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="h-9 border-primary-foreground/20 bg-transparent text-primary-foreground/90 hover:bg-primary-foreground/10 hover:text-primary-foreground text-[13px] px-2"
-                  >
-                    <span className="mr-1">{currentLanguage.flag}</span>
-                    {currentLanguage.name}
-                    <ChevronDown className="ml-1 h-3 w-3" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-card border-border" align="end">
-                  {languages.map((lang) => (
-                    <DropdownMenuItem
-                      key={lang.code}
-                      className="cursor-pointer hover:bg-muted"
-                      onClick={() => void i18n.changeLanguage(lang.code)}
-                    >
-                      <span className="mr-2">{lang.flag}</span>
-                      {lang.name}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
               <Button
                 type="button"
                 variant="ghost"
@@ -698,33 +793,8 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 );
               })()}
 
-              {/* Smaller desktop / tablet: Lang + EduHub + Hamburger */}
+              {/* Smaller desktop / tablet: EduHub + Hamburger */}
               <div className="flex lg:hidden items-center gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="flex items-center gap-2 px-2 py-2 text-sm font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors border border-primary-foreground/20 rounded-lg bg-primary hover:bg-primary-foreground/10"
-                    >
-                      <span className="text-base">{currentLanguage.flag}</span>
-                      <span className="hidden sm:inline">{currentLanguage.name}</span>
-                      <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-card border-border" align="end">
-                    {languages.map((lang) => (
-                      <DropdownMenuItem
-                        key={lang.code}
-                        className="cursor-pointer hover:bg-muted"
-                        onClick={() => void i18n.changeLanguage(lang.code)}
-                      >
-                        <span className="mr-2">{lang.flag}</span>
-                        {lang.name}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
                 <Link to="/eduhub">
                   <Button
                     variant="outline"
@@ -788,11 +858,29 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           <>
           <div className="lg:hidden max-h-[100dvh] overflow-y-auto px-4 py-4 pb-24 border-t border-primary-foreground/10 lg:px-6">
             <nav className="flex flex-col gap-2">
-              {navItems.map((item) => (
-                <div key={item.labelKey} className="py-2">
-                  <span className="text-primary-foreground font-medium">{t(item.labelKey)}</span>
-                </div>
-              ))}
+              <Accordion type="single" collapsible className="w-full [&>*]:border-b [&>*]:border-primary-foreground/10">
+                {navItems.map((item) => (
+                  <AccordionItem key={item.labelKey} value={item.labelKey} className="border-none border-b border-primary-foreground/10 last:border-b-0">
+                    <AccordionTrigger className="py-3 text-primary-foreground font-medium hover:no-underline hover:text-primary-foreground [&[data-state=open]>svg]:rotate-180">
+                      {t(item.labelKey)}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-3 pt-0">
+                      <div className="flex flex-col gap-1 pl-0">
+                        {item.itemKeys.map((subKey) => (
+                          <Link
+                            key={subKey}
+                            to={getTopNavItemHref(subKey)}
+                            className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {t(subKey)}
+                          </Link>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
               <div className="pt-4 border-t border-primary-foreground/10 mt-2">
                 {secondaryNav.map((item) => (
                   <a
@@ -846,6 +934,107 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           </>
         )}
       </div>
+
+      <Dialog
+        open={searchOpen}
+        onOpenChange={(open) => {
+          setSearchOpen(open);
+          if (!open) setSearchDraft("");
+        }}
+      >
+        <DialogContent fullScreen>
+          <DialogHeader>
+            <DialogTitle>{t("searchTitle")}</DialogTitle>
+            <DialogDescription className="sr-only">{t("searchPlaceholder")}</DialogDescription>
+          </DialogHeader>
+          <form
+            className="flex min-h-0 flex-1 flex-col gap-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = searchDraft.trim();
+              navigate(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
+              setSearchOpen(false);
+              setSearchDraft("");
+            }}
+          >
+            <Input
+              autoFocus
+              type="search"
+              value={searchDraft}
+              onChange={(e) => setSearchDraft(e.target.value)}
+              placeholder={t("searchPlaceholder")}
+              aria-label={t("searchPlaceholder")}
+              className="w-full shrink-0 text-base md:text-lg h-11 md:h-12"
+            />
+            <div
+              className="flex min-h-0 flex-1 flex-col gap-3 border-t border-border pt-4"
+              aria-live="polite"
+              aria-label={t("searchTitle")}
+            >
+              {!searchDraft.trim() ? (
+                <p className="text-sm text-muted-foreground">{t("searchHint")}</p>
+              ) : siteSearchPending ? (
+                <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden />
+                  {t("searchLoading")}
+                </p>
+              ) : suggestionList.length === 0 ? (
+                <p className="text-sm text-muted-foreground">{t("searchNoResults")}</p>
+              ) : (
+                <>
+                  <ul className="max-h-[min(50vh,28rem)] space-y-1 overflow-y-auto overscroll-contain rounded-lg border border-border/80 bg-muted/20 p-1">
+                    {suggestionList.map((item) => (
+                      <li key={item.id}>
+                        <Link
+                          to={item.to}
+                          onClick={() => {
+                            setSearchOpen(false);
+                            setSearchDraft("");
+                          }}
+                          className={cn(
+                            "block rounded-md px-3 py-2.5 text-left transition-colors",
+                            "hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          )}
+                        >
+                          <span className="flex flex-wrap items-center gap-2">
+                            <span className="line-clamp-2 flex-1 font-medium text-foreground">{item.title}</span>
+                            <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                              {item.badge}
+                            </span>
+                          </span>
+                          {item.subtitle ? (
+                            <span className="mt-1 block text-xs text-muted-foreground line-clamp-2">
+                              {item.subtitle}
+                            </span>
+                          ) : null}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  {siteSearchHits.length > searchPreviewLimit ? (
+                    <Link
+                      to={`/search?q=${encodeURIComponent(searchDraft.trim())}`}
+                      onClick={() => {
+                        setSearchOpen(false);
+                        setSearchDraft("");
+                      }}
+                      className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                      {t("searchSeeAll", { count: siteSearchHits.length })}
+                    </Link>
+                  ) : null}
+                </>
+              )}
+            </div>
+            <DialogFooter className="shrink-0 gap-2 border-t border-border pt-4 sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setSearchOpen(false)}>
+                {t("searchCancel")}
+              </Button>
+              <Button type="submit">{t("searchSubmit")}</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };

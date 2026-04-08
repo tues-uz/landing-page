@@ -1,0 +1,67 @@
+{
+  "aboutIntro": "Overview of TUES: governance, mission, accreditation, and key facts. Open a page below for full detail.",
+  "researchIntro": "Research activity, publications, events, and innovation at TUES. Each link opens its own page.",
+  "admissionsIntro": "Study programs, requirements, and costs for applicants. Each topic has a dedicated page.",
+  "mediaIntro": "Video and photo collections from campus life and university events.",
+  "mediaPageTitle": "Media gallery",
+  "onThisPage": "On this page",
+  "hubPagesList": "Pages in this section",
+  "subPageIntro": "This page is dedicated to the topic below. Further content can be added by your editorial team.",
+  "backToSection": "Back to {{section}}",
+  "sectionPlaceholder": "Detailed content for this section will be published here soon.",
+  "videoGallery": {
+    "gridIntro": "Selected recordings from campus events, lectures, and student life. Use the player on each card to watch; more videos will be published here as they become available.",
+    "highlights": {
+      "title": "Event highlights",
+      "description": "Moments from recent cultural and academic gatherings at the university."
+    },
+    "campusLife": {
+      "title": "Campus and learning spaces",
+      "description": "A look at facilities where students study, research, and collaborate."
+    },
+    "guestLecture": {
+      "title": "Guest lecture series",
+      "description": "Recordings from invited speakers and public academic talks."
+    },
+    "studentLife": {
+      "title": "Student activities",
+      "description": "Clubs, competitions, and celebrations from student life."
+    }
+  },
+  "photoGallery": {
+    "gridIntro": "A selection of photos from campus, learning spaces, ceremonies, and events. New albums will appear here as they are published.",
+    "campus": {
+      "title": "Campus views",
+      "description": "Walkways, architecture, and outdoor spaces around the university."
+    },
+    "library": {
+      "title": "Library and study",
+      "description": "Reading rooms and spaces where students focus and collaborate."
+    },
+    "graduation": {
+      "title": "Ceremonies",
+      "description": "Graduation and milestone celebrations with students and guests."
+    },
+    "events": {
+      "title": "Events and gatherings",
+      "description": "Conferences, cultural activities, and community moments on campus."
+    }
+  },
+  "charter": {
+    "documentTitle": "University charter",
+    "institution": "Termez University of Economics and Service",
+    "downloadLead": "You can download the university charter, or open each section below to read it on this site.",
+    "download": "Download",
+    "pdfSoon": "PDF download will be linked here when available.",
+    "pdfUrl": "",
+    "emptySection": "Content for this section will be added soon.",
+    "section1Title": "1-section: I. General rules",
+    "section1Body": "",
+    "section2Title": "2-section: II. The main tasks of the university",
+    "section2Body": "",
+    "section3Title": "3-section: III. Subjects of educational and scientific-methodical work, their rights and obligations",
+    "section3Body": "",
+    "section4Title": "4-section: IV. Educational and scientific-methodical work",
+    "section4Body": ""
+  }
+}

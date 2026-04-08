@@ -2,6 +2,35 @@
   "universityNameLine1": "Termez University of",
   "universityNameLine2": "Economics and Service",
   "exploreMore": "Explore more",
+  "searchAria": "Open search",
+  "searchTitle": "Search",
+  "searchPlaceholder": "Search programs, events, news, pages…",
+  "searchSubmit": "Search",
+  "searchCancel": "Cancel",
+  "searchHint": "Type to search programs, events, news, and main site pages.",
+  "searchNoResults": "Nothing matched your search.",
+  "searchLoading": "Loading…",
+  "searchSeeAll": "See all {{count}} results",
+  "searchPageTitle": "Search results",
+  "searchPageSubtitle": "Matches across main pages, academic programs, events, and news.",
+  "searchPageEmpty": "Use the search icon in the header to search across programs, events, news, and main pages.",
+  "searchRoutes": {
+    "home": "Home",
+    "about": "About",
+    "research": "Research",
+    "admissions": "Admissions",
+    "programs": "Programs",
+    "news": "News",
+    "events": "Events",
+    "media": "Media gallery",
+    "virtualTour": "Virtual tour"
+  },
+  "searchKind": {
+    "page": "Page",
+    "program": "Program",
+    "event": "Event",
+    "news": "News"
+  },
   "menu": "Menu",
   "secondMenu": "Second Menu",
   "languageNames": {
@@ -16,7 +45,36 @@
     "news": "News",
     "community": "Community",
     "colleges": "Colleges",
-    "journal": "Journal"
+    "journal": "Journal",
+    "aboutMenu": {
+      "whoWeAre": "Who we are",
+      "regulation": "Regulation",
+      "universityInNumbers": "University in Numbers",
+      "organizationalStructure": "Organizational Structure",
+      "leadershipAndCouncils": "Leadership & Councils",
+      "accreditationAndLicense": "Accreditation & License",
+      "workersUnionCommittee": "Workers Union Committee",
+      "whyTues": "Why TUES"
+    },
+    "researchMenu": {
+      "scientificPublicationsJournals": "Scientific Publications & Journals",
+      "seminarsConferences": "Seminars & Conferences",
+      "academicCouncil": "Academic Council",
+      "researchPapersPublications": "Research papers & Publications",
+      "entrepreneurialInnovationClubs": "Entrepreneurial & Innovation Clubs"
+    },
+    "admissionsMenu": {
+      "studyPrograms": "Study Programs",
+      "regulationsAndRequirements": "Regulations & Requirements",
+      "secondaryEducationRequirements": "Secondary Education Requirements",
+      "contractAmountsTuition": "Contract Amounts / Tuition"
+    },
+    "newsMenu": {
+      "latestNews": "Latest News",
+      "upcomingEvents": "Upcoming Events",
+      "videoGallery": "Video Gallery",
+      "photoGallery": "Photo Gallery"
+    }
   },
   "secondNav": {
     "university": "University",
@@ -69,5 +127,97 @@
     "researchPositions": "Research Positions",
     "howToApply": "How to Apply",
     "benefits": "Benefits"
+  },
+  "secondNavUniversity": {
+    "license": "License",
+    "universityMission": "University Mission",
+    "charter": "Charter",
+    "organizationalStructure": "Organizational structure",
+    "councils": "Councils",
+    "ratings": "Ratings",
+    "requisites": "Requisites",
+    "financialStatements": "Financial statements",
+    "universityInNumbers": "University in numbers",
+    "accreditation": "Accreditation",
+    "famousGraduates": "Famous graduates",
+    "faculties": "Faculties",
+    "departments": "Departments",
+    "centerAndDepartments": "Center and departments",
+    "openData": "Open data",
+    "tradeUnionCommittee": "Trade union committee",
+    "contractPrices": "Contract prices",
+    "campusCulture": "Campus Culture"
+  },
+  "secondNavEducation": {
+    "courseCatalogue": "Course catalogue",
+    "resources": "Resources",
+    "bachelor": "Bachelor",
+    "mastersDegree": "Master's degree",
+    "qualificationRequirements": "Qualification requirements",
+    "studyPlans": "Study plans",
+    "syllabus": "Syllabus",
+    "distanceLearningSystem": "Distance learning system"
+  },
+  "secondNavScience": {
+    "seminars": "Seminars",
+    "scientificArticles": "Scientific articles",
+    "scientificJournals": "Scientific journals",
+    "expectedConferences": "Expected conferences",
+    "academicCouncil": "Academic council",
+    "certificates": "Certificates",
+    "entrepreneurialClubs": "Entrepreneurial Clubs",
+    "centerResearchSustainableInnovativeDevelopment": "Center for Research and Sustainable Innovative Development"
+  },
+  "secondNavInternationalization": {
+    "internationalRelations": "International relations",
+    "tisuForeignLanguagesCenter": "TISU xorijiy tillarni o'qitish markazi",
+    "departmentInternationalRelationsEmployees": "Employees of the Department of International Relations",
+    "internationalGrants": "International grants",
+    "internationalScientificRelations": "International scientific relations",
+    "internationalConferences": "International conferences",
+    "professionalDevelopmentEducationChoir": "Professional development and education in the choir",
+    "advancedTrainingProgramsForeignTeachers": "Advanced training programs for foreign teachers",
+    "internationalSupportCenter": "International Support Center"
+  },
+  "secondNavStudentLife": {
+    "communityClubs": "Community clubs",
+    "healthSupportService": "Health support service",
+    "socialLife": "Social Life",
+    "socialRooms": "Social Rooms",
+    "contests": "Contests",
+    "supportCenterMinorityGroups": "Support center for minority groups",
+    "dormitory": "Dormitory",
+    "sportFacilities": "Sport Facilities",
+    "cafeterias": "Cafeterias",
+    "bookstore": "Bookstore",
+    "facilitiesForDisabled": "Facilities for the disabled",
+    "studentOpinion": "Student opinion",
+    "careerCentre": "Career centre",
+    "help247": "24/7 help",
+    "studentAcademicSupport": "Student Academic Support"
+  },
+  "secondNavAdmission2025": {
+    "listOfEducationalAreas": "List of educational areas",
+    "apply": "Apply",
+    "regulationSecondaryEducation": "Regulation on secondary education",
+    "admission2025": "Admission 2025",
+    "transferOfStudies": "Transfer of studies",
+    "toLocalApplicants": "To local applicants",
+    "informationTransferEducation": "Information about transfer of education",
+    "informationContractAmounts": "Information about contract amounts",
+    "menu": "Menu",
+    "forInternationalApplicants": "For international applicants",
+    "contactingAdmission": "Contacting about admission",
+    "instructionsApplicants": "Instructions for applicants",
+    "registerUndergraduateAdmission": "Register for undergraduate admission",
+    "faq": "FAQ"
+  },
+  "secondNavInformationServices": {
+    "latestNews": "Latest news",
+    "directionsContractSums": "Directions and contract sums",
+    "aboutUniversity": "About university",
+    "yashilUniversitet1": "Yashil universitet1",
+    "videoGallery": "Video gallery",
+    "photoGallery": "Photo gallery"
   }
 }

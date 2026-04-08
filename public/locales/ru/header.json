@@ -2,6 +2,35 @@
   "universityNameLine1": "Термезский университет",
   "universityNameLine2": "экономики и сервиса",
   "exploreMore": "Узнать больше",
+  "searchAria": "Открыть поиск",
+  "searchTitle": "Поиск",
+  "searchPlaceholder": "Программы, события, новости, разделы…",
+  "searchSubmit": "Найти",
+  "searchCancel": "Отмена",
+  "searchHint": "Ищите программы, события, новости и основные разделы сайта.",
+  "searchNoResults": "Ничего не найдено.",
+  "searchLoading": "Загрузка…",
+  "searchSeeAll": "Все результаты ({{count}})",
+  "searchPageTitle": "Результаты поиска",
+  "searchPageSubtitle": "Совпадения в разделах, программах, событиях и новостях.",
+  "searchPageEmpty": "Откройте поиск в шапке сайта, чтобы искать программы, события, новости и разделы.",
+  "searchRoutes": {
+    "home": "Главная",
+    "about": "Об университете",
+    "research": "Наука",
+    "admissions": "Поступление",
+    "programs": "Программы",
+    "news": "Новости",
+    "events": "События",
+    "media": "Медиагалерея",
+    "virtualTour": "Виртуальный тур"
+  },
+  "searchKind": {
+    "page": "Страница",
+    "program": "Программа",
+    "event": "Событие",
+    "news": "Новость"
+  },
   "menu": "Меню",
   "secondMenu": "Второе меню",
   "languageNames": {
@@ -16,7 +45,36 @@
     "news": "Новости",
     "community": "Сообщество",
     "colleges": "Колледжи",
-    "journal": "Журнал"
+    "journal": "Журнал",
+    "aboutMenu": {
+      "whoWeAre": "Кто мы",
+      "regulation": "Нормативная база",
+      "universityInNumbers": "Университет в цифрах",
+      "organizationalStructure": "Организационная структура",
+      "leadershipAndCouncils": "Руководство и советы",
+      "accreditationAndLicense": "Аккредитация и лицензия",
+      "workersUnionCommittee": "Профсоюзный комитет",
+      "whyTues": "Почему TUES"
+    },
+    "researchMenu": {
+      "scientificPublicationsJournals": "Научные публикации и журналы",
+      "seminarsConferences": "Семинары и конференции",
+      "academicCouncil": "Учёный совет",
+      "researchPapersPublications": "Исследовательские работы и публикации",
+      "entrepreneurialInnovationClubs": "Предпринимательские и инновационные клубы"
+    },
+    "admissionsMenu": {
+      "studyPrograms": "Учебные программы",
+      "regulationsAndRequirements": "Нормативные документы и требования",
+      "secondaryEducationRequirements": "Требования к среднему образованию",
+      "contractAmountsTuition": "Договорная стоимость / обучение"
+    },
+    "newsMenu": {
+      "latestNews": "Последние новости",
+      "upcomingEvents": "Предстоящие события",
+      "videoGallery": "Видеогалерея",
+      "photoGallery": "Фотогалерея"
+    }
   },
   "secondNav": {
     "university": "Университет",
@@ -69,5 +127,97 @@
     "researchPositions": "Исследовательские должности",
     "howToApply": "Как подать заявку",
     "benefits": "Преимущества"
+  },
+  "secondNavUniversity": {
+    "license": "Лицензия",
+    "universityMission": "Миссия университета",
+    "charter": "Устав",
+    "organizationalStructure": "Организационная структура",
+    "councils": "Советы",
+    "ratings": "Рейтинги",
+    "requisites": "Реквизиты",
+    "financialStatements": "Финансовая отчётность",
+    "universityInNumbers": "Университет в цифрах",
+    "accreditation": "Аккредитация",
+    "famousGraduates": "Известные выпускники",
+    "faculties": "Факультеты",
+    "departments": "Кафедры",
+    "centerAndDepartments": "Центры и подразделения",
+    "openData": "Открытые данные",
+    "tradeUnionCommittee": "Профсоюзный комитет",
+    "contractPrices": "Договорные цены",
+    "campusCulture": "Культура кампуса"
+  },
+  "secondNavEducation": {
+    "courseCatalogue": "Каталог курсов",
+    "resources": "Ресурсы",
+    "bachelor": "Бакалавриат",
+    "mastersDegree": "Магистратура",
+    "qualificationRequirements": "Квалификационные требования",
+    "studyPlans": "Учебные планы",
+    "syllabus": "Силлабус",
+    "distanceLearningSystem": "Система дистанционного обучения"
+  },
+  "secondNavScience": {
+    "seminars": "Семинары",
+    "scientificArticles": "Научные статьи",
+    "scientificJournals": "Научные журналы",
+    "expectedConferences": "Планируемые конференции",
+    "academicCouncil": "Учёный совет",
+    "certificates": "Сертификаты",
+    "entrepreneurialClubs": "Предпринимательские клубы",
+    "centerResearchSustainableInnovativeDevelopment": "Центр исследований и устойчивого инновационного развития"
+  },
+  "secondNavInternationalization": {
+    "internationalRelations": "Международные связи",
+    "tisuForeignLanguagesCenter": "Центр TISU по преподаванию иностранных языков",
+    "departmentInternationalRelationsEmployees": "Сотрудники департамента международных связей",
+    "internationalGrants": "Международные гранты",
+    "internationalScientificRelations": "Международные научные связи",
+    "internationalConferences": "Международные конференции",
+    "professionalDevelopmentEducationChoir": "Профессиональное развитие и обучение",
+    "advancedTrainingProgramsForeignTeachers": "Программы повышения квалификации для иностранных преподавателей",
+    "internationalSupportCenter": "Центр международной поддержки"
+  },
+  "secondNavStudentLife": {
+    "communityClubs": "Клубы по интересам",
+    "healthSupportService": "Служба поддержки здоровья",
+    "socialLife": "Социальная жизнь",
+    "socialRooms": "Общественные комнаты",
+    "contests": "Конкурсы и соревнования",
+    "supportCenterMinorityGroups": "Центр поддержки меньшинств",
+    "dormitory": "Общежитие",
+    "sportFacilities": "Спортивные объекты",
+    "cafeterias": "Столовые и кафе",
+    "bookstore": "Книжный магазин",
+    "facilitiesForDisabled": "Условия для людей с ограниченными возможностями",
+    "studentOpinion": "Мнение студентов",
+    "careerCentre": "Карьерный центр",
+    "help247": "Круглосуточная помощь",
+    "studentAcademicSupport": "Академическая поддержка студентов"
+  },
+  "secondNavAdmission2025": {
+    "listOfEducationalAreas": "Перечень направлений подготовки",
+    "apply": "Подать заявку",
+    "regulationSecondaryEducation": "Положение о среднем образовании",
+    "admission2025": "Поступление 2025",
+    "transferOfStudies": "Перевод обучения",
+    "toLocalApplicants": "Для местных абитуриентов",
+    "informationTransferEducation": "Информация о переводе обучения",
+    "informationContractAmounts": "Информация о договорных суммах",
+    "menu": "Меню",
+    "forInternationalApplicants": "Для иностранных абитуриентов",
+    "contactingAdmission": "Контакты по вопросам поступления",
+    "instructionsApplicants": "Инструкции для абитуриентов",
+    "registerUndergraduateAdmission": "Регистрация на бакалавриат",
+    "faq": "Часто задаваемые вопросы"
+  },
+  "secondNavInformationServices": {
+    "latestNews": "Последние новости",
+    "directionsContractSums": "Направления и договорные суммы",
+    "aboutUniversity": "Об университете",
+    "yashilUniversitet1": "Yashil universitet1",
+    "videoGallery": "Видеогалерея",
+    "photoGallery": "Фотогалерея"
   }
 }

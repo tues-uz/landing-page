@@ -3,6 +3,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import { FloatingLanguageSwitcher } from "./components/FloatingLanguageSwitcher";
+import { FloatingAccessibilityButton } from "./components/FloatingAccessibilityButton";
 import Index from "./pages/Index";
 import ProgramsPage from "./pages/ProgramsPage";
 import ProgramDetailPage from "./pages/ProgramDetailPage";
@@ -11,6 +13,12 @@ import NewsDetailPage from "./pages/NewsDetailPage";
 import EventsPage from "./pages/EventsPage";
 import EventDetailPage from "./pages/EventDetailPage";
 import VirtualTourPage from "./pages/VirtualTourPage";
+import SiteSearchPage from "./pages/SiteSearchPage";
+import AboutPage from "./pages/AboutPage";
+import ResearchHubPage from "./pages/ResearchHubPage";
+import AdmissionsHubPage from "./pages/AdmissionsHubPage";
+import MediaPage from "./pages/MediaPage";
+import { TopNavSubPage } from "./pages/TopNavSubPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "@/features/auth/context";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
@@ -34,6 +42,8 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
+          <FloatingAccessibilityButton />
+          <FloatingLanguageSwitcher />
           <Routes>
             {/* Public landing routes */}
             <Route path="/" element={<Index />} />
@@ -44,6 +54,15 @@ const App = () => (
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:id" element={<EventDetailPage />} />
             <Route path="/virtual-tour" element={<VirtualTourPage />} />
+            <Route path="/search" element={<SiteSearchPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/about/:slug" element={<TopNavSubPage group="about" />} />
+            <Route path="/research" element={<ResearchHubPage />} />
+            <Route path="/research/:slug" element={<TopNavSubPage group="research" />} />
+            <Route path="/admissions" element={<AdmissionsHubPage />} />
+            <Route path="/admissions/:slug" element={<TopNavSubPage group="admissions" />} />
+            <Route path="/media" element={<MediaPage />} />
+            <Route path="/media/:slug" element={<TopNavSubPage group="media" />} />
 
             {/* CMS login (public) */}
             <Route path="/login" element={<LoginPage />} />

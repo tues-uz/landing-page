@@ -1,4 +1,24 @@
 {
+  "breadcrumbHome": "Bosh sahifa",
   "previous": "Oldingi",
-  "next": "Keyingi"
+  "next": "Keyingi",
+  "changeLanguage": "Tilni o'zgartirish",
+  "scrollToTop": "Yuqoriga",
+  "accessibility": {
+    "openMenu": "Maxsus imkoniyatlar sozlamalari",
+    "skipToMain": "Asosiy tarkibga o'tish",
+    "largerText": "Kattaroq matn",
+    "highContrast": "Yuqori kontrast",
+    "colorAdjustGroup": "Rang va ko'rinish",
+    "invertColors": "Ranglarni teskarilash",
+    "grayscale": "Kulrang rejim",
+    "brightness": "Yorqinlik",
+    "dim": "Qorong'iroq",
+    "brighten": "Yorqinroq",
+    "displayContrast": "Kontrast (ekran)",
+    "lessDisplayContrast": "Kontrastni kamaytirish",
+    "moreDisplayContrast": "Kontrastni oshirish",
+    "reset": "Ko'rinish sozlamalarini tiklash",
+    "remoteDecor": "Displey"
+  }
 }
