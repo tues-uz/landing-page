@@ -58,6 +58,7 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/about/:slug" element={<TopNavSubPage group="about" />} />
             <Route path="/research" element={<ResearchHubPage />} />
+            <Route path="/research/academic-council/:councilSlug" element={<TopNavSubPage group="research" />} />
             <Route path="/research/:slug" element={<TopNavSubPage group="research" />} />
             <Route path="/admissions" element={<AdmissionsHubPage />} />
             <Route path="/admissions/:slug" element={<TopNavSubPage group="admissions" />} />

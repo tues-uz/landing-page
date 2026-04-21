@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Download, Home } from "lucide-react";
@@ -6,6 +7,19 @@ import Footer from "@/components/Footer";
 import { SubPageHeroBanner } from "@/components/SubPageHeroBanner";
 import { VideoGalleryCards } from "@/components/VideoGalleryCards";
 import { PhotoGalleryCards } from "@/components/PhotoGalleryCards";
+import { AcademicCouncilDetailSection } from "@/components/AcademicCouncilDetailSection";
+import { AcademicCouncilSection } from "@/components/AcademicCouncilSection";
+import { ResearchPublicationsSection } from "@/components/ResearchPublicationsSection";
+import { OrganizationalStructureSection } from "@/components/OrganizationalStructureSection";
+import { UniversityInNumbersSection } from "@/components/UniversityInNumbersSection";
+import { WorkersUnionCommitteeSection } from "@/components/WorkersUnionCommitteeSection";
+import { SeminarsConferencesSection } from "@/components/SeminarsConferencesSection";
+import { PublicationContactSection } from "@/components/PublicationContactSection";
+import {
+  ACADEMIC_COUNCIL_CARD_IMAGE,
+  ACADEMIC_COUNCIL_I18N,
+  isAcademicCouncilCardId,
+} from "@/config/academicCouncilHub";
 import {
   getTopNavSubPageMeta,
   getSectionsForGroup,
@@ -30,12 +44,40 @@ function isCharterDocumentPage(group: TopNavGroup, slug: string | undefined): bo
   return group === "about" && slug === "regulation";
 }
 
+function isWorkersUnionCommitteePage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "workers-union-committee";
+}
+
+function isUniversityInNumbersPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "university-in-numbers";
+}
+
+function isOrganizationalStructurePage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "organizational-structure";
+}
+
 function isVideoGalleryPage(group: TopNavGroup, slug: string | undefined): boolean {
   return group === "media" && slug === "video-gallery";
 }
 
 function isPhotoGalleryPage(group: TopNavGroup, slug: string | undefined): boolean {
   return group === "media" && slug === "photo-gallery";
+}
+
+function isScientificPublicationsContactPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "research" && slug === "scientific-publications-journals";
+}
+
+function isAcademicCouncilPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "research" && slug === "academic-council";
+}
+
+function isSeminarsConferencesPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "research" && slug === "seminars-and-conferences";
+}
+
+function isResearchPublicationsPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "research" && slug === "research-papers-and-publications";
 }
 
 /** Video + photo gallery: skip the tall hero — breadcrumbs sit directly under the header. */
@@ -47,10 +89,108 @@ function shouldShowSubPageHeroBanner(group: TopNavGroup, slug: string | undefine
 const CHARTER_ACCORDION_KEYS = ["section1", "section2", "section3", "section4"] as const;
 
 export function TopNavSubPage({ group }: { group: TopNavGroup }) {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: slugParam, councilSlug } = useParams<{ slug?: string; councilSlug?: string }>();
+  const slug = slugParam ?? (councilSlug ? "academic-council" : undefined);
   const { t } = useTranslation("topNav");
   const { t: tCommon } = useTranslation("common");
   const { t: th } = useTranslation("header");
+
+  /** Pin section nav like a fixed panel on large screens (CSS sticky is unreliable with our scroll roots). */
+  const layoutRowRef = useRef<HTMLDivElement>(null);
+  const asideRef = useRef<HTMLElement>(null);
+  const sidebarWrapRef = useRef<HTMLDivElement>(null);
+  const sidebarCardRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const LG = "(min-width: 1024px)";
+    const mq = window.matchMedia(LG);
+
+    const headerOffsetPx = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-height").trim();
+      const n = parseFloat(raw);
+      return (Number.isFinite(n) ? n : 64) + 12;
+    };
+
+    const clearCardPinStyles = () => {
+      const card = sidebarCardRef.current;
+      const wrap = sidebarWrapRef.current;
+      if (card) {
+        card.style.removeProperty("position");
+        card.style.removeProperty("top");
+        card.style.removeProperty("left");
+        card.style.removeProperty("right");
+        card.style.removeProperty("width");
+        card.style.removeProperty("bottom");
+        card.style.removeProperty("z-index");
+        card.style.removeProperty("max-height");
+      }
+      if (wrap) wrap.style.removeProperty("min-height");
+    };
+
+    const update = () => {
+      const row = layoutRowRef.current;
+      const aside = asideRef.current;
+      const wrap = sidebarWrapRef.current;
+      const card = sidebarCardRef.current;
+      if (!mq.matches || !row || !aside || !wrap || !card) {
+        clearCardPinStyles();
+        return;
+      }
+
+      const topPx = headerOffsetPx();
+      const rowRect = row.getBoundingClientRect();
+      const wrapRect = wrap.getBoundingClientRect();
+      const cardH = card.offsetHeight;
+
+      const useBottom = rowRect.bottom <= topPx + cardH + 2;
+      const useFixed = !useBottom && wrapRect.top < topPx;
+
+      if (useFixed) {
+        const wr = wrap.getBoundingClientRect();
+        wrap.style.minHeight = `${Math.ceil(cardH)}px`;
+        card.style.position = "fixed";
+        card.style.top = `${topPx}px`;
+        card.style.left = `${wr.left}px`;
+        card.style.width = `${wr.width}px`;
+        card.style.right = "auto";
+        card.style.bottom = "auto";
+        card.style.zIndex = "10";
+        card.style.maxHeight = `calc(100dvh - ${topPx}px - 1rem)`;
+      } else if (useBottom) {
+        wrap.style.removeProperty("min-height");
+        card.style.position = "absolute";
+        card.style.top = "auto";
+        card.style.left = "0";
+        card.style.right = "0";
+        card.style.width = "auto";
+        card.style.bottom = "0";
+        card.style.zIndex = "10";
+        card.style.maxHeight = `calc(100dvh - ${topPx}px - 1rem)`;
+      } else {
+        clearCardPinStyles();
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    mq.addEventListener("change", update);
+    const ro = new ResizeObserver(update);
+    if (sidebarCardRef.current) ro.observe(sidebarCardRef.current);
+    if (layoutRowRef.current) ro.observe(layoutRowRef.current);
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      mq.removeEventListener("change", update);
+      ro.disconnect();
+      clearCardPinStyles();
+    };
+  }, [group, slug, councilSlug]);
+
+  if (group === "research" && councilSlug && !isAcademicCouncilCardId(councilSlug)) {
+    return <Navigate to="/research/academic-council" replace />;
+  }
 
   const meta = getTopNavSubPageMeta(group, slug);
   if (!meta) {
@@ -62,17 +202,35 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
     group === "media" ? t("mediaPageTitle") : th(PARENT_NAV_KEY[group]);
   const sections = getSectionsForGroup(group);
   const charterLayout = isCharterDocumentPage(group, slug);
+  const workersUnionLayout = isWorkersUnionCommitteePage(group, slug);
+  const universityInNumbersLayout = isUniversityInNumbersPage(group, slug);
+  const organizationalStructureLayout = isOrganizationalStructurePage(group, slug);
   const videoGalleryLayout = isVideoGalleryPage(group, slug);
   const photoGalleryLayout = isPhotoGalleryPage(group, slug);
+  const publicationsContactLayout = isScientificPublicationsContactPage(group, slug);
+  const seminarsConferencesLayout = isSeminarsConferencesPage(group, slug);
+  const researchPublicationsLayout = isResearchPublicationsPage(group, slug);
+  const academicCouncilLayout = isAcademicCouncilPage(group, slug);
+  const academicCouncilDetail =
+    academicCouncilLayout && councilSlug && isAcademicCouncilCardId(councilSlug);
   const showHeroBanner = shouldShowSubPageHeroBanner(group, slug);
-  const pageTitle = charterLayout ? t("charter.documentTitle") : th(meta.labelKey);
+  const hubSectionTitle = th(meta.labelKey);
+  const councilDetailPageTitle =
+    academicCouncilDetail && councilSlug ? t(ACADEMIC_COUNCIL_I18N[councilSlug].titleKey) : null;
+  const pageTitle = charterLayout ? t("charter.documentTitle") : councilDetailPageTitle ?? hubSectionTitle;
   const pdfUrl = (t("charter.pdfUrl", { defaultValue: "" }) || "").trim();
+  const academicCouncilHeroImage =
+    academicCouncilDetail && councilSlug && isAcademicCouncilCardId(councilSlug)
+      ? ACADEMIC_COUNCIL_CARD_IMAGE[councilSlug]
+      : undefined;
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="below-header">
-        {showHeroBanner ? <SubPageHeroBanner /> : null}
+        {showHeroBanner ? (
+          <SubPageHeroBanner staticImageSrc={academicCouncilHeroImage} />
+        ) : null}
         {/* Breadcrumbs — reference-style strip */}
         <div className="border-b border-border bg-muted/50">
           <div className="container mx-auto flex max-w-[1348px] items-center px-4 py-3 sm:px-6 lg:px-8">
@@ -101,14 +259,31 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                 <li aria-hidden className="flex items-center text-muted-foreground/70">
                   <span className="leading-none">/</span>
                 </li>
-                <li className="flex items-center font-medium text-foreground">{pageTitle}</li>
+                {academicCouncilDetail && councilDetailPageTitle ? (
+                  <>
+                    <li className="flex items-center">
+                      <Link
+                        to="/research/academic-council"
+                        className="font-medium leading-none transition-colors hover:text-foreground"
+                      >
+                        {hubSectionTitle}
+                      </Link>
+                    </li>
+                    <li aria-hidden className="flex items-center text-muted-foreground/70">
+                      <span className="leading-none">/</span>
+                    </li>
+                    <li className="flex items-center font-medium text-foreground">{councilDetailPageTitle}</li>
+                  </>
+                ) : (
+                  <li className="flex items-center font-medium text-foreground">{pageTitle}</li>
+                )}
               </ol>
             </nav>
           </div>
         </div>
 
         <div className="container mx-auto max-w-[1348px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
+          <div ref={layoutRowRef} className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
             {/* Main column */}
             <div className="order-1 lg:order-none lg:col-span-9">
               <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
@@ -187,38 +362,55 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                     })}
                   </Accordion>
                 </>
+              ) : workersUnionLayout ? (
+                <WorkersUnionCommitteeSection />
+              ) : universityInNumbersLayout ? (
+                <UniversityInNumbersSection />
+              ) : organizationalStructureLayout ? (
+                <OrganizationalStructureSection />
               ) : videoGalleryLayout ? (
                 <>
-                  <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t("videoGallery.gridIntro")}</p>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{t("videoGallery.gridIntro")}</p>
                   <VideoGalleryCards />
                 </>
               ) : photoGalleryLayout ? (
                 <>
-                  <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t("photoGallery.gridIntro")}</p>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{t("photoGallery.gridIntro")}</p>
                   <PhotoGalleryCards />
                 </>
+              ) : publicationsContactLayout ? (
+                <PublicationContactSection />
+              ) : seminarsConferencesLayout ? (
+                <SeminarsConferencesSection />
+              ) : researchPublicationsLayout ? (
+                <ResearchPublicationsSection />
+              ) : academicCouncilLayout ? (
+                academicCouncilDetail && councilSlug ? (
+                  <AcademicCouncilDetailSection cardId={councilSlug} />
+                ) : (
+                  <AcademicCouncilSection />
+                )
               ) : (
                 <>
-                  <p className="mt-6 text-base leading-relaxed text-muted-foreground">{t("subPageIntro")}</p>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{t("subPageIntro")}</p>
                   <p className="mt-6 border-t border-border pt-6 text-sm leading-relaxed text-muted-foreground md:text-base">
                     {t("sectionPlaceholder")}
                   </p>
                 </>
               )}
-
-              <p className="mt-10">
-                <Link
-                  to={hubPath}
-                  className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-                >
-                  {t("backToSection", { section: parentLabel })}
-                </Link>
-              </p>
             </div>
 
-            {/* Sidebar — sibling pages */}
-            <aside className="order-2 lg:order-none lg:col-span-3">
-              <div className="rounded-xl border border-border bg-card p-4 shadow-sm lg:sticky lg:top-28">
+            {/* Sidebar — pinned under header on lg+ via layout effect (fixed coordinates from column width) */}
+            <aside ref={asideRef} className="relative order-2 lg:order-none lg:col-span-3">
+              <div ref={sidebarWrapRef} className="w-full">
+                <div
+                  ref={sidebarCardRef}
+                  className={cn(
+                    "rounded-xl border border-border bg-card p-4 shadow-sm",
+                    "lg:max-h-[calc(100dvh-var(--header-height)-1.5rem)] lg:overflow-y-auto",
+                  )}
+                  style={{ scrollbarGutter: "stable" }}
+                >
                 <Link
                   to={hubPath}
                   className="mb-4 flex items-center gap-2 border-b border-border pb-4 font-semibold text-foreground transition-colors hover:text-primary"
@@ -256,6 +448,7 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                     );
                   })}
                 </ul>
+                </div>
               </div>
             </aside>
           </div>

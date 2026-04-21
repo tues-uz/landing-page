@@ -8,7 +8,8 @@
         "dev:fast": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "optimize:tuesw-gallery": "node scripts/optimize-tuesw-gallery.mjs"
     },
     "dependencies": {
         "@fontsource/geist-sans": "^5.2.5",
@@ -45,6 +46,7 @@
         "@radix-ui/react-toggle-group": "^1.1.10",
         "@radix-ui/react-tooltip": "^1.2.7",
         "@tanstack/react-query": "^5.83.0",
+        "@tanstack/react-virtual": "^3.13.23",
         "@tiptap/core": "3.20.1",
         "@tiptap/extension-bubble-menu": "3.20.1",
         "@tiptap/extension-floating-menu": "3.20.1",
@@ -97,6 +99,7 @@
         "eslint-plugin-react-refresh": "^0.4.20",
         "globals": "^15.15.0",
         "postcss": "^8.5.6",
+        "sharp": "^0.34.5",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.38.0",

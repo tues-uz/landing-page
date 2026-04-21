@@ -46,6 +46,10 @@
     "community": "Hamjamiyat",
     "colleges": "Kollejlar",
     "journal": "Jurnal",
+    "megaBlurbAbout": "Boshqaruv, missiya, ustav va TUES haqida asosiy ma'lumotlar — barcha bo'limlarga tezkor havolalar.",
+    "megaBlurbResearch": "Ilmiy nashrlar, seminarlar, ilmiy kengash, tadqiqotlar va innovatsiya faoliyati.",
+    "megaBlurbAdmissions": "O'quv dasturlari, abituriyentlar uchun talablar va shartnoma bo'yicha o'qitish haqi.",
+    "megaBlurbNews": "Yangiliklar, tadbirlar, video va foto galereyalar — kampus hayotidan.",
     "aboutMenu": {
       "whoWeAre": "Biz kimmiz",
       "regulation": "Nizom va qoidalar",
