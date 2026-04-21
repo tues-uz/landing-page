@@ -46,6 +46,10 @@
     "community": "Community",
     "colleges": "Colleges",
     "journal": "Journal",
+    "megaBlurbAbout": "Governance, mission, charter, and key facts about TUES — with quick links to every subsection.",
+    "megaBlurbResearch": "Scientific publications, seminars, the academic council, research output, and innovation at the university.",
+    "megaBlurbAdmissions": "Study programs, requirements for applicants, and contract tuition information.",
+    "megaBlurbNews": "Latest news, upcoming events, and video and photo galleries from campus life.",
     "aboutMenu": {
       "whoWeAre": "Who we are",
       "regulation": "Regulation",

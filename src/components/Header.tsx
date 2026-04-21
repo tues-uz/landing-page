@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
   ChevronDown,
@@ -37,6 +37,7 @@ import {
   Briefcase,
   Search,
   Loader2,
+  Newspaper,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -45,6 +46,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -185,9 +187,25 @@ const secondNavMega: MegaMenuItem[] = [
   },
 ];
 
-const navItems: { labelKey: string; itemKeys: string[] }[] = [
+function getSecondNavMegaItem(key: string): MegaMenuItem | undefined {
+  return secondNavMega.find((m) => m.key === key);
+}
+
+type MainNavMegaItem = {
+  labelKey: string;
+  hubPath: string;
+  descriptionKey: string;
+  icon: LucideIcon;
+  itemKeys: string[];
+};
+
+/** Desktop mega menus: hub blurb + two-column links (reference-style layout). */
+const mainNavMegaItems: MainNavMegaItem[] = [
   {
     labelKey: "nav.about",
+    hubPath: "/about",
+    descriptionKey: "nav.megaBlurbAbout",
+    icon: Building2,
     itemKeys: [
       "nav.aboutMenu.whoWeAre",
       "nav.aboutMenu.regulation",
@@ -201,6 +219,9 @@ const navItems: { labelKey: string; itemKeys: string[] }[] = [
   },
   {
     labelKey: "nav.research",
+    hubPath: "/research",
+    descriptionKey: "nav.megaBlurbResearch",
+    icon: FlaskConical,
     itemKeys: [
       "nav.researchMenu.scientificPublicationsJournals",
       "nav.researchMenu.seminarsConferences",
@@ -211,6 +232,9 @@ const navItems: { labelKey: string; itemKeys: string[] }[] = [
   },
   {
     labelKey: "nav.admissions",
+    hubPath: "/admissions",
+    descriptionKey: "nav.megaBlurbAdmissions",
+    icon: GraduationCap,
     itemKeys: [
       "nav.admissionsMenu.studyPrograms",
       "nav.admissionsMenu.regulationsAndRequirements",
@@ -220,6 +244,9 @@ const navItems: { labelKey: string; itemKeys: string[] }[] = [
   },
   {
     labelKey: "nav.news",
+    hubPath: "/news",
+    descriptionKey: "nav.megaBlurbNews",
+    icon: Newspaper,
     itemKeys: [
       "nav.newsMenu.latestNews",
       "nav.newsMenu.upcomingEvents",
@@ -229,6 +256,7 @@ const navItems: { labelKey: string; itemKeys: string[] }[] = [
   },
 ];
 
+/** Wide mega panel: anchor so it stays in view (About left, News right, middle centered). */
 const secondaryNav = ["nav.community", "nav.colleges", "nav.journal"];
 
 const secondNavItems = [
@@ -415,6 +443,62 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
   const [openMegaKey, setOpenMegaKey] = useState<string | null>(null);
   const [openMegaTriggerRect, setOpenMegaTriggerRect] = useState<{ left: number; width: number } | null>(null);
   const [panelTop, setPanelTop] = useState(128);
+  const [secondNavPanelLeft, setSecondNavPanelLeft] = useState(0);
+  const [secondNavPanelWidth, setSecondNavPanelWidth] = useState(0);
+
+  /** Mega dropdown: flush to bottom of main navbar row (0px gap); width = full main row. */
+  const [mainNavMegaOpen, setMainNavMegaOpen] = useState(false);
+  const [mainNavMegaSideOffset, setMainNavMegaSideOffset] = useState(0);
+  const [mainNavMegaAlignOffset, setMainNavMegaAlignOffset] = useState(0);
+  const [mainNavMegaPanelWidth, setMainNavMegaPanelWidth] = useState(0);
+
+  const recomputeMainNavMegaPlacement = useCallback(() => {
+    const row = mainRowRef.current;
+    if (!row) return;
+    const rowRect = row.getBoundingClientRect();
+    const trigger = row.querySelector('nav[aria-label="Main"] button[aria-expanded="true"]');
+    if (!(trigger instanceof HTMLElement)) return;
+    const triggerRect = trigger.getBoundingClientRect();
+    setMainNavMegaSideOffset(Math.max(0, Math.round(rowRect.bottom - triggerRect.bottom)));
+    setMainNavMegaAlignOffset(Math.round(rowRect.left - triggerRect.left));
+    setMainNavMegaPanelWidth(Math.round(rowRect.width));
+  }, []);
+
+  const onMainNavMegaOpenChange = useCallback(
+    (_open: boolean) => {
+      queueMicrotask(() => {
+        const row = mainRowRef.current;
+        const expanded = row?.querySelector('nav[aria-label="Main"] button[aria-expanded="true"]');
+        const anyOpen = !!expanded;
+        setMainNavMegaOpen(anyOpen);
+        if (anyOpen) recomputeMainNavMegaPlacement();
+      });
+    },
+    [recomputeMainNavMegaPlacement],
+  );
+
+  useLayoutEffect(() => {
+    if (!mainNavMegaOpen) return;
+    recomputeMainNavMegaPlacement();
+  }, [mainNavMegaOpen, recomputeMainNavMegaPlacement]);
+
+  useEffect(() => {
+    if (!mainNavMegaOpen) return;
+    recomputeMainNavMegaPlacement();
+    window.addEventListener("resize", recomputeMainNavMegaPlacement);
+    window.addEventListener("scroll", recomputeMainNavMegaPlacement, true);
+    return () => {
+      window.removeEventListener("resize", recomputeMainNavMegaPlacement);
+      window.removeEventListener("scroll", recomputeMainNavMegaPlacement, true);
+    };
+  }, [mainNavMegaOpen, recomputeMainNavMegaPlacement]);
+
+  useEffect(() => {
+    if (mainNavMegaOpen) {
+      const id = window.requestAnimationFrame(() => recomputeMainNavMegaPlacement());
+      return () => window.cancelAnimationFrame(id);
+    }
+  }, [topBarVisible, mainNavMegaOpen, recomputeMainNavMegaPlacement]);
 
   useEffect(() => {
     onMobileMenuOpenChange?.(mobileMenuOpen);
@@ -474,22 +558,38 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
     };
   }, [topBarVisible]);
 
-  // Sync hamburger panel top with bottom of main header row (so panel aligns under full header)
+  const syncSecondNavPanelLayout = useCallback(() => {
+    const row = mainRowRef.current;
+    if (!row) return;
+    const r = row.getBoundingClientRect();
+    setPanelTop(Math.round(r.bottom));
+    setSecondNavPanelLeft(Math.round(r.left));
+    setSecondNavPanelWidth(Math.round(r.width));
+  }, []);
+
+  // Portaled "Explore more" panel: same horizontal box as main navbar row
+  useLayoutEffect(() => {
+    if (!secondNavMobileOpen) return;
+    syncSecondNavPanelLayout();
+  }, [secondNavMobileOpen, syncSecondNavPanelLayout]);
+
   useEffect(() => {
     if (!secondNavMobileOpen) return;
-    const setPanelTopFromHeader = () => {
-      if (mainRowRef.current) {
-        setPanelTop(mainRowRef.current.getBoundingClientRect().bottom);
-      }
-    };
-    setPanelTopFromHeader();
-    window.addEventListener("scroll", setPanelTopFromHeader, true);
-    window.addEventListener("resize", setPanelTopFromHeader);
+    syncSecondNavPanelLayout();
+    window.addEventListener("scroll", syncSecondNavPanelLayout, true);
+    window.addEventListener("resize", syncSecondNavPanelLayout);
     return () => {
-      window.removeEventListener("scroll", setPanelTopFromHeader, true);
-      window.removeEventListener("resize", setPanelTopFromHeader);
+      window.removeEventListener("scroll", syncSecondNavPanelLayout, true);
+      window.removeEventListener("resize", syncSecondNavPanelLayout);
     };
-  }, [secondNavMobileOpen, topBarVisible]);
+  }, [secondNavMobileOpen, topBarVisible, syncSecondNavPanelLayout]);
+
+  useEffect(() => {
+    if (secondNavMobileOpen) {
+      const id = window.requestAnimationFrame(() => syncSecondNavPanelLayout());
+      return () => window.cancelAnimationFrame(id);
+    }
+  }, [topBarVisible, secondNavMobileOpen, syncSecondNavPanelLayout]);
 
   // Close mega menu on outside click
   useEffect(() => {
@@ -578,38 +678,48 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
               onClick={() => setSecondNavMobileOpen(false)}
             />
             <div
-              className="fixed right-0 z-50 w-full max-w-sm border-l border-t border-primary-foreground/10 bg-primary shadow-xl overflow-y-auto"
-              style={{ top: panelTop, maxHeight: `calc(100vh - ${panelTop}px)`, scrollbarGutter: 'stable' }}
+              className="fixed z-50 overflow-y-auto rounded-b-md border border-border bg-card text-popover-foreground shadow-xl"
+              style={{
+                top: panelTop,
+                left: secondNavPanelWidth > 0 ? secondNavPanelLeft : 0,
+                width: secondNavPanelWidth > 0 ? secondNavPanelWidth : "100%",
+                maxHeight: `calc(100vh - ${panelTop}px)`,
+                scrollbarGutter: "stable",
+              }}
               role="dialog"
               aria-label="Menu"
             >
-              <nav className="py-4 pl-4 pr-4 border-b-0">
-                <Accordion type="single" collapsible className="w-full [&>*]:border-b-0">
-                  {secondNavItems.map((item, index) => (
-                    <AccordionItem
-                      key={item.key}
-                      value={item.key}
-                      className={index === secondNavItems.length - 1 ? "border-b-0 border-primary-foreground/10" : "border-primary-foreground/10"}
-                    >
-                      <AccordionTrigger className="py-3 text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                        {t(item.labelKey)}
-                      </AccordionTrigger>
-                      <AccordionContent className="pb-3 pt-0">
-                        <ul className="flex flex-col gap-0.5">
-                          {item.itemKeys.map((subItemKey) => (
-                            <li key={subItemKey}>
-                              <button
-                                type="button"
-                                className="w-full rounded px-3 py-2 text-left text-sm text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground transition-colors"
-                              >
-                                {t(subItemKey)}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
+              <nav className="border-b-0 px-[32px] py-5 sm:py-6">
+                <Accordion type="single" collapsible className="w-full">
+                  {secondNavItems.map((item) => {
+                    const mega = getSecondNavMegaItem(item.key);
+                    return (
+                      <AccordionItem key={item.key} value={item.key} className="border-b border-border last:border-b-0">
+                        <AccordionTrigger className="py-3 text-left text-[0.7rem] font-bold uppercase tracking-[0.14em] text-foreground hover:no-underline sm:text-xs [&[data-state=open]>svg]:rotate-180">
+                          {t(item.labelKey)}
+                        </AccordionTrigger>
+                        <AccordionContent className="pb-5 pt-0">
+                          <div className="flex flex-col gap-5">
+                            {mega?.description ? (
+                              <p className="text-sm leading-relaxed text-muted-foreground">{mega.description}</p>
+                            ) : null}
+                            <ul className="grid grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2">
+                              {item.itemKeys.map((subItemKey) => (
+                                <li key={subItemKey} className="min-w-0">
+                                  <button
+                                    type="button"
+                                    className="w-full rounded-md px-2 py-2 text-left text-sm text-foreground transition-colors hover:bg-sky-50 hover:text-sky-700 dark:hover:bg-primary/15 dark:hover:text-primary"
+                                  >
+                                    {t(subItemKey)}
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
                 </Accordion>
               </nav>
             </div>
@@ -618,7 +728,10 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
         )}
 
         {/* Main row: Logo (left) | Social + Phone + Lang + CTA (right) */}
-        <div ref={mainRowRef} className="relative flex min-h-16 flex-nowrap items-center justify-between gap-3 overflow-hidden px-4 py-2 lg:gap-0 lg:px-6">
+        <div
+          ref={mainRowRef}
+          className="relative flex min-h-16 flex-nowrap items-center justify-between gap-3 overflow-x-clip overflow-y-visible px-4 py-2 lg:gap-0 lg:px-6"
+        >
           {/* Logo - left */}
           <div className="flex min-w-0 shrink items-center">
             <Link to="/" aria-label="Back to University Home" className="flex min-w-0 items-center gap-2 overflow-hidden sm:gap-4">
@@ -637,38 +750,90 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
 
           {/* Nav: About, Research, Admissions, News - right of logo */}
           <nav className="hidden min-w-0 flex-1 lg:flex lg:justify-center" aria-label="Main">
-            <ul role="list" className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-1 list-none p-0 text-[14px]">
-              {navItems.map((item) => (
-                <li key={item.labelKey} className="px-0">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 font-medium h-auto py-1.5 text-[14px]"
-                      >
-                        {t(item.labelKey)}
-                        <ChevronDown className="ml-0.5 h-3.5 w-3.5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-card border-border min-w-[16rem]">
-                      {item.itemKeys.map((subKey) => (
-                        <DropdownMenuItem
-                          key={subKey}
-                          className="cursor-pointer hover:bg-muted"
-                          asChild
+            <ul
+              role="list"
+              className="flex w-full list-none flex-wrap items-center justify-center gap-x-4 gap-y-1 p-0 text-[14px] lg:flex-nowrap"
+            >
+              {mainNavMegaItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.labelKey} className="px-0">
+                    <DropdownMenu modal={false} onOpenChange={onMainNavMegaOpenChange}>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="h-auto gap-0.5 px-2 py-1.5 text-[14px] font-medium text-primary-foreground/90 hover:bg-primary-foreground/10 hover:text-primary-foreground"
                         >
-                          <Link to={getTopNavItemHref(subKey)}>{t(subKey)}</Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </li>
-              ))}
+                          {t(item.labelKey)}
+                          <ChevronDown className="h-3.5 w-3.5 shrink-0" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        side="bottom"
+                        align="start"
+                        sideOffset={mainNavMegaSideOffset}
+                        alignOffset={mainNavMegaAlignOffset}
+                        avoidCollisions={false}
+                        collisionPadding={0}
+                        style={
+                          mainNavMegaPanelWidth > 0
+                            ? { width: mainNavMegaPanelWidth, maxWidth: mainNavMegaPanelWidth }
+                            : undefined
+                        }
+                        className={cn(
+                          "z-[100] min-w-0 max-w-none rounded-none rounded-b-md border-border bg-card p-0 text-popover-foreground shadow-xl",
+                          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+                          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+                        )}
+                      >
+                        <div className="flex flex-col gap-6 px-5 py-5 sm:px-6 sm:py-6 lg:px-[100px] lg:flex-row lg:items-stretch lg:gap-10">
+                          <DropdownMenuItem
+                            asChild
+                            className="h-auto cursor-pointer items-start rounded-lg p-0 focus:bg-transparent data-[highlighted]:bg-transparent data-[highlighted]:text-foreground focus:text-foreground"
+                          >
+                            <Link
+                              to={item.hubPath}
+                              className="flex outline-none lg:min-w-0 lg:max-w-[min(20rem,28vw)] lg:shrink-0 lg:border-r lg:border-border lg:pr-8"
+                            >
+                              <div className="flex min-w-0 flex-1 gap-3.5">
+                                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                                  <Icon className="h-5 w-5" aria-hidden />
+                                </span>
+                                <div className="flex min-w-0 flex-1 flex-col gap-2.5 text-left">
+                                  <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-foreground leading-snug sm:text-xs">
+                                    {t(item.labelKey)}
+                                  </h3>
+                                  <p className="text-sm leading-relaxed text-muted-foreground">
+                                    {t(item.descriptionKey)}
+                                  </p>
+                                </div>
+                              </div>
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuGroup className="grid w-full grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2 lg:flex-1">
+                            {item.itemKeys.map((subKey) => (
+                              <DropdownMenuItem
+                                key={subKey}
+                                asChild
+                                className="h-auto cursor-pointer rounded-md px-2 py-2 text-sm text-foreground focus:bg-sky-50 focus:text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-700 dark:focus:bg-primary/15 dark:focus:text-primary dark:data-[highlighted]:bg-primary/15 dark:data-[highlighted]:text-primary"
+                              >
+                                <Link to={getTopNavItemHref(subKey)} className="block w-full">
+                                  <span className="leading-snug">{t(subKey)}</span>
+                                </Link>
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuGroup>
+                        </div>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
           {/* Right: search + EduHub + hamburger (language: floating FAB in App) */}
-          <div className="flex shrink-0 items-center gap-1 sm:gap-2 min-w-[44px]">
+          <div className="flex min-w-[44px] shrink-0 items-center gap-1 sm:gap-2">
             <Button
               type="button"
               variant="ghost"
@@ -817,37 +982,45 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             </div>
           </div>
 
-          {/* Mobile menu panel for second nav */}
+          {/* Mobile menu panel for second nav (below header row on small screens) */}
           {secondNavMobileOpen && (
-            <div className="lg:hidden border-t border-primary-foreground/10 bg-primary">
-              <nav className="px-6 py-4 flex flex-col gap-2 max-h-[70vh] overflow-y-auto">
-                {secondNavItems.map((item) => (
-                  <DropdownMenu key={item.key}>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        type="button"
-                        className="flex items-center justify-between w-full py-3 text-left text-[13px] font-medium text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                      >
-                        {t(item.labelKey)}
-                        <ChevronDown className="h-4 w-4 shrink-0" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      className="bg-card border-border w-[var(--radix-dropdown-menu-trigger-width)] max-w-[280px] p-3"
-                      align="start"
-                      side="right"
-                    >
-                      {item.itemKeys.map((subItemKey) => (
-                        <DropdownMenuItem
-                          key={subItemKey}
-                          className="cursor-pointer hover:bg-muted rounded px-3 py-2 text-sm"
+            <div className="lg:hidden border-t border-border bg-card text-popover-foreground shadow-inner">
+              <nav className="flex max-h-[70vh] flex-col gap-2 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+                {secondNavItems.map((item) => {
+                  const mega = getSecondNavMegaItem(item.key);
+                  return (
+                    <DropdownMenu key={item.key}>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          type="button"
+                          className="flex w-full items-center justify-between py-3 text-left text-[0.7rem] font-bold uppercase tracking-[0.14em] text-foreground transition-colors sm:text-xs"
                         >
-                          {t(subItemKey)}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ))}
+                          {t(item.labelKey)}
+                          <ChevronDown className="h-4 w-4 shrink-0" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        className="z-[100] w-[var(--radix-dropdown-menu-trigger-width)] max-w-[min(280px,calc(100vw-2rem))] border-border bg-card p-3 text-popover-foreground shadow-xl"
+                        align="start"
+                        side="right"
+                      >
+                        {mega?.description ? (
+                          <p className="mb-3 border-b border-border pb-3 text-sm leading-relaxed text-muted-foreground">
+                            {mega.description}
+                          </p>
+                        ) : null}
+                        {item.itemKeys.map((subItemKey) => (
+                          <DropdownMenuItem
+                            key={subItemKey}
+                            className="h-auto cursor-pointer rounded-md px-2 py-2 text-sm text-foreground focus:bg-sky-50 focus:text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-700 dark:focus:bg-primary/15 dark:focus:text-primary dark:data-[highlighted]:bg-primary/15 dark:data-[highlighted]:text-primary"
+                          >
+                            {t(subItemKey)}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  );
+                })}
               </nav>
             </div>
           )}
@@ -859,7 +1032,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           <div className="lg:hidden max-h-[100dvh] overflow-y-auto px-4 py-4 pb-24 border-t border-primary-foreground/10 lg:px-6">
             <nav className="flex flex-col gap-2">
               <Accordion type="single" collapsible className="w-full [&>*]:border-b [&>*]:border-primary-foreground/10">
-                {navItems.map((item) => (
+                {mainNavMegaItems.map((item) => (
                   <AccordionItem key={item.labelKey} value={item.labelKey} className="border-none border-b border-primary-foreground/10 last:border-b-0">
                     <AccordionTrigger className="py-3 text-primary-foreground font-medium hover:no-underline hover:text-primary-foreground [&[data-state=open]>svg]:rotate-180">
                       {t(item.labelKey)}
