@@ -32,6 +32,7 @@
     "title": "Yangiliklar va e'lonlar",
     "subtitle": "TUESdagi so'nggi yangiliklar, kampus yangilanishlari va hikoyalardan xabardor bo'ling.",
     "noArticles": "Hozircha maqolalar yo'q.",
+    "recommendedSidebarTitle": "Yangiliklar",
     "viewAll": "Barcha yangiliklar",
     "onDate": "{{date}} kuni",
     "comments_one": "{{count}} izoh",
@@ -50,6 +51,7 @@
   "events": {
     "titleLine1": "Yaqinlashayotgan tadbirlar",
     "titleLine2": "va faoliyatlar",
+    "recommendedSidebarTitle": "Tadbirlar",
     "viewAll": "Barcha tadbirlar",
     "noUpcoming": "Yaqinlashayotgan tadbirlar yo'q."
   },

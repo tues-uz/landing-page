@@ -32,6 +32,7 @@
     "title": "News & Announcements",
     "subtitle": "Stay up to date with the latest from TUES—research, campus updates, and stories.",
     "noArticles": "No articles yet.",
+    "recommendedSidebarTitle": "News",
     "viewAll": "View All News",
     "onDate": "on {{date}}",
     "comments_one": "{{count}} Comment",
@@ -50,6 +51,7 @@
   "events": {
     "titleLine1": "Upcoming Events",
     "titleLine2": "& Activities",
+    "recommendedSidebarTitle": "Events",
     "viewAll": "View All Events",
     "noUpcoming": "No upcoming events."
   },

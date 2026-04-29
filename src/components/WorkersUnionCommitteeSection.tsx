@@ -30,10 +30,12 @@ export function WorkersUnionCommitteeSection() {
     .filter(Boolean);
 
   return (
-    <div className="mt-4 max-w-none space-y-6 text-base leading-relaxed text-muted-foreground md:text-[1.0625rem]">
+    <div className="mt-4 max-w-none space-y-6 text-body-article text-muted-foreground">
       <div className="space-y-4">
         {introParagraphs.map((para, i) => (
-          <p key={i}>{para}</p>
+          <p key={i} className="text-base md:text-base">
+            {para}
+          </p>
         ))}
       </div>
 

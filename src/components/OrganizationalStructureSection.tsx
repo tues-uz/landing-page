@@ -222,7 +222,7 @@ export function OrganizationalStructureSection() {
 
   return (
     <div className="mt-4 max-w-none">
-      <div className="space-y-4 text-base leading-relaxed text-muted-foreground md:text-[1.0625rem]">
+      <div className="space-y-4 text-body-article text-muted-foreground">
         {introParagraphs.map((para, i) => (
           <p key={i}>{para}</p>
         ))}

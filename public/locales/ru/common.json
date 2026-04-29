@@ -4,6 +4,8 @@
   "next": "Вперед",
   "changeLanguage": "Сменить язык",
   "scrollToTop": "Наверх",
+  "shareLink": "Поделиться ссылкой",
+  "linkCopied": "Ссылка скопирована",
   "accessibility": {
     "openMenu": "Открыть настройки доступности",
     "skipToMain": "Перейти к основному содержимому",

@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, Download, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SubPageHeroBanner } from "@/components/SubPageHeroBanner";
@@ -13,6 +13,10 @@ import { ResearchPublicationsSection } from "@/components/ResearchPublicationsSe
 import { OrganizationalStructureSection } from "@/components/OrganizationalStructureSection";
 import { UniversityInNumbersSection } from "@/components/UniversityInNumbersSection";
 import { WorkersUnionCommitteeSection } from "@/components/WorkersUnionCommitteeSection";
+import { WhoWeAreSection } from "@/components/WhoWeAreSection";
+import { RegulationDocumentsSection } from "@/components/RegulationDocumentsSection";
+import { AccreditationLicenseSection } from "@/components/AccreditationLicenseSection";
+import { LeadershipCouncilsSection } from "@/components/LeadershipCouncilsSection";
 import { SeminarsConferencesSection } from "@/components/SeminarsConferencesSection";
 import { PublicationContactSection } from "@/components/PublicationContactSection";
 import {
@@ -48,12 +52,24 @@ function isWorkersUnionCommitteePage(group: TopNavGroup, slug: string | undefine
   return group === "about" && slug === "workers-union-committee";
 }
 
+function isWhoWeArePage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "who-we-are";
+}
+
 function isUniversityInNumbersPage(group: TopNavGroup, slug: string | undefined): boolean {
   return group === "about" && slug === "university-in-numbers";
 }
 
 function isOrganizationalStructurePage(group: TopNavGroup, slug: string | undefined): boolean {
   return group === "about" && slug === "organizational-structure";
+}
+
+function isAccreditationLicensePage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "accreditation-and-license";
+}
+
+function isLeadershipAndCouncilsPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "leadership-and-councils";
 }
 
 function isVideoGalleryPage(group: TopNavGroup, slug: string | undefined): boolean {
@@ -192,6 +208,10 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
     return <Navigate to="/research/academic-council" replace />;
   }
 
+  if (group === "admissions" && slug === "contract-amounts-tuition") {
+    return <Navigate to="/admission-2025/contract-amounts" replace />;
+  }
+
   const meta = getTopNavSubPageMeta(group, slug);
   if (!meta) {
     return <Navigate to={`/${group}`} replace />;
@@ -203,8 +223,11 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
   const sections = getSectionsForGroup(group);
   const charterLayout = isCharterDocumentPage(group, slug);
   const workersUnionLayout = isWorkersUnionCommitteePage(group, slug);
+  const whoWeAreLayout = isWhoWeArePage(group, slug);
   const universityInNumbersLayout = isUniversityInNumbersPage(group, slug);
   const organizationalStructureLayout = isOrganizationalStructurePage(group, slug);
+  const accreditationLicenseLayout = isAccreditationLicensePage(group, slug);
+  const leadershipAndCouncilsLayout = isLeadershipAndCouncilsPage(group, slug);
   const videoGalleryLayout = isVideoGalleryPage(group, slug);
   const photoGalleryLayout = isPhotoGalleryPage(group, slug);
   const publicationsContactLayout = isScientificPublicationsContactPage(group, slug);
@@ -218,7 +241,6 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
   const councilDetailPageTitle =
     academicCouncilDetail && councilSlug ? t(ACADEMIC_COUNCIL_I18N[councilSlug].titleKey) : null;
   const pageTitle = charterLayout ? t("charter.documentTitle") : councilDetailPageTitle ?? hubSectionTitle;
-  const pdfUrl = (t("charter.pdfUrl", { defaultValue: "" }) || "").trim();
   const academicCouncilHeroImage =
     academicCouncilDetail && councilSlug && isAcademicCouncilCardId(councilSlug)
       ? ACADEMIC_COUNCIL_CARD_IMAGE[councilSlug]
@@ -292,45 +314,7 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
 
               {charterLayout ? (
                 <>
-                  <div className="charter-download mt-8 rounded-xl border border-border bg-card p-6 shadow-sm">
-                    <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                      <div className="min-w-0 flex-1 space-y-2">
-                        <h3 className="text-lg font-semibold text-foreground md:text-xl">
-                          {t("charter.institution")}
-                        </h3>
-                        <p className="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                          {t("charter.downloadLead")}
-                        </p>
-                      </div>
-                      <div className="flex shrink-0 flex-col items-center gap-3 sm:flex-row sm:justify-end">
-                        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-600">
-                          <Download className="h-12 w-12" strokeWidth={1.25} aria-hidden />
-                        </div>
-                        <div className="text-center sm:text-left">
-                          {pdfUrl ? (
-                            <a
-                              href={pdfUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              download
-                              className="group inline-flex flex-col items-center gap-1 sm:items-start"
-                            >
-                              <span className="text-base font-semibold text-sky-500 transition-colors group-hover:text-sky-600">
-                                {t("charter.download")}
-                              </span>
-                              <ArrowRight
-                                className="h-3.5 w-14 text-sky-500 transition-transform group-hover:translate-x-0.5"
-                                strokeWidth={2}
-                                aria-hidden
-                              />
-                            </a>
-                          ) : (
-                            <p className="text-sm text-muted-foreground">{t("charter.pdfSoon")}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <RegulationDocumentsSection />
 
                   <Accordion type="single" collapsible className="mt-10 w-full">
                     {CHARTER_ACCORDION_KEYS.map((key) => {
@@ -364,18 +348,24 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                 </>
               ) : workersUnionLayout ? (
                 <WorkersUnionCommitteeSection />
+              ) : whoWeAreLayout ? (
+                <WhoWeAreSection />
               ) : universityInNumbersLayout ? (
                 <UniversityInNumbersSection />
               ) : organizationalStructureLayout ? (
                 <OrganizationalStructureSection />
+              ) : accreditationLicenseLayout ? (
+                <AccreditationLicenseSection />
+              ) : leadershipAndCouncilsLayout ? (
+                <LeadershipCouncilsSection />
               ) : videoGalleryLayout ? (
                 <>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{t("videoGallery.gridIntro")}</p>
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">{t("videoGallery.gridIntro")}</p>
                   <VideoGalleryCards />
                 </>
               ) : photoGalleryLayout ? (
                 <>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{t("photoGallery.gridIntro")}</p>
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">{t("photoGallery.gridIntro")}</p>
                   <PhotoGalleryCards />
                 </>
               ) : publicationsContactLayout ? (
@@ -392,7 +382,7 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                 )
               ) : (
                 <>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{t("subPageIntro")}</p>
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">{t("subPageIntro")}</p>
                   <p className="mt-6 border-t border-border pt-6 text-sm leading-relaxed text-muted-foreground md:text-base">
                     {t("sectionPlaceholder")}
                   </p>

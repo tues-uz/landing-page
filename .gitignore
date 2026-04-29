@@ -33,6 +33,9 @@ build/
 *.sln
 *.sw?
 
+# Generated exports (regenerate with npm run export:menu-xlsx)
+exports/*.xlsx
+
 # OS files
 .DS_Store
 Thumbs.db
