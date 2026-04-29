@@ -156,12 +156,12 @@ const AboutStats = () => {
             >
               <div className="relative h-[72px] flex items-center justify-center">
                 <p className="sr-only">{stat.value}</p>
-                <p
+                <div
                   className="font-forum text-5xl lg:text-[72px] font-bold tracking-tight text-foreground leading-none"
                   aria-hidden
                 >
                   <AnimatedStatValue value={stat.value} isVisible={isVisible} />
-                </p>
+                </div>
               </div>
               <div className="mt-4 font-dm-sans">
                 <h4 className="text-lg font-semibold text-foreground">

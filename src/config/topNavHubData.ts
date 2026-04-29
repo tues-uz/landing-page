@@ -56,8 +56,54 @@ export const topNavItemHref: Record<string, string> = {
   ...hrefMap("research", researchHubSections),
   ...hrefMap("admissions", admissionsHubSections),
   ...hrefMap("media", mediaHubSections),
+  "secondNavUniversity.universityMission": "/university-mission",
+  "secondNavUniversity.requisites": "/university-requisites",
+  "secondNavUniversity.famousGraduates": "/university-famous-graduates",
+  "secondNavUniversity.faculties": "/university-faculties",
+  "secondNavUniversity.departments": "/university-departments",
   "nav.newsMenu.latestNews": "/news",
   "nav.newsMenu.upcomingEvents": "/events",
+  "secondNavEducation.bachelor": "/education/bachelor",
+  "secondNavEducation.mastersDegree": "/education/masters",
+  "secondNavEducation.qualificationRequirements": "/education/qualification-requirements",
+  "secondNavEducation.distanceLearningSystem": "https://lms.tues.uz/",
+  "secondNavAdmission2025.regulationSecondaryEducation":
+    "/admission-2025/regulation-secondary-education",
+  "secondNavAdmission2025.informationTransferEducation":
+    "/admission-2025/information-transfer-of-education",
+  "secondNavAdmission2025.informationContractAmounts": "/admission-2025/contract-amounts",
+  "secondNavAdmission2025.menu": "/admission-2025/menu",
+  "secondNavAdmission2025.contactingAdmission": "/admission-2025/contacting-admission",
+  "secondNavStudentLife.careerCentre": "/student-life/career-centre",
+  "secondNavStudentLife.help247": "/student-life/24-7-help",
+  "secondNavStudentLife.healthSupportService": "/student-life/health-support",
+  "secondNavStudentLife.socialLife": "/student-life/social-life",
+  "secondNavStudentLife.socialRooms": "/student-life/social-rooms",
+  "secondNavStudentLife.supportCenterMinorityGroups": "/student-life/support-center-minority-groups",
+  "secondNavStudentLife.dormitory": "/student-life/dormitory",
+  "secondNavStudentLife.sportFacilities": "/student-life/sport-facilities",
+  "secondNavStudentLife.cafeterias": "/student-life/cafeterias",
+  "secondNavStudentLife.bookstore": "/student-life/bookstore",
+  "secondNavStudentLife.facilitiesForDisabled": "/student-life/facilities-for-disabled",
+  "secondNavStudentLife.studentOpinion": "/student-life/student-opinion",
+  "secondNavStudentLife.studentAcademicSupport": "/student-life/student-academic-support",
+  "secondNavStudentLife.communityClubs": "/student-life/community-clubs",
+  "secondNavScience.scientificArticles": "/science/scientific-articles",
+  "secondNavScience.certificates": "/science/certificates",
+  "secondNavScience.entrepreneurialClubs": "/science/entrepreneurial-clubs",
+  "secondNavScience.centerResearchSustainableInnovativeDevelopment": "/science/center-research-sustainable-innovation",
+  "secondNavInformationServices.aboutUniversity": "/information-services/about-university",
+  "secondNavInternationalization.departmentInternationalRelationsEmployees":
+    "/internationalization/department-international-relations-employees",
+  "secondNavInternationalization.internationalGrants": "/internationalization/international-grants",
+  "secondNavInternationalization.internationalConferences":
+    "/internationalization/international-conferences",
+  "secondNavInternationalization.professionalDevelopmentEducationChoir":
+    "/internationalization/professional-development-education-choir",
+  "secondNavInternationalization.advancedTrainingProgramsForeignTeachers":
+    "/internationalization/advanced-training-foreign-teachers",
+  "secondNavInternationalization.internationalSupportCenter":
+    "/internationalization/international-support-center",
 };
 
 export function getTopNavItemHref(labelKey: string): string {

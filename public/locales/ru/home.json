@@ -32,6 +32,7 @@
     "title": "Новости и объявления",
     "subtitle": "Следите за последними новостями TUES: исследования, обновления кампуса и истории.",
     "noArticles": "Пока нет статей.",
+    "recommendedSidebarTitle": "Новости",
     "viewAll": "Все новости",
     "onDate": "от {{date}}",
     "comments_one": "{{count}} комментарий",
@@ -52,6 +53,7 @@
   "events": {
     "titleLine1": "Предстоящие события",
     "titleLine2": "и активности",
+    "recommendedSidebarTitle": "События",
     "viewAll": "Все события",
     "noUpcoming": "Нет предстоящих событий."
   },

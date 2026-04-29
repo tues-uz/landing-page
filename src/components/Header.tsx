@@ -1,4 +1,13 @@
-import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useCallback,
+  forwardRef,
+  type ReactNode,
+} from "react";
 import { createPortal } from "react-dom";
 import {
   ChevronDown,
@@ -70,6 +79,37 @@ import { buildSiteSearchHits, getStaticSearchRoutes } from "@/lib/siteSearch";
 import { cn } from "@/lib/utils";
 import { getTopNavItemHref } from "@/config/topNavHubData";
 
+function isHttpHref(href: string): boolean {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
+/** In-app `Link` or external `<a>` (opens in a new tab) for hub menu URLs. */
+const NavItemLink = forwardRef<
+  HTMLAnchorElement,
+  { href: string; className?: string; onClick?: () => void; children: ReactNode }
+>(function NavItemLink({ href, className, onClick, children }, ref) {
+  if (isHttpHref(href)) {
+    return (
+      <a
+        ref={ref}
+        href={href}
+        className={className}
+        onClick={onClick}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link ref={ref} to={href} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  );
+});
+NavItemLink.displayName = "NavItemLink";
+
 type MegaMenuLink = { href: string; label: string; icon: LucideIcon };
 type MegaMenuItem = { key: string; labelKey: string; description: string; links: MegaMenuLink[] };
 
@@ -85,8 +125,8 @@ const universityMegaLinks: MegaMenuLink[] = [
   { href: "#numbers", label: "University in numbers", icon: BarChart3 },
   { href: "#accreditation", label: "Accreditation", icon: Award },
   { href: "#graduates", label: "Famous graduates", icon: GraduationCap },
-  { href: "#faculties", label: "Faculties", icon: School },
-  { href: "#departments", label: "Departments", icon: Building2 },
+  { href: "/university-faculties", label: "Faculties", icon: School },
+  { href: "/university-departments", label: "Departments", icon: Building2 },
   { href: "#centers", label: "Center and departments", icon: FolderOpen },
   { href: "#open-data", label: "Open data", icon: ExternalLink },
   { href: "#trade-union", label: "Trade union committee", icon: Handshake },
@@ -704,16 +744,33 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                               <p className="text-sm leading-relaxed text-muted-foreground">{mega.description}</p>
                             ) : null}
                             <ul className="grid grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2">
-                              {item.itemKeys.map((subItemKey) => (
-                                <li key={subItemKey} className="min-w-0">
-                                  <button
-                                    type="button"
-                                    className="w-full rounded-md px-2 py-2 text-left text-sm text-foreground transition-colors hover:bg-sky-50 hover:text-sky-700 dark:hover:bg-primary/15 dark:hover:text-primary"
-                                  >
-                                    {t(subItemKey)}
-                                  </button>
-                                </li>
-                              ))}
+                              {item.itemKeys.map((subItemKey) => {
+                                const href = getTopNavItemHref(subItemKey);
+                                const label = t(subItemKey);
+                                if (href !== "#") {
+                                  return (
+                                    <li key={subItemKey} className="min-w-0">
+                                      <NavItemLink
+                                        href={href}
+                                        onClick={() => setSecondNavMobileOpen(false)}
+                                        className="flex w-full rounded-md px-2 py-2 text-left text-sm text-foreground transition-colors hover:bg-sky-50 hover:text-sky-700 dark:hover:bg-primary/15 dark:hover:text-primary"
+                                      >
+                                        {label}
+                                      </NavItemLink>
+                                    </li>
+                                  );
+                                }
+                                return (
+                                  <li key={subItemKey} className="min-w-0">
+                                    <button
+                                      type="button"
+                                      className="w-full rounded-md px-2 py-2 text-left text-sm text-foreground transition-colors hover:bg-sky-50 hover:text-sky-700 dark:hover:bg-primary/15 dark:hover:text-primary"
+                                    >
+                                      {label}
+                                    </button>
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
                         </AccordionContent>
@@ -817,9 +874,9 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                                 asChild
                                 className="h-auto cursor-pointer rounded-md px-2 py-2 text-sm text-foreground focus:bg-sky-50 focus:text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-700 dark:focus:bg-primary/15 dark:focus:text-primary dark:data-[highlighted]:bg-primary/15 dark:data-[highlighted]:text-primary"
                               >
-                                <Link to={getTopNavItemHref(subKey)} className="block w-full">
+                                <NavItemLink href={getTopNavItemHref(subKey)} className="block w-full">
                                   <span className="leading-snug">{t(subKey)}</span>
-                                </Link>
+                                </NavItemLink>
                               </DropdownMenuItem>
                             ))}
                           </DropdownMenuGroup>
@@ -1009,14 +1066,30 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                             {mega.description}
                           </p>
                         ) : null}
-                        {item.itemKeys.map((subItemKey) => (
-                          <DropdownMenuItem
-                            key={subItemKey}
-                            className="h-auto cursor-pointer rounded-md px-2 py-2 text-sm text-foreground focus:bg-sky-50 focus:text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-700 dark:focus:bg-primary/15 dark:focus:text-primary dark:data-[highlighted]:bg-primary/15 dark:data-[highlighted]:text-primary"
-                          >
-                            {t(subItemKey)}
-                          </DropdownMenuItem>
-                        ))}
+                        {item.itemKeys.map((subItemKey) => {
+                          const href = getTopNavItemHref(subItemKey);
+                          if (href !== "#") {
+                            return (
+                              <DropdownMenuItem
+                                key={subItemKey}
+                                asChild
+                                className="h-auto cursor-pointer rounded-md px-2 py-2 text-sm text-foreground focus:bg-sky-50 focus:text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-700 dark:focus:bg-primary/15 dark:focus:text-primary dark:data-[highlighted]:bg-primary/15 dark:data-[highlighted]:text-primary"
+                              >
+                                <NavItemLink href={href} className="w-full">
+                                  {t(subItemKey)}
+                                </NavItemLink>
+                              </DropdownMenuItem>
+                            );
+                          }
+                          return (
+                            <DropdownMenuItem
+                              key={subItemKey}
+                              className="h-auto cursor-pointer rounded-md px-2 py-2 text-sm text-foreground focus:bg-sky-50 focus:text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-700 dark:focus:bg-primary/15 dark:focus:text-primary dark:data-[highlighted]:bg-primary/15 dark:data-[highlighted]:text-primary"
+                            >
+                              {t(subItemKey)}
+                            </DropdownMenuItem>
+                          );
+                        })}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   );
@@ -1040,14 +1113,14 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     <AccordionContent className="pb-3 pt-0">
                       <div className="flex flex-col gap-1 pl-0">
                         {item.itemKeys.map((subKey) => (
-                          <Link
+                          <NavItemLink
                             key={subKey}
-                            to={getTopNavItemHref(subKey)}
+                            href={getTopNavItemHref(subKey)}
                             className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {t(subKey)}
-                          </Link>
+                          </NavItemLink>
                         ))}
                       </div>
                     </AccordionContent>
@@ -1075,15 +1148,30 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                       </AccordionTrigger>
                       <AccordionContent className="pb-3 pt-0">
                         <div className="flex flex-col gap-1 pl-0">
-                          {item.itemKeys.map((subItemKey) => (
-                            <a
-                              key={subItemKey}
-                              href="#"
-                              className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
-                            >
-                              {t(subItemKey)}
-                            </a>
-                          ))}
+                          {item.itemKeys.map((subItemKey) => {
+                            const href = getTopNavItemHref(subItemKey);
+                            if (href !== "#") {
+                              return (
+                                <NavItemLink
+                                  key={subItemKey}
+                                  href={href}
+                                  className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  {t(subItemKey)}
+                                </NavItemLink>
+                              );
+                            }
+                            return (
+                              <a
+                                key={subItemKey}
+                                href="#"
+                                className="block py-1.5 text-primary-foreground/70 text-sm hover:text-primary-foreground"
+                              >
+                                {t(subItemKey)}
+                              </a>
+                            );
+                          })}
                         </div>
                       </AccordionContent>
                     </AccordionItem>

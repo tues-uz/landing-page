@@ -4,6 +4,8 @@
   "next": "Keyingi",
   "changeLanguage": "Tilni o'zgartirish",
   "scrollToTop": "Yuqoriga",
+  "shareLink": "Havolani ulashish",
+  "linkCopied": "Havola nusxalandi",
   "accessibility": {
     "openMenu": "Maxsus imkoniyatlar sozlamalari",
     "skipToMain": "Asosiy tarkibga o'tish",

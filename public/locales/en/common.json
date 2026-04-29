@@ -4,6 +4,8 @@
   "next": "Next",
   "changeLanguage": "Change language",
   "scrollToTop": "Scroll to top",
+  "shareLink": "Share link",
+  "linkCopied": "Link copied",
   "accessibility": {
     "openMenu": "Open accessibility options",
     "skipToMain": "Skip to main content",
