@@ -97,8 +97,22 @@ const NewsDetailPage = () => {
   }
 
   const body = Array.isArray(article.body) ? article.body : [];
-  const firstParagraph =
-    body.length > 0 && body[0].paragraphs.length > 0 ? body[0].paragraphs[0] : article.excerpt;
+  
+  // Find the first actual text paragraph (not an image or link placeholder) to use as the drop-cap introduction
+  let firstParagraph = article.excerpt;
+  let firstTextIndex = { sectionIndex: -1, paragraphIndex: -1 };
+  for (let s = 0; s < body.length; s++) {
+    const section = body[s];
+    for (let p = 0; p < section.paragraphs.length; p++) {
+      const para = section.paragraphs[p];
+      if (para && !para.startsWith("[Image: ") && para !== "[Image]" && !para.startsWith("[Link: ")) {
+        firstParagraph = para;
+        firstTextIndex = { sectionIndex: s, paragraphIndex: p };
+        break;
+      }
+    }
+    if (firstTextIndex.sectionIndex !== -1) break;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -164,14 +178,60 @@ const NewsDetailPage = () => {
           {/* Body */}
           <div className="mx-auto max-w-3xl px-5 py-6 xl:px-8">
             <div className="prose prose-neutral max-w-none">
-              <p className="drop-cap text-lg leading-relaxed text-foreground/90">{firstParagraph}</p>
+              {firstParagraph && (
+                <p className="drop-cap text-lg leading-relaxed text-foreground/90">{firstParagraph}</p>
+              )}
               {body.map((section, index) => (
                 <div key={index} className="mt-8">
-                  <h2 className="mb-3 scroll-mt-24 text-lg font-semibold text-foreground">
-                    {section.heading}
-                  </h2>
+                  {section.heading && (
+                    <h2 className="mb-3 scroll-mt-24 text-lg font-semibold text-foreground">
+                      {section.heading}
+                    </h2>
+                  )}
                   {section.paragraphs.map((para, p) => {
-                    if (index === 0 && p === 0) return null;
+                    if (index === firstTextIndex.sectionIndex && p === firstTextIndex.paragraphIndex) {
+                      return null;
+                    }
+                    
+                    // Render image placeholders
+                    if (para.startsWith("[Image: ") && para.endsWith("]")) {
+                      const src = para.slice(8, -1).trim();
+                      if (src) {
+                        return (
+                          <img
+                            key={p}
+                            src={src}
+                            alt="News content"
+                            className="my-6 max-h-[500px] w-full rounded-xl object-contain bg-muted shadow-sm border border-border"
+                          />
+                        );
+                      }
+                      return null;
+                    }
+                    if (para === "[Image]") {
+                      return null;
+                    }
+                    
+                    // Render link placeholders
+                    if (para.startsWith("[Link: ") && para.endsWith("]")) {
+                      const href = para.slice(7, -1).trim();
+                      if (href) {
+                        return (
+                          <p key={p} className="mb-4 leading-relaxed">
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline break-all"
+                            >
+                              {href}
+                            </a>
+                          </p>
+                        );
+                      }
+                      return null;
+                    }
+
                     return (
                       <p key={p} className="mb-4 leading-relaxed text-foreground/90">
                         {para}
