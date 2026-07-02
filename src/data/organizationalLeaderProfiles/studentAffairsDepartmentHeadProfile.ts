@@ -1,0 +1,42 @@
+import type { DepartmentProfile } from "@/data/departmentProfiles/types";
+
+export const STUDENT_AFFAIRS_DEPARTMENT_HEAD_PROFILE: DepartmentProfile = {
+  leaderViewId: 40,
+  pageTitle: "Head of the Student Relations Department",
+  roleShort: "Head of the Student Relations Department",
+  name: "Rakhmanova Dilrabo Saydullayevna",
+  credentials: "",
+  imageSrc: "https://tues.uz/uploads/leader/40/l_f3ecdd98e33294bdf2af3f685bc7ab70.png",
+  phone: "+998 97 697 53 34",
+  email: "dilrabotisu@gmail.com",
+  telegram: "+998 97 697 53 34",
+  reception: "Every working day 08:00–17:00",
+  sections: [
+    {
+      title: "Job responsibilities",
+      paragraphs: [
+        "Ensuring the implementation of the laws of the Republic of Uzbekistan, Presidential decrees and orders, resolutions of the Oliy Majlis and the Cabinet of Ministers, and decisions of the Ministry of Higher Education, Science, and Innovation regarding education and personnel training.",
+        "Professional fulfillment of labor duties with integrity, adhering to labor and executive discipline, occupational safety, health and industrial sanitation regulations, the University Charter, Internal Regulations, Code of Ethics, Board decisions, and employer orders.",
+        "Productive and efficient labor toward achieving the goals set forth in the National Program for Personnel Training.",
+        "General management of the department's operations and its staff members.",
+        "Drafting and ensuring the execution of the department's work plans.",
+        "Organizing the maintenance of all records related to the personal data and registration of undergraduate and graduate students.",
+        "Preparation of draft orders regarding student status changes, including admission, dismissal, promotion to the next year of study, granting and returning from academic leave, reinstatement, transfers, issuance of diplomas, and disciplinary actions.",
+        "Processing Rector's orders and distributing certified extracts to the relevant departments according to established procedures.",
+        "Managing student personal files: Ensuring their formation, continuous updating, and timely transfer to the university archives.",
+        "Ensuring the complete and compliant preparation of graduates' personal files for final submission to the archive.",
+        "Monitoring student compliance with the university's internal regulations and the laws of the Republic of Uzbekistan.",
+        "Submitting justified proposals and drafting orders regarding disciplinary violations by students.",
+        "Ensuring strict adherence to executive, labor, and academic discipline.",
+        "Organizing the issuance of official certificates and statements to students in accordance with regulations.",
+        "Timely processing of inquiries and requests received from external organizations and government bodies.",
+        "Verification of credentials: Processing formal requests regarding the authenticity of student diplomas and their supplements.",
+        "Maintaining statistical data and reports concerning the student body (contingent).",
+        "Submitting periodic reports to the university management regarding the department's activities.",
+        "Disseminating information: Communicating the content of decrees and resolutions adopted by the President and the Government to the student body.",
+        "Proposing efficiency improvements: Identifying emerging issues and outlining specific measures to enhance the university's operations and overall development.",
+      ],
+    },
+  ],
+  staffMembers: [],
+};

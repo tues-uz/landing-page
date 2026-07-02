@@ -69,13 +69,31 @@ const AnimatedStatValue = ({
 };
 
 const TICKER_IMAGES = [
-  "/termez-university-event.png",
-  "/termez-university-event.png",
-  "/termez-university-event.png",
-  "/termez-university-event.png",
-  "/termez-university-event.png",
-  "/termez-university-event.png",
-];
+  {
+    src: "/images/about/ticker/auditorium-flags.png",
+    alt: "Students cheering with university flags in the auditorium",
+  },
+  {
+    src: "/images/about/ticker/traditional-dress-group.png",
+    alt: "Award ceremony group photo in traditional dress",
+  },
+  {
+    src: "/images/about/ticker/awards-ceremony.png",
+    alt: "Faculty and students on stage at an awards ceremony",
+  },
+  {
+    src: "/images/about/ticker/student-computer-lab.png",
+    alt: "Student working in a computer lab",
+  },
+  {
+    src: "/images/about/ticker/classroom-session.png",
+    alt: "Instructor leading a classroom session",
+  },
+  {
+    src: "/images/about/ticker/green-campus-banner.png",
+    alt: "Students holding a Green Campus banner outside the university",
+  },
+] as const;
 
 const AboutStats = () => {
   const { t } = useTranslation("home");
@@ -129,14 +147,18 @@ const AboutStats = () => {
         {/* Image ticker */}
         <div className="w-full overflow-hidden mb-16">
           <div className="flex gap-4 animate-ticker">
-            {[...TICKER_IMAGES, ...TICKER_IMAGES].map((src, i) => (
+            {[...TICKER_IMAGES, ...TICKER_IMAGES].map((item, i) => (
               <div
-                key={i}
+                key={`${item.src}-${i}`}
                 className="relative h-[280px] w-[400px] flex-shrink-0 rounded-xl overflow-hidden bg-neutral-100"
               >
                 <img
-                  src={src}
-                  alt=""
+                  src={item.src}
+                  alt={item.alt}
+                  width={400}
+                  height={280}
+                  loading={i < 2 ? "eager" : "lazy"}
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>

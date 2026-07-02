@@ -970,7 +970,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 return createPortal(
                   <div
                     ref={megaPanelRef}
-                    className="fixed z-[100] left-8 right-8 overflow-visible bg-white rounded-none shadow-lg border border-slate-200 min-w-0"
+                    className="fixed z-[100] left-8 right-8 overflow-visible bg-white rounded-none shadow-lg border border-border min-w-0"
                     style={{
                       top: megaMenuTop,
                       width: "calc(100vw - 4rem)",
@@ -1243,7 +1243,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 <p className="text-sm text-muted-foreground">{t("searchNoResults")}</p>
               ) : (
                 <>
-                  <ul className="max-h-[min(50vh,28rem)] space-y-1 overflow-y-auto overscroll-contain rounded-lg border border-border/80 bg-muted/20 p-1">
+                  <ul className="max-h-[min(50vh,28rem)] space-y-1 overflow-y-auto overscroll-contain rounded-lg border border-border bg-muted/20 p-1">
                     {suggestionList.map((item) => (
                       <li key={item.id}>
                         <Link

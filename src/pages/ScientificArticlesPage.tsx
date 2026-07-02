@@ -104,7 +104,7 @@ export default function ScientificArticlesPage() {
                       {SCIENTIFIC_ARTICLES.map((row) => (
                         <tr
                           key={row.no}
-                          className="border-b border-border/80 last:border-b-0 odd:bg-background even:bg-muted/20"
+                          className="border-b border-border last:border-b-0 odd:bg-background even:bg-muted/20"
                         >
                           <td className="align-top px-3 py-3 text-center tabular-nums text-muted-foreground sm:px-4">
                             {row.no}

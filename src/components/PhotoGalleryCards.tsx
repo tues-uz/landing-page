@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -8,23 +9,82 @@ import { cn } from "@/lib/utils";
 
 const PRIORITY_COUNT = 6;
 const items = PHOTO_GALLERY_ITEMS;
+const LIGHTBOX_VIEWPORT_CLASS =
+  "aspect-[4/3] w-[min(calc(100vw-6rem),1600px,calc(92vh*4/3))]";
+const LIGHTBOX_SIZES_ATTR = "min(1600px, calc(100vw - 6rem))";
+const LIGHTBOX_LOAD_RADIUS = 2;
+
+function markNearbyIndices(set: Set<number>, active: number, total: number, radius = LIGHTBOX_LOAD_RADIUS) {
+  for (let offset = -radius; offset <= radius; offset += 1) {
+    set.add((active + offset + total) % total);
+  }
+}
 
 export function PhotoGalleryCards() {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set());
+  const openedIndexRef = useRef(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, duration: 20, dragFree: false });
 
   const openAt = useCallback((index: number) => {
+    openedIndexRef.current = index;
     setActiveIndex(index);
+    setLoadedIndices(() => {
+      const next = new Set<number>();
+      markNearbyIndices(next, index, items.length);
+      return next;
+    });
     setOpen(true);
   }, []);
 
   const goPrev = useCallback(() => {
-    setActiveIndex((i) => (i - 1 + items.length) % items.length);
-  }, []);
+    if (!emblaApi) return;
+    if (emblaApi.canScrollPrev()) {
+      emblaApi.scrollPrev();
+      return;
+    }
+    emblaApi.scrollTo(items.length - 1);
+  }, [emblaApi]);
 
   const goNext = useCallback(() => {
-    setActiveIndex((i) => (i + 1) % items.length);
-  }, []);
+    if (!emblaApi) return;
+    if (emblaApi.canScrollNext()) {
+      emblaApi.scrollNext();
+      return;
+    }
+    emblaApi.scrollTo(0);
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      const index = emblaApi.selectedScrollSnap();
+      setActiveIndex(index);
+      setLoadedIndices((prev) => {
+        const next = new Set(prev);
+        markNearbyIndices(next, index, items.length);
+        return next;
+      });
+    };
+
+    emblaApi.on("select", onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!open) {
+      setLoadedIndices(new Set());
+      return;
+    }
+    if (!emblaApi) return;
+    emblaApi.scrollTo(openedIndexRef.current, true);
+  }, [open, emblaApi]);
 
   useEffect(() => {
     if (!open) return;
@@ -41,23 +101,21 @@ export function PhotoGalleryCards() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, goPrev, goNext]);
 
-  const active = items[activeIndex];
-
   return (
     <>
       <div className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, index) => (
-          <Card key={item.id} className="overflow-hidden p-0 shadow-sm">
+          <Card key={item.id} className="overflow-hidden rounded-2xl p-0 shadow-sm">
             <button
               type="button"
               onClick={() => openAt(index)}
               className={cn(
-                "group block w-full text-left outline-none",
+                "group block w-full overflow-hidden rounded-2xl text-left outline-none",
                 "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               )}
               aria-label={`Open image ${index + 1} of ${items.length} in viewer`}
             >
-              <div className="aspect-[4/3] bg-muted">
+              <div className="aspect-[4/3] overflow-hidden bg-muted">
                 <img
                   src={item.src}
                   srcSet={item.srcSet}
@@ -78,7 +136,8 @@ export function PhotoGalleryCards() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className={cn(
-            "max-h-[95vh] w-[min(100vw-1rem,1200px)] max-w-[calc(100vw-1rem)] translate-x-[-50%] translate-y-[-50%] gap-0 border-0 bg-transparent p-2 shadow-none sm:p-4",
+            "left-1/2 top-1/2 w-auto max-w-[calc(100vw-1rem)] -translate-x-1/2 -translate-y-1/2 gap-0 border-0 bg-transparent p-0 shadow-none",
+            "grid place-items-center",
             "[&>button]:right-2 [&>button]:top-2 [&>button]:text-white [&>button]:opacity-90 [&>button]:ring-offset-zinc-950 [&>button]:hover:bg-white/10 [&>button]:hover:opacity-100",
           )}
           aria-describedby={undefined}
@@ -86,20 +145,13 @@ export function PhotoGalleryCards() {
           <DialogTitle className="sr-only">
             Photo {activeIndex + 1} of {items.length}
           </DialogTitle>
-          {active ? (
-            <div className="relative flex max-h-[90vh] items-center justify-center">
-              <img
-                key={active.id}
-                src={active.src}
-                alt=""
-                className="max-h-[85vh] max-w-full rounded-md object-contain shadow-2xl"
-                decoding="async"
-              />
+          {open ? (
+            <div className="flex items-center gap-2 sm:gap-3">
               <Button
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="absolute left-0 top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 sm:left-2"
+                className="h-10 w-10 shrink-0 rounded-full bg-black/50 text-white hover:bg-black/70"
                 onClick={(e) => {
                   e.stopPropagation();
                   goPrev();
@@ -108,11 +160,42 @@ export function PhotoGalleryCards() {
               >
                 <ChevronLeft className="h-6 w-6" />
               </Button>
+              <div
+                className={cn(
+                  "relative isolate overflow-hidden rounded-2xl bg-muted shadow-2xl",
+                  LIGHTBOX_VIEWPORT_CLASS,
+                )}
+              >
+                <div ref={emblaRef} className="h-full overflow-hidden">
+                  <div className="flex h-full touch-pan-y will-change-transform">
+                    {items.map((item, index) => (
+                      <div
+                        key={item.id}
+                        className="relative h-full min-w-0 shrink-0 grow-0 basis-full select-none"
+                      >
+                        {loadedIndices.has(index) ? (
+                          <img
+                            src={item.src}
+                            srcSet={item.srcSet}
+                            sizes={LIGHTBOX_SIZES_ATTR}
+                            alt=""
+                            width={800}
+                            height={600}
+                            draggable={false}
+                            className="h-full w-full object-cover"
+                            decoding="async"
+                          />
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
               <Button
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="absolute right-0 top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 sm:right-2"
+                className="h-10 w-10 shrink-0 rounded-full bg-black/50 text-white hover:bg-black/70"
                 onClick={(e) => {
                   e.stopPropagation();
                   goNext();

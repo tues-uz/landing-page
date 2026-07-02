@@ -13,6 +13,8 @@ export type PhotoGalleryItem = {
   /** Largest srcset candidate (800px wide). */
   src: string;
   srcSet: string;
+  /** Full-resolution source for the lightbox viewer. */
+  lightboxSrc: string;
 };
 
 export const PHOTO_GALLERY_ITEMS: readonly PhotoGalleryItem[] = TUESW_IMAGE_NUMBERS.map((n) => {
@@ -21,5 +23,6 @@ export const PHOTO_GALLERY_ITEMS: readonly PhotoGalleryItem[] = TUESW_IMAGE_NUMB
     id: `tuesw-${n}`,
     src: `${base}/800/${n}.webp`,
     srcSet: `${base}/480/${n}.webp 480w, ${base}/800/${n}.webp 800w`,
+    lightboxSrc: `/tuesw/${n}.webp`,
   };
 });

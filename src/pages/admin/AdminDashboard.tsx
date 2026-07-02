@@ -92,8 +92,9 @@ export default function AdminDashboard() {
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Input
+          type="search"
           placeholder={t("searchContent", "Search content...")}
-          className="max-w-xs rounded-lg border-slate-200 text-sm"
+          className="max-w-xs border-slate-200 text-sm"
         />
         <Button size="sm" className="bg-blue-600 hover:bg-blue-700" asChild>
           <Link to="/admin/news" className="gap-1">

@@ -333,7 +333,7 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                             </span>
                           </AccordionTrigger>
                           <AccordionContent className="pb-4 pt-0">
-                            <div className="border-t border-border/80 pt-4 text-sm leading-relaxed text-muted-foreground">
+                            <div className="border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
                               {body.trim() ? (
                                 <p className="text-justify">{body}</p>
                               ) : (

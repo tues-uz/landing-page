@@ -62,7 +62,7 @@ export function BachelorFullTimeProgramCard({
             {title}
           </p>
         </div>
-        <div className="mt-auto flex shrink-0 flex-col gap-2 border-t border-border/50 pt-3">
+        <div className="mt-auto flex shrink-0 flex-col gap-2 border-t border-border pt-3">
           <div className="flex justify-between gap-3 text-[0.8125rem] leading-none">
             <div className="flex min-w-0 flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-wide text-muted-foreground">

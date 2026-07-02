@@ -113,6 +113,7 @@ import InternationalConferenceLinguisticsLiteraryStudiesPage from "./pages/Inter
 import InternationalCongressSustainabilityGreenTransformationPage from "./pages/InternationalCongressSustainabilityGreenTransformationPage";
 import InternationalMedicalOlympiadTermez2026Page from "./pages/InternationalMedicalOlympiadTermez2026Page";
 import InternationalCooperationRolePage from "./pages/InternationalCooperationRolePage";
+import OrganizationalLeaderProfilePage from "./pages/OrganizationalLeaderProfilePage";
 import { TopNavSubPage } from "./pages/TopNavSubPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "@/features/auth/context";
@@ -279,6 +280,10 @@ const App = () => (
             <Route path="/student-life/community-clubs/fine-and-applied-arts-club" element={<FineAppliedArtsClubPage />} />
             <Route path="/student-life/community-clubs/youth-leaders" element={<YouthLeadersPage />} />
             <Route path="/student-life/community-clubs" element={<CommunityClubsPage />} />
+            <Route
+              path="/about/organizational-structure/leader/:leaderId"
+              element={<OrganizationalLeaderProfilePage />}
+            />
             <Route path="/about/:slug" element={<TopNavSubPage group="about" />} />
             <Route path="/research" element={<ResearchHubPage />} />
             <Route path="/research/academic-council/:councilSlug" element={<TopNavSubPage group="research" />} />

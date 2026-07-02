@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Clock, MapPin, MessageCircle } from "lucide-react";
+import { CalendarDays, Clock, MapPin, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import gsap from "gsap";
@@ -10,20 +10,28 @@ gsap.registerPlugin(ScrollTrigger);
 import { contentApi, type NewsItem, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
+import { getNewsPreviewText } from "@/lib/newsContent";
+import { getNewsCategoryLabel } from "@/lib/newsCategories";
+import { NEUTRAL_BORDER } from "@/lib/uiBorders";
+
+/** @deprecated use NEUTRAL_BORDER from @/lib/uiBorders */
+export const NEWS_CARD_BORDER = NEUTRAL_BORDER;
 
 // ─── Skeleton loaders ─────────────────────────────────────────────────────────
 
 function NewsCardSkeleton() {
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-background animate-pulse">
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="h-4 w-16 rounded-full bg-muted" />
-        <div className="h-4 w-full rounded bg-muted" />
-        <div className="h-4 w-3/4 rounded bg-muted" />
-        <div className="mt-auto h-3 w-1/2 rounded bg-muted" />
-      </div>
-      <div className="w-full px-2 pb-2">
-        <div className="aspect-[334/188] w-full rounded-lg bg-muted" />
+    <div className={`flex h-full flex-col overflow-hidden rounded-xl border ${NEWS_CARD_BORDER} bg-background animate-pulse`}>
+      <div className="aspect-[3/2] w-full bg-muted" />
+      <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
+        <div className="flex justify-between gap-3">
+          <div className="h-3 w-16 rounded bg-muted" />
+          <div className="h-3 w-20 rounded bg-muted" />
+        </div>
+        <div className="mt-2 h-4 w-full rounded bg-muted" />
+        <div className="mt-1 h-4 w-4/5 rounded bg-muted" />
+        <div className="mt-2 h-8 w-full rounded bg-muted" />
+        <div className="mt-auto mt-3 h-10 w-full rounded-full bg-muted" />
       </div>
     </div>
   );
@@ -31,7 +39,7 @@ function NewsCardSkeleton() {
 
 export function EventSkeleton() {
   return (
-    <div className="flex overflow-hidden rounded-xl border border-border bg-background animate-pulse">
+    <div className={`flex overflow-hidden rounded-xl border ${NEWS_CARD_BORDER} bg-background animate-pulse`}>
       <div className="flex min-w-[50px] items-center justify-center rounded-lg bg-primary/20 py-2 px-3">
         <div className="h-8 w-8 rounded bg-muted" />
       </div>
@@ -55,11 +63,14 @@ export function ArticleCard({
   stretch?: boolean;
 }) {
   const { t } = useTranslation("home");
+  const { t: tNews } = useTranslation("news", { bindI18n: "languageChanged loaded" });
+  const previewText = getNewsPreviewText(item);
+  const categoryLabel = getNewsCategoryLabel(item.category, tNews);
   const sizeClass = featured ? "h-full min-h-0" : stretch ? "flex-1 min-h-0" : "";
   return (
     <Link
       to={`/news/${item.slug}`}
-      className={`flex flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:scale-[1.01] hover:shadow-md group ${sizeClass}`}
+      className={`flex h-full flex-col overflow-hidden rounded-xl border ${NEWS_CARD_BORDER} bg-background shadow-sm transition-shadow hover:shadow-md group ${sizeClass}`}
     >
       {featured && (
         <>
@@ -72,13 +83,15 @@ export function ArticleCard({
             />
           </div>
           <div className="flex flex-1 flex-col gap-2 p-3">
-            <span className="inline-flex w-fit rounded-full border border-border px-2 py-0.5 text-xs font-medium text-foreground">
-              {item.category}
+            <span className={`inline-flex w-fit rounded-full border ${NEWS_CARD_BORDER} px-2 py-0.5 text-xs font-medium text-foreground`}>
+              {categoryLabel}
             </span>
             <h2 className="text-xl font-bold leading-tight text-foreground line-clamp-2 group-hover:text-primary transition-colors xl:text-2xl">
               {item.title}
             </h2>
-            <p className="text-muted-foreground text-sm line-clamp-2">{item.excerpt}</p>
+            {previewText ? (
+              <p className="text-muted-foreground text-sm line-clamp-2">{previewText}</p>
+            ) : null}
             <div className="mt-auto flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
               <span className="font-medium text-foreground">{item.author}</span>
               <span>{t("news.onDate", { date: item.date })}</span>
@@ -92,25 +105,41 @@ export function ArticleCard({
       )}
       {!featured && (
         <>
-          <div className="flex flex-1 flex-col gap-2 p-2">
-            <span className="inline-flex w-fit rounded-full border border-border px-2 py-0.5 text-xs font-medium text-foreground">
-              {item.category}
-            </span>
-            <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
-              {item.title}
-            </h3>
-            <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">{item.author}</span>
-              <span>{t("news.onDate", { date: item.date })}</span>
-            </div>
-          </div>
-          <div className="w-full p-2">
+          <div className="relative w-full shrink-0 aspect-[3/2] overflow-hidden bg-muted">
             <img
               src={item.imageUrl}
               alt={item.title}
-              className="aspect-[334/188] w-full rounded-[8px] object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
               loading="lazy"
             />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent"
+              aria-hidden
+            />
+          </div>
+
+          <div className="relative flex flex-1 flex-col px-4 pb-4 pt-3 bg-background">
+            <div className="flex items-center justify-between gap-3">
+              <span className="truncate text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                {categoryLabel}
+              </span>
+              <time dateTime={item.date} className="flex shrink-0 items-center gap-1.5 text-[11px] text-muted-foreground tabular-nums">
+                <CalendarDays className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
+                <span>{item.date}</span>
+              </time>
+            </div>
+            <h3 className="mt-1.5 font-sans text-[18px] font-bold leading-snug text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+              {item.title}
+            </h3>
+            {previewText ? (
+              <p className="mt-2 text-[14px] leading-[1.4] text-muted-foreground line-clamp-2">{previewText}</p>
+            ) : null}
+
+            <div className="mt-auto pt-3">
+              <span className="inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-primary-foreground transition-colors group-hover:bg-primary/90">
+                {t("news.readMore")}
+              </span>
+            </div>
           </div>
         </>
       )}
@@ -153,7 +182,7 @@ function formatEventDate(dateStr: string): { day: string; month: string } {
 export function EventCard({ event }: { event: EventItem }) {
   const { day, month } = formatEventDate(event.date);
   return (
-    <div className="group overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:scale-[1.01] hover:shadow-md hover:border-primary/20 cursor-pointer p-2">
+    <div className={`group overflow-hidden rounded-xl border ${NEWS_CARD_BORDER} bg-background shadow-sm transition-shadow hover:shadow-md cursor-pointer p-2`}>
       <div className="flex">
         <div className="flex h-16 shrink-0 flex-col items-center justify-center rounded-[8px] bg-primary py-2 px-3 min-w-[96px]">
           <span className="text-xl font-bold tabular-nums leading-none text-primary-foreground">{day}</span>
@@ -194,6 +223,8 @@ function NewsFramerCard({
   item: NewsItem;
   big?: boolean;
 }) {
+  const { t: tNews } = useTranslation("news", { bindI18n: "languageChanged loaded" });
+  const categoryLabel = getNewsCategoryLabel(item.category, tNews);
   return (
     <Link
       to={`/news/${item.slug}`}
@@ -202,34 +233,30 @@ function NewsFramerCard({
       }`}
     >
       <div
-        className={`rounded overflow-hidden w-full bg-muted relative ${
-          big ? "flex-1 min-h-0" : "flex-shrink-0"
+        className={`relative w-full overflow-hidden rounded-xl bg-muted ${
+          big ? "min-h-0 flex-1" : "flex-shrink-0"
         }`}
-        style={{
-          borderRadius: 4,
-          ...(big ? {} : { aspectRatio: "681/492" }),
-        }}
+        style={big ? undefined : { aspectRatio: "681/492" }}
       >
         <img
           src={item.imageUrl}
           alt={item.title}
-          className="absolute inset-0 w-full h-full object-cover block"
-          style={{ borderRadius: 4 }}
+          className="absolute inset-0 block h-full w-full rounded-[inherit] object-cover"
           loading="lazy"
         />
       </div>
       <div className="flex flex-col pt-4 pb-2 flex-shrink-0">
-        <div className="flex flex-row items-center justify-start gap-2 text-left flex-wrap">
-          <p className="text-sm" style={{ color: NEWS_CARD_COLOR }}>
+        <div className="flex flex-row items-center justify-start gap-2 text-left flex-wrap text-[14px]">
+          <p style={{ color: NEWS_CARD_COLOR }}>
             {item.date}
           </p>
-          <span className="text-sm opacity-60" style={{ color: NEWS_CARD_COLOR }} aria-hidden>·</span>
-          <p className="text-sm" style={{ color: NEWS_CARD_COLOR }}>
-            {item.category}
+          <span className="opacity-60" style={{ color: NEWS_CARD_COLOR }} aria-hidden>·</span>
+          <p style={{ color: NEWS_CARD_COLOR }}>
+            {categoryLabel}
           </p>
         </div>
         <h4
-          className="mt-2 text-lg font-semibold leading-tight text-left line-clamp-1 group-hover:text-primary transition-colors"
+          className="mt-2 text-[20px] font-semibold leading-tight text-left line-clamp-1 group-hover:text-primary transition-colors"
           style={{ color: NEWS_CARD_COLOR }}
         >
           {item.title}
@@ -242,7 +269,10 @@ function NewsFramerCard({
 function NewsFramerCardSkeleton({ big = false }: { big?: boolean }) {
   return (
     <div className="flex flex-col h-full animate-pulse">
-      <div className="w-full rounded bg-muted" style={{ borderRadius: 4, aspectRatio: big ? "1182/605" : "681/492" }} />
+      <div
+        className="w-full rounded-xl bg-muted"
+        style={{ aspectRatio: big ? "1182/605" : "681/492" }}
+      />
       <div className="pt-4 space-y-2">
         <div className="h-3 w-20 mx-auto rounded bg-muted" />
         <div className="h-3 w-16 mx-auto rounded bg-muted" />
@@ -318,7 +348,7 @@ const LatestNews = () => {
             ) : featured ? (
               <NewsFramerCard item={featured} big />
             ) : (
-              <div className="flex items-center justify-center rounded border border-dashed border-border text-muted-foreground text-sm min-h-[200px]">
+              <div className={`flex items-center justify-center rounded border border-dashed ${NEWS_CARD_BORDER} text-muted-foreground text-sm min-h-[200px]`}>
                 {t("news.noArticles")}
               </div>
             )}

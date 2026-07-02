@@ -135,10 +135,14 @@
   "regulationDocsDownloadLead": "Havola faylni yangi varaqda ochadi. Zarurat bo‘lsa, brauzer menyusi orqali qurilmangizga saqlang.",
   "regulationDocsDocxBadge": "Microsoft Word (.docx)",
   "regulationDocsDownloadCta": "Yuklab olish",
-  "accreditationLicenseIntro": "Termiz iqtisodiyot va servis universitet xalqaro tan olish tizimlarida ishtirok etadi. INTEAS yoki WDOMS haqida saytda batafsil ma’lumot uchun quyidagi kartalardan birini tanlang.",
+  "accreditationLicenseIntro": "Termiz iqtisodiyot va servis universitet xalqaro tan olish tizimlarida ishtirok etadi. INTEAS yoki WDOMS haqida batafsil o‘qish yoki universitet litsenziyasini yuklab olish uchun quyidagi kartalardan birini tanlang.",
   "accreditationInteasDesc": "International Education Accreditation Society — akkreditatsiya, sertifikatlash va muassasalar katalogi.",
   "accreditationWdomsDesc": "World Directory of Medical Schools — WFME va FAIMER tomonidan yuritiladigan global qidiruv imkoniyatiga ega katalog.",
   "accreditationRegistryCta": "Batafsil",
+  "accreditationLicense2Title": "Litsenziya",
+  "accreditationLicense2Desc": "O‘zbekiston Respublikasi Oliy ta’lim, fan va innovatsiyalar vazirligi tomonidan berilgan universitetning rasmiy faoliyat litsenziyasi.",
+  "accreditationLicense2ImageAlt": "O‘zbekiston Respublikasi Oliy ta’lim, fan va innovatsiyalar vazirligi tomonidan berilgan universitet litsenziyasining ko‘rinishi.",
+  "accreditationLicenseDownloadCta": "Yuklab olish",
   "accreditationInteasPageTitle": "INTEAS",
   "accreditationInteasCertificateAlt": "Termiz iqtisodiyot va servis universitetining INTEAS akkreditatsiya guvohnomasi (2025-yil 12-iyundan 2029-yil 30-iyungacha)",
   "accreditationInteasPageLead": "Termiz iqtisodiyot va servis universiteti xalqaro tashkilot INTEAS tomonidan akkreditatsiyadan o‘tgan.",
@@ -318,21 +322,40 @@
   "organizationalStructureAuxiliaryLabel": "Nazorat va xizmat ko‘rsatish",
   "videoGallery": {
     "gridIntro": "Kampus tadbirlari, ma'ruzalar va talabalik hayotidan tanlangan videolar. Har bir kartochkadagi pleyerdan foydalaning; yangi materiallar paydo bo'lishi bilan ro'yxat to'ldiriladi.",
-    "highlights": {
-      "title": "Tadbirlar dan yorqin lahzalar",
-      "description": "So'nggi madaniy va ilmiy tadbirlardan parchalar."
+    "watchVideo": "Batafsil",
+    "previousVideo": "Oldingi video",
+    "nextVideo": "Keyingi video",
+    "channelName": "Termiz iqtisodiyot va servis universiteti",
+    "videoLabel": "Video galereya",
+    "aboutUniversity": {
+      "title": "Universitet haqida"
     },
-    "campusLife": {
-      "title": "Kampus va o'quv joylari",
-      "description": "Talabalar o'qiydigan, tadqiq qiladigan va hamkorlik qiladigan binolarga qisqa qarash."
+    "creativityEvening": {
+      "title": "TISUda o'tkazilgan \"Ijod va ilhom kechasi\" nomli adabiy-badiiy kechadan videolavha"
     },
-    "guestLecture": {
-      "title": "Mehmon ma'ruzalar seriyasi",
-      "description": "Taklif etilgan ma'ruzachilar va ochiq ilmiy suhbatlardan yozuvlar."
+    "hippocraticOath": {
+      "title": "TISU talabalari Gippokrat qasamyodini qabul qilishdi"
     },
-    "studentLife": {
-      "title": "Talabalik faoliyati",
-      "description": "Klublar, tanlovlar va talabalik hayotidan bayramlar."
+    "indonesiaProgram": {
+      "title": "TISU talabalari Indoneziyada 8 haftalik o'quv dasturida ishtirok etmoqda"
+    },
+    "militaryUnitDay": {
+      "title": "TISU talabalari \"Harbiy qismda bir kun\" loyihasida ishtirok etishdi"
+    },
+    "anilBayirInterview": {
+      "title": "Kembrij universiteti matbuot va baholash tashkiloti vakili Anil Bayirdan intervyu"
+    },
+    "linguisticsConference": {
+      "title": "\"Tilshunoslik va til ta'limidagi innovatsiyalar: global yo'nalishlar va mahalliy nuqtayi nazarlar\" mavzusiga bag'ishlangan xalqaro ilmiy-amaliy konferensiya"
+    },
+    "internationalConference": {
+      "title": "TISUda xalqaro ilmiy-amaliy konferensiya"
+    },
+    "medicineFaculty": {
+      "title": "Termiz iqtisodiyot va servis universiteti Tibbiyot fakulteti"
+    },
+    "yuzmaYuz": {
+      "title": "Yuzma-yuz — yangi loyiha!"
     }
   },
   "photoGallery": {

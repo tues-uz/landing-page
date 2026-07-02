@@ -83,7 +83,7 @@ function OrgParentNode({
         "org_item title w-full max-w-[180px] rounded-lg border bg-white p-2.5 text-center text-[#333] dark:bg-card dark:text-foreground",
         focused
           ? "border-[3px] border-amber-400 dark:border-amber-500"
-          : "border border-[#ccc] dark:border-border",
+          : "border border-border",
         className,
       )}
     >
@@ -94,7 +94,7 @@ function OrgParentNode({
 
 function OrgDepartmentLeaf({ item }: { item: DepartmentHierarchyLink }) {
   return (
-    <div className="node relative z-[2] w-full max-w-[180px] rounded-lg border border-[#ccc] bg-white p-2.5 text-center text-[#333] dark:border-border dark:bg-card dark:text-foreground">
+    <div className="node relative z-[2] w-full max-w-[180px] rounded-lg border border-border bg-white p-2.5 text-center text-[#333] dark:bg-card dark:text-foreground">
       <LeaderLink
         item={item}
         className="inline-flex w-full items-center justify-center gap-1 text-[12px] font-bold leading-[1.2] text-inherit hover:text-primary"

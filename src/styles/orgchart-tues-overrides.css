@@ -1,0 +1,75 @@
+/* tues.uz structure/view/1 org chart overrides (inline styles + blue connectors) */
+#structure_org_chart .orgchart {
+  background: #fff;
+  background-image: none;
+}
+
+#structure_org_chart .orgchart .hierarchy {
+  margin: 0;
+}
+
+#structure_org_chart .orgchart .node .title,
+#structure_org_chart .orgchart .node .org_item.title {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--border), 1);
+  color: #333;
+  padding: 10px;
+  gap: 0 10px;
+  max-width: 180px;
+  text-overflow: unset;
+  white-space: normal;
+  text-decoration: none;
+}
+
+#structure_org_chart .orgchart .node:hover,
+#structure_org_chart .orgchart ul li .node:hover {
+  background-color: transparent;
+  transition: none;
+}
+
+.dark #structure_org_chart .orgchart .node .org_item.title {
+  background: hsl(var(--card));
+  border-color: rgba(var(--border), 1);
+  color: hsl(var(--foreground));
+}
+
+#structure_org_chart .orgchart .node .edge,
+#structure_org_chart .orgchart .node .title .parentNodeSymbol,
+#structure_org_chart .orgchart .node .toggleBtn {
+  display: none;
+}
+
+#structure_org_chart .orgchart .hierarchy::before,
+#structure_org_chart .orgchart .nodes.vertical .hierarchy::after,
+#structure_org_chart .orgchart .nodes.vertical .hierarchy::before {
+  border-color: rgb(20, 82, 196) !important;
+}
+
+#structure_org_chart .orgchart > ul > li > ul li > .node:not(.outsider)::before,
+#structure_org_chart .orgchart .hierarchy:not(.couple) > .node:has(+ .nodes)::after {
+  background-color: rgb(20, 82, 196) !important;
+}
+
+#structure_org_chart .orgchart .node .org_item.title:hover {
+  color: hsl(var(--primary));
+}
+
+#structure_org_chart {
+  position: relative;
+  min-height: 600px;
+  width: 100%;
+  margin: 0.5rem;
+  overflow: auto;
+  text-align: center;
+  padding-bottom: 80px;
+  margin-bottom: 50px;
+  -webkit-overflow-scrolling: touch;
+}

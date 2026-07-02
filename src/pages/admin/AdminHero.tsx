@@ -470,7 +470,8 @@ export default function AdminHero() {
           <div className="relative max-w-sm flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-9"
+              type="search"
+              className="flex h-10 w-full rounded-full border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-9"
               placeholder="Search slides…"
               value={searchSlides}
               onChange={(e) => setSearchSlides(e.target.value)}
@@ -549,7 +550,7 @@ export default function AdminHero() {
             {filteredSlides.map((slide) => (
               <li
                 key={slide.id}
-                className="rounded-xl border border-border bg-card p-4 transition-colors hover:border-border/80"
+                className="rounded-xl border border-border bg-card p-4 transition-colors hover:border-border"
               >
                 {editingSlide?.id === slide.id ? (
                   <div className="space-y-3">

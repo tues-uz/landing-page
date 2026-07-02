@@ -1,0 +1,43 @@
+import type { DepartmentProfile } from "@/data/departmentProfiles/types";
+
+export const ASSISTANT_TO_RECTOR_PROFILE: DepartmentProfile = {
+  leaderViewId: 28,
+  pageTitle: "Assistant to the Rector",
+  roleShort: "Assistant to the Rector",
+  name: "Qaraqulov Azizbek Amonkulovich",
+  credentials: "",
+  imageSrc: "https://tues.uz/uploads/leader/28/l_91ce8acb282c6ded3b1cc2ab3ee656c8.jpg",
+  phone: "+998 55 452 77 77",
+  email: "azizbekqoraqulov13@gmail.com",
+  telegram: "+998 55 452 77 77",
+  reception: "Every working day 08:00–17:00",
+  sections: [
+    {
+      title: "Job responsibilities",
+      paragraphs: [
+        "Ensuring the implementation of the laws of the Republic of Uzbekistan, Presidential decrees and orders, resolutions of the Oliy Majlis and the Cabinet of Ministers, and decisions of the Ministry of Higher Education, Science, and Innovation in the field of education and personnel training.",
+        "Professional fulfillment of labor duties with integrity, adhering to labor and executive discipline, occupational safety, health and industrial sanitation regulations, the University Charter, Internal Regulations, Code of Ethics, Board decisions, employer orders, and other legal frameworks.",
+        "Managing correspondence: Receiving, processing, and presenting incoming, outgoing, and internal documents to the Rector, ensuring they are reviewed in due course.",
+        "Organizing and monitoring the execution of the Rector's assignments, decisions, and instructions.",
+        "Participating in the preparation and organization of Rectorate meetings and other events involving the Rector.",
+        "Drafting minutes of meetings chaired by the Rector, compiling lists of assignments, setting deadlines, and supervising their implementation.",
+        "Data collection and analysis: Gathering and synthesizing information from deaneries, departments, and services for the Rector's speeches, reports, and briefings to national and higher authorities.",
+        "Preparing analytical reports and statements required by higher organizations and presenting them to the Rector for signature.",
+        "Assisting in public receptions conducted by the Rector and monitoring the fulfillment of decisions made during these sessions.",
+        "Accompanying the Rector during inspections and reviews of university structural units and ensuring the execution of issued directives.",
+        "Distributing documents reviewed by the Rector to the relevant structural units or responsible officers according to established procedures.",
+        "Information management: Collecting, processing, and providing necessary data to facilitate the decision-making process.",
+        "Drafting official documents, minutes, and formal correspondence for the Rector's signature.",
+        "Handling inquiries: Sending letters and requests as directed by the Rector and preparing responses to correspondence.",
+        "Logistical support: Ensuring the organizational needs for meetings and events (agenda, materials, scheduling, and notifications).",
+        "Administrative support: Providing organizational and technical maintenance of the Rector's office to ensure an efficient working environment.",
+        "Communication management: Organizing phone calls and managing messages and information in the Rector's absence.",
+        "Guest relations: Organizing the reception of visitors and promptly processing staff requests and proposals.",
+        "Record keeping: Maintaining and storing documents based on the approved nomenclature and ensuring timely transfer to the archives.",
+        "Personal accountability: Taking full responsibility for the quality, accuracy, and punctuality of materials, proposals, and draft documents within the scope of functional duties.",
+        "Direct reporting: Reporting directly to the Rector.",
+      ],
+    },
+  ],
+  staffMembers: [],
+};

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
+import { getFirstNewsParagraph } from "@/lib/newsContent";
 import { useTranslation } from "react-i18next";
 
 const formatDateLong = (dateStr: string) => {
@@ -97,21 +98,20 @@ const NewsDetailPage = () => {
   }
 
   const body = Array.isArray(article.body) ? article.body : [];
-  
-  // Find the first actual text paragraph (not an image or link placeholder) to use as the drop-cap introduction
-  let firstParagraph = article.excerpt;
+
+  const firstParagraph = getFirstNewsParagraph(body) ?? article.excerpt;
   let firstTextIndex = { sectionIndex: -1, paragraphIndex: -1 };
-  for (let s = 0; s < body.length; s++) {
-    const section = body[s];
-    for (let p = 0; p < section.paragraphs.length; p++) {
-      const para = section.paragraphs[p];
-      if (para && !para.startsWith("[Image: ") && para !== "[Image]" && !para.startsWith("[Link: ")) {
-        firstParagraph = para;
-        firstTextIndex = { sectionIndex: s, paragraphIndex: p };
-        break;
+  if (firstParagraph) {
+    for (let s = 0; s < body.length; s++) {
+      const section = body[s];
+      for (let p = 0; p < section.paragraphs.length; p++) {
+        if (section.paragraphs[p] === firstParagraph) {
+          firstTextIndex = { sectionIndex: s, paragraphIndex: p };
+          break;
+        }
       }
+      if (firstTextIndex.sectionIndex !== -1) break;
     }
-    if (firstTextIndex.sectionIndex !== -1) break;
   }
 
   return (
@@ -153,11 +153,7 @@ const NewsDetailPage = () => {
               {article.title}
             </h1>
             <div className="mt-4 flex h-5 items-center gap-2">
-              <div className="flex items-center justify-center overflow-hidden rounded-full bg-primary/10 size-8 text-xs font-semibold text-primary">
-                {article.author.charAt(0)}
-              </div>
-              <span className="font-semibold text-foreground text-sm">{article.author}</span>
-              <span className="text-muted-foreground text-sm">on {formatDateLong(article.date)}</span>
+              <span className="text-muted-foreground text-sm">{formatDateLong(article.date)}</span>
               {article.readTime && (
                 <span className="text-muted-foreground text-sm">· {article.readTime}</span>
               )}
@@ -166,11 +162,11 @@ const NewsDetailPage = () => {
 
           {/* Hero image */}
           {article.imageUrl && (
-            <div className="mx-auto w-full max-w-[1504px] px-2 py-6 xl:px-6 xl:py-10">
+            <div className="mx-auto max-w-3xl px-5 py-6 xl:px-8 xl:py-10">
               <img
                 src={article.imageUrl}
                 alt={article.title}
-                className="aspect-[374/182] w-full rounded-xl object-contain bg-muted xl:aspect-[1456/470]"
+                className="block w-full h-auto rounded-xl bg-muted"
               />
             </div>
           )}
@@ -279,6 +275,16 @@ const NewsDetailPage = () => {
                       to={`/news/${item.slug}`}
                       className="flex flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:scale-[1.01] hover:shadow-md"
                     >
+                      {item.imageUrl && (
+                        <div className="w-full px-2 pt-2">
+                          <img
+                            src={item.imageUrl}
+                            alt={item.title}
+                            className="aspect-[334/188] w-full rounded-lg object-cover object-center bg-muted"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
                       <div className="flex flex-1 flex-col gap-2 p-4">
                         <span className="inline-flex w-fit rounded-full border border-border px-2 py-0.5 text-xs font-medium text-foreground">
                           {item.category}
@@ -291,16 +297,6 @@ const NewsDetailPage = () => {
                           <span className="text-muted-foreground">on {formatDateLong(item.date)}</span>
                         </div>
                       </div>
-                      {item.imageUrl && (
-                        <div className="w-full px-2 pb-2">
-                          <img
-                            src={item.imageUrl}
-                            alt={item.title}
-                            className="aspect-[334/188] w-full rounded-lg object-cover object-center bg-muted"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
                     </Link>
                   ))}
                 </div>

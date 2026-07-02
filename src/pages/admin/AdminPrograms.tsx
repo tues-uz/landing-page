@@ -74,10 +74,11 @@ export default function AdminPrograms() {
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
+          type="search"
           placeholder={t("searchProgramsPlaceholder", "Search by title, slug, or description…")}
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          className="pl-9 h-10 rounded-lg"
+          className="pl-9 h-10"
         />
       </div>
 

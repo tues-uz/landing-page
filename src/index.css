@@ -28,8 +28,9 @@
     --accent-foreground: 210 50% 14%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
+    /* Comma-separated RGB for rgba(var(--border), α) — works in all browsers */
+    --border: 227, 229, 229;
+    --input: 227, 229, 229;
     --ring: 213 100% 14%;
     --radius: 0.25rem;
     --oxford-blue: 213 100% 14%;
@@ -42,7 +43,7 @@
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 227, 229, 229;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -63,8 +64,8 @@
     --accent-foreground: 210 50% 8%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 30% 20%;
-    --input: 210 30% 20%;
+    --border: 36, 51, 66;
+    --input: 36, 51, 66;
     --ring: 37 40% 69%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -72,14 +73,17 @@
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-border: 36, 51, 66;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
 @layer base {
-  * { @apply border-border; }
+  * {
+    border-color: rgba(var(--border), 1);
+  }
   html {
+    color-scheme: light;
     scroll-behavior: auto;
     /* clip avoids horizontal overflow without breaking position:sticky (hidden often does) */
     overflow-x: clip;
@@ -160,6 +164,35 @@
   }
 }
 
+/* Hard-coded neutral border — identical in Chrome, Safari, Firefox, Electron */
+.border-border,
+.border-input,
+.border-sidebar-border {
+  border-color: #e3e5e5 !important;
+}
+
+.dark .border-border,
+.dark .border-input,
+.dark .border-sidebar-border {
+  border-color: #243342 !important;
+}
+
+.divide-border > :not([hidden]) ~ :not([hidden]) {
+  border-color: #e3e5e5 !important;
+}
+
+.dark .divide-border > :not([hidden]) ~ :not([hidden]) {
+  border-color: #243342 !important;
+}
+
+.bg-border {
+  background-color: #e3e5e5 !important;
+}
+
+.dark .bg-border {
+  background-color: #243342 !important;
+}
+
 /* FloatingAccessibilityButton: root font scale + stronger contrast tokens */
 @layer base {
   html.a11y-large-text {
@@ -169,16 +202,16 @@
   html.a11y-high-contrast:not(.dark) {
     --foreground: 210 55% 8%;
     --muted-foreground: 210 40% 28%;
-    --border: 210 30% 52%;
-    --input: 210 30% 52%;
+    --border: 96, 133, 169;
+    --input: 96, 133, 169;
     --ring: 213 100% 22%;
   }
 
   html.a11y-high-contrast.dark {
     --foreground: 0 0% 100%;
     --muted-foreground: 210 25% 82%;
-    --border: 210 25% 42%;
-    --input: 210 25% 42%;
+    --border: 80, 107, 134;
+    --input: 80, 107, 134;
   }
 }
 
@@ -232,7 +265,7 @@ p {
   align-items: center;
   background: #fff;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(var(--border), 1);
   color: #333;
   padding: 10px;
   gap: 0 10px;

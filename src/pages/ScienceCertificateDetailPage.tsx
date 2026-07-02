@@ -89,7 +89,7 @@ export default function ScienceCertificateDetailPage() {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <h1 className="border-t border-border/60 bg-card/80 px-0 py-4 text-balance text-2xl font-semibold tracking-tight text-foreground sm:py-5 md:text-[1.75rem] md:leading-snug">
+                  <h1 className="border-t border-border bg-card/80 px-0 py-4 text-balance text-2xl font-semibold tracking-tight text-foreground sm:py-5 md:text-[1.75rem] md:leading-snug">
                     {title}
                   </h1>
                 </div>

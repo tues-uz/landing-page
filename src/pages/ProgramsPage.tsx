@@ -167,7 +167,7 @@ const ProgramsPage = () => {
                     placeholder={t("searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2.5 rounded-lg border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    className="w-full pl-9 pr-4 py-2.5 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     style={{ borderColor: BORDER_COLOR }}
                   />
                 </div>
@@ -294,7 +294,7 @@ const ProgramsPage = () => {
                     type="button"
                     onClick={goPrev}
                     aria-label={t("previous")}
-                    className="w-7 h-7 rounded-full bg-white border border-[rgb(227,229,229)] hover:bg-muted/50 transition-colors flex items-center justify-center"
+                    className="w-7 h-7 rounded-full bg-white border border-border hover:bg-muted/50 transition-colors flex items-center justify-center"
                   >
                     <ChevronLeft className="w-4 h-4 text-foreground" />
                   </button>
@@ -302,7 +302,7 @@ const ProgramsPage = () => {
                     type="button"
                     onClick={goNext}
                     aria-label={t("next")}
-                    className="w-7 h-7 rounded-full bg-white border border-[rgb(227,229,229)] hover:bg-muted/50 transition-colors flex items-center justify-center"
+                    className="w-7 h-7 rounded-full bg-white border border-border hover:bg-muted/50 transition-colors flex items-center justify-center"
                   >
                     <ChevronRight className="w-4 h-4 text-foreground" />
                   </button>

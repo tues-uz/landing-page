@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS } from "@/data/fallbackContent";
-import { Share2, Check } from "lucide-react";
+import { Share2, Check, Home } from "lucide-react";
 
 const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=600&fit=crop";
@@ -54,7 +54,7 @@ function formatEventDate(dateStr: string): { day: string; month: string } {
 
 function EventSkeleton() {
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm animate-pulse">
+    <div className="overflow-hidden rounded-xl border border-border bg-background animate-pulse">
       <div className="p-4 space-y-2">
         <div className="h-4 w-3/4 rounded bg-muted" />
         <div className="h-10 w-12 rounded bg-muted" />
@@ -96,7 +96,7 @@ function EventCard({ event }: { event: EventItem }) {
   return (
     <Link
       to={`/events/${event.id}`}
-      className="group block overflow-hidden rounded-lg bg-card shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      className="group block overflow-hidden rounded-lg bg-card transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     >
       <div className="relative aspect-[1/1] w-full overflow-hidden bg-muted">
         <img
@@ -132,6 +132,7 @@ function EventCard({ event }: { event: EventItem }) {
 
 const EventsPage = () => {
   const { t, i18n } = useTranslation("events");
+  const { t: tCommon } = useTranslation("common");
   const { data: eventData, isLoading: eventsLoading } = useQuery({
     queryKey: [...contentKeys.events.list(), i18n.language],
     queryFn: () => contentApi.events.list(i18n.language),
@@ -143,21 +144,35 @@ const EventsPage = () => {
   const pastEvents: EventItem[] = []; // No past events from API; extend later if needed
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
-      <main className="below-header bg-background">
-        <section className="pt-8 pb-16 md:pt-12 md:pb-24">
-          <div className="container mx-auto px-6">
-            {/* Breadcrumb */}
-            <nav className="text-sm text-muted-foreground mb-4">
-              <Link to="/" className="hover:text-foreground">
-                {t("mainPage")}
-              </Link>
-              <span className="mx-2">/</span>
-              <span className="text-foreground">{t("title")}</span>
+      <main className="below-header">
+        <div className="border-b border-border bg-muted/50">
+          <div className="container mx-auto flex max-w-[1348px] items-center px-4 py-3 sm:px-6 lg:px-8">
+            <nav aria-label="Breadcrumb" className="min-w-0 flex-1">
+              <ol className="m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0 text-sm text-[#5A626C]">
+                <li className="flex items-center">
+                  <Link
+                    to="/"
+                    className="inline-flex items-center gap-1.5 font-medium leading-none transition-colors hover:text-foreground"
+                  >
+                    <Home className="h-5 w-5 shrink-0" strokeWidth={1.5} aria-hidden />
+                    <span className="leading-none">{tCommon("breadcrumbHome")}</span>
+                  </Link>
+                </li>
+                <li aria-hidden className="flex items-center text-muted-foreground/70">
+                  <span className="leading-none">/</span>
+                </li>
+                <li className="min-w-0 flex-1 font-medium text-foreground">
+                  <span className="line-clamp-2 sm:line-clamp-none">{t("title")}</span>
+                </li>
+              </ol>
             </nav>
+          </div>
+        </div>
 
-            {/* Large title + description */}
+        <section className="pt-8 pb-16 md:pt-12 md:pb-24">
+          <div className="container mx-auto max-w-[1348px] px-4 sm:px-6 lg:px-8">
             <div className="relative mb-12">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
                 {t("title")}

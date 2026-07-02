@@ -66,14 +66,14 @@ export function MainHeader() {
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="h-9 border-slate-200 bg-transparent text-slate-700 hover:bg-slate-100 px-2 flex items-center gap-1.5"
+              className="h-9 border-border bg-transparent text-slate-700 hover:bg-slate-100 px-2 flex items-center gap-1.5"
             >
               <span className="text-base leading-none block pt-0.5">{currentLanguage.flag}</span>
               <span className="hidden sm:inline-block text-sm font-medium">{currentLanguage.name}</span>
               <ChevronDown className="h-4 w-4 text-slate-500" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-white border-slate-200" align="end">
+          <DropdownMenuContent className="bg-white border-border" align="end">
             {languages.map((lang) => (
               <DropdownMenuItem
                 key={lang.code}
