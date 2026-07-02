@@ -165,6 +165,13 @@ function DepartmentSectionBlock({ section }: { section: DepartmentSection }) {
               </ul>
             </div>
           ))}
+          {subsection.listItems ? (
+            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-foreground/90 marker:text-primary">
+              {subsection.listItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          ) : null}
           {subsection.orderedListItems ? (
             <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-foreground/90 marker:text-primary">
               {subsection.orderedListItems.map((item) => (

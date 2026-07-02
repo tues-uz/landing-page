@@ -13,6 +13,7 @@ export type DepartmentCourseGroup = {
 export type DepartmentSubsection = {
   title: string;
   groups?: readonly DepartmentCourseGroup[];
+  listItems?: readonly string[];
   orderedListItems?: readonly string[];
 };
 
