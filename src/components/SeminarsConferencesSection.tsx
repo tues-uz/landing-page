@@ -38,7 +38,7 @@ export function SeminarsConferencesSection() {
           </thead>
           <tbody>
             {SEMINARS_CONFERENCES_ROWS.map((row) => (
-              <tr key={row.no} className="border-b border-border/80 last:border-0">
+              <tr key={row.no} className="border-b border-border last:border-0">
                 <td className="align-top px-3 py-3 tabular-nums text-muted-foreground sm:px-4">{row.no}</td>
                 <td className="max-w-md px-3 py-3 text-foreground sm:px-4">{row.title}</td>
                 <td className="whitespace-nowrap px-3 py-3 text-muted-foreground sm:px-4">{row.level}</td>

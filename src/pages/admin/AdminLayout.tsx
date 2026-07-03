@@ -84,6 +84,7 @@ export default function AdminLayout() {
         <div className="flex flex-1 items-center gap-2">
           <Search className="h-4 w-4 shrink-0 text-slate-400" />
           <Input
+            type="search"
             placeholder={t("search")}
             className="max-w-xs border-0 bg-slate-50 text-sm placeholder:text-slate-400 focus-visible:ring-1 focus-visible:ring-slate-200"
           />

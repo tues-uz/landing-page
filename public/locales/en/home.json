@@ -34,6 +34,7 @@
     "noArticles": "No articles yet.",
     "recommendedSidebarTitle": "News",
     "viewAll": "View All News",
+    "readMore": "Read more",
     "onDate": "on {{date}}",
     "comments_one": "{{count}} Comment",
     "comments_other": "{{count}} Comments"

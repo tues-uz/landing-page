@@ -135,10 +135,14 @@
   "regulationDocsDownloadLead": "Ссылка открывает файл в новой вкладке. При необходимости сохраните файл на устройстве через меню браузера.",
   "regulationDocsDocxBadge": "Microsoft Word (.docx)",
   "regulationDocsDownloadCta": "Скачать",
-  "accreditationLicenseIntro": "Термезский университет экономики и сервиса участвует в международных системах признания. Выберите карточку ниже, чтобы прочитать об INTEAS или WDOMS на этом сайте.",
+  "accreditationLicenseIntro": "Термезский университет экономики и сервиса участвует в международных системах признания. Выберите карточку ниже, чтобы прочитать об INTEAS или WDOMS, или скачать лицензию университета.",
   "accreditationInteasDesc": "International Education Accreditation Society — аккредитация, сертификация и каталог учебных заведений.",
   "accreditationWdomsDesc": "World Directory of Medical Schools — глобальный поисковый реестр при поддержке WFME и FAIMER.",
   "accreditationRegistryCta": "Подробнее",
+  "accreditationLicense2Title": "Лицензия",
+  "accreditationLicense2Desc": "Официальная лицензия на осуществление образовательной деятельности, выданная Министерством высшего образования, науки и инноваций Республики Узбекистан.",
+  "accreditationLicense2ImageAlt": "Предпросмотр официальной лицензии университета, выданной Министерством высшего образования, науки и инноваций Республики Узбекистан.",
+  "accreditationLicenseDownloadCta": "Скачать",
   "accreditationInteasPageTitle": "INTEAS",
   "accreditationInteasCertificateAlt": "Сертификат аккредитации INTEAS для Термезского университета экономики и сервиса (12 июня 2025 – 30 июня 2029)",
   "accreditationInteasPageLead": "Термезский университет экономики и сервиса аккредитован международной организацией INTEAS.",
@@ -318,21 +322,40 @@
   "organizationalStructureAuxiliaryLabel": "Надзор и сервисные службы",
   "videoGallery": {
     "gridIntro": "Подборка записей с кампусных мероприятий, лекций и студенческой жизни. Запускайте видео прямо в карточке; по мере появления материалов список будет пополняться.",
-    "highlights": {
-      "title": "Яркие моменты событий",
-      "description": "Фрагменты недавних культурных и академических мероприятий университета."
+    "watchVideo": "Смотреть видео",
+    "previousVideo": "Предыдущее видео",
+    "nextVideo": "Следующее видео",
+    "channelName": "Termez University of Economics and Service",
+    "videoLabel": "Видеогалерея",
+    "aboutUniversity": {
+      "title": "Об университете"
     },
-    "campusLife": {
-      "title": "Кампус и учебные пространства",
-      "description": "Короткий обзор помещений, где студенты учатся, исследуют и работают вместе."
+    "creativityEvening": {
+      "title": "Видеоролик с литературно-художественного вечера «Вечер творчества и вдохновения»"
     },
-    "guestLecture": {
-      "title": "Цикл гостевых лекций",
-      "description": "Записи выступлений приглашённых спикеров и открытых академических лекций."
+    "hippocraticOath": {
+      "title": "Студенты TUES приняли клятву Гиппократа"
     },
-    "studentLife": {
-      "title": "Студенческая жизнь",
-      "description": "Клубы, конкурсы и праздники из жизни студентов."
+    "indonesiaProgram": {
+      "title": "Студенты TUES участвуют в 8-недельной учебной программе в Индонезии"
+    },
+    "militaryUnitDay": {
+      "title": "Студенты TUES приняли участие в проекте «Один день в воинской части»"
+    },
+    "anilBayirInterview": {
+      "title": "Интервью с Анилом Байиром, представителем Cambridge Assessment and Press Organization"
+    },
+    "linguisticsConference": {
+      "title": "Международная научно-практическая конференция «Инновации в лингвистике и языковом образовании: глобальные тенденции и локальные перспективы»"
+    },
+    "internationalConference": {
+      "title": "Международная научно-практическая конференция прошла в TUES"
+    },
+    "medicineFaculty": {
+      "title": "Медицинский факультет Termez University of Economics and Service"
+    },
+    "yuzmaYuz": {
+      "title": "«Yuzma-yuz» — новый проект!"
     }
   },
   "photoGallery": {

@@ -5,6 +5,12 @@
   "searchAriaLabel": "Yangiliklarni qidirish",
   "filterAriaLabel": "Toifa bo'yicha filtrlash",
   "allCategories": "Barcha toifalar",
+  "categories": {
+    "news": "Yangiliklar",
+    "events": "Tadbirlar",
+    "announcements": "E'lonlar",
+    "blog": "Blog"
+  },
   "noArticlesYet": "Hozircha maqolalar yo'q.",
   "noMatch": "Qidiruv yoki filtrga mos yangilik topilmadi. Boshqa kalit so'z yoki toifani sinab ko'ring."
 }

@@ -38,7 +38,7 @@ export function ResearchPublicationsSection() {
           </thead>
           <tbody>
             {RESEARCH_PUBLICATION_FIELD_ROWS.map((row) => (
-              <tr key={row.no} className="border-b border-border/80 last:border-0">
+              <tr key={row.no} className="border-b border-border last:border-0">
                 <td className="px-3 py-3 tabular-nums text-muted-foreground sm:px-4">{row.no}</td>
                 <td className="max-w-xl px-3 py-3 text-foreground sm:px-4">{row.field}</td>
                 <td className="px-3 py-3 tabular-nums text-muted-foreground sm:px-4">{row.count}</td>

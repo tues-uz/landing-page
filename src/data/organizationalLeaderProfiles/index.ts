@@ -1,0 +1,69 @@
+import type { DepartmentProfile } from "@/data/departmentProfiles/types";
+import { ASSISTANT_TO_RECTOR_PROFILE } from "./assistantToRectorProfile";
+import { CHIEF_LEGAL_COUNSEL_PROFILE } from "./chiefLegalCounselProfile";
+import { ACADEMIC_METHODOLOGICAL_DEPARTMENT_HEAD_PROFILE } from "./academicMethodologicalDepartmentHeadProfile";
+import { ACCOUNTING_AUDIT_DEPARTMENT_HEAD_PROFILE } from "./accountingAuditDepartmentHeadProfile";
+import { ADMISSIONS_OFFICE_HEAD_PROFILE } from "./admissionsOfficeHeadProfile";
+import { ANTI_CORRUPTION_DEPARTMENT_HEAD_PROFILE } from "./antiCorruptionDepartmentHeadProfile";
+import { DIGITAL_EDTECH_CENTER_HEAD_PROFILE } from "./digitalEdtechCenterHeadProfile";
+import { GRADUATE_DEPARTMENT_HEAD_PROFILE } from "./graduateDepartmentHeadProfile";
+import { HR_DEPARTMENT_HEAD_PROFILE } from "./hrDepartmentHeadProfile";
+import { INFORMATION_RESOURCE_CENTER_HEAD_PROFILE } from "./informationResourceCenterHeadProfile";
+import { INTERNATIONAL_RELATIONS_DEPARTMENT_HEAD_PROFILE } from "./internationalRelationsDepartmentHeadProfile";
+import { MARKETING_DEPARTMENT_HEAD_PROFILE } from "./marketingDepartmentHeadProfile";
+import { RESEARCH_INNOVATION_DEPARTMENT_HEAD_PROFILE } from "./researchInnovationDepartmentHeadProfile";
+import { SECRETARIAT_ARCHIVE_HEAD_PROFILE } from "./secretariatArchiveHeadProfile";
+import { RECTOR_PROFILE } from "./rectorProfile";
+import { VICE_RECTOR_ACADEMIC_PROFILE } from "./viceRectorAcademicProfile";
+import { STRATEGIC_DEVELOPMENT_DEPARTMENT_HEAD_PROFILE } from "./strategicDevelopmentDepartmentHeadProfile";
+import { STUDENT_AFFAIRS_DEPARTMENT_HEAD_PROFILE } from "./studentAffairsDepartmentHeadProfile";
+import { TECHNICAL_SERVICES_HEAD_PROFILE } from "./technicalServicesHeadProfile";
+import { VICE_RECTOR_INTERNATIONAL_PROFILE } from "./viceRectorInternationalProfile";
+import { VICE_RECTOR_RESEARCH_PROFILE } from "./viceRectorResearchProfile";
+import { VICE_RECTOR_YOUTH_PROFILE } from "./viceRectorYouthProfile";
+import { PRESS_SERVICE_HEAD_PROFILE } from "./pressServiceHeadProfile";
+import { QUALITY_CONTROL_DEPARTMENT_HEAD_PROFILE } from "./qualityControlDepartmentHeadProfile";
+import { YOUTH_AFFAIRS_DEPARTMENT_HEAD_PROFILE } from "./youthAffairsDepartmentHeadProfile";
+
+const PROFILES_BY_LEADER_ID: Readonly<Record<number, DepartmentProfile>> = {
+  [RECTOR_PROFILE.leaderViewId]: RECTOR_PROFILE,
+  [VICE_RECTOR_YOUTH_PROFILE.leaderViewId]: VICE_RECTOR_YOUTH_PROFILE,
+  [YOUTH_AFFAIRS_DEPARTMENT_HEAD_PROFILE.leaderViewId]: YOUTH_AFFAIRS_DEPARTMENT_HEAD_PROFILE,
+  [PRESS_SERVICE_HEAD_PROFILE.leaderViewId]: PRESS_SERVICE_HEAD_PROFILE,
+  [VICE_RECTOR_ACADEMIC_PROFILE.leaderViewId]: VICE_RECTOR_ACADEMIC_PROFILE,
+  [ACADEMIC_METHODOLOGICAL_DEPARTMENT_HEAD_PROFILE.leaderViewId]:
+    ACADEMIC_METHODOLOGICAL_DEPARTMENT_HEAD_PROFILE,
+  [DIGITAL_EDTECH_CENTER_HEAD_PROFILE.leaderViewId]: DIGITAL_EDTECH_CENTER_HEAD_PROFILE,
+  [GRADUATE_DEPARTMENT_HEAD_PROFILE.leaderViewId]: GRADUATE_DEPARTMENT_HEAD_PROFILE,
+  [VICE_RECTOR_INTERNATIONAL_PROFILE.leaderViewId]: VICE_RECTOR_INTERNATIONAL_PROFILE,
+  [VICE_RECTOR_RESEARCH_PROFILE.leaderViewId]: VICE_RECTOR_RESEARCH_PROFILE,
+  [RESEARCH_INNOVATION_DEPARTMENT_HEAD_PROFILE.leaderViewId]:
+    RESEARCH_INNOVATION_DEPARTMENT_HEAD_PROFILE,
+  [INFORMATION_RESOURCE_CENTER_HEAD_PROFILE.leaderViewId]:
+    INFORMATION_RESOURCE_CENTER_HEAD_PROFILE,
+  [ASSISTANT_TO_RECTOR_PROFILE.leaderViewId]: ASSISTANT_TO_RECTOR_PROFILE,
+  [HR_DEPARTMENT_HEAD_PROFILE.leaderViewId]: HR_DEPARTMENT_HEAD_PROFILE,
+  [CHIEF_LEGAL_COUNSEL_PROFILE.leaderViewId]: CHIEF_LEGAL_COUNSEL_PROFILE,
+  [SECRETARIAT_ARCHIVE_HEAD_PROFILE.leaderViewId]: SECRETARIAT_ARCHIVE_HEAD_PROFILE,
+  [ADMISSIONS_OFFICE_HEAD_PROFILE.leaderViewId]: ADMISSIONS_OFFICE_HEAD_PROFILE,
+  [TECHNICAL_SERVICES_HEAD_PROFILE.leaderViewId]: TECHNICAL_SERVICES_HEAD_PROFILE,
+  [QUALITY_CONTROL_DEPARTMENT_HEAD_PROFILE.leaderViewId]: QUALITY_CONTROL_DEPARTMENT_HEAD_PROFILE,
+  [ANTI_CORRUPTION_DEPARTMENT_HEAD_PROFILE.leaderViewId]: ANTI_CORRUPTION_DEPARTMENT_HEAD_PROFILE,
+  [STUDENT_AFFAIRS_DEPARTMENT_HEAD_PROFILE.leaderViewId]: STUDENT_AFFAIRS_DEPARTMENT_HEAD_PROFILE,
+  [ACCOUNTING_AUDIT_DEPARTMENT_HEAD_PROFILE.leaderViewId]: ACCOUNTING_AUDIT_DEPARTMENT_HEAD_PROFILE,
+  [MARKETING_DEPARTMENT_HEAD_PROFILE.leaderViewId]: MARKETING_DEPARTMENT_HEAD_PROFILE,
+  [INTERNATIONAL_RELATIONS_DEPARTMENT_HEAD_PROFILE.leaderViewId]:
+    INTERNATIONAL_RELATIONS_DEPARTMENT_HEAD_PROFILE,
+  [STRATEGIC_DEVELOPMENT_DEPARTMENT_HEAD_PROFILE.leaderViewId]:
+    STRATEGIC_DEVELOPMENT_DEPARTMENT_HEAD_PROFILE,
+};
+
+export function getOrganizationalLeaderProfileByLeaderId(
+  leaderViewId: number,
+): DepartmentProfile | undefined {
+  return PROFILES_BY_LEADER_ID[leaderViewId];
+}
+
+export function organizationalLeaderProfilePath(leaderViewId: number): string {
+  return `/about/organizational-structure/leader/${leaderViewId}`;
+}

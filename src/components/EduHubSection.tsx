@@ -101,7 +101,7 @@ const EduHubSection = () => {
             </div>
             {/* Card: quote + user + button — absolute */}
             <div
-              className="absolute left-0 right-0 bottom-0 rounded-[10px] border border-black/10 bg-white/95 backdrop-blur-sm shadow-lg p-5 md:p-6 flex flex-col gap-4"
+              className="absolute left-0 right-0 bottom-0 rounded-[10px] border border-border bg-white/95 backdrop-blur-sm shadow-lg p-5 md:p-6 flex flex-col gap-4"
               style={{ margin: "12px" }}
             >
               <p

@@ -132,7 +132,7 @@ const Alumni = () => {
               >
                 {infiniteTestimonials.map((t, i) => (
                   <div key={`${t.id}-${i}`} className="flex-shrink-0 w-full sm:w-1/2 px-0 sm:px-2">
-                    <div className="bg-white rounded-xl p-5 border border-black/[0.06] shadow-sm h-full">
+                    <div className="bg-white rounded-xl p-5 border border-border shadow-sm h-full">
                       <p className="text-foreground/75 text-sm leading-relaxed mb-4 line-clamp-3">
                         {t.quote}
                       </p>
@@ -156,7 +156,7 @@ const Alumni = () => {
               <button
                 type="button"
                 onClick={() => go(-1)}
-                className="w-10 h-10 rounded-full border border-foreground/15 flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
                 aria-label={t("previous")}
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -164,7 +164,7 @@ const Alumni = () => {
               <button
                 type="button"
                 onClick={() => go(1)}
-                className="w-10 h-10 rounded-full border border-foreground/15 flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground/70 hover:bg-foreground/5 transition-colors"
                 aria-label={t("next")}
               >
                 <ChevronRight className="w-5 h-5" />

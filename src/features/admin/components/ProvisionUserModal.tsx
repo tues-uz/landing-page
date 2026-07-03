@@ -119,8 +119,8 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
   
   return (
     <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
-      <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden gap-0 bg-background border-border/50 shadow-2xl">
-        <div className="bg-primary/5 p-6 border-b border-border/50">
+      <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden gap-0 bg-background border-border shadow-2xl">
+        <div className="bg-primary/5 p-6 border-b border-border">
           <DialogHeader>
             <div className="flex items-center gap-3 mb-1">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
@@ -156,7 +156,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                         <Input
                           id="name"
                           placeholder="John Doe"
-                          className="pl-9 bg-muted/30 border-border/50 focus-visible:ring-primary"
+                          className="pl-9 bg-muted/30 border-border focus-visible:ring-primary"
                           value={formData.name}
                           onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
                           required
@@ -174,7 +174,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                           id="email"
                           type="email"
                           placeholder="john@example.com"
-                          className="pl-9 bg-muted/30 border-border/50 focus-visible:ring-primary"
+                          className="pl-9 bg-muted/30 border-border focus-visible:ring-primary"
                           value={formData.email}
                           onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           required
@@ -191,7 +191,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
             )}
 
             {isEdit && (
-               <div className="p-3 rounded-lg bg-muted/30 border border-border/50 flex items-center justify-between">
+               <div className="p-3 rounded-lg bg-muted/30 border border-border flex items-center justify-between">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Managing Account</div>
                   <div className="text-sm font-semibold">{initialData?.name}</div>
@@ -218,7 +218,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                           id="password"
                           type="text"
                           placeholder="••••••••••••"
-                          className="pl-9 bg-muted/30 border-border/50 font-mono tracking-wider"
+                          className="pl-9 bg-muted/30 border-border font-mono tracking-wider"
                           value={formData.password}
                           onChange={e => setFormData(prev => ({ ...prev, password: e.target.value }))}
                           required
@@ -230,7 +230,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                       <Button 
                         type="button" 
                         variant="outline" 
-                        className="shrink-0 gap-2 border-border/50 hover:bg-primary/5 hover:text-primary transition-colors"
+                        className="shrink-0 gap-2 border-border hover:bg-primary/5 hover:text-primary transition-colors"
                         onClick={handleGeneratePassword}
                       >
                         <RefreshCw className="h-4 w-4" />
@@ -258,8 +258,8 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
               
               <div className="space-y-4">
                 {platforms.map(platform => (
-                  <div key={platform.slug} className="rounded-xl border border-border/50 bg-muted/10 overflow-hidden">
-                    <div className="bg-muted/30 px-4 py-2 border-b border-border/50 flex items-center justify-between">
+                  <div key={platform.slug} className="rounded-xl border border-border bg-muted/10 overflow-hidden">
+                    <div className="bg-muted/30 px-4 py-2 border-b border-border flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                         <span className="text-xs font-bold uppercase tracking-widest text-foreground">{platform.name}</span>
@@ -300,7 +300,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                               "flex items-center justify-between p-2.5 rounded-lg border transition-all group",
                               isSelected 
                                 ? "bg-primary/5 border-primary/30 shadow-sm" 
-                                : "bg-background border-border/50 hover:border-border hover:bg-muted/20"
+                                : "bg-background border-border hover:border-border hover:bg-muted/20"
                             )}
                           >
                             <label 
@@ -336,7 +336,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
           </form>
         </div>
         
-        <div className="p-6 bg-muted/30 border-t border-border/50 flex items-center justify-end gap-3">
+        <div className="p-6 bg-muted/30 border-t border-border flex items-center justify-end gap-3">
           <Button type="button" variant="ghost" onClick={onClose} className="hover:bg-background">
             Cancel
           </Button>

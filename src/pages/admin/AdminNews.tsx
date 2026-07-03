@@ -283,7 +283,7 @@ export default function AdminNews() {
           </div>
 
           {/* Story settings */}
-          <div className="pb-8 mb-8 border-b border-border/60">
+          <div className="pb-8 mb-8 border-b border-border">
             <div className="flex items-center justify-between mb-4">
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Story settings
@@ -315,7 +315,7 @@ export default function AdminNews() {
                   value={form.category ?? "News"}
                   onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}
                 >
-                  <SelectTrigger className="h-9 w-36 rounded-md border-border/80 bg-background px-3 py-2 text-sm">
+                  <SelectTrigger className="h-9 w-36 rounded-md border-border bg-background px-3 py-2 text-sm">
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -340,7 +340,7 @@ export default function AdminNews() {
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">Display on News page</label>
                 <Select value={display} onValueChange={setDisplay}>
-                  <SelectTrigger className="h-9 w-44 rounded-md border-border/80 bg-background px-3 py-2 text-sm">
+                  <SelectTrigger className="h-9 w-44 rounded-md border-border bg-background px-3 py-2 text-sm">
                     <SelectValue placeholder="Display" />
                   </SelectTrigger>
                   <SelectContent>
@@ -524,7 +524,7 @@ export default function AdminNews() {
       }
     >
       <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
-        <div className="border-b border-border/60 px-4 py-4 bg-muted/30 space-y-4">
+        <div className="border-b border-border px-4 py-4 bg-muted/30 space-y-4">
           <div className="flex flex-row items-center justify-between gap-4">
             <h2 className="text-lg font-semibold text-foreground">{t("articles", "Articles")}</h2>
             <p className="text-sm text-muted-foreground">
@@ -535,8 +535,9 @@ export default function AdminNews() {
           <div className="flex flex-wrap gap-3 items-center justify-between">
             <div className="relative min-w-[200px] flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                placeholder={t("searchByTitleOrSlug", "Search by title or slug...")}
+          <Input
+            type="search"
+            placeholder={t("searchByTitleOrSlug", "Search by title or slug...")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 h-9"
@@ -584,7 +585,7 @@ export default function AdminNews() {
             </div>
           </div>
         </div>
-        <ul className="divide-y divide-border/60">
+        <ul className="divide-y divide-border">
           {filteredArticles.map((a) => (
             <li
               key={a.id}

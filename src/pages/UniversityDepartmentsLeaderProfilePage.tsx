@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next";
 import { ExternalLink, Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { DepartmentProfileContent } from "@/components/DepartmentProfileContent";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
+import { getDepartmentProfileByLeaderId } from "@/data/departmentProfiles";
 import { UNIVERSITY_DEPARTMENTS_HIERARCHY, leaderProfileHref } from "@/data/universityDepartmentsHierarchy";
 
 type FlattenedLeader = {
@@ -48,6 +50,7 @@ export default function UniversityDepartmentsLeaderProfilePage() {
   }
 
   const officialHref = leaderProfileHref(parsedId);
+  const departmentProfile = getDepartmentProfileByLeaderId(parsedId);
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,7 +92,9 @@ export default function UniversityDepartmentsLeaderProfilePage() {
                   <span className="leading-none">/</span>
                 </li>
                 <li className="min-w-0 flex-1 font-medium text-foreground">
-                  <span className="line-clamp-2 sm:line-clamp-none">{leader.label}</span>
+                  <span className="line-clamp-2 sm:line-clamp-none">
+                    {departmentProfile?.pageTitle ?? leader.label}
+                  </span>
                 </li>
               </ol>
             </nav>
@@ -100,27 +105,31 @@ export default function UniversityDepartmentsLeaderProfilePage() {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8">
             <div className="order-1 lg:order-none lg:col-span-9">
               <article className="max-w-none">
-                <section className="rounded-2xl bg-card p-5 sm:p-6">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    {leader.groupLabel}
-                  </p>
-                  <h1 className="mt-1.5 text-balance text-[1.65rem] font-semibold tracking-tight text-foreground">
-                    {leader.label}
-                  </h1>
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    This profile is available on the official university website. Use the link below to view complete
-                    contact details and responsibilities.
-                  </p>
-                  <a
-                    href={officialHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-                  >
-                    Open official profile
-                    <ExternalLink className="h-3.5 w-3.5" aria-hidden />
-                  </a>
-                </section>
+                {departmentProfile ? (
+                  <DepartmentProfileContent profile={departmentProfile} />
+                ) : (
+                  <section className="rounded-2xl bg-card p-5 sm:p-6">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      {leader.groupLabel}
+                    </p>
+                    <h1 className="mt-1.5 text-balance text-[1.65rem] font-semibold tracking-tight text-foreground">
+                      {leader.label}
+                    </h1>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      This profile is available on the official university website. Use the link below to view complete
+                      contact details and responsibilities.
+                    </p>
+                    <a
+                      href={officialHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                    >
+                      Open official profile
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                    </a>
+                  </section>
+                )}
               </article>
             </div>
             <RecommendedNewsSidebar className="order-2 lg:order-none lg:col-span-3" />

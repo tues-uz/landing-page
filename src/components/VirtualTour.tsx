@@ -21,15 +21,15 @@ const VirtualTour = () => {
         </div>
 
         {/* Main Video Section */}
-        <div className="relative mb-12 rounded overflow-hidden shadow-2xl">
-          <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 relative">
+        <div className="relative mb-12 overflow-hidden rounded-xl shadow-2xl">
+          <div className="relative aspect-video overflow-hidden rounded-xl bg-gradient-to-br from-primary/20 to-primary/5">
             <div className="absolute inset-0 flex items-center justify-center">
               <button className="w-16 h-16 rounded-full bg-black/50 hover:bg-black/60 text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 z-10">
                 <Box className="h-8 w-8" />
               </button>
             </div>
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
+              className="absolute inset-0 rounded-[inherit] bg-cover bg-center bg-no-repeat opacity-70"
               style={{
                 backgroundImage: `url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')`,
               }}

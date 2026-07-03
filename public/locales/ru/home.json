@@ -34,6 +34,7 @@
     "noArticles": "Пока нет статей.",
     "recommendedSidebarTitle": "Новости",
     "viewAll": "Все новости",
+    "readMore": "Подробнее",
     "onDate": "от {{date}}",
     "comments_one": "{{count}} комментарий",
     "comments_few": "{{count}} комментария",

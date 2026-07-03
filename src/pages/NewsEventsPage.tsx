@@ -4,7 +4,8 @@ import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { ArticleCard } from "@/components/NewsEvents";
+import { ArticleCard, NEWS_CARD_BORDER } from "@/components/NewsEvents";
+import { NEUTRAL_BORDER } from "@/lib/uiBorders";
 import {
   Carousel,
   CarouselContent,
@@ -24,18 +25,23 @@ import { contentApi, type NewsItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
 import { filterNewsByQuery } from "@/lib/newsSearch";
+import { getNewsPreviewText } from "@/lib/newsContent";
+import { getNewsCategoryLabel } from "@/lib/newsCategories";
+import { getUiLang } from "@/lib/localeContent";
 
 function NewsCardSkeleton() {
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-background animate-pulse">
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="h-4 w-16 rounded-full bg-muted" />
-        <div className="h-4 w-full rounded bg-muted" />
-        <div className="h-4 w-3/4 rounded bg-muted" />
-        <div className="mt-auto h-3 w-1/2 rounded bg-muted" />
-      </div>
-      <div className="w-full px-2 pb-2">
-        <div className="aspect-[334/188] w-full rounded-lg bg-muted" />
+    <div className={`flex h-full flex-col overflow-hidden rounded-xl border ${NEWS_CARD_BORDER} bg-background animate-pulse`}>
+      <div className="aspect-[3/2] w-full bg-muted" />
+      <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
+        <div className="flex justify-between gap-3">
+          <div className="h-3 w-16 rounded bg-muted" />
+          <div className="h-3 w-20 rounded bg-muted" />
+        </div>
+        <div className="mt-2 h-4 w-full rounded bg-muted" />
+        <div className="mt-1 h-4 w-4/5 rounded bg-muted" />
+        <div className="mt-2 h-8 w-full rounded bg-muted" />
+        <div className="mt-auto mt-3 h-10 w-full rounded-full bg-muted" />
       </div>
     </div>
   );
@@ -43,7 +49,7 @@ function NewsCardSkeleton() {
 
 function FeaturedSkeleton() {
   return (
-    <div className="flex flex-col h-full rounded-xl border border-border bg-background animate-pulse">
+    <div className={`flex flex-col h-full rounded-xl border ${NEWS_CARD_BORDER} bg-background animate-pulse`}>
       <div className="flex-1 m-2 rounded-lg bg-muted min-h-48" />
       <div className="p-6 space-y-3">
         <div className="h-4 w-20 rounded-full bg-muted" />
@@ -56,6 +62,9 @@ function FeaturedSkeleton() {
 }
 
 function HeroSlide({ item }: { item: NewsItem }) {
+  const { t: tNews } = useTranslation("news", { bindI18n: "languageChanged loaded" });
+  const previewText = getNewsPreviewText(item);
+  const categoryLabel = getNewsCategoryLabel(item.category, tNews);
   return (
     <Link
       to={`/news/${item.slug}`}
@@ -68,19 +77,18 @@ function HeroSlide({ item }: { item: NewsItem }) {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-        <div className="absolute inset-0 flex flex-col justify-end gap-[48px] p-4 md:p-6 lg:px-10">
+        <div className="absolute inset-0 flex flex-col justify-end gap-4 pt-4 px-4 pb-8 md:pt-6 md:px-6 md:pb-8 lg:px-10">
           <span className="inline-flex w-fit rounded-full border border-white/30 bg-white/10 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
-            {item.category}
+            {categoryLabel}
           </span>
-          <h2 className="text-2xl font-bold leading-tight text-white drop-shadow-sm md:text-3xl lg:text-4xl line-clamp-2">
-            {item.title}
-          </h2>
-          <p className="max-w-2xl text-sm text-white/90 line-clamp-2 md:text-base">
-            {item.excerpt}
-          </p>
-          <span className="text-xs text-white/80">
-            {item.author} · {item.date}
-          </span>
+          <div className="flex flex-col gap-4">
+            <h2 className="text-xl font-bold leading-tight text-white drop-shadow-sm md:text-2xl lg:text-3xl line-clamp-2">
+              {item.title}
+            </h2>
+            <p className="max-w-2xl text-sm text-white/90 line-clamp-2 md:text-base">
+              {previewText}
+            </p>
+          </div>
         </div>
       </div>
     </Link>
@@ -96,7 +104,10 @@ function filterNews(items: NewsItem[], search: string, category: string): NewsIt
 }
 
 const NewsEventsPage = () => {
-  const { t, i18n } = useTranslation("news");
+  const { t, i18n } = useTranslation("news", {
+    bindI18n: "languageChanged loaded",
+  });
+  const locale = getUiLang(i18n);
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get("q") ?? "");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -105,9 +116,19 @@ const NewsEventsPage = () => {
     setSearchQuery(searchParams.get("q") ?? "");
   }, [searchParams]);
 
+  useEffect(() => {
+    setCategoryFilter("all");
+  }, [locale]);
+
+  const allCategoriesLabel = t("allCategories");
+  const categoryFilterLabel =
+    categoryFilter === "all"
+      ? allCategoriesLabel
+      : getNewsCategoryLabel(categoryFilter, t);
+
   const { data: newsData, isLoading: newsLoading } = useQuery({
-    queryKey: [...contentKeys.news.list(), i18n.language],
-    queryFn: () => contentApi.news.list(i18n.language),
+    queryKey: [...contentKeys.news.list(), locale],
+    queryFn: () => contentApi.news.list(locale),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
@@ -155,7 +176,7 @@ const NewsEventsPage = () => {
                 <CarouselNext className="right-4 md:right-6 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 border-0 text-white hover:bg-black/60 hover:text-white" />
               </Carousel>
             ) : (
-              <div className="w-full aspect-[21/9] min-h-[280px] flex items-center justify-center text-muted-foreground text-sm border-b border-border">
+              <div className={`w-full aspect-[21/9] min-h-[280px] flex items-center justify-center text-muted-foreground text-sm border-b ${NEWS_CARD_BORDER}`}>
                 {t("noArticlesYet")}
               </div>
             )}
@@ -168,37 +189,39 @@ const NewsEventsPage = () => {
             <p className="text-muted-foreground mb-8">
               {t("subtitle")}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <div className="relative flex-1">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+              <div className="relative w-full max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <input
                   type="search"
                   placeholder={t("searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-11 pl-10 pr-4 rounded-lg border border-input bg-background text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className={`w-full h-11 pl-10 pr-4 rounded-full border ${NEUTRAL_BORDER} bg-background text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
                   aria-label={t("searchAriaLabel")}
                 />
               </div>
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <Select key={locale} value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger
-                  className="h-11 rounded-lg w-32 sm:w-36"
+                  className={`h-11 rounded-full w-auto min-w-32 sm:min-w-36 ${NEUTRAL_BORDER}`}
                   aria-label={t("filterAriaLabel")}
                 >
-                  <SelectValue placeholder={t("allCategories")} />
+                  <SelectValue asChild>
+                    <span className="truncate">{categoryFilterLabel}</span>
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">{t("allCategories")}</SelectItem>
+                  <SelectItem value="all">{allCategoriesLabel}</SelectItem>
                   {categories.map((cat) => (
                     <SelectItem key={cat} value={cat}>
-                      {cat}
+                      {getNewsCategoryLabel(cat, t)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {newsLoading ? (
                 Array.from({ length: 6 }).map((_, i) => <NewsCardSkeleton key={i} />)
               ) : filteredItems.length > 0 ? (

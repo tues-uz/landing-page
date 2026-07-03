@@ -56,7 +56,7 @@ export function DashboardPage() {
           <div className="p-6">
             <div className="relative mb-4">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search content..." className="pl-9 rounded-lg h-9" />
+              <Input type="search" placeholder="Search content..." className="pl-9 h-9" />
             </div>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>No recent activity. Add hero slides, news, or events to see them here.</p>

@@ -135,10 +135,14 @@
   "regulationDocsDownloadLead": "Each link opens the file in a new tab. Use your browser’s save option if you want to keep a copy on your device.",
   "regulationDocsDocxBadge": "Microsoft Word (.docx)",
   "regulationDocsDownloadCta": "Download",
-  "accreditationLicenseIntro": "Termez University of Economics and Service participates in international recognition frameworks. Select a card below to read more about INTEAS or WDOMS on this website.",
+  "accreditationLicenseIntro": "Termez University of Economics and Service participates in international recognition frameworks. Select a card below to read more about INTEAS or WDOMS, or download the university license.",
   "accreditationInteasDesc": "International Education Accreditation Society — accreditation, certification, and institutional directory.",
   "accreditationWdomsDesc": "World Directory of Medical Schools — searchable global registry maintained by WFME and FAIMER.",
   "accreditationRegistryCta": "Read more",
+  "accreditationLicense2Title": "License",
+  "accreditationLicense2Desc": "Official university operating license issued by the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan.",
+  "accreditationLicense2ImageAlt": "Preview of the official university operating license issued by the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan.",
+  "accreditationLicenseDownloadCta": "Download",
   "accreditationInteasPageTitle": "INTEAS",
   "accreditationInteasCertificateAlt": "INTEAS Certificate of Accreditation for Termez University of Economics and Service (12 June 2025 – 30 June 2029)",
   "accreditationInteasPageLead": "Termiz University of Economics and Service has been accredited by the international organisation INTEAS.",
@@ -318,21 +322,40 @@
   "organizationalStructureAuxiliaryLabel": "Oversight & services",
   "videoGallery": {
     "gridIntro": "Selected recordings from campus events, lectures, and student life. Use the player on each card to watch; more videos will be published here as they become available.",
-    "highlights": {
-      "title": "Event highlights",
-      "description": "Moments from recent cultural and academic gatherings at the university."
+    "watchVideo": "Watch video",
+    "previousVideo": "Previous video",
+    "nextVideo": "Next video",
+    "channelName": "Termez University of Economics and Service",
+    "videoLabel": "Video gallery",
+    "aboutUniversity": {
+      "title": "About the University"
     },
-    "campusLife": {
-      "title": "Campus and learning spaces",
-      "description": "A look at facilities where students study, research, and collaborate."
+    "creativityEvening": {
+      "title": "A video clip from the literary and artistic evening titled \"Evening of Creativity and Inspiration\""
     },
-    "guestLecture": {
-      "title": "Guest lecture series",
-      "description": "Recordings from invited speakers and public academic talks."
+    "hippocraticOath": {
+      "title": "TUES students took the Hippocratic oath"
     },
-    "studentLife": {
-      "title": "Student activities",
-      "description": "Clubs, competitions, and celebrations from student life."
+    "indonesiaProgram": {
+      "title": "TUES students are participating in an 8-week academic program in Indonesia"
+    },
+    "militaryUnitDay": {
+      "title": "TUES students took part in the \"One day in a military unit\" project"
+    },
+    "anilBayirInterview": {
+      "title": "Interview with Anil Bayir, Representative of the Cambridge Assessment and Press Organization"
+    },
+    "linguisticsConference": {
+      "title": "International scientific and practical conference on \"Innovations in linguistics and language education: global trends and local perspectives\""
+    },
+    "internationalConference": {
+      "title": "An international scientific and practical conference was held at TUES"
+    },
+    "medicineFaculty": {
+      "title": "Faculty of Medicine, Termez university of economics and service"
+    },
+    "yuzmaYuz": {
+      "title": "\"Yuzma-yuz\" — a new project!"
     }
   },
   "photoGallery": {

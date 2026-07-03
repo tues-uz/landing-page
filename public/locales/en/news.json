@@ -5,6 +5,12 @@
   "searchAriaLabel": "Search news",
   "filterAriaLabel": "Filter by category",
   "allCategories": "All categories",
+  "categories": {
+    "news": "News",
+    "events": "Events",
+    "announcements": "Announcements",
+    "blog": "Blog"
+  },
   "noArticlesYet": "No articles yet.",
   "noMatch": "No news match your search or filter. Try different keywords or category."
 }

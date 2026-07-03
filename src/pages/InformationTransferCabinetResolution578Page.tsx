@@ -271,7 +271,7 @@ function Cabinet578GooglePagination({
   return (
     <nav
       className={cn(
-        "rounded-2xl border border-border/80 bg-card/80 p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm dark:border-border dark:bg-card/60 dark:shadow-[0_1px_2px_rgba(0,0,0,0.2)] sm:p-5",
+        "rounded-2xl border border-border bg-card/80 p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm dark:border-border dark:bg-card/60 dark:shadow-[0_1px_2px_rgba(0,0,0,0.2)] sm:p-5",
         className,
       )}
       aria-label={trCabinet578(t, "informationTransferCabinet578PaginationAria")}
@@ -288,7 +288,7 @@ function Cabinet578GooglePagination({
             onClick={() => onPageChange(currentPage - 1)}
             aria-label={prevLabel}
             className={cn(
-              "inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border/90 bg-background text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              "inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-background text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               currentPage <= 1
                 ? "pointer-events-none opacity-30"
                 : "hover:border-primary/30 hover:bg-muted/80 active:scale-[0.98]",
@@ -297,7 +297,7 @@ function Cabinet578GooglePagination({
             <ChevronLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
           </button>
 
-          <ul className="inline-flex list-none flex-wrap items-center justify-center gap-0.5 rounded-2xl bg-muted/60 p-1 ring-1 ring-inset ring-border/50 dark:bg-muted/40">
+          <ul className="inline-flex list-none flex-wrap items-center justify-center gap-0.5 rounded-2xl bg-muted/60 p-1 ring-1 ring-inset ring-border dark:bg-muted/40">
             {pages.map((n) => (
               <li key={n} className="m-0 p-0">
                 {n === currentPage ? (
@@ -326,7 +326,7 @@ function Cabinet578GooglePagination({
             onClick={() => onPageChange(currentPage + 1)}
             aria-label={nextLabel}
             className={cn(
-              "inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border/90 bg-background text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              "inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-background text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               currentPage >= totalPages
                 ? "pointer-events-none opacity-30"
                 : "hover:border-primary/30 hover:bg-muted/80 active:scale-[0.98]",

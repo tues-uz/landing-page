@@ -26,8 +26,8 @@ export default {
                 "dm-sans": ["DM Sans", "sans-serif"],
             },
             colors: {
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
+                border: "rgba(var(--border), <alpha-value>)",
+                input: "rgba(var(--input), <alpha-value>)",
                 ring: "hsl(var(--ring))",
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
@@ -66,7 +66,7 @@ export default {
                     "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
                     accent: "hsl(var(--sidebar-accent))",
                     "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-                    border: "hsl(var(--sidebar-border))",
+                    border: "rgba(var(--sidebar-border), <alpha-value>)",
                     ring: "hsl(var(--sidebar-ring))",
                 },
                 oxford: {

@@ -28,7 +28,7 @@ const Footer = () => {
   // Journal page has different footer styling
   if (isJournalPage) {
     return (
-      <footer className="bg-gray-100 border-t border-gray-200">
+      <footer className="bg-gray-100 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
@@ -118,7 +118,7 @@ const Footer = () => {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-gray-300 mt-8 pt-8">
+          <div className="border-t border-border mt-8 pt-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-sm text-gray-600">
                 © 2026 TUES Economics Journal. All rights reserved.
@@ -210,7 +210,7 @@ const Footer = () => {
                     {t("newsletterTitle")}
                   </h3>
                   <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <div className="relative">
                       <label htmlFor="footer-email" className="sr-only">
                         {t("emailAddress")}
                       </label>
@@ -221,11 +221,11 @@ const Footer = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="min-w-0 flex-1 rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30"
+                        className="w-full rounded-lg border border-white/20 bg-white/5 py-3 pl-4 pr-36 text-sm text-white placeholder:text-white/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30"
                       />
                       <button
                         type="submit"
-                        className="shrink-0 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 shrink-0 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
                       >
                         {t("subscribeNow")}
                       </button>

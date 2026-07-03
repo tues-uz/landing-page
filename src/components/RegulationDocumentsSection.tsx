@@ -81,7 +81,7 @@ export function RegulationDocumentsSection() {
                     <p className="mt-1.5 font-mono text-xs leading-relaxed text-muted-foreground">{file}</p>
                   </div>
 
-                  <div className="mt-6 border-t border-border/80 pt-4">
+                  <div className="mt-6 border-t border-border pt-4">
                     <span
                       className={cn(
                         "flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors",

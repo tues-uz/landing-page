@@ -1,4 +1,5 @@
 import type { EventItem, NewsItem, ProgramItem } from "@/api/client";
+import { getNewsPreviewText } from "@/lib/newsContent";
 
 export function filterNewsByQuery(items: NewsItem[], search: string): NewsItem[] {
   const q = search.trim().toLowerCase();
@@ -6,7 +7,7 @@ export function filterNewsByQuery(items: NewsItem[], search: string): NewsItem[]
   return items.filter(
     (item) =>
       item.title.toLowerCase().includes(q) ||
-      item.excerpt.toLowerCase().includes(q) ||
+      getNewsPreviewText(item).toLowerCase().includes(q) ||
       item.category.toLowerCase().includes(q) ||
       item.author.toLowerCase().includes(q),
   );

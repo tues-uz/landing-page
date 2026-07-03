@@ -63,6 +63,14 @@ export const getProgramBySlug = (slug: string) => staticPrograms.find((p) => p.s
 const TITLE_COLOR = "rgb(30, 30, 30)";
 const ICON_BG = "rgb(35, 47, 58)";
 
+const PROGRAMS_BENTO_IMAGES = {
+  hero: "/images/programs/university-building.png",
+  seminar: "/images/programs/seminar-session.png",
+  students: "/images/programs/students-collaboration.png",
+  medicalLab: "/images/programs/medical-simulation-lab.png",
+  certificates: "/images/programs/academic-certificates.png",
+} as const;
+
 const Programs = () => {
   const { t, i18n } = useTranslation("home");
   const bentoRef = useRef<HTMLDivElement>(null);
@@ -102,39 +110,39 @@ const Programs = () => {
   return (
     <section className="pt-[120px] pb-[100px] bg-white relative overflow-visible">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px] relative z-10">
-        {/* Bento image grid — university vibe (loremflickr by keyword) */}
+        {/* Bento image grid */}
         <div
           ref={bentoRef}
           className="bento-section grid grid-cols-2 md:grid-cols-4 grid-rows-[repeat(5,1fr)] gap-4 mb-10 md:mb-12 h-[320px] sm:h-[380px] md:h-[30rem]"
         >
           <div
             className="bento-card col-start-1 row-start-1 col-span-1 md:col-span-2 row-span-5 rounded-2xl bg-center bg-cover min-h-0 bg-muted"
-            style={{ backgroundImage: "url('https://loremflickr.com/1200/800/university,campus')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.hero}')` }}
           />
           <div
             className="bento-card col-start-3 row-start-1 row-span-2 rounded-2xl bg-center bg-cover min-h-0 bg-muted hidden md:block"
-            style={{ backgroundImage: "url('https://loremflickr.com/800/600/library,study')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.seminar}')` }}
           />
           <div
             className="bento-card col-start-3 row-start-3 row-span-3 rounded-2xl bg-center bg-cover min-h-0 bg-muted hidden md:block"
-            style={{ backgroundImage: "url('https://loremflickr.com/800/600/students,university')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.students}')` }}
           />
           <div
             className="bento-card col-start-4 row-start-1 row-span-3 rounded-2xl bg-center bg-cover min-h-0 bg-muted hidden md:block"
-            style={{ backgroundImage: "url('https://loremflickr.com/800/600/college,building')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.medicalLab}')` }}
           />
           <div
             className="bento-card col-start-4 row-start-4 row-span-2 rounded-2xl bg-center bg-cover min-h-0 bg-muted hidden md:block"
-            style={{ backgroundImage: "url('https://loremflickr.com/800/600/graduation,education')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.certificates}')` }}
           />
           {/* Mobile: show 2nd and 3rd image in right column when only 2 cols */}
           <div
             className="bento-card col-start-2 row-start-1 row-span-3 rounded-2xl bg-center bg-cover min-h-0 bg-muted md:hidden"
-            style={{ backgroundImage: "url('https://loremflickr.com/800/600/library,study')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.seminar}')` }}
           />
           <div
             className="bento-card col-start-2 row-start-4 row-span-2 rounded-2xl bg-center bg-cover min-h-0 bg-muted md:hidden"
-            style={{ backgroundImage: "url('https://loremflickr.com/800/600/students,university')" }}
+            style={{ backgroundImage: `url('${PROGRAMS_BENTO_IMAGES.students}')` }}
           />
         </div>
 
@@ -169,7 +177,7 @@ const Programs = () => {
               <Link
                 key={program.id}
                 to={`/programs/${program.slug}`}
-              className="flex items-center justify-between w-full py-4 px-4 group transition-colors hover:bg-neutral-50/50 rounded-none border-b border-[rgb(227,229,229)] hover:border-primary"
+              className="flex items-center justify-between w-full py-4 px-4 group transition-colors hover:bg-neutral-50/50 rounded-none border-b border-border hover:border-primary"
             >
               <h4 className="text-lg md:text-xl font-semibold text-foreground" style={{ color: TITLE_COLOR }}>
                 {program.title}

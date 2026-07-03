@@ -9,7 +9,7 @@ const LANGUAGES = [
   { code: "ru", short: "RU" },
 ] as const;
 
-/** Fixed globe FAB + popover; same row as home scroll-to-top: left of it (right-8 + w-14 + gap). */
+/** Fixed globe FAB + popover; stacked above home scroll-to-top (right-8, w-14 + gap). */
 export function FloatingLanguageSwitcher() {
   const { t, i18n } = useTranslation("common");
   const location = useLocation();
@@ -39,7 +39,7 @@ export function FloatingLanguageSwitcher() {
   return (
     <div
       ref={rootRef}
-      className="fixed bottom-8 z-[100] right-[calc(2rem+3.5rem+0.75rem)]"
+      className="fixed bottom-[calc(2rem+3.5rem+0.75rem)] right-[calc(2rem+0.25rem)] z-[100]"
     >
       <button
         type="button"
