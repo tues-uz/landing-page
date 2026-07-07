@@ -115,6 +115,7 @@ import InternationalMedicalOlympiadTermez2026Page from "./pages/InternationalMed
 import InternationalCooperationRolePage from "./pages/InternationalCooperationRolePage";
 import OrganizationalLeaderProfilePage from "./pages/OrganizationalLeaderProfilePage";
 import { TopNavSubPage } from "./pages/TopNavSubPage";
+import StudyProgramDetailPage from "./pages/StudyProgramDetailPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "@/features/auth/context";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
@@ -289,6 +290,7 @@ const App = () => (
             <Route path="/research/academic-council/:councilSlug" element={<TopNavSubPage group="research" />} />
             <Route path="/research/:slug" element={<TopNavSubPage group="research" />} />
             <Route path="/admissions" element={<AdmissionsHubPage />} />
+            <Route path="/admissions/study-programs/:programId" element={<StudyProgramDetailPage />} />
             <Route path="/admissions/:slug" element={<TopNavSubPage group="admissions" />} />
             <Route path="/media" element={<MediaPage />} />
             <Route path="/media/:slug" element={<TopNavSubPage group="media" />} />

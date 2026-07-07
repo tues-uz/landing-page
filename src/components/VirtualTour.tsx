@@ -24,9 +24,13 @@ const VirtualTour = () => {
         <div className="relative mb-12 overflow-hidden rounded-xl shadow-2xl">
           <div className="relative aspect-video overflow-hidden rounded-xl bg-gradient-to-br from-primary/20 to-primary/5">
             <div className="absolute inset-0 flex items-center justify-center">
-              <button className="w-16 h-16 rounded-full bg-black/50 hover:bg-black/60 text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 z-10">
-                <Box className="h-8 w-8" />
-              </button>
+              <Link
+                to="/virtual-tour"
+                aria-label={t("virtualTour.cta")}
+                className="z-10 flex h-16 w-16 items-center justify-center rounded-full bg-black/50 text-white shadow-2xl transition-transform duration-300 hover:scale-110 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50"
+              >
+                <Box className="h-8 w-8" aria-hidden />
+              </Link>
             </div>
             <div
               className="absolute inset-0 rounded-[inherit] bg-cover bg-center bg-no-repeat opacity-70"
