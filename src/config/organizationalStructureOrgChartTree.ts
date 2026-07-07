@@ -15,7 +15,7 @@ export type OrgChartTreeNode = {
 export function buildOrganizationalStructureTree(): OrgChartTreeNode {
   return {
     id: "establisher",
-    label: "Establisher",
+    label: "Founder",
     isParent: true,
     children: [
       { id: "university-council", label: "University council" },

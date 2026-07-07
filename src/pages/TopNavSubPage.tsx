@@ -17,6 +17,11 @@ import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { RegulationDocumentsSection } from "@/components/RegulationDocumentsSection";
 import { AccreditationLicenseSection } from "@/components/AccreditationLicenseSection";
 import { LeadershipCouncilsSection } from "@/components/LeadershipCouncilsSection";
+import { WhyTuesSection } from "@/components/WhyTuesSection";
+import { EntrepreneurialClubsSection } from "@/components/EntrepreneurialClubsSection";
+import { StudyProgramsSection } from "@/components/StudyProgramsSection";
+import { SecondaryEducationRequirementsSection } from "@/components/SecondaryEducationRequirementsSection";
+import { RegulationsAndRequirementsSection } from "@/components/RegulationsAndRequirementsSection";
 import { SeminarsConferencesSection } from "@/components/SeminarsConferencesSection";
 import { PublicationContactSection } from "@/components/PublicationContactSection";
 import {
@@ -31,12 +36,6 @@ import {
   type TopNavGroup,
 } from "@/config/topNavHubData";
 import { cn } from "@/lib/utils";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const PARENT_NAV_KEY: Record<Exclude<TopNavGroup, "media">, string> = {
   about: "nav.about",
@@ -72,6 +71,26 @@ function isLeadershipAndCouncilsPage(group: TopNavGroup, slug: string | undefine
   return group === "about" && slug === "leadership-and-councils";
 }
 
+function isWhyTuesPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "about" && slug === "why-tues";
+}
+
+function isEntrepreneurialClubsPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "research" && slug === "entrepreneurial-and-innovation-clubs";
+}
+
+function isStudyProgramsPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "admissions" && slug === "study-programs";
+}
+
+function isSecondaryEducationRequirementsPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "admissions" && slug === "secondary-education-requirements";
+}
+
+function isRegulationsAndRequirementsPage(group: TopNavGroup, slug: string | undefined): boolean {
+  return group === "admissions" && slug === "regulations-and-requirements";
+}
+
 function isVideoGalleryPage(group: TopNavGroup, slug: string | undefined): boolean {
   return group === "media" && slug === "video-gallery";
 }
@@ -101,8 +120,6 @@ function shouldShowSubPageHeroBanner(group: TopNavGroup, slug: string | undefine
   if (group !== "media" || !slug) return true;
   return slug !== "video-gallery" && slug !== "photo-gallery";
 }
-
-const CHARTER_ACCORDION_KEYS = ["section1", "section2", "section3", "section4"] as const;
 
 export function TopNavSubPage({ group }: { group: TopNavGroup }) {
   const { slug: slugParam, councilSlug } = useParams<{ slug?: string; councilSlug?: string }>();
@@ -228,6 +245,11 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
   const organizationalStructureLayout = isOrganizationalStructurePage(group, slug);
   const accreditationLicenseLayout = isAccreditationLicensePage(group, slug);
   const leadershipAndCouncilsLayout = isLeadershipAndCouncilsPage(group, slug);
+  const whyTuesLayout = isWhyTuesPage(group, slug);
+  const entrepreneurialClubsLayout = isEntrepreneurialClubsPage(group, slug);
+  const studyProgramsLayout = isStudyProgramsPage(group, slug);
+  const secondaryEducationRequirementsLayout = isSecondaryEducationRequirementsPage(group, slug);
+  const regulationsAndRequirementsLayout = isRegulationsAndRequirementsPage(group, slug);
   const videoGalleryLayout = isVideoGalleryPage(group, slug);
   const photoGalleryLayout = isPhotoGalleryPage(group, slug);
   const publicationsContactLayout = isScientificPublicationsContactPage(group, slug);
@@ -313,39 +335,7 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
               </h1>
 
               {charterLayout ? (
-                <>
-                  <RegulationDocumentsSection />
-
-                  <Accordion type="single" collapsible className="mt-10 w-full">
-                    {CHARTER_ACCORDION_KEYS.map((key) => {
-                      const titleKey = `charter.${key}Title` as const;
-                      const bodyKey = `charter.${key}Body` as const;
-                      const body = t(bodyKey);
-                      return (
-                        <AccordionItem
-                          key={key}
-                          value={key}
-                          className="mb-3 overflow-hidden rounded-lg border border-border border-none bg-card px-4 last:mb-0 data-[state=open]:shadow-sm"
-                        >
-                          <AccordionTrigger className="py-4 text-left hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                            <span className="pr-4 text-sm font-semibold text-foreground md:text-base">
-                              {t(titleKey)}
-                            </span>
-                          </AccordionTrigger>
-                          <AccordionContent className="pb-4 pt-0">
-                            <div className="border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
-                              {body.trim() ? (
-                                <p className="text-justify">{body}</p>
-                              ) : (
-                                <p className="text-justify italic opacity-70">{t("charter.emptySection")}</p>
-                              )}
-                            </div>
-                          </AccordionContent>
-                        </AccordionItem>
-                      );
-                    })}
-                  </Accordion>
-                </>
+                <RegulationDocumentsSection />
               ) : workersUnionLayout ? (
                 <WorkersUnionCommitteeSection />
               ) : whoWeAreLayout ? (
@@ -358,6 +348,16 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                 <AccreditationLicenseSection />
               ) : leadershipAndCouncilsLayout ? (
                 <LeadershipCouncilsSection />
+              ) : whyTuesLayout ? (
+                <WhyTuesSection />
+              ) : entrepreneurialClubsLayout ? (
+                <EntrepreneurialClubsSection />
+              ) : studyProgramsLayout ? (
+                <StudyProgramsSection />
+              ) : regulationsAndRequirementsLayout ? (
+                <RegulationsAndRequirementsSection />
+              ) : secondaryEducationRequirementsLayout ? (
+                <SecondaryEducationRequirementsSection />
               ) : videoGalleryLayout ? (
                 <>
                   <p className="mt-3 text-base leading-relaxed text-muted-foreground">{t("videoGallery.gridIntro")}</p>

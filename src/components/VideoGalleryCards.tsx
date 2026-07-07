@@ -3,7 +3,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { VIDEO_GALLERY_CHANNEL_AVATAR, VIDEO_GALLERY_ITEMS } from "@/config/videoGalleryData";
+import { VIDEO_GALLERY_ITEMS } from "@/config/videoGalleryData";
+import { NEUTRAL_BORDER } from "@/lib/uiBorders";
 import { cn } from "@/lib/utils";
 
 const items = VIDEO_GALLERY_ITEMS;
@@ -48,10 +49,12 @@ export function VideoGalleryCards() {
   const active = items[activeIndex];
   const activeTitle = active ? t(`videoGallery.${active.titleKey}.title`) : "";
   const channelName = t("videoGallery.channelName");
+  const videoLabel = t("videoGallery.videoLabel");
+  const watchLabel = t("videoGallery.watchVideo");
 
   return (
     <>
-      <div className="mt-8 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item, index) => {
           const title = t(`videoGallery.${item.titleKey}.title`);
           return (
@@ -60,39 +63,41 @@ export function VideoGalleryCards() {
               type="button"
               onClick={() => openAt(index)}
               className={cn(
-                "group w-full cursor-pointer text-left outline-none",
+                "group flex h-full w-full flex-col overflow-hidden rounded-xl border bg-background text-left shadow-sm outline-none transition-shadow hover:shadow-md",
+                NEUTRAL_BORDER,
                 "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
               aria-label={title}
             >
-              <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">
+              <div className="relative aspect-[3/2] w-full shrink-0 overflow-hidden bg-muted">
                 <img
                   src={youtubeThumbnail(item.youtubeId)}
                   alt=""
                   loading={index < 6 ? "eager" : "lazy"}
                   decoding="async"
-                  className="h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                   onError={(e) => {
                     e.currentTarget.src = `https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg`;
                   }}
                 />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent"
+                  aria-hidden
+                />
               </div>
 
-              <div className="mt-3 flex items-start gap-3">
-                <img
-                  src={VIDEO_GALLERY_CHANNEL_AVATAR}
-                  alt=""
-                  width={36}
-                  height={36}
-                  className="h-9 w-9 shrink-0 rounded-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="min-w-0 flex-1">
-                  <div className="min-h-[48px]">
-                    <h3 className="line-clamp-2 text-[18px] font-semibold leading-6 text-foreground">{title}</h3>
-                  </div>
-                  <p className="mt-1 truncate text-sm leading-5 text-muted-foreground">{channelName}</p>
+              <div className="relative flex flex-1 flex-col bg-background px-4 pb-4 pt-3">
+                <span className="truncate text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                  {videoLabel}
+                </span>
+                <h3 className="mt-1.5 line-clamp-2 font-sans text-[18px] font-bold leading-snug text-foreground transition-colors group-hover:text-primary">
+                  {title}
+                </h3>
+                <p className="mt-2 line-clamp-2 text-[14px] leading-[1.4] text-muted-foreground">{channelName}</p>
+                <div className="mt-auto pt-3">
+                  <span className="inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-primary-foreground transition-colors group-hover:bg-primary/90">
+                    {watchLabel}
+                  </span>
                 </div>
               </div>
             </button>
