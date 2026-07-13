@@ -72,7 +72,7 @@ export default function AdminLayout() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground">{t("loadingPage")}</p>
       </div>
     );
   }
@@ -118,7 +118,7 @@ export default function AdminLayout() {
           <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full hover:bg-slate-100">
-              <span className="sr-only">Account</span>
+              <span className="sr-only">{t("account")}</span>
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-medium text-white">
                 {user?.name?.charAt(0).toUpperCase() ?? "A"}
               </div>
@@ -225,7 +225,7 @@ export default function AdminLayout() {
             {isSuperAdmin && (
               <>
                 <NavLink
-                  to="/admin/programs"
+                  to="/admin/study-programs"
                   className={({ isActive }) =>
                     cn(
                       "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
@@ -236,7 +236,7 @@ export default function AdminLayout() {
                   }
                 >
                   <GraduationCap className="h-4 w-4 shrink-0" />
-                  {t("programs")}
+                  {t("studyPrograms", "Study Programs")}
                 </NavLink>
                 <NavLink
                   to="/admin/admins"
@@ -348,7 +348,7 @@ export default function AdminLayout() {
           )}
           {isSuperAdmin && (
             <NavLink
-              to="/admin/programs"
+              to="/admin/study-programs"
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
@@ -357,7 +357,7 @@ export default function AdminLayout() {
               }
             >
               <GraduationCap className="h-3.5 w-3.5" />
-              {t("programs")}
+              {t("studyPrograms", "Study Programs")}
             </NavLink>
           )}
         </nav>

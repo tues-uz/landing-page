@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_EVENTS, FALLBACK_NEWS } from "@/data/fallbackContent";
+import type { StudyProgramSearchItem } from "@/lib/siteSearch";
 
 export function useSiteSearchContent(enabled: boolean) {
   const { i18n } = useTranslation();
@@ -24,8 +25,8 @@ export function useSiteSearchContent(enabled: boolean) {
         retry: 1,
       },
       {
-        queryKey: [...contentKeys.programs.list(), i18n.language],
-        queryFn: () => contentApi.programs.list(i18n.language),
+        queryKey: [...contentKeys.studyPrograms.list(), i18n.language],
+        queryFn: () => contentApi.studyPrograms.list(i18n.language),
         enabled,
         staleTime: 5 * 60 * 1000,
         retry: 1,
@@ -36,7 +37,7 @@ export function useSiteSearchContent(enabled: boolean) {
   const isPending = queries.some((q) => q.isPending);
   const newsData = queries[0].data;
   const eventsData = queries[1].data;
-  const programsData = queries[2].data;
+  const facultiesData = queries[2].data;
 
   const newsItems = useMemo(
     () => (newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS),
@@ -46,7 +47,20 @@ export function useSiteSearchContent(enabled: boolean) {
     () => (eventsData && eventsData.length > 0 ? eventsData : FALLBACK_EVENTS),
     [eventsData],
   );
-  const programItems = useMemo(() => programsData ?? [], [programsData]);
+  const studyProgramItems = useMemo((): StudyProgramSearchItem[] => {
+    if (!facultiesData?.length) return [];
+    return facultiesData.flatMap((faculty) =>
+      faculty.programs.map((program) => ({
+        id: program.id,
+        title: program.title,
+        code: program.code,
+        degreeLevel: program.degreeLevel,
+        duration: program.duration,
+        qualification: program.qualification,
+        facultyTitle: faculty.title,
+      })),
+    );
+  }, [facultiesData]);
 
-  return { isPending, newsItems, eventItems, programItems };
+  return { isPending, newsItems, eventItems, studyProgramItems };
 }

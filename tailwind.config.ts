@@ -24,6 +24,7 @@ export default {
                 mono: ["Geist", "Geist Sans", "ui-monospace", "monospace"],
                 forum: ["Forum", "sans-serif"],
                 "dm-sans": ["DM Sans", "sans-serif"],
+                handwriting: ["Bonheur Royale", "cursive"],
             },
             colors: {
                 border: "rgba(var(--border), <alpha-value>)",

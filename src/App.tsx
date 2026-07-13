@@ -7,7 +7,7 @@ import { FloatingLanguageSwitcher } from "./components/FloatingLanguageSwitcher"
 import { FloatingAccessibilityButton } from "./components/FloatingAccessibilityButton";
 import Index from "./pages/Index";
 import ProgramsPage from "./pages/ProgramsPage";
-import ProgramDetailPage from "./pages/ProgramDetailPage";
+import ProgramSlugRedirect from "./pages/ProgramSlugRedirect";
 import NewsEventsPage from "./pages/NewsEventsPage";
 import NewsDetailPage from "./pages/NewsDetailPage";
 import EventsPage from "./pages/EventsPage";
@@ -21,6 +21,7 @@ import StudentCouncilPage from "./pages/StudentCouncilPage";
 import NewScientificCouncilPage from "./pages/NewScientificCouncilPage";
 import ScientificArticlesPage from "./pages/ScientificArticlesPage";
 import EntrepreneurialClubsPage from "./pages/EntrepreneurialClubsPage";
+import EntrepreneurialClubDetailPage from "./pages/EntrepreneurialClubDetailPage";
 import ScienceCertificatesPage from "./pages/ScienceCertificatesPage";
 import ScienceCertificateDetailPage from "./pages/ScienceCertificateDetailPage";
 import ResearchSustainableCenterPage from "./pages/ResearchSustainableCenterPage";
@@ -35,6 +36,7 @@ import ContractAmountsTuitionPage from "./pages/ContractAmountsTuitionPage";
 import Admission2025MenuPage from "./pages/Admission2025MenuPage";
 import PresidentOrderAdmissionParametersPage from "./pages/PresidentOrderAdmissionParametersPage";
 import ContactingAdmissionPage from "./pages/ContactingAdmissionPage";
+import StudyProgramApplyPage from "./pages/StudyProgramApplyPage";
 import UniversityMissionPage from "./pages/UniversityMissionPage";
 import UniversityRequisitesPage from "./pages/UniversityRequisitesPage";
 import FamousGraduatesPage from "./pages/FamousGraduatesPage";
@@ -115,6 +117,7 @@ import InternationalMedicalOlympiadTermez2026Page from "./pages/InternationalMed
 import InternationalCooperationRolePage from "./pages/InternationalCooperationRolePage";
 import OrganizationalLeaderProfilePage from "./pages/OrganizationalLeaderProfilePage";
 import { TopNavSubPage } from "./pages/TopNavSubPage";
+import { Navigate } from "react-router-dom";
 import StudyProgramDetailPage from "./pages/StudyProgramDetailPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "@/features/auth/context";
@@ -126,8 +129,9 @@ import AdminHero from "./pages/admin/AdminHero";
 import AdminNews from "./pages/admin/AdminNews";
 import AdminNewsBoard from "./pages/admin/AdminNewsBoard";
 import AdminEvents from "./pages/admin/AdminEvents";
-import AdminPrograms from "./pages/admin/AdminPrograms";
-import AdminProgramEdit from "./pages/admin/AdminProgramEdit";
+import AdminStudyPrograms from "./pages/admin/AdminStudyPrograms";
+import AdminStudyProgramEdit from "./pages/admin/AdminStudyProgramEdit";
+import AdminProgramsRedirect from "./pages/admin/AdminProgramsRedirect";
 import AdminsPage from "@/features/admin/pages/AdminsPage";
 
 const queryClient = new QueryClient();
@@ -145,7 +149,7 @@ const App = () => (
             {/* Public landing routes */}
             <Route path="/" element={<Index />} />
             <Route path="/programs" element={<ProgramsPage />} />
-            <Route path="/programs/:slug" element={<ProgramDetailPage />} />
+            <Route path="/programs/:slug" element={<ProgramSlugRedirect />} />
             <Route path="/news" element={<NewsEventsPage />} />
             <Route path="/news/:slug" element={<NewsDetailPage />} />
             <Route path="/events" element={<EventsPage />} />
@@ -155,6 +159,10 @@ const App = () => (
             <Route path="/science/certificates" element={<ScienceCertificatesPage />} />
             <Route path="/science/certificates/:certificateId" element={<ScienceCertificateDetailPage />} />
             <Route path="/science/entrepreneurial-clubs" element={<EntrepreneurialClubsPage />} />
+            <Route
+              path="/science/entrepreneurial-clubs/:clubId"
+              element={<EntrepreneurialClubDetailPage pathBase="science" />}
+            />
             <Route
               path="/science/center-research-sustainable-innovation"
               element={<ResearchSustainableCenterPage />}
@@ -228,6 +236,7 @@ const App = () => (
               element={<InformationTransferEducationPage />}
             />
             <Route path="/admission-2025/contacting-admission" element={<ContactingAdmissionPage />} />
+            <Route path="/admission-2025/apply" element={<StudyProgramApplyPage />} />
             <Route path="/admission-2025/contract-amounts" element={<ContractAmountsTuitionPage />} />
             <Route path="/admission-2025/menu" element={<Admission2025MenuPage />} />
             <Route
@@ -288,9 +297,14 @@ const App = () => (
             <Route path="/about/:slug" element={<TopNavSubPage group="about" />} />
             <Route path="/research" element={<ResearchHubPage />} />
             <Route path="/research/academic-council/:councilSlug" element={<TopNavSubPage group="research" />} />
+            <Route
+              path="/research/entrepreneurial-and-innovation-clubs/:clubId"
+              element={<EntrepreneurialClubDetailPage pathBase="research" />}
+            />
             <Route path="/research/:slug" element={<TopNavSubPage group="research" />} />
             <Route path="/admissions" element={<AdmissionsHubPage />} />
             <Route path="/admissions/study-programs/:programId" element={<StudyProgramDetailPage />} />
+            <Route path="/admissions/study-programs" element={<Navigate to="/programs" replace />} />
             <Route path="/admissions/:slug" element={<TopNavSubPage group="admissions" />} />
             <Route path="/media" element={<MediaPage />} />
             <Route path="/media/:slug" element={<TopNavSubPage group="media" />} />
@@ -424,9 +438,11 @@ const App = () => (
                 <Route path="/admin/news" element={<AdminNewsBoard />} />
                 <Route path="/admin/news/articles" element={<AdminNews />} />
                 <Route path="/admin/events" element={<AdminEvents />} />
-                <Route path="/admin/programs" element={<AdminPrograms />} />
-                <Route path="/admin/programs/new" element={<AdminProgramEdit />} />
-                <Route path="/admin/programs/:slug/edit" element={<AdminProgramEdit />} />
+                <Route path="/admin/study-programs" element={<AdminStudyPrograms />} />
+                <Route path="/admin/study-programs/:programId/edit" element={<AdminStudyProgramEdit />} />
+                <Route path="/admin/programs" element={<AdminProgramsRedirect />} />
+                <Route path="/admin/programs/new" element={<AdminProgramsRedirect />} />
+                <Route path="/admin/programs/:slug/edit" element={<AdminProgramsRedirect />} />
                 <Route path="/admin/users" element={<AdminsPage />} />
               </Route>
             </Route>

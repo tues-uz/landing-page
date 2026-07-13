@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { adminApi, AdminUser, type ProvisionRequest } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,6 +59,7 @@ const getPermissionIcon = (resource: string) => {
 };
 
 export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUserModalProps) {
+  const { t } = useTranslation("admin");
   const queryClient = useQueryClient();
   const isEdit = !!initialData;
 
@@ -128,12 +130,12 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
               </div>
               <div>
                 <DialogTitle className="text-xl font-bold tracking-tight">
-                  {isEdit ? "Edit Permissions" : "Provision Admin"}
+                  {isEdit ? t("provisionEditPermissions") : t("provisionAdmin")}
                 </DialogTitle>
                 <DialogDescription className="text-muted-foreground mt-0.5">
                   {isEdit 
-                    ? `Update access control for ${initialData?.name || 'user'}.`
-                    : "Create a new administrator with specific platform access."}
+                    ? t("provisionEditDesc", { name: initialData?.name || "user" })
+                    : t("provisionCreateDesc")}
                 </DialogDescription>
               </div>
             </div>
@@ -147,15 +149,15 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                     <Shield className="h-4 w-4 text-primary" />
-                    <span>Identity Details</span>
+                    <span>{t("identityDetails")}</span>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Full Name</Label>
+                      <Label htmlFor="name" className="text-xs uppercase tracking-wider text-muted-foreground font-bold">{t("fullNameLabel")}</Label>
                       <div className="relative">
                         <Input
                           id="name"
-                          placeholder="John Doe"
+                          placeholder={t("fullNamePlaceholder")}
                           className="pl-9 bg-muted/30 border-border focus-visible:ring-primary"
                           value={formData.name}
                           onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
@@ -168,12 +170,12 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Email Address</Label>
+                      <Label htmlFor="email" className="text-xs uppercase tracking-wider text-muted-foreground font-bold">{t("emailAddressLabel")}</Label>
                       <div className="relative">
                         <Input
                           id="email"
                           type="email"
-                          placeholder="john@example.com"
+                          placeholder={t("emailPlaceholder")}
                           className="pl-9 bg-muted/30 border-border focus-visible:ring-primary"
                           value={formData.email}
                           onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
@@ -193,12 +195,12 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
             {isEdit && (
                <div className="p-3 rounded-lg bg-muted/30 border border-border flex items-center justify-between">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Managing Account</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("managingAccount")}</div>
                   <div className="text-sm font-semibold">{initialData?.name}</div>
                   <div className="text-[10px] text-muted-foreground font-mono">{initialData?.email}</div>
                 </div>
                 <Badge variant={initialData?.isActive ? "default" : "secondary"} className="h-5">
-                  {initialData?.isActive ? "Active" : "Inactive"}
+                  {initialData?.isActive ? t("active") : t("inactive")}
                 </Badge>
                </div>
             )}
@@ -208,10 +210,10 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                     <Key className="h-4 w-4 text-primary" />
-                    <span>Security</span>
+                    <span>{t("security")}</span>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Temporary Password</Label>
+                    <Label htmlFor="password" className="text-xs uppercase tracking-wider text-muted-foreground font-bold">{t("temporaryPassword")}</Label>
                     <div className="flex gap-2">
                       <div className="relative flex-1">
                         <Input
@@ -234,10 +236,10 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                         onClick={handleGeneratePassword}
                       >
                         <RefreshCw className="h-4 w-4" />
-                        Generate
+                        {t("generatePassword")}
                       </Button>
                     </div>
-                    <p className="text-[10px] text-muted-foreground italic">User will be prompted to change this on first login.</p>
+                    <p className="text-[10px] text-muted-foreground italic">{t("passwordChangeHint")}</p>
                   </div>
                 </div>
                 <Separator className="bg-border/30" />
@@ -249,10 +251,10 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Shield className="h-4 w-4 text-primary" />
-                  <span>Access Control</span>
+                  <span>{t("accessControl")}</span>
                 </div>
                 <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tighter">
-                  {formData.permissionIds.length} Selected
+                  {t("permissionsSelected", { count: formData.permissionIds.length })}
                 </Badge>
               </div>
               
@@ -285,7 +287,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                           }
                         }}
                       >
-                        {platform.permissions.every(p => formData.permissionIds.includes(p.id)) ? "Deselect All" : "Select All"}
+                        {platform.permissions.every(p => formData.permissionIds.includes(p.id)) ? t("deselectAll") : t("selectAll")}
                       </Button>
                     </div>
                     
@@ -315,7 +317,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
                               </div>
                               <div className="flex flex-col">
                                 <span className="text-xs font-semibold capitalize tracking-tight">
-                                  {perm.resource === '*' ? 'System-wide' : perm.resource} - {perm.action === '*' ? 'Full Access' : perm.action}
+                                  {perm.resource === '*' ? t("permissionSystemWide") : perm.resource} - {perm.action === '*' ? t("permissionFullAccess") : perm.action}
                                 </span>
                               </div>
                             </label>
@@ -338,7 +340,7 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
         
         <div className="p-6 bg-muted/30 border-t border-border flex items-center justify-end gap-3">
           <Button type="button" variant="ghost" onClick={onClose} className="hover:bg-background">
-            Cancel
+            {t("cancel")}
           </Button>
           <Button 
             form="provision-form"
@@ -349,12 +351,12 @@ export function ProvisionUserModal({ open, onClose, initialData }: ProvisionUser
             {saveMutation.isPending ? (
               <>
                 <RefreshCw className="h-4 w-4 animate-spin" />
-                {isEdit ? "Saving..." : "Processing..."}
+                {isEdit ? t("saving") : t("processing")}
               </>
             ) : (
               <>
                 <CheckCircle2 className="h-4 w-4" />
-                {isEdit ? "Save Changes" : "Create Admin"}
+                {isEdit ? t("saveChanges") : t("createAdmin")}
               </>
             )}
           </Button>

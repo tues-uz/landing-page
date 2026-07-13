@@ -53,7 +53,7 @@ export default function EntrepreneurialClubsPage() {
               <h1 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
                 {title}
               </h1>
-              <EntrepreneurialClubsSection />
+              <EntrepreneurialClubsSection pathBase="science" />
             </div>
             <RecommendedNewsSidebar className="order-2 lg:order-none lg:col-span-3" />
           </div>

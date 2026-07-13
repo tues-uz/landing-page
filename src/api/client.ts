@@ -5,6 +5,12 @@
  * Auto-unwraps the { success: true, data: { ... } } envelope.
  */
 
+import {
+    FALLBACK_STUDY_PROGRAMS_CURRICULUM,
+    getStudyProgramById,
+} from "@/data/studyProgramsCurriculum";
+import type { StudyProgramDetailResult, StudyProgramFaculty } from "@/types/studyPrograms";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 // ─── Types (mirroring backend schema) ────────────────────────────────────────
@@ -117,6 +123,14 @@ async function get<T>(path: string): Promise<T> {
     return json as T;
 }
 
+async function getOptional<T>(path: string): Promise<T | null> {
+    try {
+        return await get<T>(path);
+    } catch {
+        return null;
+    }
+}
+
 // ─── Public content API ───────────────────────────────────────────────────────
 
 export const contentApi = {
@@ -166,6 +180,23 @@ export const contentApi = {
         getBySlug: async (slug: string, locale: string = "uz"): Promise<ProgramItem> => {
             const data = await get<{ program: ProgramItem }>(`/content/programs/${slug}?locale=${locale}`);
             return data.program;
+        },
+    },
+    studyPrograms: {
+        list: async (locale: string = "uz"): Promise<StudyProgramFaculty[]> => {
+            const data = await getOptional<{ faculties: StudyProgramFaculty[] }>(
+                `/content/study-programs?locale=${locale}`,
+            );
+            if (data?.faculties?.length) return data.faculties;
+            return [...FALLBACK_STUDY_PROGRAMS_CURRICULUM];
+        },
+        getById: async (programId: string, locale: string = "uz"): Promise<StudyProgramDetailResult | null> => {
+            const data = await getOptional<StudyProgramDetailResult>(
+                `/content/study-programs/${programId}?locale=${locale}`,
+            );
+            if (data?.program && data?.faculty) return data;
+            const fallback = getStudyProgramById(programId);
+            return fallback ? { faculty: fallback.faculty, program: fallback.program } : null;
         },
     },
 };

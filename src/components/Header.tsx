@@ -77,6 +77,7 @@ import { Input } from "@/components/ui/input";
 import { useSiteSearchContent } from "@/hooks/useSiteSearchContent";
 import { buildSiteSearchHits, getStaticSearchRoutes } from "@/lib/siteSearch";
 import { cn } from "@/lib/utils";
+import { HeaderMottoAnimation } from "@/components/HeaderMottoAnimation";
 import { getTopNavItemHref } from "@/config/topNavHubData";
 
 function isHttpHref(href: string): boolean {
@@ -444,7 +445,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchDraft, setSearchDraft] = useState("");
-  const { isPending: siteSearchPending, newsItems, eventItems, programItems } =
+  const { isPending: siteSearchPending, newsItems, eventItems, studyProgramItems } =
     useSiteSearchContent(searchOpen);
 
   const staticSearchRoutes = useMemo(() => getStaticSearchRoutes((key) => t(key)), [t]);
@@ -465,11 +466,11 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
         query: searchDraft,
         news: newsItems,
         events: eventItems,
-        programs: programItems,
+        studyPrograms: studyProgramItems,
         staticRoutes: staticSearchRoutes,
         kindLabels: searchKindLabels,
       }),
-    [searchDraft, newsItems, eventItems, programItems, staticSearchRoutes, searchKindLabels],
+    [searchDraft, newsItems, eventItems, studyProgramItems, staticSearchRoutes, searchKindLabels],
   );
 
   const searchPreviewLimit = 12;
@@ -806,10 +807,11 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
           </div>
 
           {/* Nav: About, Research, Admissions, News - right of logo */}
-          <nav className="hidden min-w-0 flex-1 lg:flex lg:justify-center" aria-label="Main">
+          <nav className="hidden min-w-0 flex-1 lg:flex lg:items-center lg:justify-center" aria-label="Main">
+            <div className="flex items-center gap-5 xl:gap-8">
             <ul
               role="list"
-              className="flex w-full list-none flex-wrap items-center justify-center gap-x-4 gap-y-1 p-0 text-[14px] lg:flex-nowrap"
+              className="flex list-none flex-wrap items-center justify-center gap-x-4 gap-y-1 p-0 text-[14px] lg:flex-nowrap"
             >
               {mainNavMegaItems.map((item) => {
                 const Icon = item.icon;
@@ -887,6 +889,11 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 );
               })}
             </ul>
+            <HeaderMottoAnimation
+              text={`"${t("topBarTagline")}"`}
+              className="font-handwriting text-2xl font-medium tracking-wide text-primary-foreground xl:text-3xl"
+            />
+            </div>
           </nav>
 
           {/* Right: search + EduHub + hamburger (language: floating FAB in App) */}

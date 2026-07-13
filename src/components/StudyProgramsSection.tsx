@@ -1,8 +1,8 @@
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { STUDY_PROGRAMS_CURRICULUM } from "@/data/studyProgramsCurriculum";
 import { STUDY_PROGRAMS_I18N_DEFAULTS } from "@/locales/studyProgramsDefaults";
 import { StudyProgramCard } from "@/components/StudyProgramCard";
+import { useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 
 function trStudyPrograms(t: TFunction, key: keyof typeof STUDY_PROGRAMS_I18N_DEFAULTS) {
   return t(key, { defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS[key] });
@@ -10,31 +10,29 @@ function trStudyPrograms(t: TFunction, key: keyof typeof STUDY_PROGRAMS_I18N_DEF
 
 export function StudyProgramsSection() {
   const { t } = useTranslation("topNav");
+  const { data: faculties = [] } = useStudyProgramsQuery();
 
   return (
     <div className="mt-4 max-w-none">
-      <p className="text-justify text-body-article text-muted-foreground">
-        {trStudyPrograms(t, "studyProgramsIntro")}
-      </p>
-      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+      <p className="text-sm leading-relaxed text-muted-foreground">
         {trStudyPrograms(t, "studyProgramsCardsHint")}
       </p>
 
-      <div className="mt-10 space-y-10">
-        {STUDY_PROGRAMS_CURRICULUM.map((direction) => (
-          <section key={direction.id} aria-labelledby={`study-direction-${direction.id}`}>
+      <div className="mt-10 space-y-12">
+        {faculties.map((faculty) => (
+          <section key={faculty.id} aria-labelledby={`study-faculty-${faculty.id}`}>
             <h2
-              id={`study-direction-${direction.id}`}
-              className="text-balance text-lg font-semibold tracking-tight text-foreground md:text-xl"
+              id={`study-faculty-${faculty.id}`}
+              className="text-balance text-xl font-semibold tracking-tight text-foreground md:text-2xl"
             >
-              {direction.title}
+              {faculty.title}
             </h2>
             <ul
-              className="mt-5 grid list-none grid-cols-1 gap-[16px] p-0 md:grid-cols-2 lg:grid-cols-3"
+              className="mt-6 grid list-none grid-cols-1 gap-[16px] p-0 md:grid-cols-2 lg:grid-cols-3"
               role="list"
             >
-              {direction.programs.map((program) => (
-                <StudyProgramCard key={program.id} program={program} directionId={direction.id} />
+              {faculty.programs.map((program) => (
+                <StudyProgramCard key={program.id} program={program} facultyId={faculty.id} />
               ))}
             </ul>
           </section>

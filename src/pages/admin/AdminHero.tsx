@@ -11,14 +11,12 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
-import { Loader2, Plus, Pencil, Trash2, Search, Video, Image, Upload, CheckCircle2 } from "lucide-react";
-import { usePermissions } from "@/hooks/usePermissions";
+import { Loader2, Plus, Search, Video, Image, Upload, CheckCircle2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 
 export default function AdminHero() {
   const { t, i18n } = useTranslation("admin");
-  const { canAccessHero } = usePermissions();
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [background, setBackground] = useState<HeroBackground | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,7 +45,7 @@ export default function AdminHero() {
     kind: "video" | "fallback" | "image"
   ): Promise<string> => {
     if (file.size > MAX_FILE_MB * 1024 * 1024) {
-      toast({ title: `File too large (max ${MAX_FILE_MB} MB)`, variant: "destructive" });
+      toast({ title: t("toastFileTooLarge", { max: MAX_FILE_MB }), variant: "destructive" });
       throw new Error("File too large");
     }
     setUploadingMedia(kind);
@@ -66,7 +64,7 @@ export default function AdminHero() {
     if (!background) return;
     const isVideo = file.type.startsWith("video/");
     if (!isVideo && !file.type.startsWith("image/")) {
-      toast({ title: "Please choose a video (MP4/WebM) or image", variant: "destructive" });
+      toast({ title: t("toastChooseVideoOrImage"), variant: "destructive" });
       return;
     }
     try {
@@ -74,14 +72,14 @@ export default function AdminHero() {
       if (isVideo) {
         setBackground((b) => (b ? { ...b, videoUrl: url } : b));
         setUploadSuccess((s) => ({ ...s, video: file.name }));
-        toast({ title: "Video uploaded" });
+        toast({ title: t("toastVideoUploaded") });
       } else {
         setBackground((b) => (b ? { ...b, imageUrl: url } : b));
         setUploadSuccess((s) => ({ ...s, fallback: file.name }));
-        toast({ title: "Fallback image uploaded" });
+        toast({ title: t("toastFallbackImageUploaded") });
       }
     } catch (err) {
-      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+      toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
     }
     e.target.value = "";
   };
@@ -90,7 +88,7 @@ export default function AdminHero() {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) {
-      toast({ title: "Please choose an image file", variant: "destructive" });
+      toast({ title: t("toastSelectImageFile"), variant: "destructive" });
       return;
     }
     if (!background) return;
@@ -98,9 +96,9 @@ export default function AdminHero() {
       const url = await uploadFileAndSetUrl(file, "fallback");
       setBackground((b) => (b ? { ...b, imageUrl: url } : b));
       setUploadSuccess((s) => ({ ...s, fallback: file.name }));
-      toast({ title: "Fallback image uploaded" });
+      toast({ title: t("toastFallbackImageUploaded") });
     } catch (err) {
-      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+      toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
     }
     e.target.value = "";
   };
@@ -109,7 +107,7 @@ export default function AdminHero() {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) {
-      toast({ title: "Please choose an image file", variant: "destructive" });
+      toast({ title: t("toastSelectImageFile"), variant: "destructive" });
       return;
     }
     if (!background) return;
@@ -117,9 +115,9 @@ export default function AdminHero() {
       const url = await uploadFileAndSetUrl(file, "image");
       setBackground((b) => (b ? { ...b, imageUrl: url } : b));
       setUploadSuccess((s) => ({ ...s, image: file.name }));
-      toast({ title: "Background image uploaded" });
+      toast({ title: t("toastBackgroundImageUploaded") });
     } catch (err) {
-      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+      toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
     }
     e.target.value = "";
   };
@@ -129,13 +127,12 @@ export default function AdminHero() {
     try {
       const [s, b] = await Promise.all([adminApi.heroSlides.list(i18n.language), adminApi.heroBackground.get()]);
       setSlides(s);
-      // Always show Video tab active when opening the page; keep saved videoUrl/imageUrl
       const merged = b
         ? { ...b, mediaType: "video" as const }
         : { mediaType: "video" as const, videoUrl: null as string | null, imageUrl: null as string | null };
       setBackground(merged);
     } catch (e) {
-      toast({ title: "Failed to load hero", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedLoadHero"), description: String(e), variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -161,9 +158,9 @@ export default function AdminHero() {
     setSaving(true);
     try {
       await adminApi.heroBackground.update(background);
-      toast({ title: "Hero background saved" });
+      toast({ title: t("toastHeroBackgroundSaved") });
     } catch (e) {
-      toast({ title: "Failed to save background", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedSaveBackground"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -171,7 +168,7 @@ export default function AdminHero() {
 
   const handleCreateSlide = async (): Promise<boolean> => {
     if (!newSlide.title?.trim()) {
-      toast({ title: "Title required", variant: "destructive" });
+      toast({ title: t("toastTitleRequired"), variant: "destructive" });
       return false;
     }
     setSaving(true);
@@ -183,13 +180,12 @@ export default function AdminHero() {
         linkUrl: newSlide.linkUrl || null,
       });
       setNewSlide({ title: "", subtitle: "", year: "", linkUrl: "" });
-      toast({ title: "Slide created" });
-      // Add new slide to list immediately so it appears in the ul
+      toast({ title: t("toastSlideCreated") });
       setSlides((prev) => [...prev, created]);
       await load();
       return true;
     } catch (e) {
-      toast({ title: "Failed to create slide", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedCreateSlide"), description: String(e), variant: "destructive" });
       return false;
     } finally {
       setSaving(false);
@@ -213,7 +209,7 @@ export default function AdminHero() {
       }
       setEditLocale(newLocale);
     } catch (e) {
-      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedSwitchLanguage"), description: String(e), variant: "destructive" });
     } finally {
       setLoadingLocale(false);
     }
@@ -230,41 +226,95 @@ export default function AdminHero() {
           year: editingSlide.year,
           linkUrl: editingSlide.linkUrl ?? null,
         });
-        toast({ title: "Slide updated" });
+        toast({ title: t("toastSlideUpdated") });
       } else {
         await adminApi.heroSlides.upsertTranslation(editingSlide.id, editLocale, {
           title: editingSlide.title,
           subtitle: editingSlide.subtitle,
         });
-        toast({ title: `${editLocale.toUpperCase()} translation updated` });
+        toast({ title: t("toastTranslationUpdated", { locale: editLocale.toUpperCase() }) });
       }
       setEditingSlide(null);
       setEditLocale("uz");
       load();
     } catch (e) {
-      toast({ title: "Failed to update slide", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedUpdateSlide"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
   };
 
   const handleDeleteSlide = async (id: string) => {
-    if (!confirm("Delete this slide?")) return;
+    if (!confirm(t("deleteSlideConfirm"))) return;
     setSaving(true);
     try {
       await adminApi.heroSlides.delete(id);
-      toast({ title: "Slide deleted" });
+      toast({ title: t("toastSlideDeleted") });
       load();
     } catch (e) {
-      toast({ title: "Failed to delete slide", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedDeleteSlide"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
   };
 
+  const renderUploadZone = (
+    kind: "video" | "fallback" | "image",
+    inputRef: React.RefObject<HTMLInputElement | null>,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    accept: string,
+    idleTitle: string,
+    fileHint: string,
+  ) => {
+    const successName = uploadSuccess[kind];
+    const isUploading = uploadingMedia === kind;
+
+    return (
+      <div className="space-y-2">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => !isUploading && inputRef.current?.click()}
+          onKeyDown={(e) => e.key === "Enter" && !isUploading && inputRef.current?.click()}
+          className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
+            successName
+              ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
+              : "border-border hover:border-primary/60 hover:bg-muted/50"
+          }`}
+        >
+          {isUploading ? (
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          ) : successName ? (
+            <CheckCircle2 className="h-8 w-8 text-green-600" />
+          ) : (
+            <Upload className="h-8 w-8 text-muted-foreground" />
+          )}
+          <div className="text-center">
+            {successName ? (
+              <>
+                <p className="text-sm font-medium text-foreground">{t("uploadedSuccess")}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{successName}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{t("clickToReplace")}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-medium text-foreground">
+                  {isUploading ? t("uploading") : idleTitle}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">{t("dragDropClick")}</p>
+                <p className="text-xs text-muted-foreground">{fileHint}</p>
+              </>
+            )}
+          </div>
+        </div>
+        <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onChange} />
+      </div>
+    );
+  };
+
   if (loading) {
     return (
-      <AdminPageShell title="Hero section" description="Welcome back, Admin 👋">
+      <AdminPageShell bare>
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
         </div>
@@ -275,16 +325,16 @@ export default function AdminHero() {
   const bg = background ?? { mediaType: "video" as const, videoUrl: null, imageUrl: null };
 
   return (
-    <AdminPageShell title="Hero section" description="Welcome back, Admin 👋">
+    <AdminPageShell bare>
       <div className="p-0 space-y-8">
         <div className="text-card-foreground shadow-sm rounded-xl border border-border bg-card">
           <div className="flex flex-col space-y-1.5 p-6">
             <h3 className="font-semibold tracking-tight text-lg flex items-center gap-2">
               <Video className="h-5 w-5" />
               <Image className="h-5 w-5" />
-              Hero background
+              {t("heroBackgroundTitle")}
             </h3>
-            <p className="text-sm text-muted-foreground">One video or image shown behind all slides on the landing page.</p>
+            <p className="text-sm text-muted-foreground">{t("heroBackgroundDesc")}</p>
           </div>
           <div className="p-6 pt-0 space-y-4">
             <div className="flex gap-2">
@@ -294,7 +344,7 @@ export default function AdminHero() {
                 onClick={() => setBackground({ ...bg, mediaType: "video" })}
               >
                 <Video className="h-4 w-4" />
-                {t("video", "Video")}
+                {t("video")}
               </button>
               <button
                 type="button"
@@ -302,157 +352,46 @@ export default function AdminHero() {
                 onClick={() => setBackground({ ...bg, mediaType: "image" })}
               >
                 <Image className="h-4 w-4" />
-                {t("image", "Image")}
+                {t("image")}
               </button>
             </div>
             {bg.mediaType === "video" && (
               <>
                 <div className="grid gap-2">
-                  <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{t("uploadVideo", "Upload video file")}</Label>
-                  <div className="space-y-2">
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => uploadingMedia !== "video" && videoInputRef.current?.click()}
-                      onKeyDown={(e) => e.key === "Enter" && uploadingMedia !== "video" && videoInputRef.current?.click()}
-                      className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
-                        uploadSuccess.video
-                          ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
-                          : "border-border hover:border-primary/60 hover:bg-muted/50"
-                      }`}
-                    >
-                      {uploadingMedia === "video" ? (
-                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                      ) : uploadSuccess.video ? (
-                        <CheckCircle2 className="h-8 w-8 text-green-600" />
-                      ) : (
-                        <Upload className="h-8 w-8 text-muted-foreground" />
-                      )}
-                      <div className="text-center">
-                        {uploadSuccess.video ? (
-                          <>
-                            <p className="text-sm font-medium text-foreground">Uploaded successfully</p>
-                            <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{uploadSuccess.video}</p>
-                            <p className="text-xs text-muted-foreground mt-0.5">Click to replace</p>
-                          </>
-                        ) : (
-                          <>
-                            <p className="text-sm font-medium text-foreground">
-                              {uploadingMedia === "video" ? "Uploading…" : "Upload hero video (MP4 / WebM)"}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
-                            <p className="text-xs text-muted-foreground">Video (MP4, WebM) or image, max 50 MB</p>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <input
-                      ref={videoInputRef}
-                      type="file"
-                      accept="video/mp4,video/webm,image/*"
-                      className="hidden"
-                      onChange={handleVideoFile}
-                    />
-                  </div>
+                  <Label>{t("uploadVideo")}</Label>
+                  {renderUploadZone(
+                    "video",
+                    videoInputRef,
+                    handleVideoFile,
+                    "video/mp4,video/webm,image/*",
+                    t("uploadHeroVideo"),
+                    t("videoOrImageMaxMb", { max: MAX_FILE_MB }),
+                  )}
                 </div>
                 <div className="grid gap-2">
-                  <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground">Fallback image (shown if video fails)</Label>
-                  <div className="space-y-2">
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => uploadingMedia !== "fallback" && fallbackInputRef.current?.click()}
-                      onKeyDown={(e) => e.key === "Enter" && uploadingMedia !== "fallback" && fallbackInputRef.current?.click()}
-                      className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
-                        uploadSuccess.fallback
-                          ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
-                          : "border-border hover:border-primary/60 hover:bg-muted/50"
-                      }`}
-                    >
-                      {uploadingMedia === "fallback" ? (
-                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                      ) : uploadSuccess.fallback ? (
-                        <CheckCircle2 className="h-8 w-8 text-green-600" />
-                      ) : (
-                        <Upload className="h-8 w-8 text-muted-foreground" />
-                      )}
-                      <div className="text-center">
-                        {uploadSuccess.fallback ? (
-                          <>
-                            <p className="text-sm font-medium text-foreground">Uploaded successfully</p>
-                            <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{uploadSuccess.fallback}</p>
-                            <p className="text-xs text-muted-foreground mt-0.5">Click to replace</p>
-                          </>
-                        ) : (
-                          <>
-                            <p className="text-sm font-medium text-foreground">
-                              {uploadingMedia === "fallback" ? "Uploading…" : "Upload fallback image"}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
-                            <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <input
-                      ref={fallbackInputRef}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleFallbackFile}
-                    />
-                  </div>
+                  <Label className="text-muted-foreground">{t("fallbackImageLabel")}</Label>
+                  {renderUploadZone(
+                    "fallback",
+                    fallbackInputRef,
+                    handleFallbackFile,
+                    "image/*",
+                    t("uploadFallbackImage"),
+                    t("imageFilesMaxMb", { max: MAX_FILE_MB }),
+                  )}
                 </div>
               </>
             )}
             {bg.mediaType === "image" && (
               <div className="grid gap-2">
-                <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Upload background image</Label>
-                <div className="space-y-2">
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => uploadingMedia !== "image" && imageBackgroundRef.current?.click()}
-                    onKeyDown={(e) => e.key === "Enter" && uploadingMedia !== "image" && imageBackgroundRef.current?.click()}
-                    className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
-                      uploadSuccess.image
-                        ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
-                        : "border-border hover:border-primary/60 hover:bg-muted/50"
-                    }`}
-                  >
-                    {uploadingMedia === "image" ? (
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                    ) : uploadSuccess.image ? (
-                      <CheckCircle2 className="h-8 w-8 text-green-600" />
-                    ) : (
-                      <Upload className="h-8 w-8 text-muted-foreground" />
-                    )}
-                    <div className="text-center">
-                      {uploadSuccess.image ? (
-                        <>
-                          <p className="text-sm font-medium text-foreground">Uploaded successfully</p>
-                          <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{uploadSuccess.image}</p>
-                          <p className="text-xs text-muted-foreground mt-0.5">Click to replace</p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="text-sm font-medium text-foreground">
-                            {uploadingMedia === "image" ? "Uploading…" : "Upload hero background image"}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5">Drag & drop or click to browse</p>
-                          <p className="text-xs text-muted-foreground">Image files, max 50 MB</p>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <input
-                    ref={imageBackgroundRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageBackgroundFile}
-                  />
-                </div>
+                <Label>{t("uploadBackgroundImage")}</Label>
+                {renderUploadZone(
+                  "image",
+                  imageBackgroundRef,
+                  handleImageBackgroundFile,
+                  "image/*",
+                  t("uploadHeroBackgroundImage"),
+                  t("imageFilesMaxMb", { max: MAX_FILE_MB }),
+                )}
               </div>
             )}
             <button
@@ -461,71 +400,71 @@ export default function AdminHero() {
               disabled={saving}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
             >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("saveBackground", "Save background")}
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("saveBackground")}
             </button>
           </div>
         </div>
-        {/* Hero slides — search + Add slide (editing/add slides) */}
+
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="relative max-w-sm flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="search"
               className="flex h-10 w-full rounded-full border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-9"
-              placeholder="Search slides…"
+              placeholder={t("searchSlidesPlaceholder")}
               value={searchSlides}
               onChange={(e) => setSearchSlides(e.target.value)}
             />
           </div>
-            <button
+          <button
             type="button"
             onClick={() => setAddSlideOpen(true)}
             disabled={saving}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 gap-1.5 shrink-0"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-            {t("addSlide", "Add slide")}
+            {t("addSlide")}
           </button>
         </div>
 
         <Dialog open={addSlideOpen} onOpenChange={setAddSlideOpen}>
           <DialogContent className="max-w-md border border-border">
             <DialogHeader>
-              <DialogTitle>New slide</DialogTitle>
+              <DialogTitle>{t("newSlideTitle")}</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize">title</Label>
+                <Label>{t("titleLabel")}</Label>
                 <input
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Slide title"
+                  placeholder={t("slideTitlePlaceholder")}
                   value={newSlide.title ?? ""}
                   onChange={(e) => setNewSlide((s) => ({ ...s, title: e.target.value }))}
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize">subtitle</Label>
+                <Label>{t("subtitleLabel")}</Label>
                 <input
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Slide subtitle"
+                  placeholder={t("slideSubtitlePlaceholder")}
                   value={newSlide.subtitle ?? ""}
                   onChange={(e) => setNewSlide((s) => ({ ...s, subtitle: e.target.value }))}
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize">year</Label>
+                <Label>{t("yearLabel")}</Label>
                 <input
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="2025"
+                  placeholder={t("slideYearPlaceholder")}
                   value={newSlide.year ?? ""}
                   onChange={(e) => setNewSlide((s) => ({ ...s, year: e.target.value }))}
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Learn more link (optional)</Label>
+                <Label>{t("learnMoreLinkOptional")}</Label>
                 <input
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="https://..."
+                  placeholder={t("slideUrlPlaceholder")}
                   value={newSlide.linkUrl ?? ""}
                   onChange={(e) => setNewSlide((s) => ({ ...s, linkUrl: e.target.value || undefined }))}
                 />
@@ -539,7 +478,7 @@ export default function AdminHero() {
                 disabled={saving}
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-2"
               >
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("save")}
               </button>
             </div>
           </DialogContent>
@@ -555,8 +494,8 @@ export default function AdminHero() {
                 {editingSlide?.id === slide.id ? (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-semibold text-sm">{t("editSlide", "Edit Slide")}</h4>
-                      <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[180px]">
+                      <h4 className="font-semibold text-sm">{t("editSlide")}</h4>
+                      <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as "uz" | "en" | "ru")} className="w-[180px]">
                         <TabsList className="grid w-full grid-cols-3">
                           <TabsTrigger value="uz" disabled={loadingLocale}>UZ</TabsTrigger>
                           <TabsTrigger value="en" disabled={loadingLocale}>EN</TabsTrigger>
@@ -567,49 +506,49 @@ export default function AdminHero() {
                     {loadingLocale && (
                       <div className="flex items-center justify-center py-2">
                         <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                        <span className="ml-2 text-xs text-muted-foreground">Loading translation...</span>
+                        <span className="ml-2 text-xs text-muted-foreground">{t("loadingTranslation")}</span>
                       </div>
                     )}
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium">Title</Label>
+                      <Label>{t("titleLabel")}</Label>
                       <Input
                         value={editingSlide.title}
                         onChange={(e) => setEditingSlide((s) => s && { ...s, title: e.target.value })}
-                        placeholder="Title"
+                        placeholder={t("titleLabel")}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium">Subtitle</Label>
+                      <Label>{t("subtitleLabel")}</Label>
                       <Input
                         value={editingSlide.subtitle ?? ""}
                         onChange={(e) => setEditingSlide((s) => s && { ...s, subtitle: e.target.value })}
-                        placeholder="Subtitle"
+                        placeholder={t("subtitleLabel")}
                       />
                     </div>
                     <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
-                      <Label className="text-sm font-medium">Year</Label>
+                      <Label>{t("yearLabel")}</Label>
                       <Input
                         value={editingSlide.year ?? ""}
                         onChange={(e) => setEditingSlide((s) => s && { ...s, year: e.target.value })}
-                        placeholder="Year"
+                        placeholder={t("yearLabel")}
                       />
                     </div>
                     <div className="flex gap-2 pt-1">
                       <Button size="sm" onClick={handleUpdateSlide} disabled={saving}>
-                        {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
+                        {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("save")}
                       </Button>
                       <Button size="sm" variant="outline" onClick={() => { setEditingSlide(null); setEditLocale("uz"); }}>
-                        Cancel
+                        {t("cancel")}
                       </Button>
                     </div>
                   </div>
                 ) : (
                   <div className="flex justify-between items-center gap-3">
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-base font-semibold text-foreground">{slide.title || "Untitled"}</h3>
+                      <h3 className="text-base font-semibold text-foreground">{slide.title || t("untitled")}</h3>
                       <p className="text-sm text-muted-foreground mt-1">{slide.subtitle || "—"}</p>
                       {slide.year && (
-                        <p className="text-xs text-muted-foreground/80 mt-1">Year: {slide.year}</p>
+                        <p className="text-xs text-muted-foreground/80 mt-1">{t("yearPrefix", { year: slide.year })}</p>
                       )}
                     </div>
                     <div className="flex shrink-0 gap-1">
@@ -619,25 +558,25 @@ export default function AdminHero() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-muted hover:text-accent-foreground h-8 px-3"
                       >
-                        View
+                        {t("view")}
                       </a>
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => { setEditingSlide(slide); setEditLocale("uz"); }}
                         className="h-8 px-3"
-                        aria-label="Edit slide"
+                        aria-label={t("editSlideAria")}
                       >
-                        Edit
+                        {t("edit")}
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => handleDeleteSlide(slide.id)}
                         className="h-8 px-3 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
-                        aria-label="Delete slide"
+                        aria-label={t("deleteSlideAria")}
                       >
-                        Delete
+                        {t("delete")}
                       </Button>
                     </div>
                   </div>
@@ -647,7 +586,7 @@ export default function AdminHero() {
           </ul>
           {filteredSlides.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-8">
-              {searchSlides.trim() ? "No slides match your search." : "No slides yet. Add the first one!"}
+              {searchSlides.trim() ? t("noSlidesMatchSearch") : t("noSlidesYet")}
             </p>
           )}
         </div>

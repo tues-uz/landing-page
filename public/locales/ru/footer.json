@@ -1,4 +1,5 @@
 {
+  "logoAlt": "Логотип университета TUES",
   "newsletterTitle": "Получайте новости и обновления TUES прямо на почту.",
   "emailAddress": "Email адрес",
   "subscribeNow": "Подписаться",
@@ -6,5 +7,22 @@
   "copyright": "© 2026 {{brand}}. Все права защищены.",
   "privacyPolicy": "Политика конфиденциальности",
   "termsOfUse": "Условия использования",
-  "accessibility": "Доступность"
+  "accessibility": "Доступность",
+  "journal": {
+    "title": "Журнал TUES",
+    "description": "Исследования, комментарии и аналитика от экономистов, учёных и экспертов в области политики.",
+    "quickLinks": "Быстрые ссылки",
+    "about": "О журнале",
+    "contact": "Контакты",
+    "links": {
+      "home": "Главная",
+      "articles": "Статьи",
+      "authors": "Авторы",
+      "topics": "Темы",
+      "aboutUs": "О нас",
+      "editorialTeam": "Редакционная коллегия",
+      "submissionGuidelines": "Правила подачи материалов",
+      "contactUs": "Связаться с нами"
+    }
+  }
 }

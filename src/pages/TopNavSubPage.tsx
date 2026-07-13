@@ -19,7 +19,6 @@ import { AccreditationLicenseSection } from "@/components/AccreditationLicenseSe
 import { LeadershipCouncilsSection } from "@/components/LeadershipCouncilsSection";
 import { WhyTuesSection } from "@/components/WhyTuesSection";
 import { EntrepreneurialClubsSection } from "@/components/EntrepreneurialClubsSection";
-import { StudyProgramsSection } from "@/components/StudyProgramsSection";
 import { SecondaryEducationRequirementsSection } from "@/components/SecondaryEducationRequirementsSection";
 import { RegulationsAndRequirementsSection } from "@/components/RegulationsAndRequirementsSection";
 import { SeminarsConferencesSection } from "@/components/SeminarsConferencesSection";
@@ -77,10 +76,6 @@ function isWhyTuesPage(group: TopNavGroup, slug: string | undefined): boolean {
 
 function isEntrepreneurialClubsPage(group: TopNavGroup, slug: string | undefined): boolean {
   return group === "research" && slug === "entrepreneurial-and-innovation-clubs";
-}
-
-function isStudyProgramsPage(group: TopNavGroup, slug: string | undefined): boolean {
-  return group === "admissions" && slug === "study-programs";
 }
 
 function isSecondaryEducationRequirementsPage(group: TopNavGroup, slug: string | undefined): boolean {
@@ -247,7 +242,6 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
   const leadershipAndCouncilsLayout = isLeadershipAndCouncilsPage(group, slug);
   const whyTuesLayout = isWhyTuesPage(group, slug);
   const entrepreneurialClubsLayout = isEntrepreneurialClubsPage(group, slug);
-  const studyProgramsLayout = isStudyProgramsPage(group, slug);
   const secondaryEducationRequirementsLayout = isSecondaryEducationRequirementsPage(group, slug);
   const regulationsAndRequirementsLayout = isRegulationsAndRequirementsPage(group, slug);
   const videoGalleryLayout = isVideoGalleryPage(group, slug);
@@ -352,8 +346,6 @@ export function TopNavSubPage({ group }: { group: TopNavGroup }) {
                 <WhyTuesSection />
               ) : entrepreneurialClubsLayout ? (
                 <EntrepreneurialClubsSection />
-              ) : studyProgramsLayout ? (
-                <StudyProgramsSection />
               ) : regulationsAndRequirementsLayout ? (
                 <RegulationsAndRequirementsSection />
               ) : secondaryEducationRequirementsLayout ? (

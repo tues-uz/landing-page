@@ -9,14 +9,14 @@ import { cn } from "@/lib/utils";
 
 export function StudyProgramCard({
   program,
-  directionId,
+  facultyId,
 }: {
   program: StudyProgram;
-  directionId: string;
+  facultyId: string;
 }) {
   const { t } = useTranslation("topNav");
   const to = studyProgramDetailPath(program.id);
-  const { Icon, gradient, iconClass } = getStudyProgramCardTheme(directionId);
+  const { Icon, gradient, iconClass } = getStudyProgramCardTheme(facultyId);
   const durationLabel = t("studyProgramsDurationLabel", {
     defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsDurationLabel,
   });
@@ -66,7 +66,7 @@ export function StudyProgramCard({
               {program.code}
             </span>
             <span className="rounded-full bg-background/95 px-2.5 py-1 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">
-              {program.duration}
+              {program.degreeLevel}
             </span>
           </div>
         </div>

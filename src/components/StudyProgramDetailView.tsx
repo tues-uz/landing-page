@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Accordion,
@@ -6,8 +7,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { studyProgramApplyPath } from "@/data/studyProgramsCurriculum";
+import { formatStudyProgramDateDisplay } from "@/lib/studyProgramDates";
 import { STUDY_PROGRAMS_I18N_DEFAULTS } from "@/locales/studyProgramsDefaults";
-import type { StudyProgram, StudyProgramDirection } from "@/types/studyPrograms";
+import type { StudyProgram, StudyProgramFaculty } from "@/types/studyPrograms";
 
 function CourseRows({
   courses,
@@ -37,10 +41,10 @@ function CourseRows({
 }
 
 export function StudyProgramDetailView({
-  direction,
+  faculty,
   program,
 }: {
-  direction: StudyProgramDirection;
+  faculty: StudyProgramFaculty;
   program: StudyProgram;
 }) {
   const { t } = useTranslation("topNav");
@@ -56,12 +60,32 @@ export function StudyProgramDetailView({
   const qualificationLabel = t("studyProgramsQualificationLabel", {
     defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsQualificationLabel,
   });
+  const tuitionLabel = t("studyProgramsTuitionLabel", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsTuitionLabel,
+  });
+  const degreeLevelLabel = t("studyProgramsDegreeLevelLabel", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsDegreeLevelLabel,
+  });
   const coursesTitle = t("studyProgramsCoursesTitle", {
     defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsCoursesTitle,
   });
   const creditsLabel = t("studyProgramsCreditsLabel", {
     defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsCreditsLabel,
   });
+  const applyLabel = t("studyProgramsApplyCta", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsApplyCta,
+  });
+  const applicationDeadlineLabel = t("studyProgramsApplicationDeadlineLabel", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsApplicationDeadlineLabel,
+  });
+  const earliestStartDateLabel = t("studyProgramsEarliestStartDateLabel", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsEarliestStartDateLabel,
+  });
+  const requestInfoLabel = t("studyProgramsRequestInfo", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsRequestInfo,
+  });
+
+  const displayDate = (value?: string) => formatStudyProgramDateDisplay(value, requestInfoLabel);
 
   const totalCourses = program.courseGroups.reduce((n, g) => n + g.courses.length, 0);
   const multiGroup = program.courseGroups.length > 1;
@@ -120,7 +144,7 @@ export function StudyProgramDetailView({
         card.style.right = "auto";
         card.style.bottom = "auto";
         card.style.zIndex = "10";
-        card.style.maxHeight = `calc(100dvh - ${topPx}px - 1rem)`;
+        card.style.maxHeight = "100dvh";
       } else if (useBottom) {
         wrap.style.removeProperty("min-height");
         card.style.position = "absolute";
@@ -130,7 +154,7 @@ export function StudyProgramDetailView({
         card.style.width = "auto";
         card.style.bottom = "0";
         card.style.zIndex = "10";
-        card.style.maxHeight = `calc(100dvh - ${topPx}px - 1rem)`;
+        card.style.maxHeight = "100dvh";
       } else {
         clearCardPinStyles();
       }
@@ -163,15 +187,14 @@ export function StudyProgramDetailView({
           <div ref={sidebarWrapRef} className="w-full">
             <div
               ref={sidebarCardRef}
-              className="px-5 py-8 sm:px-8 lg:z-10 lg:max-h-[calc(100dvh-var(--header-height)-2rem)] lg:overflow-y-auto lg:px-8 lg:py-10"
+              className="px-5 py-8 sm:px-8 lg:z-10 lg:h-[100dvh] lg:overflow-y-auto lg:px-8 lg:py-10"
               style={{ scrollbarGutter: "stable" }}
             >
-              <p className="text-sm text-muted-foreground">{direction.title}</p>
-              <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
-                {program.title}
-              </h1>
-
-              <dl className="mt-6 space-y-4 text-sm">
+              <dl className="space-y-4 text-sm">
+                <div>
+                  <dt className="text-muted-foreground">{degreeLevelLabel}</dt>
+                  <dd className="mt-1 font-medium text-foreground">{program.degreeLevel}</dd>
+                </div>
                 <div>
                   <dt className="text-muted-foreground">{durationLabel}</dt>
                   <dd className="mt-1 font-medium text-foreground">{program.duration}</dd>
@@ -184,17 +207,40 @@ export function StudyProgramDetailView({
                   <dt className="text-muted-foreground">{qualificationLabel}</dt>
                   <dd className="mt-1 leading-relaxed text-foreground">{program.qualification}</dd>
                 </div>
+                <div>
+                  <dt className="text-muted-foreground">{tuitionLabel}</dt>
+                  <dd className="mt-1 font-medium text-foreground">{program.tuitionFee}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground">{applicationDeadlineLabel}</dt>
+                  <dd className="mt-1 font-medium text-foreground">
+                    {displayDate(program.applicationDeadline)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground">{earliestStartDateLabel}</dt>
+                  <dd className="mt-1 font-medium text-foreground">
+                    {displayDate(program.earliestStartDate)}
+                  </dd>
+                </div>
               </dl>
 
-              <p className="mt-8 text-xs text-muted-foreground">
-                {program.courseGroups.length} sections · {totalCourses} courses
-              </p>
+              <Button asChild className="mt-8 w-full" size="lg">
+                <Link to={studyProgramApplyPath(program.id)}>{applyLabel}</Link>
+              </Button>
             </div>
           </div>
         </aside>
 
         <div className="border-t border-border px-5 py-8 sm:px-8 lg:border-t-0 lg:px-10 lg:py-10">
-          <h2 className="text-sm font-medium text-muted-foreground">{coursesTitle}</h2>
+          <p className="text-sm text-muted-foreground">{faculty.title}</p>
+          <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
+            {program.title}
+          </h1>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {program.courseGroups.length} sections · {totalCourses} courses
+          </p>
+          <h2 className="mt-6 text-sm font-medium text-muted-foreground">{coursesTitle}</h2>
 
           {multiGroup ? (
             <Accordion type="single" collapsible defaultValue="group-0" className="mt-4">

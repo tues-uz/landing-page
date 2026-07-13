@@ -12,6 +12,8 @@ import type {
   NewsSection,
   ProgramItem,
 } from "./client";
+import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@/types/studyPrograms";
+import { FALLBACK_STUDY_PROGRAMS_CURRICULUM, getStudyProgramById } from "@/data/studyProgramsCurriculum";
 import type { TiptapDocJSON } from "@/types/article";
 import { tokenStore } from "./auth";
 
@@ -298,6 +300,81 @@ export const adminApi = {
         body: JSON.stringify(payload),
       });
       return handleResponse<ProgramItem>(res);
+    },
+  },
+  studyPrograms: {
+    list: async (locale?: string): Promise<StudyProgramFaculty[]> => {
+      try {
+        const url = locale
+          ? `${API_BASE}/content/study-programs?locale=${locale}`
+          : `${API_BASE}/content/study-programs`;
+        const res = await fetch(url, { headers: getAuthHeaders() });
+        if (!res.ok) throw new Error(String(res.status));
+        const data = await res.json();
+        const unwrapped = data?.data ?? data;
+        const faculties = unwrapped?.faculties ?? [];
+        if (faculties.length) return faculties;
+      } catch {
+        // fall through to static fallback
+      }
+      return [...FALLBACK_STUDY_PROGRAMS_CURRICULUM];
+    },
+    getById: async (programId: string, locale?: string): Promise<StudyProgramAdminItem | null> => {
+      if (programId === "new") return null;
+
+      try {
+        const url = locale
+          ? `${API_BASE}/content/study-programs/${programId}?locale=${locale}`
+          : `${API_BASE}/content/study-programs/${programId}`;
+        const res = await fetch(url, { headers: getAuthHeaders() });
+        if (res.ok) {
+          const data = await res.json();
+          const unwrapped = data?.data ?? data;
+          if (unwrapped?.program) {
+            return {
+              ...unwrapped.program,
+              facultyId: unwrapped.faculty?.id ?? unwrapped.program.facultyId ?? "",
+              updatedAt: unwrapped.program.updatedAt,
+            };
+          }
+        }
+      } catch {
+        // fall through to static fallback
+      }
+
+      const fallback = getStudyProgramById(programId);
+      if (fallback) {
+        return { ...fallback.program, facultyId: fallback.faculty.id };
+      }
+      return null;
+    },
+    create: async (payload: StudyProgramAdminItem): Promise<StudyProgramAdminItem> => {
+      const res = await fetch(`${API_BASE}/content/study-programs/programs`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<StudyProgramAdminItem>(res);
+    },
+    update: async (programId: string, payload: Partial<StudyProgramAdminItem>): Promise<StudyProgramAdminItem> => {
+      const res = await fetch(`${API_BASE}/content/study-programs/programs/${programId}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<StudyProgramAdminItem>(res);
+    },
+    upsertTranslation: async (
+      programId: string,
+      locale: string,
+      payload: Partial<StudyProgram>,
+    ): Promise<StudyProgramAdminItem> => {
+      const res = await fetch(`${API_BASE}/content/study-programs/programs/${programId}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<StudyProgramAdminItem>(res);
     },
   },
   events: {
