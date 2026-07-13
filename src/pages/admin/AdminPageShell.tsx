@@ -5,7 +5,7 @@ export const ADMIN_CARD_CLASS = "rounded-xl border border-slate-200 bg-white sha
 
 interface AdminPageShellProps {
   /** Page title (e.g. "Dashboard", "Hero section", "News", "Events", "Programs") */
-  title: string;
+  title?: string;
   /** Optional short description under the page title (default: "Welcome back, Admin 👋") */
   description?: string;
   children: ReactNode;
@@ -15,7 +15,7 @@ interface AdminPageShellProps {
   bare?: boolean;
 }
 
-export function AdminPageShell({ title, description = "Welcome back, Admin 👋", children, actions, bare }: AdminPageShellProps) {
+export function AdminPageShell({ title = "", description = "Welcome back, Admin 👋", children, actions, bare }: AdminPageShellProps) {
   if (bare) {
     return <div className="space-y-6 p-6">{children}</div>;
   }
