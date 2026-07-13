@@ -13,6 +13,23 @@ import type { StudyProgramDetailResult, StudyProgramFaculty } from "@/types/stud
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
+export interface CaptchaChallenge {
+    code: string;
+    token: string;
+}
+
+export interface ApplicationSubmitPayload {
+    fullName: string;
+    citizenship: string;
+    phone: string;
+    passport: string;
+    jshshir: string;
+    studyType: string;
+    courseId: string;
+    verifyToken: string;
+    verifyAnswer: string;
+}
+
 // ─── Types (mirroring backend schema) ────────────────────────────────────────
 
 export interface HeroSlide {
@@ -131,6 +148,22 @@ async function getOptional<T>(path: string): Promise<T | null> {
     }
 }
 
+async function post<T>(path: string, body: unknown): Promise<T> {
+    const res = await fetch(`${API_BASE}${path}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    });
+    const json = await res.json().catch(() => null);
+    if (!res.ok) {
+        throw new Error(json?.message || `API error ${res.status}: ${res.statusText}`);
+    }
+    if (json && typeof json === "object" && "data" in json) {
+        return json.data as T;
+    }
+    return json as T;
+}
+
 // ─── Public content API ───────────────────────────────────────────────────────
 
 export const contentApi = {
@@ -197,6 +230,14 @@ export const contentApi = {
             if (data?.program && data?.faculty) return data;
             const fallback = getStudyProgramById(programId);
             return fallback ? { faculty: fallback.faculty, program: fallback.program } : null;
+        },
+    },
+    applications: {
+        getCaptcha: async (): Promise<CaptchaChallenge> => {
+            return get<CaptchaChallenge>("/applications/captcha");
+        },
+        submit: async (payload: ApplicationSubmitPayload): Promise<{ id: string }> => {
+            return post<{ id: string }>("/applications", payload);
         },
     },
 };

@@ -40,3 +40,7 @@ export const studyProgramsKeys = {
     list: () => ["study-programs", "list"] as const,
     detail: (programId: string) => ["study-programs", "detail", programId] as const,
 };
+export const applicationsKeys = {
+    all: ["applications"] as const,
+    list: (status?: string) => ["applications", "list", status ?? "all"] as const,
+};

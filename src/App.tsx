@@ -132,6 +132,7 @@ import AdminEvents from "./pages/admin/AdminEvents";
 import AdminStudyPrograms from "./pages/admin/AdminStudyPrograms";
 import AdminStudyProgramEdit from "./pages/admin/AdminStudyProgramEdit";
 import AdminProgramsRedirect from "./pages/admin/AdminProgramsRedirect";
+import AdminApplications from "./pages/admin/AdminApplications";
 import AdminsPage from "@/features/admin/pages/AdminsPage";
 
 const queryClient = new QueryClient();
@@ -440,6 +441,7 @@ const App = () => (
                 <Route path="/admin/events" element={<AdminEvents />} />
                 <Route path="/admin/study-programs" element={<AdminStudyPrograms />} />
                 <Route path="/admin/study-programs/:programId/edit" element={<AdminStudyProgramEdit />} />
+                <Route path="/admin/applications" element={<AdminApplications />} />
                 <Route path="/admin/programs" element={<AdminProgramsRedirect />} />
                 <Route path="/admin/programs/new" element={<AdminProgramsRedirect />} />
                 <Route path="/admin/programs/:slug/edit" element={<AdminProgramsRedirect />} />

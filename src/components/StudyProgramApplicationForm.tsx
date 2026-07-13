@@ -17,22 +17,12 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { flattenStudyPrograms } from "@/data/studyProgramsCurriculum";
 import { useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { contentApi } from "@/api/client";
 import {
   STUDY_PROGRAM_APPLY_CITIZENSHIP_OPTIONS,
   STUDY_PROGRAM_APPLY_PAGE_DEFAULTS,
   STUDY_PROGRAM_APPLY_STUDY_TYPES,
 } from "@/locales/studyProgramApplyDefaults";
-
-const CAPTCHA_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-function generateCaptchaCode(length = 4): string {
-  let code = "";
-  for (let i = 0; i < length; i++) {
-    if (i > 0) code += " ";
-    code += CAPTCHA_CHARS[Math.floor(Math.random() * CAPTCHA_CHARS.length)];
-  }
-  return code;
-}
 
 function normalizeCaptchaInput(value: string): string {
   return value.replace(/\s+/g, " ").trim().toUpperCase();
@@ -62,7 +52,8 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   const { t } = useTranslation("topNav");
   const { toast } = useToast();
   const { data: faculties = [] } = useStudyProgramsQuery();
-  const [captchaCode, setCaptchaCode] = useState(() => generateCaptchaCode());
+  const [captchaCode, setCaptchaCode] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const programs = useMemo(() => flattenStudyPrograms(faculties), [faculties]);
@@ -99,8 +90,21 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   }, [initialProgramId, programs, setValue]);
 
   const refreshCaptcha = useCallback(() => {
-    setCaptchaCode(generateCaptchaCode());
+    contentApi.applications
+      .getCaptcha()
+      .then(({ code, token }) => {
+        setCaptchaCode(code);
+        setCaptchaToken(token);
+      })
+      .catch(() => {
+        setCaptchaCode("");
+        setCaptchaToken("");
+      });
   }, []);
+
+  useEffect(() => {
+    refreshCaptcha();
+  }, [refreshCaptcha]);
 
   const requiredMessage = trApply(t, "studyProgramApplyRequired");
 
@@ -116,7 +120,17 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
 
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      await contentApi.applications.submit({
+        fullName: data.fullName,
+        citizenship: data.citizenship,
+        phone: data.phone,
+        passport: data.passport,
+        jshshir: data.jshshir,
+        studyType: data.studyType,
+        courseId: data.courseId,
+        verifyToken: captchaToken,
+        verifyAnswer: data.verifyCode,
+      });
       toast({
         title: trApply(t, "studyProgramApplySuccessTitle"),
         description: trApply(t, "studyProgramApplySuccessDescription"),
@@ -130,6 +144,12 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
         studyType: "",
         courseId: "",
         verifyCode: "",
+      });
+      refreshCaptcha();
+    } catch {
+      toast({
+        title: trApply(t, "studyProgramApplyCaptchaError"),
+        variant: "destructive",
       });
       refreshCaptcha();
     } finally {

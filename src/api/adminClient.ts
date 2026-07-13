@@ -19,6 +19,21 @@ import { tokenStore } from "./auth";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
+export interface ApplicationItem {
+  id: string;
+  fullName: string;
+  citizenship: string;
+  phone: string;
+  passport: string;
+  jshshir: string;
+  studyType: string;
+  courseId: string;
+  status: "new" | "contacted" | "rejected" | "enrolled";
+  submittedIp?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 function getAuthHeaders(): HeadersInit {
   const headers: HeadersInit = { "Content-Type": "application/json" };
   const token = tokenStore.get();
@@ -375,6 +390,24 @@ export const adminApi = {
         body: JSON.stringify(payload),
       });
       return handleResponse<StudyProgramAdminItem>(res);
+    },
+  },
+  applications: {
+    list: async (status?: string): Promise<ApplicationItem[]> => {
+      const url = status
+        ? `${API_BASE}/applications?status=${status}`
+        : `${API_BASE}/applications`;
+      const res = await fetch(url, { headers: getAuthHeaders() });
+      const data = await handleResponse<{ applications: ApplicationItem[] }>(res);
+      return data.applications ?? [];
+    },
+    updateStatus: async (id: string, status: string): Promise<ApplicationItem> => {
+      const res = await fetch(`${API_BASE}/applications/${id}/status`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ status }),
+      });
+      return handleResponse<ApplicationItem>(res);
     },
   },
   events: {
