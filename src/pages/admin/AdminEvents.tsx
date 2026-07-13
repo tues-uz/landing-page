@@ -49,7 +49,7 @@ export default function AdminEvents() {
       const list = await adminApi.events.list(i18n.language);
       setEvents(list);
     } catch (e) {
-      toast({ title: "Failed to load events", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedLoadEvents"), description: String(e), variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -101,7 +101,7 @@ export default function AdminEvents() {
       }
       setEditLocale(newLocale);
     } catch (e) {
-      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedSwitchLanguage"), description: String(e), variant: "destructive" });
     } finally {
       setLoadingLocale(false);
     }
@@ -109,7 +109,7 @@ export default function AdminEvents() {
 
   const handleSave = async () => {
     if (!form.title?.trim() || !form.date?.trim()) {
-      toast({ title: "Title and date required", variant: "destructive" });
+      toast({ title: t("toastTitleDateRequired"), variant: "destructive" });
       return;
     }
     setSaving(true);
@@ -117,21 +117,21 @@ export default function AdminEvents() {
       if (editing && editing.id) {
         if (editLocale === "uz") {
           await adminApi.events.update(editing.id, form);
-          toast({ title: "Event updated" });
+          toast({ title: t("toastEventUpdated") });
         } else {
           await adminApi.events.upsertTranslation(editing.id, editLocale, {
             title: form.title!,
           });
-          toast({ title: `${editLocale.toUpperCase()} translation updated` });
+          toast({ title: t("toastTranslationUpdated", { locale: editLocale.toUpperCase() }) });
         }
       } else {
         await adminApi.events.create(form as Omit<EventItem, "id">);
-        toast({ title: "Event created" });
+        toast({ title: t("toastEventCreated") });
       }
       closeForm();
       load();
     } catch (e) {
-      toast({ title: "Failed to save", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedSave"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -141,11 +141,11 @@ export default function AdminEvents() {
     setSaving(true);
     try {
       await adminApi.events.delete(id);
-      toast({ title: "Event deleted" });
+      toast({ title: t("toastEventDeleted") });
       setEventToDelete(null);
       load();
     } catch (e) {
-      toast({ title: "Failed to delete", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedDelete"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -154,16 +154,16 @@ export default function AdminEvents() {
   const handleEventImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !file.type.startsWith("image/")) {
-      toast({ title: "Please select an image file", variant: "destructive" });
+      toast({ title: t("toastSelectImageFile"), variant: "destructive" });
       return;
     }
     setUploadingImage(true);
     try {
       const { url } = await adminApi.media.upload(file);
       setForm((f) => ({ ...f, imageUrl: url }));
-      toast({ title: "Image uploaded" });
+      toast({ title: t("toastImageUploaded") });
     } catch (err) {
-      toast({ title: "Upload failed", description: String(err), variant: "destructive" });
+      toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
     } finally {
       setUploadingImage(false);
       e.target.value = "";
@@ -172,7 +172,7 @@ export default function AdminEvents() {
 
   if (loading && events.length === 0) {
     return (
-      <AdminPageShell title="Events" description="Manage upcoming events.">
+      <AdminPageShell title={t("events")} description={t("eventsDescription")}>
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
         </div>
@@ -183,21 +183,21 @@ export default function AdminEvents() {
   if (formOpen) {
     return (
       <AdminPageShell
-        title={editing ? "Edit event" : "New event"}
-        description="Events appear on the events page."
+        title={editing ? t("editEvent") : t("newEvent")}
+        description={t("eventsFormDesc")}
       >
         <Button variant="ghost" onClick={closeForm} className="gap-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
-          <ArrowLeft className="h-4 w-4" /> Back to list
+          <ArrowLeft className="h-4 w-4" /> {t("backToList")}
         </Button>
         <Card className={ADMIN_CARD_CLASS}>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-slate-900">{editing ? "Edit event" : "New event"}</CardTitle>
-                <CardDescription className="text-slate-500">Events appear on the events page.</CardDescription>
+                <CardTitle className="text-slate-900">{editing ? t("editEvent") : t("newEvent")}</CardTitle>
+                <CardDescription className="text-slate-500">{t("eventsFormDesc")}</CardDescription>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground mr-2">Language:</span>
+                <span className="text-sm font-medium text-muted-foreground mr-2">{t("languageColon")}</span>
                 <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[200px]">
                   <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="uz" disabled={!editing || loadingLocale}>UZ</TabsTrigger>
@@ -205,7 +205,7 @@ export default function AdminEvents() {
                     <TabsTrigger value="ru" disabled={!editing || loadingLocale}>RU</TabsTrigger>
                   </TabsList>
                 </Tabs>
-                {!editing && <span className="text-xs text-muted-foreground/70 ml-2">Save first<br/>to translate</span>}
+                {!editing && <span className="text-xs text-muted-foreground/70 ml-2">{t("saveFirstToTranslate")}</span>}
               </div>
             </div>
           </CardHeader>
@@ -213,21 +213,21 @@ export default function AdminEvents() {
             {loadingLocale && (
               <div className="flex items-center justify-center py-4">
                 <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-                <span className="ml-2 text-sm text-muted-foreground">Loading translation...</span>
+                <span className="ml-2 text-sm text-muted-foreground">{t("loadingTranslation")}</span>
               </div>
             )}
             <div className="space-y-2">
-              <Label className="text-slate-700">Title</Label>
+              <Label className="text-slate-700">{t("eventTitle")}</Label>
               <Input
                 value={form.title ?? ""}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                placeholder="Event title"
+                placeholder={t("eventTitlePlaceholder")}
                 className="rounded-lg border-slate-200"
               />
             </div>
             <div className={`grid gap-4 sm:grid-cols-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
               <div className="space-y-2">
-                <Label className="text-slate-700">Date</Label>
+                <Label className="text-slate-700">{t("eventDate")}</Label>
                 <Input
                   type="date"
                   value={form.date ?? ""}
@@ -236,26 +236,26 @@ export default function AdminEvents() {
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-slate-700">Time</Label>
+                <Label className="text-slate-700">{t("eventTime")}</Label>
                 <Input
                   value={form.time ?? ""}
                   onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))}
-                  placeholder="14:00"
+                  placeholder={t("timePlaceholder")}
                   className="rounded-lg border-slate-200"
                 />
               </div>
             </div>
             <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
-              <Label className="text-slate-700">Location</Label>
+              <Label className="text-slate-700">{t("eventLocation")}</Label>
               <Input
                 value={form.location ?? ""}
                 onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                placeholder="Campus Hall"
+                placeholder={t("locationPlaceholder")}
                 className="rounded-lg border-slate-200"
               />
             </div>
             <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
-              <Label className="text-slate-700">Event image (optional)</Label>
+              <Label className="text-slate-700">{t("eventImageOptional")}</Label>
               <div
                 role="button"
                 tabIndex={0}
@@ -270,9 +270,9 @@ export default function AdminEvents() {
                 )}
                 <div className="text-center">
                   <p className="text-sm font-medium text-slate-900">
-                    {form.imageUrl ? "Image uploaded · click to replace" : "Upload event image"}
+                    {form.imageUrl ? t("eventImageUploadedReplace") : t("uploadEventImage")}
                   </p>
-                  <p className="text-xs text-slate-500 mt-0.5">Drag & drop or click to browse · image files, max 50 MB</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{t("eventImageDropHint")}</p>
                 </div>
                 {form.imageUrl && (
                   <img src={form.imageUrl} alt="" className="mt-2 h-20 w-auto max-w-full rounded object-cover" />
@@ -288,10 +288,10 @@ export default function AdminEvents() {
             </div>
             <div className="flex gap-2">
               <Button onClick={handleSave} disabled={saving} className="bg-blue-600 hover:bg-blue-700">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("save")}
               </Button>
               <Button variant="outline" onClick={closeForm} className="border-slate-200">
-                Cancel
+                {t("cancel")}
               </Button>
             </div>
           </CardContent>

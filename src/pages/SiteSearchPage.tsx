@@ -19,7 +19,7 @@ export default function SiteSearchPage() {
   const q = params.get("q")?.trim() ?? "";
   const { t } = useTranslation("header");
 
-  const { isPending, newsItems, eventItems, programItems } = useSiteSearchContent(true);
+  const { isPending, newsItems, eventItems, studyProgramItems } = useSiteSearchContent(true);
 
   const staticRoutes = useMemo(() => getStaticSearchRoutes((key) => t(key)), [t]);
 
@@ -39,11 +39,11 @@ export default function SiteSearchPage() {
         query: q,
         news: newsItems,
         events: eventItems,
-        programs: programItems,
+        studyPrograms: studyProgramItems,
         staticRoutes,
         kindLabels,
       }),
-    [q, newsItems, eventItems, programItems, staticRoutes, kindLabels],
+    [q, newsItems, eventItems, studyProgramItems, staticRoutes, kindLabels],
   );
 
   const grouped = useMemo(() => {

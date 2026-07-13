@@ -30,7 +30,7 @@ const nav = [
   { to: CMS_BASE, label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: `${CMS_BASE}/hero`, label: "Hero section", icon: ImageIcon, end: false },
   { to: `${CMS_BASE}/events`, label: "Events", icon: Calendar, end: false },
-  { to: `${CMS_BASE}/programs`, label: "Programs", icon: GraduationCap, end: false },
+  { to: `${CMS_BASE}/study-programs`, label: "Study Programs", icon: GraduationCap, end: false },
 ];
 const iconMap: Record<string, LucideIcon> = {
   "layout-dashboard": LayoutDashboard,

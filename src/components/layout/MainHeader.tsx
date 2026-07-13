@@ -32,7 +32,8 @@ const routeTitles: Record<string, { title: string; icon: typeof LayoutDashboard 
   [`${B}/hero`]: { title: "Hero section", icon: ImageIcon },
   [`${B}/news`]: { title: "News board", icon: Newspaper },
   [`${B}/events`]: { title: "Events", icon: Calendar },
-  [`${B}/programs`]: { title: "Programs", icon: GraduationCap },
+  [`${B}/study-programs`]: { title: "Study Programs", icon: GraduationCap },
+  [`${B}/programs`]: { title: "Study Programs", icon: GraduationCap },
   [`${B}/users`]: { title: "Admins", icon: Shield },
 };
 
@@ -45,13 +46,18 @@ export function MainHeader() {
         ? { title: "Edit article", icon: Newspaper }
         : path === `${B}/news/articles`
           ? { title: "Articles", icon: Newspaper }
-          : /^\/admin\/programs\/[^/]+\/edit$/.test(path)
-            ? { title: "Edit program", icon: GraduationCap }
-            : null;
+          : path === `${B}/study-programs/new/edit`
+            ? { title: "Add study program", icon: GraduationCap }
+            : /^\/admin\/study-programs\/[^/]+\/edit$/.test(path)
+            ? { title: "Edit study program", icon: GraduationCap }
+            : /^\/admin\/programs\/[^/]+\/edit$/.test(path)
+              ? { title: "Edit study program", icon: GraduationCap }
+              : null;
   const info = derived ?? routeTitles[path] ?? { title: "Dashboard", icon: LayoutDashboard };
   const Icon = info.icon;
   const { t, i18n } = useTranslation("admin");
-  const currentLanguage = languages.find((l) => l.code === i18n.language) || languages[0];
+  const activeCode = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
+  const currentLanguage = languages.find((l) => l.code === activeCode) ?? languages[1];
 
   return (
     <header className="fixed top-0 left-64 right-0 z-40 flex h-[77px] shrink-0 items-center justify-between border-b border-sidebar-border bg-white px-4 sm:px-6">
@@ -92,7 +98,7 @@ export function MainHeader() {
         </Button>
         <Button variant="outline" size="sm" className="rounded-lg gap-1.5">
           <Download className="h-4 w-4" />
-          Export
+          {t("export", "Export")}
         </Button>
       </div>
     </header>

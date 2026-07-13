@@ -43,6 +43,7 @@ const SECTIONS_BY_GROUP: Record<TopNavGroup, HubSection[]> = {
 };
 
 export function subPagePath(group: TopNavGroup, sectionId: string): string {
+  if (group === "admissions" && sectionId === "study-programs") return "/programs";
   return `/${group}/${sectionId}`;
 }
 

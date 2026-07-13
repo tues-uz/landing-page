@@ -104,8 +104,8 @@ export default function AdminsPage() {
                         ) : (
                           <>
                             {user.permissions.slice(0, 4).map((perm) => {
-                              const resource = perm.resource === "*" ? "System" : perm.resource;
-                              const actionLabel = perm.action === "full" ? "Full" : perm.action;
+                              const resource = perm.resource === "*" ? t("permissionSystem") : perm.resource;
+                              const actionLabel = perm.action === "full" ? t("permissionFull") : perm.action;
                               return (
                                 <span 
                                   key={perm.id} 

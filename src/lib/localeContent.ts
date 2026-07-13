@@ -1,5 +1,4 @@
-import type { EventItem, NewsItem, ProgramItem } from "@/api/client";
-import { staticPrograms } from "@/components/Programs";
+import type { EventItem, NewsItem } from "@/api/client";
 import { FALLBACK_EVENTS, FALLBACK_NEWS } from "@/data/fallbackContent";
 
 export type UiLang = "en" | "uz" | "ru";
@@ -8,19 +7,6 @@ export function getUiLang(i18n: { resolvedLanguage?: string; language?: string }
   const code = (i18n.resolvedLanguage ?? i18n.language ?? "en").slice(0, 2);
   if (code === "uz" || code === "ru") return code;
   return "en";
-}
-
-/**
- * CMS may return Uzbek (or other) copy; map to English static catalog by slug.
- * Used for English UI and for the admin program list (always English labels).
- */
-export function withEnglishProgramTitles(programs: ProgramItem[]): ProgramItem[] {
-  return programs.map((p) => {
-    const st = staticPrograms.find((s) => s.slug === p.slug);
-    return st
-      ? { ...p, title: st.title, description: st.description, count: st.count }
-      : p;
-  });
 }
 
 /** Overlay English fallback text on API news rows (keeps id, slug, dates, images). */

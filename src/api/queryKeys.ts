@@ -18,6 +18,11 @@ export const contentKeys = {
         list: () => ["content", "programs", "list"] as const,
         detail: (slug: string) => ["content", "programs", "detail", slug] as const,
     },
+    studyPrograms: {
+        all: ["content", "study-programs"] as const,
+        list: () => ["content", "study-programs", "list"] as const,
+        detail: (programId: string) => ["content", "study-programs", "detail", programId] as const,
+    },
 } as const;
 
 /** CMS admin query keys (for features that use adminApi). */
@@ -29,4 +34,9 @@ export const programsKeys = {
     all: ["programs"] as const,
     list: () => ["programs", "list"] as const,
     detail: (slug: string) => ["programs", "detail", slug] as const,
+};
+export const studyProgramsKeys = {
+    all: ["study-programs"] as const,
+    list: () => ["study-programs", "list"] as const,
+    detail: (programId: string) => ["study-programs", "detail", programId] as const,
 };

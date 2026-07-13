@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Share2, ChevronRight } from "lucide-react";
@@ -6,8 +7,21 @@ import Footer from "@/components/Footer";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
-import { getFirstNewsParagraph } from "@/lib/newsContent";
+import {
+  getFirstNewsParagraph,
+  getNewsHeroImages,
+  isNewsImageParagraph,
+} from "@/lib/newsContent";
 import { useTranslation } from "react-i18next";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 const formatDateLong = (dateStr: string) => {
   const d = new Date(dateStr);
@@ -19,17 +33,89 @@ const formatDateLong = (dateStr: string) => {
 
 function ArticleSkeleton() {
   return (
-    <div className="animate-pulse space-y-6 px-5 py-8 xl:px-8 xl:py-14 max-w-3xl mx-auto">
+    <div className="animate-pulse">
+      <div className="aspect-[4/3] max-h-[500px] w-full bg-muted" />
+      <div className="mx-auto max-w-3xl space-y-6 px-5 py-8 xl:px-8 xl:py-14">
       <div className="h-6 w-24 rounded-full bg-muted" />
       <div className="space-y-3">
         <div className="h-8 w-full rounded bg-muted" />
         <div className="h-8 w-3/4 rounded bg-muted" />
       </div>
       <div className="h-4 w-48 rounded bg-muted" />
-      <div className="aspect-[374/182] w-full rounded-xl bg-muted" />
       <div className="space-y-2">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className={`h-4 rounded bg-muted ${i % 3 === 2 ? "w-2/3" : "w-full"}`} />
+        ))}
+      </div>
+      </div>
+    </div>
+  );
+}
+
+function ArticleHeroGallery({ images, title }: { images: string[]; title: string }) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
+
+  if (images.length === 0) return null;
+
+  if (images.length === 1) {
+    return (
+      <div className="w-full">
+        <div className="relative aspect-[4/3] max-h-[500px] w-full overflow-hidden bg-muted">
+          <img
+            src={images[0]}
+            alt={title}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <Carousel opts={{ loop: true, align: "start" }} setApi={setApi} className="w-full">
+        <CarouselContent className="-ml-0">
+          {images.map((src, index) => (
+            <CarouselItem key={`${src}-${index}`} className="pl-0 basis-full">
+              <div className="relative aspect-[4/3] max-h-[500px] w-full overflow-hidden bg-muted">
+                <img
+                  src={src}
+                  alt={`${title} — image ${index + 1} of ${images.length}`}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border-0 bg-black/40 text-white hover:bg-black/60 hover:text-white" />
+        <CarouselNext className="right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border-0 bg-black/40 text-white hover:bg-black/60 hover:text-white" />
+      </Carousel>
+      <div className="mt-3 flex justify-center gap-1.5 px-5" role="tablist" aria-label="Article images">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            role="tab"
+            aria-selected={index === current}
+            aria-label={`Go to image ${index + 1}`}
+            onClick={() => api?.scrollTo(index)}
+            className={cn(
+              "h-1.5 rounded-full transition-all",
+              index === current ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50",
+            )}
+          />
         ))}
       </div>
     </div>
@@ -98,6 +184,7 @@ const NewsDetailPage = () => {
   }
 
   const body = Array.isArray(article.body) ? article.body : [];
+  const heroImages = getNewsHeroImages(article);
 
   const firstParagraph = getFirstNewsParagraph(body) ?? article.excerpt;
   let firstTextIndex = { sectionIndex: -1, paragraphIndex: -1 };
@@ -120,7 +207,12 @@ const NewsDetailPage = () => {
       <main className="below-header relative z-0 flex-1 overflow-x-clip bg-muted/30 flex justify-center">
         <div className="relative z-10 w-full min-h-[calc(100dvh-var(--header-height))] overflow-hidden rounded-none bg-background shadow-sm">
           {/* Breadcrumb */}
-          <div className="flex flex-col-reverse border-b border-border pb-3 pt-5 lg:h-12 lg:flex-row lg:items-center lg:gap-2 lg:py-0 lg:px-6">
+          <div
+            className={cn(
+              "flex flex-col-reverse pb-3 pt-5 lg:h-12 lg:flex-row lg:items-center lg:gap-2 lg:py-0 lg:px-6",
+              heroImages.length === 0 && "border-b border-border",
+            )}
+          >
             <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-5 scrollbar-hide lg:px-0">
               <Link to="/" className="font-medium text-foreground text-sm hover:text-primary">
                 News
@@ -140,8 +232,16 @@ const NewsDetailPage = () => {
             </div>
           </div>
 
+          {/* Hero image gallery */}
+          <ArticleHeroGallery images={heroImages} title={article.title} />
+
           {/* Article header */}
-          <div className="mx-auto max-w-3xl gap-3 px-5 pb-6 pt-8 xl:px-8 xl:pt-14">
+          <div
+            className={cn(
+              "mx-auto max-w-3xl gap-3 px-5 pb-6 xl:px-8",
+              heroImages.length > 0 ? "pt-6 xl:pt-8" : "pt-8 xl:pt-14",
+            )}
+          >
             {article.category && (
               <div className="flex mb-4">
                 <span className="inline-flex h-8 shrink-0 items-center rounded-full border border-border px-3 text-sm font-medium text-foreground">
@@ -159,17 +259,6 @@ const NewsDetailPage = () => {
               )}
             </div>
           </div>
-
-          {/* Hero image */}
-          {article.imageUrl && (
-            <div className="mx-auto max-w-3xl px-5 py-6 xl:px-8 xl:py-10">
-              <img
-                src={article.imageUrl}
-                alt={article.title}
-                className="block w-full h-auto rounded-xl bg-muted"
-              />
-            </div>
-          )}
 
           {/* Body */}
           <div className="mx-auto max-w-3xl px-5 py-6 xl:px-8">
@@ -189,22 +278,7 @@ const NewsDetailPage = () => {
                       return null;
                     }
                     
-                    // Render image placeholders
-                    if (para.startsWith("[Image: ") && para.endsWith("]")) {
-                      const src = para.slice(8, -1).trim();
-                      if (src) {
-                        return (
-                          <img
-                            key={p}
-                            src={src}
-                            alt="News content"
-                            className="my-6 max-h-[500px] w-full rounded-xl object-contain bg-muted shadow-sm border border-border"
-                          />
-                        );
-                      }
-                      return null;
-                    }
-                    if (para === "[Image]") {
+                    if (isNewsImageParagraph(para)) {
                       return null;
                     }
                     

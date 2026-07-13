@@ -83,7 +83,7 @@ export default function AdminNews() {
       const list = await adminApi.news.list(i18n.language);
       setArticles(list);
     } catch (e) {
-      toast({ title: "Failed to load news", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedLoadNews"), description: String(e), variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -191,7 +191,7 @@ export default function AdminNews() {
       }
       setEditLocale(newLocale);
     } catch (e) {
-      toast({ title: "Failed to switch language", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedSwitchLanguage"), description: String(e), variant: "destructive" });
     } finally {
       setLoadingLocale(false);
     }
@@ -199,7 +199,7 @@ export default function AdminNews() {
 
   const handleSave = async () => {
     if (!form.slug?.trim() || !form.title?.trim()) {
-      toast({ title: "Slug and title required", variant: "destructive" });
+      toast({ title: t("toastSlugTitleRequired"), variant: "destructive" });
       return;
     }
     const body = Array.isArray(form.body) ? form.body : [];
@@ -209,23 +209,23 @@ export default function AdminNews() {
       if (editing && editing.id) {
         if (editLocale === "uz") {
           await adminApi.news.update(editing.id, payload);
-          toast({ title: "Article updated" });
+          toast({ title: t("toastArticleUpdated") });
         } else {
           await adminApi.news.upsertTranslation(editing.id, editLocale, {
             title: form.title!,
             excerpt: form.excerpt,
             body: body,
           });
-          toast({ title: `${editLocale.toUpperCase()} translation updated` });
+          toast({ title: t("toastTranslationUpdated", { locale: editLocale.toUpperCase() }) });
         }
       } else {
         await adminApi.news.create(payload as Omit<NewsItem, "id">);
-        toast({ title: "Article created" });
+        toast({ title: t("toastArticleCreated") });
       }
       closeForm();
       load();
     } catch (e) {
-      toast({ title: "Failed to save", description: String(e), variant: "destructive" });
+      toast({ title: t("toastFailedSave"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -235,10 +235,10 @@ export default function AdminNews() {
     setSaving(true);
     try {
       await adminApi.news.delete(slug);
-      toast({ title: "Article deleted" });
+      toast({ title: t("articleDeleted") });
       load();
     } catch (e) {
-      toast({ title: "Failed to delete", description: String(e), variant: "destructive" });
+      toast({ title: t("failedToDelete"), description: String(e), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -246,7 +246,7 @@ export default function AdminNews() {
 
   if (loading && articles.length === 0) {
     return (
-      <AdminPageShell title="News" description="Manage articles and featured content.">
+      <AdminPageShell title={t("newsArticles")} description={t("newsFormDesc")}>
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
         </div>
@@ -278,7 +278,7 @@ export default function AdminNews() {
               disabled={saving}
               className="h-9 rounded-full bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish"}
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("publish")}
             </Button>
           </div>
 
@@ -316,7 +316,7 @@ export default function AdminNews() {
                   onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}
                 >
                   <SelectTrigger className="h-9 w-36 rounded-md border-border bg-background px-3 py-2 text-sm">
-                    <SelectValue placeholder="Category" />
+                    <SelectValue placeholder={t("category")} />
                   </SelectTrigger>
                   <SelectContent>
                     {CATEGORIES.map((c) => (
@@ -332,7 +332,7 @@ export default function AdminNews() {
                 <Input
                   value={form.slug ?? ""}
                   onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
-                  placeholder="article-slug"
+                  placeholder={t("articleSlugPlaceholder")}
                   disabled={!!editing}
                   className="h-9 w-40 rounded-md border-input bg-background px-2.5 text-sm disabled:opacity-60"
                 />
@@ -341,7 +341,7 @@ export default function AdminNews() {
                 <label className="text-xs text-muted-foreground">Display on News page</label>
                 <Select value={display} onValueChange={setDisplay}>
                   <SelectTrigger className="h-9 w-44 rounded-md border-border bg-background px-3 py-2 text-sm">
-                    <SelectValue placeholder="Display" />
+                    <SelectValue placeholder={t("display")} />
                   </SelectTrigger>
                   <SelectContent>
                     {DISPLAY_OPTIONS.map((d) => (
@@ -371,7 +371,7 @@ export default function AdminNews() {
                 ...((!editing || !(f.slug ?? "").trim()) && { slug: titleToSlug(title) }),
               }));
             }}
-            placeholder="Title"
+            placeholder={t("articleTitlePlaceholder")}
             className="mb-1 h-auto min-h-14 w-full border-0 bg-transparent p-0 py-2 font-serif text-[2.5rem] font-bold leading-tight tracking-tight text-foreground placeholder:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-0 sm:text-[3rem]"
           />
 
@@ -379,7 +379,7 @@ export default function AdminNews() {
           <textarea
             value={form.excerpt ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-            placeholder="Subtitles are optional — add a short summary or hook"
+            placeholder={t("articleExcerptPlaceholder")}
             rows={2}
             className="mb-6 w-full resize-none border-0 bg-transparent p-0 text-lg leading-snug text-muted-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-0"
           />
@@ -390,7 +390,7 @@ export default function AdminNews() {
               type="text"
               value={form.author ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
-              placeholder="Author"
+              placeholder={t("articleAuthorPlaceholder")}
               className="w-20 min-w-0 border-0 bg-transparent p-0 text-sm focus:outline-none focus:ring-0"
             />
             <span aria-hidden className="text-muted-foreground/70">·</span>
@@ -405,7 +405,7 @@ export default function AdminNews() {
               type="text"
               value={form.readTime ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, readTime: e.target.value }))}
-              placeholder="Read time"
+              placeholder={t("articleReadTimePlaceholder")}
               className="w-20 min-w-0 border-0 bg-transparent p-0 text-sm focus:outline-none focus:ring-0"
             />
             <span className="text-muted-foreground/70">

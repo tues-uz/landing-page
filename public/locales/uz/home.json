@@ -135,6 +135,12 @@
     "kicker": "Kampusni kashf eting",
     "title": "Virtual sayohat",
     "description": "Zamonaviy infratuzilma va o‘quv muhitini masofadan ko‘ring.",
-    "cta": "Sayohatni boshlash"
+    "cta": "Sayohatni boshlash",
+    "nodes": {
+      "1": { "name": "Asosiy zal", "caption": "Asosiy zal — kampus sayohati" },
+      "2": { "name": "Ko'rgazma maydoni", "caption": "Ko'rgazma maydoni — kampus sayohati" },
+      "3": { "name": "O'quv xonasi", "caption": "O'quv xonasi — kampus sayohati" },
+      "4": { "name": "Kampus binosi", "caption": "Kampus binosi — kampus sayohati" }
+    }
   }
 }

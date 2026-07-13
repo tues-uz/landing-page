@@ -1,5 +1,16 @@
-import type { EventItem, NewsItem, ProgramItem } from "@/api/client";
+import type { EventItem, NewsItem } from "@/api/client";
 import { getNewsPreviewText } from "@/lib/newsContent";
+import { studyProgramDetailPath } from "@/data/studyProgramsCurriculum";
+
+export type StudyProgramSearchItem = {
+  id: string;
+  title: string;
+  code: string;
+  degreeLevel: string;
+  duration: string;
+  qualification: string;
+  facultyTitle: string;
+};
 
 export function filterNewsByQuery(items: NewsItem[], search: string): NewsItem[] {
   const q = search.trim().toLowerCase();
@@ -25,21 +36,28 @@ export function filterEventsByQuery(items: EventItem[], search: string): EventIt
   );
 }
 
-export function filterProgramsByQuery(items: ProgramItem[], search: string): ProgramItem[] {
+export function filterStudyProgramsByQuery(
+  items: StudyProgramSearchItem[],
+  search: string,
+): StudyProgramSearchItem[] {
   const q = search.trim().toLowerCase();
   if (!q) return [];
   const hay = (s: string) => s.toLowerCase();
   return items.filter(
     (item) =>
       hay(item.title).includes(q) ||
-      hay(item.description).includes(q) ||
-      hay(item.longDescription).includes(q) ||
-      hay(item.degreeType).includes(q) ||
-      hay(item.slug).includes(q) ||
-      hay(item.introduction).includes(q) ||
-      hay(item.careerOutcomes).includes(q) ||
-      item.highlights.some((h) => hay(h).includes(q)),
+      hay(item.code).includes(q) ||
+      hay(item.degreeLevel).includes(q) ||
+      hay(item.duration).includes(q) ||
+      hay(item.qualification).includes(q) ||
+      hay(item.facultyTitle).includes(q) ||
+      hay(item.id).includes(q),
   );
+}
+
+/** @deprecated Use filterStudyProgramsByQuery */
+export function filterProgramsByQuery(items: StudyProgramSearchItem[], search: string): StudyProgramSearchItem[] {
+  return filterStudyProgramsByQuery(items, search);
 }
 
 export type StaticSearchRoute = { id: string; path: string; label: string };
@@ -132,6 +150,11 @@ export function getStaticSearchRoutes(translate: (key: string) => string): Stati
       id: "contactingAdmission",
       path: "/admission-2025/contacting-admission",
       label: translate("searchRoutes.contactingAdmission"),
+    },
+    {
+      id: "studyProgramApply",
+      path: "/admission-2025/apply",
+      label: translate("searchRoutes.studyProgramApply"),
     },
     { id: "news", path: "/news", label: translate("searchRoutes.news") },
     { id: "events", path: "/events", label: translate("searchRoutes.events") },
@@ -423,7 +446,7 @@ export function buildSiteSearchHits(options: {
   query: string;
   news: NewsItem[];
   events: EventItem[];
-  programs: ProgramItem[];
+  studyPrograms: StudyProgramSearchItem[];
   staticRoutes: StaticSearchRoute[];
   kindLabels: SiteSearchKindLabels;
 }): SiteSearchHit[] {
@@ -444,14 +467,14 @@ export function buildSiteSearchHits(options: {
     });
   }
 
-  for (const p of filterProgramsByQuery(options.programs, q)) {
+  for (const p of filterStudyProgramsByQuery(options.studyPrograms, q)) {
     hits.push({
       id: `program-${p.id}`,
       kind: "program",
       title: p.title,
       badge: kindLabels.program,
-      subtitle: [p.degreeType, p.duration].filter(Boolean).join(" · "),
-      to: `/programs/${p.slug}`,
+      subtitle: [p.degreeLevel, p.duration, p.code].filter(Boolean).join(" · "),
+      to: studyProgramDetailPath(p.id),
     });
   }
 

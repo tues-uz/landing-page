@@ -1,19 +1,33 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { StudyProgramDetailView } from "@/components/StudyProgramDetailView";
-import { getStudyProgramById } from "@/data/studyProgramsCurriculum";
+import { useStudyProgramDetailQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 
-const BACK_PATH = "/admissions/study-programs";
+import { STUDY_PROGRAMS_LIST_PATH } from "@/data/studyProgramsCurriculum";
+
+const BACK_PATH = STUDY_PROGRAMS_LIST_PATH;
 
 export default function StudyProgramDetailPage() {
   const { programId } = useParams<{ programId: string }>();
-  const result = programId ? getStudyProgramById(programId) : undefined;
+  const { data: result, isLoading } = useStudyProgramDetailQuery(programId ?? "");
 
   const { t: tCommon } = useTranslation("common");
   const { t: th } = useTranslation("header");
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="below-header flex min-h-[40vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" aria-hidden />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!result) {
     return <Navigate to={BACK_PATH} replace />;
@@ -48,7 +62,7 @@ export default function StudyProgramDetailPage() {
           </nav>
         </div>
 
-        <StudyProgramDetailView direction={result.direction} program={program} />
+        <StudyProgramDetailView faculty={result.faculty} program={result.program} />
       </main>
       <Footer />
     </div>
