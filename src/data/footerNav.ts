@@ -64,7 +64,7 @@ export const footerMenuSections: FooterSection[] = [
       { label: "Application Process", href: "#" },
       { label: "Deadlines", href: "#" },
       { label: "Scholarships", href: "#" },
-      { label: "FAQs", href: "#" },
+      { label: "FAQs", href: "/admission-2025/faq" },
     ],
   },
   {
@@ -80,11 +80,11 @@ export const footerMenuSections: FooterSection[] = [
   {
     title: "Vacancies",
     links: [
-      { label: "Academic Positions", href: "#" },
-      { label: "Administrative Positions", href: "#" },
-      { label: "Research Positions", href: "#" },
-      { label: "How to Apply", href: "#" },
-      { label: "Benefits", href: "#" },
+      { label: "Academic Positions", href: "/vacancies/academic-positions" },
+      { label: "Administrative Positions", href: "/vacancies/administrative-positions" },
+      { label: "Research Positions", href: "/vacancies/research-positions" },
+      { label: "How to Apply", href: "/vacancies/how-to-apply" },
+      { label: "Benefits", href: "/vacancies/benefits" },
     ],
   },
 ];

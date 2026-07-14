@@ -68,13 +68,16 @@ export const topNavItemHref: Record<string, string> = {
   "secondNavEducation.mastersDegree": "/education/masters",
   "secondNavEducation.qualificationRequirements": "/education/qualification-requirements",
   "secondNavEducation.distanceLearningSystem": "https://lms.tues.uz/",
+  "secondNavAdmission2025.apply": "/admission-2025/apply",
   "secondNavAdmission2025.regulationSecondaryEducation":
     "/admission-2025/regulation-secondary-education",
+  "secondNavAdmission2025.transferOfStudies": "/admission-2025/transfer-of-studies",
   "secondNavAdmission2025.informationTransferEducation":
     "/admission-2025/information-transfer-of-education",
   "secondNavAdmission2025.informationContractAmounts": "/admission-2025/contract-amounts",
   "secondNavAdmission2025.menu": "/admission-2025/menu",
   "secondNavAdmission2025.contactingAdmission": "/admission-2025/contacting-admission",
+  "secondNavAdmission2025.faq": "/admission-2025/faq",
   "secondNavStudentLife.careerCentre": "/student-life/career-centre",
   "secondNavStudentLife.help247": "/student-life/24-7-help",
   "secondNavStudentLife.healthSupportService": "/student-life/health-support",
@@ -93,7 +96,10 @@ export const topNavItemHref: Record<string, string> = {
   "secondNavScience.certificates": "/science/certificates",
   "secondNavScience.entrepreneurialClubs": "/science/entrepreneurial-clubs",
   "secondNavScience.centerResearchSustainableInnovativeDevelopment": "/science/center-research-sustainable-innovation",
+  "secondNavInformationServices.latestNews": "/news",
   "secondNavInformationServices.aboutUniversity": "/information-services/about-university",
+  "secondNavInformationServices.videoGallery": subPagePath("media", "video-gallery"),
+  "secondNavInformationServices.photoGallery": subPagePath("media", "photo-gallery"),
   "secondNavInternationalization.departmentInternationalRelationsEmployees":
     "/internationalization/department-international-relations-employees",
   "secondNavInternationalization.internationalGrants": "/internationalization/international-grants",
@@ -105,6 +111,11 @@ export const topNavItemHref: Record<string, string> = {
     "/internationalization/advanced-training-foreign-teachers",
   "secondNavInternationalization.internationalSupportCenter":
     "/internationalization/international-support-center",
+  "secondNavItems.academicPositions": "/vacancies/academic-positions",
+  "secondNavItems.administrativePositions": "/vacancies/administrative-positions",
+  "secondNavItems.researchPositions": "/vacancies/research-positions",
+  "secondNavItems.howToApply": "/vacancies/how-to-apply",
+  "secondNavItems.benefits": "/vacancies/benefits",
 };
 
 export function getTopNavItemHref(labelKey: string): string {

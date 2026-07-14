@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Search, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
@@ -33,7 +33,8 @@ const ProgramsPage = () => {
   const { t } = useTranslation(["programs", "common"]);
   const [searchQuery, setSearchQuery] = useState("");
   const [degreeFilter, setDegreeFilter] = useState<DegreeFilter>("all");
-  const [facultyFilter, setFacultyFilter] = useState<string>("all");
+  const [searchParams] = useSearchParams();
+  const [facultyFilter, setFacultyFilter] = useState<string>(() => searchParams.get("faculty") ?? "all");
   const { data: faculties = [] } = useStudyProgramsQuery();
 
   const [testimonialIndex, setTestimonialIndex] = useState(0);

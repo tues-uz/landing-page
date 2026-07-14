@@ -122,6 +122,11 @@ export function getStaticSearchRoutes(translate: (key: string) => string): Stati
       label: translate("searchRoutes.regulationSecondaryEducation"),
     },
     {
+      id: "transferOfStudies",
+      path: "/admission-2025/transfer-of-studies",
+      label: translate("searchRoutes.transferOfStudies"),
+    },
+    {
       id: "informationTransferEducationPage",
       path: "/admission-2025/information-transfer-of-education",
       label: translate("searchRoutes.informationTransferEducationPage"),
@@ -150,6 +155,11 @@ export function getStaticSearchRoutes(translate: (key: string) => string): Stati
       id: "contactingAdmission",
       path: "/admission-2025/contacting-admission",
       label: translate("searchRoutes.contactingAdmission"),
+    },
+    {
+      id: "admissionFaq",
+      path: "/admission-2025/faq",
+      label: translate("searchRoutes.admissionFaq"),
     },
     {
       id: "studyProgramApply",

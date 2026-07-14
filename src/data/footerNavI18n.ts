@@ -60,7 +60,7 @@ export const footerNavSections: FooterSectionConfig[] = [
       { labelKey: "footerMenu.admission.application", href: "#" },
       { labelKey: "footerMenu.admission.deadlines", href: "#" },
       { labelKey: "footerMenu.admission.scholarships", href: "#" },
-      { labelKey: "footerMenu.admission.faqs", href: "#" },
+      { labelKey: "footerMenu.admission.faqs", href: "/admission-2025/faq" },
     ],
   },
   {
@@ -76,11 +76,11 @@ export const footerNavSections: FooterSectionConfig[] = [
   {
     titleKey: "footerMenu.vacancies.title",
     links: [
-      { labelKey: "footerMenu.vacancies.academic", href: "#" },
-      { labelKey: "footerMenu.vacancies.admin", href: "#" },
-      { labelKey: "footerMenu.vacancies.research", href: "#" },
-      { labelKey: "footerMenu.vacancies.howToApply", href: "#" },
-      { labelKey: "footerMenu.vacancies.benefits", href: "#" },
+      { labelKey: "footerMenu.vacancies.academic", href: "/vacancies/academic-positions" },
+      { labelKey: "footerMenu.vacancies.admin", href: "/vacancies/administrative-positions" },
+      { labelKey: "footerMenu.vacancies.research", href: "/vacancies/research-positions" },
+      { labelKey: "footerMenu.vacancies.howToApply", href: "/vacancies/how-to-apply" },
+      { labelKey: "footerMenu.vacancies.benefits", href: "/vacancies/benefits" },
     ],
   },
 ];

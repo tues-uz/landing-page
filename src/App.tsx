@@ -85,6 +85,13 @@ import ResearchHubPage from "./pages/ResearchHubPage";
 import AdmissionsHubPage from "./pages/AdmissionsHubPage";
 import MediaPage from "./pages/MediaPage";
 import AboutUniversityPage from "./pages/AboutUniversityPage";
+import AcademicPositionsPage from "./pages/AcademicPositionsPage";
+import AdministrativePositionsPage from "./pages/AdministrativePositionsPage";
+import ResearchPositionsPage from "./pages/ResearchPositionsPage";
+import HowToApplyPage from "./pages/HowToApplyPage";
+import BenefitsPage from "./pages/BenefitsPage";
+import FaqPage from "./pages/FaqPage";
+import TransferOfStudiesPage from "./pages/TransferOfStudiesPage";
 import DepartmentInternationalRelationsEmployeesPage from "./pages/DepartmentInternationalRelationsEmployeesPage";
 import InternationalGrantsPage from "./pages/InternationalGrantsPage";
 import InternationalSupportCenterAboutPage from "./pages/InternationalSupportCenterAboutPage";
@@ -237,6 +244,8 @@ const App = () => (
               element={<InformationTransferEducationPage />}
             />
             <Route path="/admission-2025/contacting-admission" element={<ContactingAdmissionPage />} />
+            <Route path="/admission-2025/faq" element={<FaqPage />} />
+            <Route path="/admission-2025/transfer-of-studies" element={<TransferOfStudiesPage />} />
             <Route path="/admission-2025/apply" element={<StudyProgramApplyPage />} />
             <Route path="/admission-2025/contract-amounts" element={<ContractAmountsTuitionPage />} />
             <Route path="/admission-2025/menu" element={<Admission2025MenuPage />} />
@@ -310,6 +319,11 @@ const App = () => (
             <Route path="/media" element={<MediaPage />} />
             <Route path="/media/:slug" element={<TopNavSubPage group="media" />} />
             <Route path="/information-services/about-university" element={<AboutUniversityPage />} />
+            <Route path="/vacancies/academic-positions" element={<AcademicPositionsPage />} />
+            <Route path="/vacancies/administrative-positions" element={<AdministrativePositionsPage />} />
+            <Route path="/vacancies/research-positions" element={<ResearchPositionsPage />} />
+            <Route path="/vacancies/how-to-apply" element={<HowToApplyPage />} />
+            <Route path="/vacancies/benefits" element={<BenefitsPage />} />
             <Route
               path="/internationalization/department-international-relations-employees/:roleSlug"
               element={<InternationalCooperationRolePage />}
