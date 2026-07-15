@@ -14,6 +14,8 @@ export const STUDY_PROGRAM_APPLY_PAGE_DEFAULTS = {
   studyProgramApplyStudyTypePlaceholder: "Choose the study type",
   studyProgramApplyCourse: "Course of Study",
   studyProgramApplyCoursePlaceholder: "Choose the course of study",
+  studyProgramApplyCourseLoading: "Loading programs…",
+  studyProgramApplyCourseEmpty: "No programs available.",
   studyProgramApplyVerifyCode: "Verify Code",
   studyProgramApplySend: "Send",
   studyProgramApplySuccessTitle: "Application sent",

@@ -23,6 +23,14 @@
       }
     }
   },
+  "faculties": {
+    "title": "Browse faculties.",
+    "description": "Explore our academic faculties to discover the schools and departments that shape every program on offer.",
+    "exploreAll": "Explore All",
+    "label": "Faculty",
+    "programs_one": "{{count}} program",
+    "programs_other": "{{count}} programs"
+  },
   "programs": {
     "title": "Browse programs by.",
     "description": "This user-friendly tool offers options to filter programs by field of study, degree level, and even learning formats like online or on-campus.",

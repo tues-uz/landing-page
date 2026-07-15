@@ -23,6 +23,14 @@
       }
     }
   },
+  "faculties": {
+    "title": "Fakultetlarni ko'rib chiqing.",
+    "description": "Taklif etilayotgan har bir dasturni shakllantiruvchi maktab va bo'limlarni kashf etish uchun akademik fakultetlarimizni o'rganing.",
+    "exploreAll": "Barchasini ko'rish",
+    "label": "Fakultet",
+    "programs_one": "{{count}} dastur",
+    "programs_other": "{{count}} dastur"
+  },
   "programs": {
     "title": "Dasturlarni ko'rib chiqing.",
     "description": "Ushbu qulay vosita dasturlarni yo'nalish, daraja va o'qish formatiga ko'ra filtrlash imkonini beradi.",

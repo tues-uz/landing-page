@@ -27,6 +27,10 @@ export function studyProgramDetailPath(programId: string): string {
   return `/admissions/study-programs/${programId}`;
 }
 
+export function studyProgramsFacultyPath(facultyId: string): string {
+  return `${STUDY_PROGRAMS_LIST_PATH}?faculty=${encodeURIComponent(facultyId)}`;
+}
+
 export function flattenStudyPrograms(
   faculties: readonly StudyProgramFaculty[],
 ): { faculty: StudyProgramFaculty; program: StudyProgram }[] {

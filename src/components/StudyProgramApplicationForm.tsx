@@ -10,13 +10,15 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { flattenStudyPrograms } from "@/data/studyProgramsCurriculum";
-import { useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { useStudyProgramDetailQuery, useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 import { contentApi } from "@/api/client";
 import {
   STUDY_PROGRAM_APPLY_CITIZENSHIP_OPTIONS,
@@ -51,12 +53,31 @@ function trApply(
 export function StudyProgramApplicationForm({ initialProgramId }: { initialProgramId?: string }) {
   const { t } = useTranslation("topNav");
   const { toast } = useToast();
-  const { data: faculties = [] } = useStudyProgramsQuery();
+  const { data: faculties = [], isLoading: isProgramsLoading } = useStudyProgramsQuery();
+  const { data: initialProgramDetail, isLoading: isInitialProgramLoading } =
+    useStudyProgramDetailQuery(initialProgramId ?? "");
+  const isProgramLocked = Boolean(initialProgramId);
   const [captchaCode, setCaptchaCode] = useState("");
   const [captchaToken, setCaptchaToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const programs = useMemo(() => flattenStudyPrograms(faculties), [faculties]);
+  const selectedProgram = useMemo(() => {
+    if (!initialProgramId) return undefined;
+    const fromList = programs.find(({ program }) => program.id === initialProgramId)?.program;
+    if (fromList) return fromList;
+    return initialProgramDetail?.program;
+  }, [initialProgramId, programs, initialProgramDetail?.program]);
+  const programsByFaculty = useMemo(
+    () =>
+      faculties
+        .map((faculty) => ({
+          faculty,
+          programs: faculty.programs,
+        }))
+        .filter(({ programs: facultyPrograms }) => facultyPrograms.length > 0),
+    [faculties],
+  );
 
   const {
     register,
@@ -84,10 +105,9 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   const courseId = watch("courseId");
 
   useEffect(() => {
-    if (initialProgramId && programs.some(({ program }) => program.id === initialProgramId)) {
-      setValue("courseId", initialProgramId);
-    }
-  }, [initialProgramId, programs, setValue]);
+    if (!initialProgramId) return;
+    setValue("courseId", initialProgramId, { shouldValidate: true });
+  }, [initialProgramId, setValue]);
 
   const refreshCaptcha = useCallback(() => {
     contentApi.applications
@@ -142,7 +162,7 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
         passport: "",
         jshshir: "",
         studyType: "",
-        courseId: "",
+        courseId: initialProgramId ?? "",
         verifyCode: "",
       });
       refreshCaptcha();
@@ -177,7 +197,7 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
             <Label htmlFor="citizenship" className="font-semibold">
               {trApply(t, "studyProgramApplyCitizenship")}
             </Label>
-            <Select value={citizenship} onValueChange={(value) => setValue("citizenship", value)}>
+            <Select value={citizenship || undefined} onValueChange={(value) => setValue("citizenship", value)}>
               <SelectTrigger id="citizenship">
                 <SelectValue placeholder={trApply(t, "studyProgramApplyCitizenshipPlaceholder")} />
               </SelectTrigger>
@@ -223,7 +243,7 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
           <Label htmlFor="studyType" className="font-semibold">
             {trApply(t, "studyProgramApplyStudyType")}
           </Label>
-          <Select value={studyType} onValueChange={(value) => setValue("studyType", value)}>
+          <Select value={studyType || undefined} onValueChange={(value) => setValue("studyType", value)}>
             <SelectTrigger id="studyType">
               <SelectValue placeholder={trApply(t, "studyProgramApplyStudyTypePlaceholder")} />
             </SelectTrigger>
@@ -242,23 +262,55 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
           <Label htmlFor="courseId" className="font-semibold">
             {trApply(t, "studyProgramApplyCourse")}
           </Label>
-          <Select
-            value={courseId}
-            onValueChange={(value) => setValue("courseId", value)}
-            disabled={!studyType}
-          >
-            <SelectTrigger id="courseId" disabled={!studyType}>
-              <SelectValue placeholder={trApply(t, "studyProgramApplyCoursePlaceholder")} />
-            </SelectTrigger>
-            <SelectContent>
-              {programs.map(({ faculty, program }) => (
-                <SelectItem key={program.id} value={program.id}>
-                  {program.title}
-                  <span className="sr-only"> — {faculty.title}</span>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {isProgramLocked ? (
+            <div
+              id="courseId"
+              className="flex h-10 w-full items-center rounded-md border border-input bg-muted/40 px-3 py-2 text-sm text-foreground"
+              aria-readonly="true"
+            >
+              {selectedProgram ? (
+                <>
+                  {selectedProgram.title}
+                  <span className="text-muted-foreground"> · {selectedProgram.code}</span>
+                </>
+              ) : isProgramsLoading || isInitialProgramLoading ? (
+                <span className="text-muted-foreground">{trApply(t, "studyProgramApplyCourseLoading")}</span>
+              ) : (
+                <span className="text-muted-foreground">{initialProgramId}</span>
+              )}
+            </div>
+          ) : (
+            <Select
+              value={courseId || undefined}
+              onValueChange={(value) => setValue("courseId", value)}
+              disabled={isProgramsLoading || programs.length === 0}
+            >
+              <SelectTrigger id="courseId" disabled={isProgramsLoading || programs.length === 0}>
+                <SelectValue
+                  placeholder={
+                    isProgramsLoading
+                      ? trApply(t, "studyProgramApplyCourseLoading")
+                      : programs.length === 0
+                        ? trApply(t, "studyProgramApplyCourseEmpty")
+                        : trApply(t, "studyProgramApplyCoursePlaceholder")
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent className="max-h-80">
+                {programsByFaculty.map(({ faculty, programs: facultyPrograms }) => (
+                  <SelectGroup key={faculty.id}>
+                    <SelectLabel>{faculty.title}</SelectLabel>
+                    {facultyPrograms.map((program) => (
+                      <SelectItem key={program.id} value={program.id}>
+                        {program.title}
+                        <span className="text-muted-foreground"> · {program.code}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
           {errors.courseId ? <p className="text-xs text-destructive">{requiredMessage}</p> : null}
         </div>
 

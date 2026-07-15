@@ -130,7 +130,7 @@ export const megaSections: MegaSectionDef[] = [
       { href: "#application", icon: ClipboardList, labelKey: "footerMenu.admission.application" },
       { href: "#deadlines", icon: CalendarCheck, labelKey: "footerMenu.admission.deadlines" },
       { href: "#scholarships", icon: Award, labelKey: "footerMenu.admission.scholarships" },
-      { href: "#faqs", icon: Info, labelKey: "footerMenu.admission.faqs" },
+      { href: "/admission-2025/faq", icon: Info, labelKey: "footerMenu.admission.faqs" },
     ],
   },
   {
@@ -150,11 +150,11 @@ export const megaSections: MegaSectionDef[] = [
     titleKey: "footerMenu.vacancies.title",
     descriptionKey: "header.mega.vacancies.description",
     links: [
-      { href: "#academic-positions", icon: Briefcase, labelKey: "footerMenu.vacancies.academic" },
-      { href: "#administrative-positions", icon: Briefcase, labelKey: "footerMenu.vacancies.admin" },
-      { href: "#research-positions", icon: FlaskConical, labelKey: "footerMenu.vacancies.research" },
-      { href: "#how-to-apply", icon: FileText, labelKey: "footerMenu.vacancies.howToApply" },
-      { href: "#benefits", icon: Award, labelKey: "footerMenu.vacancies.benefits" },
+      { href: "/vacancies/academic-positions", icon: Briefcase, labelKey: "footerMenu.vacancies.academic" },
+      { href: "/vacancies/administrative-positions", icon: Briefcase, labelKey: "footerMenu.vacancies.admin" },
+      { href: "/vacancies/research-positions", icon: FlaskConical, labelKey: "footerMenu.vacancies.research" },
+      { href: "/vacancies/how-to-apply", icon: FileText, labelKey: "footerMenu.vacancies.howToApply" },
+      { href: "/vacancies/benefits", icon: Award, labelKey: "footerMenu.vacancies.benefits" },
     ],
   },
 ];

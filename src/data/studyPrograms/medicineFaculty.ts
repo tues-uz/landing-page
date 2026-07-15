@@ -75,7 +75,7 @@ export const MEDICINE_FACULTY: StudyProgramFaculty = {
     },
     {
       id: "family-medicine",
-      title: "Dentistry",
+      title: "Family Medicine",
       code: "60910200",
       duration: "6 years",
       qualification: "Family Physician",

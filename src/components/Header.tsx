@@ -199,7 +199,7 @@ const secondNavMega: MegaMenuItem[] = [
       { href: "#application", label: "Application Process", icon: ClipboardList },
       { href: "#deadlines", label: "Deadlines", icon: CalendarCheck },
       { href: "#scholarships", label: "Scholarships", icon: Award },
-      { href: "#faqs", label: "FAQs", icon: Info },
+      { href: "/admission-2025/faq", label: "FAQs", icon: Info },
     ],
   },
   {
@@ -219,11 +219,11 @@ const secondNavMega: MegaMenuItem[] = [
     labelKey: "secondNav.vacancies",
     description: "Academic, administrative and research positions.",
     links: [
-      { href: "#academic-positions", label: "Academic Positions", icon: Briefcase },
-      { href: "#administrative-positions", label: "Administrative Positions", icon: Briefcase },
-      { href: "#research-positions", label: "Research Positions", icon: FlaskConical },
-      { href: "#how-to-apply", label: "How to Apply", icon: FileText },
-      { href: "#benefits", label: "Benefits", icon: Award },
+      { href: "/vacancies/academic-positions", label: "Academic Positions", icon: Briefcase },
+      { href: "/vacancies/administrative-positions", label: "Administrative Positions", icon: Briefcase },
+      { href: "/vacancies/research-positions", label: "Research Positions", icon: FlaskConical },
+      { href: "/vacancies/how-to-apply", label: "How to Apply", icon: FileText },
+      { href: "/vacancies/benefits", label: "Benefits", icon: Award },
     ],
   },
 ];
@@ -414,7 +414,6 @@ const secondNavItems = [
     labelKey: "secondNav.informationServices",
     itemKeys: [
       "secondNavInformationServices.latestNews",
-      "secondNavInformationServices.directionsContractSums",
       "secondNavInformationServices.aboutUniversity",
       "secondNavInformationServices.yashilUniversitet1",
       "secondNavInformationServices.videoGallery",
