@@ -144,6 +144,10 @@
     "title": "Virtual sayohat",
     "description": "Zamonaviy infratuzilma va o‘quv muhitini masofadan ko‘ring.",
     "cta": "Sayohatni boshlash",
+    "tours": {
+      "medicine": "Tibbiyot fakulteti",
+      "campus": "TISU Termiz kampusi"
+    },
     "nodes": {
       "1": { "name": "Asosiy zal", "caption": "Asosiy zal — kampus sayohati" },
       "2": { "name": "Ko'rgazma maydoni", "caption": "Ko'rgazma maydoni — kampus sayohati" },
