@@ -144,6 +144,10 @@
     "title": "Take a Virtual Tour",
     "description": "Discover our state-of-the-art facilities, beautiful campus grounds, and modern learning environments from anywhere in the world.",
     "cta": "Start Virtual Tour",
+    "tours": {
+      "medicine": "Faculty of Medicine",
+      "campus": "TISU Termez Campus"
+    },
     "nodes": {
       "1": { "name": "Main Hall", "caption": "Main hall — campus tour" },
       "2": { "name": "Exhibition Space", "caption": "Exhibition space — campus tour" },

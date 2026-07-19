@@ -1,14 +1,38 @@
-import { Link } from "react-router-dom";
-import { Box, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+import {
+  DEFAULT_KUULA_TOUR_ID,
+  KUULA_VIRTUAL_TOURS,
+} from "@/config/virtualTourContent";
 
 const VirtualTour = () => {
   const { t } = useTranslation("home");
+  const [activeTourId, setActiveTourId] = useState<string>(DEFAULT_KUULA_TOUR_ID);
+  const [visitedTourIds, setVisitedTourIds] = useState<Set<string>>(
+    () => new Set([DEFAULT_KUULA_TOUR_ID]),
+  );
+
+  const activeIndex = Math.max(
+    0,
+    KUULA_VIRTUAL_TOURS.findIndex((tour) => tour.id === activeTourId),
+  );
+
+  useEffect(() => {
+    setVisitedTourIds((prev) => {
+      if (prev.has(activeTourId)) return prev;
+      const next = new Set(prev);
+      next.add(activeTourId);
+      return next;
+    });
+  }, [activeTourId]);
+
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1348px]">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <span className="text-oxford-gold font-medium text-sm tracking-wider uppercase">
             {t("virtualTour.kicker")}
           </span>
@@ -20,41 +44,64 @@ const VirtualTour = () => {
           </p>
         </div>
 
-        {/* Main Video Section */}
-        <div className="relative mb-12 overflow-hidden rounded-xl shadow-2xl">
-          <div className="relative aspect-video overflow-hidden rounded-xl bg-gradient-to-br from-primary/20 to-primary/5">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Link
-                to="/virtual-tour"
-                aria-label={t("virtualTour.cta")}
-                className="z-10 flex h-16 w-16 items-center justify-center rounded-full bg-black/50 text-white shadow-2xl transition-transform duration-300 hover:scale-110 hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50"
-              >
-                <Box className="h-8 w-8" aria-hidden />
-              </Link>
-            </div>
-            <div
-              className="absolute inset-0 rounded-[inherit] bg-cover bg-center bg-no-repeat opacity-70"
-              style={{
-                backgroundImage: `url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')`,
-              }}
-            />
+        {/* Kuula embed */}
+        <Tabs
+          value={activeTourId}
+          onValueChange={setActiveTourId}
+          className="mb-12"
+        >
+          <div className="flex justify-center">
+            <TabsList className="relative inline-grid h-auto auto-cols-fr grid-flow-col rounded-full p-1">
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-y-1 rounded-full bg-background shadow-sm transition-[left,width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                style={{
+                  width: `calc((100% - 0.5rem) / ${KUULA_VIRTUAL_TOURS.length})`,
+                  left: `calc(0.25rem + ${activeIndex} * ((100% - 0.5rem) / ${KUULA_VIRTUAL_TOURS.length}))`,
+                }}
+              />
+              {KUULA_VIRTUAL_TOURS.map((tour) => (
+                <TabsTrigger
+                  key={tour.id}
+                  value={tour.id}
+                  className="relative z-10 rounded-full bg-transparent px-4 py-2 shadow-none transition-colors duration-300 data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:px-6"
+                >
+                  {t(`virtualTour.tours.${tour.id}`)}
+                </TabsTrigger>
+              ))}
+            </TabsList>
           </div>
-        </div>
 
-        {/* CTA */}
-        <div className="text-center">
-          <Link
-            to="/virtual-tour"
-            className="inline-flex h-11 shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-xl border border-oxford-blue bg-oxford-blue px-8 text-sm font-medium text-white transition-colors hover:bg-oxford-blue/90 hover:border-oxford-blue/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oxford-blue focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50"
-          >
-            <span className="whitespace-nowrap">{t("virtualTour.cta")}</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+          <div className="relative mt-4 aspect-[21/9] w-full overflow-hidden rounded-xl shadow-2xl bg-black">
+            {KUULA_VIRTUAL_TOURS.map((tour) => (
+              <div
+                key={tour.id}
+                aria-hidden={activeTourId !== tour.id}
+                className={cn(
+                  "absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                  activeTourId === tour.id
+                    ? "z-10 scale-100 opacity-100"
+                    : "pointer-events-none z-0 scale-[0.985] opacity-0",
+                )}
+              >
+                {visitedTourIds.has(tour.id) ? (
+                  <iframe
+                    className="absolute inset-0 h-full w-full border-0"
+                    src={tour.embedUrl}
+                    title={t(`virtualTour.tours.${tour.id}`)}
+                    allow="xr-spatial-tracking; gyroscope; accelerometer"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </Tabs>
       </div>
     </section>
   );
 };
 
 export default VirtualTour;
-
