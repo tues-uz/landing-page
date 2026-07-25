@@ -1,28 +1,58 @@
 /** English fallbacks for Student life → Health support service (`topNav` namespace). */
 
 export const HEALTH_SUPPORT_PAGE_DEFAULTS = {
-  healthSupportPageTitle: "Integrated Health, Wellbeing and Support Services at TUES",
+  healthSupportPageTitle: "Health, Wellbeing & Support Services",
+  healthSupportPageSubtitle: "Termiz University of Economics and Service (TUES)",
   healthSupportPageIntro:
-    "Termez University of Economics and Service (TUES) maintains an integrated campus-based health and wellbeing support system designed to protect student and staff welfare, promote early intervention, and ensure continuity of learning through accessible medical, psychological, and inclusive support services. At the centre of this system is the TUES Medical Hub, which functions as the university’s primary on-campus healthcare facility and student wellbeing centre. The university’s public institutional structure also identifies Health Service provision and a dedicated disability-related support environment as part of student life services, while campus materials further confirm the role of the Psychological Support Center and the presence of the TISU MED HUB within the university support framework.",
-  healthSupportPhysicalHeading: "Physical Healthcare Services",
-  healthSupportPhysicalBody:
-    "TUES provides physical healthcare services on campus through the TUES Medical Hub, a permanently operating university medical facility established to deliver immediate and continuous medical assistance to students and staff. The Medical Hub is equipped to provide first-response and primary healthcare support, including general medical consultations, examination and assessment, treatment of minor injuries and illnesses, first aid, basic diagnostics, preventive care, health monitoring, and referral coordination with external hospitals and specialised clinics where higher-level treatment is required. Its permanent campus presence strengthens institutional safety, reduces delays in treatment, and supports a secure academic environment in which urgent and routine health needs can be addressed without disrupting the educational process. The existence of formal Health Service provision and public reference to the TISU MED HUB on the university website reinforce that healthcare support is institutionally embedded within campus life.",
-  healthSupportReproductiveHeading: "Sexual and Reproductive Health Support",
+    "Your health and wellbeing matter to us. TUES provides an integrated network of on-campus medical, psychological, and inclusive support services — so you can focus on your studies knowing help is close by, whenever you need it.",
+  healthSupportStat1Value: "24/7",
+  healthSupportStat1Label: "Medical Hub open every day, all year",
+  healthSupportStat2Value: "11,000+",
+  healthSupportStat2Label: "student visits in the last reporting year",
+
+  healthSupportPhysicalHeading: "Medical Care On Campus",
+  healthSupportPhysicalIntro:
+    "The TUES Medical Hub is our on-campus healthcare facility, open 24/7 throughout the academic year. It's the first place to turn for anything from a routine check-up to urgent care.",
+  healthSupportPhysicalListLabel: "What you can access at the Medical Hub:",
+  healthSupportPhysicalList:
+    "General medical consultations and health assessments\nTreatment for minor injuries and illnesses, plus first aid\nBasic diagnostics and preventive health checks\nReferrals to hospitals and specialist clinics when needed",
+  healthSupportPhysicalClosing:
+    "Because the Medical Hub operates permanently on campus, urgent and everyday health needs can be addressed quickly — without interrupting your studies or work.",
+  healthSupportImage1Src: "/images/student-life/health-support-medical-care.png",
+  healthSupportImage1Alt:
+    "A medical professional in maroon scrubs taking a patient's blood pressure at the TUES Medical Hub",
+
+  healthSupportReproductiveHeading: "Reproductive & Sexual Health",
   healthSupportReproductiveBody:
-    "TUES also addresses sexual and reproductive health within its wider student wellbeing framework. In addition to general healthcare consultations available through the Medical Hub, the university supports awareness-building, guidance, and educational activities related to reproductive health and responsible health behaviour. Official campus materials confirm that the Psychological Support Center regularly conducts seminars, round tables, and awareness activities that include reproductive health and medical culture among the covered themes. This approach allows TUES to address reproductive wellbeing not only through health information and preventive education, but also through early consultation and referral pathways where students require additional medical or specialist support. Students and staff are therefore able to access a campus environment in which reproductive health is acknowledged as a legitimate component of overall wellbeing and preventive care.",
-  healthSupportMentalHeading: "Mental Health Support for Students and Staff",
-  healthSupportMentalBody:
-    "Mental health support is an established part of the TUES support ecosystem. The university’s Psychological Support Center delivers regular interventions aimed at strengthening emotional wellbeing, resilience, and healthy social functioning among members of the university community. According to the university’s published materials, these activities include seminars and discussions on stress management, healthy thinking, family and social wellbeing, and related personal development themes, with active participation by students, teachers, and staff. This confirms that mental health support at TUES is not limited to students alone, but extends to employees as well, making it a whole-of-campus wellbeing function. In practice, this support contributes to improved adjustment to university life, reduced psychosocial pressure, and a more stable and supportive learning and working environment.",
-  healthSupportInclusiveHeading: "Inclusive Access and Additional Support",
-  healthSupportInclusiveBody:
-    "The university’s health and wellbeing model is complemented by inclusive support measures for persons with disabilities and for students requiring additional assistance. TUES publicly describes a range of accessibility and support arrangements, including adapted sanitary facilities, ramps, designated access points, mapped accessible spaces, sign language support for students with hearing impairments, and specialised academic support based on individual needs. The university also reports the use of assistive computer technologies for visually impaired students and structured academic assistance intended to promote equal participation in the educational process. These arrangements show that health and wellbeing support at TUES is understood broadly: it is not confined to treatment alone, but includes physical accessibility, academic continuity, dignity, participation, and barrier reduction across campus life.",
-  healthSupportCapacityHeading: "Service Capacity and Institutional Reach",
-  healthSupportCapacityBody:
-    "The operational scale of this support system demonstrates its institutional importance. Based on the institutional service profile provided for the Medical Hub, the facility operates on a 24/7 basis throughout the academic year and recorded more than 11,000 student visits in the most recent reporting year. This service volume reflects sustained utilisation of campus healthcare infrastructure and indicates that the Medical Hub is used not merely as an emergency point, but as a routine and trusted access point for consultations, urgent care, preventive interventions, follow-up visits, and referral support. When considered together with university-based psychological programming and inclusive campus accommodations, these figures show that TUES has developed a health and wellbeing system with both operational depth and practical reach.",
-  healthSupportCoreHeading: "Core Functions and Activities",
-  healthSupportCoreBody:
-    "Within a single institutional framework, TUES therefore provides: immediate and routine physical healthcare through the Medical Hub; health monitoring and first-response medical support; preventive care and health education; sexual and reproductive health awareness and guidance; mental health and psychosocial support for students and staff; referral coordination for advanced medical needs; accessibility and accommodation measures for students with disabilities; and awareness-building activities that promote resilience, safety, responsible health behaviour, and inclusive participation. Official TUES materials show that these services are embedded in the student life structure of the university and supported by dedicated health, psychological, and accessibility-oriented service elements on campus.",
-  healthSupportSignificanceHeading: "Institutional Significance",
-  healthSupportSignificanceBody:
-    "Taken together, these services demonstrate that TUES does not treat student health as a narrow clinical matter, but as a strategic component of academic success, campus safety, student retention, and institutional responsibility. The presence of an on-campus Medical Hub, structured mental health programming, reproductive health awareness activities, and inclusive support mechanisms creates a comprehensive support environment in which students and staff can access assistance across physical, emotional, and practical dimensions of wellbeing. This integrated model strengthens the resilience of the university community and supports TUES in aligning its student support infrastructure with contemporary higher education expectations for accessibility, wellbeing, and responsible campus care.",
+    "Reproductive health is treated as a normal, important part of overall wellbeing. Alongside routine consultations at the Medical Hub, the Psychological Support Center runs regular seminars and round-table sessions covering reproductive health and healthy lifestyle habits.\n\nIf you need more personalised guidance, staff can connect you with further consultation or specialist referral pathways.",
+
+  healthSupportMentalHeading: "Mental Health & Emotional Wellbeing",
+  healthSupportMentalIntro:
+    "The Psychological Support Center offers ongoing programs to help students, teachers, and staff build resilience and manage day-to-day pressures. This support is open to the whole campus community, not just students.",
+  healthSupportMentalListLabel: "Regular sessions cover topics such as:",
+  healthSupportMentalList:
+    "Stress management and healthy thinking habits\nFamily and social wellbeing\nPersonal development and adjusting to university life",
+  healthSupportMentalClosing:
+    "These programs are designed to ease the transition into university life, reduce everyday stress, and support a healthier, more balanced campus environment for everyone.",
+  healthSupportImage2Src: "/images/student-life/health-support-diagnostics.png",
+  healthSupportImage2Alt:
+    "A medical professional using diagnostic equipment with a patient at the TISU Med Hub",
+
+  healthSupportInclusiveHeading: "Inclusive Access for Every Student",
+  healthSupportInclusiveIntro:
+    "TUES is committed to making campus life accessible to everyone. A range of accommodations and support services help students with disabilities participate fully in academic and campus life, including:",
+  healthSupportInclusiveList:
+    "Ramps, adapted sanitary facilities, and designated accessible entry points\nMapped accessible routes and spaces around campus\nSign language support for students with hearing impairments\nAssistive computer technology for students with visual impairments\nIndividually tailored academic support",
+  healthSupportInclusiveClosing:
+    "These measures reflect a broader view of wellbeing — one that includes physical accessibility, dignity, and equal participation, not just medical treatment.",
+  healthSupportImage3Src: "/images/student-life/health-support-examination.png",
+  healthSupportImage3Alt:
+    "A medical professional performing a clinical examination on a patient at the TUES Medical Hub",
+
+  healthSupportSummaryHeading: "Everything In One Place",
+  healthSupportSummaryIntro: "In short, TUES brings together:",
+  healthSupportSummaryList:
+    "Immediate and routine physical healthcare\nPreventive care and health education\nReproductive health awareness and guidance\nMental health and psychosocial support for students and staff\nReferral coordination for advanced medical needs\nAccessibility and accommodation for students with disabilities",
+  healthSupportSummaryClosing:
+    "Together, these services form a single, connected support system — helping every member of the TUES community stay healthy, supported, and able to thrive, both in and out of the classroom.",
 } as const;

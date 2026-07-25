@@ -71,6 +71,10 @@
     "fineAppliedArtsClub": "Fine and applied arts club",
     "youthLeaders": "Youth Leaders",
     "aboutUniversityPage": "About university",
+    "officialDocumentsPage": "Official Documents",
+    "academicFreedomPolicyPage": "Academic Freedom Policy",
+    "annualReport2025Page": "Annual Report 2025",
+    "antiBriberyCorruptionPolicyPage": "Anti Bribery Corruption Policy",
     "departmentIntlRelEmployees": "Employees of the Department of International Relations",
     "intlRelRoleViceRector": "Vice-rector for international cooperation (Shavkat Otamurodov)",
     "intlRelRoleHead": "Head of international cooperation (M. Khoshimkhojaeva)",
@@ -371,10 +375,11 @@
   },
   "secondNavInformationServices": {
     "latestNews": "Latest news",
+    "upcomingEvents": "Upcoming Events",
     "directionsContractSums": "Directions and contract sums",
     "aboutUniversity": "About university",
-    "yashilUniversitet1": "Yashil universitet1",
     "videoGallery": "Video gallery",
-    "photoGallery": "Photo gallery"
+    "photoGallery": "Photo gallery",
+    "officialDocuments": "Official Documents"
   }
 }

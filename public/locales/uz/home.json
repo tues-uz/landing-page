@@ -146,7 +146,8 @@
     "cta": "Sayohatni boshlash",
     "tours": {
       "medicine": "Tibbiyot fakulteti",
-      "campus": "TISU Termiz kampusi"
+      "campus": "TISU Termiz kampusi",
+      "medHub": "TISU Med Hub"
     },
     "nodes": {
       "1": { "name": "Asosiy zal", "caption": "Asosiy zal — kampus sayohati" },

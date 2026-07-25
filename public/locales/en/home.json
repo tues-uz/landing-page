@@ -146,7 +146,8 @@
     "cta": "Start Virtual Tour",
     "tours": {
       "medicine": "Faculty of Medicine",
-      "campus": "TISU Termez Campus"
+      "campus": "TISU Termez Campus",
+      "medHub": "TISU Med Hub"
     },
     "nodes": {
       "1": { "name": "Main Hall", "caption": "Main hall — campus tour" },

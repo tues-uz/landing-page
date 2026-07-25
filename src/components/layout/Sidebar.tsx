@@ -15,6 +15,7 @@ import {
   LayoutGrid,
   List,
   LogOut,
+  Mail,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -39,6 +40,7 @@ const iconMap: Record<string, LucideIcon> = {
   "newspaper": Newspaper,
   "graduation-cap": GraduationCap,
   "users": Users,
+  "mail": Mail,
 };
 
 const newsSubNav = [
@@ -123,6 +125,22 @@ export function Sidebar() {
             </NavLink>
           );
         })}
+
+        <NavLink
+          to={`${CMS_BASE}/newsletter`}
+          end
+          className={({ isActive }) =>
+            cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+              isActive
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            )
+          }
+        >
+          <Mail className="h-4 w-4 shrink-0" />
+          {t("newsletter")}
+        </NavLink>
 
         {hasNews && (
           <div className="pt-2">

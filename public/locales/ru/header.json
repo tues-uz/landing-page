@@ -71,6 +71,10 @@
     "fineAppliedArtsClub": "Клуб изящных и прикладных искусств",
     "youthLeaders": "Молодёжные лидеры",
     "aboutUniversityPage": "Об университете",
+    "officialDocumentsPage": "Официальные документы",
+    "academicFreedomPolicyPage": "Политика академической свободы",
+    "annualReport2025Page": "Годовой отчёт 2025",
+    "antiBriberyCorruptionPolicyPage": "Политика против взяточничества и коррупции",
     "departmentIntlRelEmployees": "Сотрудники департамента международных связей",
     "intlRelRoleViceRector": "Проректор по международному сотрудничеству (Ш. Н. Отауродов)",
     "intlRelRoleHead": "Начальник по международному сотрудничеству (М. Хошимходжаева)",
@@ -371,10 +375,11 @@
   },
   "secondNavInformationServices": {
     "latestNews": "Последние новости",
+    "upcomingEvents": "Предстоящие события",
     "directionsContractSums": "Направления и договорные суммы",
     "aboutUniversity": "Об университете",
-    "yashilUniversitet1": "Yashil universitet1",
     "videoGallery": "Видеогалерея",
-    "photoGallery": "Фотогалерея"
+    "photoGallery": "Фотогалерея",
+    "officialDocuments": "Официальные документы"
   }
 }

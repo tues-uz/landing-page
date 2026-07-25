@@ -3,6 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { footerMenuSections } from "@/data/footerNav";
+import { newsletterSubscribersStore } from "@/data/newsletterSubscribers";
+import { useToast } from "@/components/ui/use-toast";
 
 const socialLinks = [
   { icon: Twitter, href: "#", label: "Twitter" },
@@ -18,10 +20,19 @@ const Footer = () => {
   const isEduHubPage = location.pathname === "/eduhub" || location.pathname.startsWith("/eduhub/");
   const isJournalPage = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
   const [email, setEmail] = useState("");
-  
+  const { toast } = useToast();
+
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Subscribe:", email);
+    const result = newsletterSubscribersStore.subscribe(email);
+    if (result.ok === false) {
+      toast({
+        title: result.reason === "duplicate" ? t("subscribeDuplicate") : t("subscribeInvalid"),
+        variant: "destructive",
+      });
+      return;
+    }
+    toast({ title: t("subscribeSuccess") });
     setEmail("");
   };
 

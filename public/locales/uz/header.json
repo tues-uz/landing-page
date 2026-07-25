@@ -71,6 +71,10 @@
     "fineAppliedArtsClub": "Badiiy va amaliy san’at klubi",
     "youthLeaders": "Yoshlar yetakchilari",
     "aboutUniversityPage": "Universitet haqida",
+    "officialDocumentsPage": "Rasmiy hujjatlar",
+    "academicFreedomPolicyPage": "Akademik erkinlik siyosati",
+    "annualReport2025Page": "2025 yillik hisobot",
+    "antiBriberyCorruptionPolicyPage": "Pora va korrupsiyaga qarshi siyosat",
     "departmentIntlRelEmployees": "Xalqaro aloqalar bo'limi xodimlari",
     "intlRelRoleViceRector": "Xalqaro hamkorlik bo'yicha prorektor (Sh. Otamurodov)",
     "intlRelRoleHead": "Xalqaro hamkorlik bo'limi boshlig'i (M. Khoshimkhojaeva)",
@@ -371,10 +375,11 @@
   },
   "secondNavInformationServices": {
     "latestNews": "So'nggi yangiliklar",
+    "upcomingEvents": "Kutilayotgan tadbirlar",
     "directionsContractSums": "Yo'nalishlar va shartnoma summalari",
     "aboutUniversity": "Universitet haqida",
-    "yashilUniversitet1": "Yashil universitet1",
     "videoGallery": "Video galereya",
-    "photoGallery": "Foto galereya"
+    "photoGallery": "Foto galereya",
+    "officialDocuments": "Rasmiy hujjatlar"
   }
 }

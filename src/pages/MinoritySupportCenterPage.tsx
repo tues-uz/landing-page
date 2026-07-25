@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { TFunction } from "i18next";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,12 +13,30 @@ function trMinoritySupportCenter(t: TFunction, key: keyof typeof MINORITY_SUPPOR
 }
 
 const bodyClass = "text-body-article text-muted-foreground";
+const h2Class = "text-xl font-semibold tracking-tight text-foreground md:text-2xl";
+const h3Class = "text-lg font-semibold tracking-tight text-foreground";
 
-function splitParagraphs(raw: string): string[] {
-  return raw
-    .split(/\n\n+/)
-    .map((p) => p.trim())
-    .filter(Boolean);
+function ArticleImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <figure className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
+      <img
+        src={src}
+        alt={alt}
+        className="absolute inset-0 h-full w-full object-cover"
+        decoding="async"
+        loading="lazy"
+      />
+    </figure>
+  );
+}
+
+function SectionBlock({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="mt-10">
+      <h2 className={h2Class}>{title}</h2>
+      {children}
+    </section>
+  );
 }
 
 export default function MinoritySupportCenterPage() {
@@ -77,31 +96,81 @@ export default function MinoritySupportCenterPage() {
 }
 
 function MinoritySupportCenterArticle({ t }: { t: TFunction }) {
-  const title = trMinoritySupportCenter(t, "minoritySupportCenterPageTitle");
-  const bodyRaw = trMinoritySupportCenter(t, "minoritySupportCenterPageBody");
-  const heroSrc = trMinoritySupportCenter(t, "minoritySupportCenterHeroSrc");
-  const heroAlt = trMinoritySupportCenter(t, "minoritySupportCenterHeroAlt");
-  const paragraphs = splitParagraphs(bodyRaw);
+  const whatWeDoItems: { title: keyof typeof MINORITY_SUPPORT_CENTER_DEFAULTS; body: keyof typeof MINORITY_SUPPORT_CENTER_DEFAULTS }[] = [
+    { title: "minoritySupportCenterWhatWeDo1Title", body: "minoritySupportCenterWhatWeDo1Body" },
+    { title: "minoritySupportCenterWhatWeDo2Title", body: "minoritySupportCenterWhatWeDo2Body" },
+    { title: "minoritySupportCenterWhatWeDo3Title", body: "minoritySupportCenterWhatWeDo3Body" },
+    { title: "minoritySupportCenterWhatWeDo4Title", body: "minoritySupportCenterWhatWeDo4Body" },
+    { title: "minoritySupportCenterWhatWeDo5Title", body: "minoritySupportCenterWhatWeDo5Body" },
+  ];
+
+  const serviceItems: { title: keyof typeof MINORITY_SUPPORT_CENTER_DEFAULTS; body: keyof typeof MINORITY_SUPPORT_CENTER_DEFAULTS }[] = [
+    { title: "minoritySupportCenterService1Title", body: "minoritySupportCenterService1Body" },
+    { title: "minoritySupportCenterService2Title", body: "minoritySupportCenterService2Body" },
+    { title: "minoritySupportCenterService3Title", body: "minoritySupportCenterService3Body" },
+    { title: "minoritySupportCenterService4Title", body: "minoritySupportCenterService4Body" },
+    { title: "minoritySupportCenterService5Title", body: "minoritySupportCenterService5Body" },
+  ];
 
   return (
     <article className="max-w-none">
-      <figure className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
-        <img
-          src={heroSrc}
-          alt={heroAlt}
-          className="absolute inset-0 h-full w-full object-cover"
-          decoding="async"
-          loading="eager"
-        />
-      </figure>
-      <h1 className="mt-6 text-balance text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
-        {title}
+      <h1 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
+        {trMinoritySupportCenter(t, "minoritySupportCenterPageTitle")}
       </h1>
-      <div className={`mt-3 space-y-4 text-justify ${bodyClass}`}>
-        {paragraphs.map((para, i) => (
-          <p key={i}>{para}</p>
-        ))}
-      </div>
+      <p className="mt-3 text-lg font-medium leading-snug text-foreground md:text-xl">
+        {trMinoritySupportCenter(t, "minoritySupportCenterPageSubtitle")}
+      </p>
+      <p className={`mt-4 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, "minoritySupportCenterPageIntro")}</p>
+
+      <SectionBlock title={trMinoritySupportCenter(t, "minoritySupportCenterApproachHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, "minoritySupportCenterApproachBody")}</p>
+      </SectionBlock>
+
+      <SectionBlock title={trMinoritySupportCenter(t, "minoritySupportCenterWhatWeDoHeading")}>
+        <ol className="mt-4 m-0 list-none space-y-6 p-0">
+          {whatWeDoItems.map((item, index) => (
+            <li key={String(item.title)}>
+              <h3 className={h3Class}>
+                {index + 1}. {trMinoritySupportCenter(t, item.title)}
+              </h3>
+              <p className={`mt-2 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, item.body)}</p>
+            </li>
+          ))}
+        </ol>
+        <ArticleImage
+          src={trMinoritySupportCenter(t, "minoritySupportCenterImage1Src")}
+          alt={trMinoritySupportCenter(t, "minoritySupportCenterImage1Alt")}
+        />
+      </SectionBlock>
+
+      <SectionBlock title={trMinoritySupportCenter(t, "minoritySupportCenterServicesHeading")}>
+        <ol className="mt-4 m-0 list-none space-y-6 p-0">
+          {serviceItems.map((item, index) => (
+            <li key={String(item.title)}>
+              <h3 className={h3Class}>
+                {index + 1}. {trMinoritySupportCenter(t, item.title)}
+              </h3>
+              <p className={`mt-2 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, item.body)}</p>
+            </li>
+          ))}
+        </ol>
+        <ArticleImage
+          src={trMinoritySupportCenter(t, "minoritySupportCenterImage2Src")}
+          alt={trMinoritySupportCenter(t, "minoritySupportCenterImage2Alt")}
+        />
+      </SectionBlock>
+
+      <SectionBlock title={trMinoritySupportCenter(t, "minoritySupportCenterPartnershipsHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, "minoritySupportCenterPartnershipsBody")}</p>
+      </SectionBlock>
+
+      <SectionBlock title={trMinoritySupportCenter(t, "minoritySupportCenterEvaluationHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, "minoritySupportCenterEvaluationBody")}</p>
+      </SectionBlock>
+
+      <SectionBlock title={trMinoritySupportCenter(t, "minoritySupportCenterImplementationHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trMinoritySupportCenter(t, "minoritySupportCenterImplementationBody")}</p>
+      </SectionBlock>
     </article>
   );
 }
