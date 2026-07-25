@@ -85,6 +85,10 @@ import ResearchHubPage from "./pages/ResearchHubPage";
 import AdmissionsHubPage from "./pages/AdmissionsHubPage";
 import MediaPage from "./pages/MediaPage";
 import AboutUniversityPage from "./pages/AboutUniversityPage";
+import OfficialDocumentsPage from "./pages/OfficialDocumentsPage";
+import AcademicFreedomPolicyPage from "./pages/AcademicFreedomPolicyPage";
+import AnnualReport2025Page from "./pages/AnnualReport2025Page";
+import AntiBriberyCorruptionPolicyPage from "./pages/AntiBriberyCorruptionPolicyPage";
 import AcademicPositionsPage from "./pages/AcademicPositionsPage";
 import AdministrativePositionsPage from "./pages/AdministrativePositionsPage";
 import ResearchPositionsPage from "./pages/ResearchPositionsPage";
@@ -140,6 +144,7 @@ import AdminStudyPrograms from "./pages/admin/AdminStudyPrograms";
 import AdminStudyProgramEdit from "./pages/admin/AdminStudyProgramEdit";
 import AdminProgramsRedirect from "./pages/admin/AdminProgramsRedirect";
 import AdminApplications from "./pages/admin/AdminApplications";
+import AdminNewsletterSubscribers from "./pages/admin/AdminNewsletterSubscribers";
 import AdminsPage from "@/features/admin/pages/AdminsPage";
 
 const queryClient = new QueryClient();
@@ -319,6 +324,19 @@ const App = () => (
             <Route path="/media" element={<MediaPage />} />
             <Route path="/media/:slug" element={<TopNavSubPage group="media" />} />
             <Route path="/information-services/about-university" element={<AboutUniversityPage />} />
+            <Route path="/information-services/official-documents" element={<OfficialDocumentsPage />} />
+            <Route
+              path="/information-services/official-documents/academic-freedom-policy"
+              element={<AcademicFreedomPolicyPage />}
+            />
+            <Route
+              path="/information-services/official-documents/annual-report-2025"
+              element={<AnnualReport2025Page />}
+            />
+            <Route
+              path="/information-services/official-documents/anti-bribery-corruption-policy"
+              element={<AntiBriberyCorruptionPolicyPage />}
+            />
             <Route path="/vacancies/academic-positions" element={<AcademicPositionsPage />} />
             <Route path="/vacancies/administrative-positions" element={<AdministrativePositionsPage />} />
             <Route path="/vacancies/research-positions" element={<ResearchPositionsPage />} />
@@ -456,6 +474,7 @@ const App = () => (
                 <Route path="/admin/study-programs" element={<AdminStudyPrograms />} />
                 <Route path="/admin/study-programs/:programId/edit" element={<AdminStudyProgramEdit />} />
                 <Route path="/admin/applications" element={<AdminApplications />} />
+                <Route path="/admin/newsletter" element={<AdminNewsletterSubscribers />} />
                 <Route path="/admin/programs" element={<AdminProgramsRedirect />} />
                 <Route path="/admin/programs/new" element={<AdminProgramsRedirect />} />
                 <Route path="/admin/programs/:slug/edit" element={<AdminProgramsRedirect />} />

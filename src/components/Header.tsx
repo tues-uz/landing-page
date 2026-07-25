@@ -384,7 +384,6 @@ const secondNavItems = [
       "secondNavStudentLife.bookstore",
       "secondNavStudentLife.facilitiesForDisabled",
       "secondNavStudentLife.studentOpinion",
-      "secondNavStudentLife.careerCentre",
       "secondNavStudentLife.help247",
       "secondNavStudentLife.studentAcademicSupport",
     ],
@@ -414,10 +413,10 @@ const secondNavItems = [
     labelKey: "secondNav.informationServices",
     itemKeys: [
       "secondNavInformationServices.latestNews",
-      "secondNavInformationServices.aboutUniversity",
-      "secondNavInformationServices.yashilUniversitet1",
+      "secondNavInformationServices.upcomingEvents",
       "secondNavInformationServices.videoGallery",
       "secondNavInformationServices.photoGallery",
+      "secondNavInformationServices.officialDocuments",
     ],
   },
   {
@@ -438,7 +437,8 @@ type HeaderProps = {
 };
 
 const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
-  const { t } = useTranslation("header");
+  const { t, i18n } = useTranslation("header");
+  const isRussian = (i18n.resolvedLanguage ?? i18n.language).startsWith("ru");
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [secondNavMobileOpen, setSecondNavMobileOpen] = useState(false);
@@ -890,7 +890,10 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             </ul>
             <HeaderMottoAnimation
               text={`"${t("topBarTagline")}"`}
-              className="font-handwriting text-2xl font-medium tracking-wide text-primary-foreground xl:text-3xl"
+              className={cn(
+                isRussian ? "font-caveat" : "font-handwriting",
+                "text-2xl font-medium tracking-wide xl:text-3xl",
+              )}
             />
             </div>
           </nav>

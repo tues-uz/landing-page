@@ -1,26 +1,64 @@
-/** English fallbacks: Student life → Support center for minority groups (`topNav` namespace). */
+/** English fallbacks: Student life → Social Protection Center (`topNav` namespace). */
 
 export const MINORITY_SUPPORT_CENTER_DEFAULTS = {
-  minoritySupportCenterPageTitle: "Support center for minority groups",
-  minoritySupportCenterHeroSrc: "/images/student-life/minority-support-center.png",
-  minoritySupportCenterHeroAlt:
-    "Students and a mentor seated in a circle in a campus common room, holding balloons and smiling.",
+  minoritySupportCenterPageTitle: "Social Protection Center",
+  minoritySupportCenterPageSubtitle: "Termiz University of Economics and Service (TUES)",
+  minoritySupportCenterPageIntro:
+    "Students in need of social protection are never alone at TUES. The Social Protection Center works to give every student — regardless of background, social status, or any other circumstance — equal opportunity and comprehensive support. Its work is grounded in the principles of inclusion, social justice, and equality.",
 
-  minoritySupportCenterPageBody: `Termez University of Economics and Service maintains structured support mechanisms for students belonging to minority and underrepresented groups as part of its institutional commitment to inclusiveness, equal opportunity, and social responsibility. These support structures operate within a clearly defined governance and policy framework aligned with national legislation on equality and non-discrimination, as well as internal regulations on student welfare and ethical conduct. Their function is embedded within the university’s broader strategy aimed at fostering a safe, respectful, and empowering academic environment for all members of the university community.
+  minoritySupportCenterApproachHeading: "Our Approach",
+  minoritySupportCenterApproachBody:
+    "Every student deserves respect and to be valued. Recognizing the university's cultural diversity, TUES treats building a fair, equal-opportunity learning environment for all students as a top priority.",
 
-The institutional vision guiding these support mechanisms is to ensure that every student, regardless of socio-economic status, regional origin, gender, disability, religious affiliation, or other legally recognised characteristics, experiences equal access to academic resources, participation opportunities, and campus life. The university promotes a campus culture grounded in respect, mutual understanding, and academic integrity, recognising diversity as a strategic asset that strengthens educational quality and social cohesion.
+  minoritySupportCenterWhatWeDoHeading: "What the Center Does",
+  minoritySupportCenterWhatWeDo1Title: "Supporting students",
+  minoritySupportCenterWhatWeDo1Body:
+    "Students in need of social protection can receive confidential, trustworthy counseling about their personal needs, challenges, and experiences in a safe environment.",
+  minoritySupportCenterWhatWeDo2Title: "Building an inclusive community",
+  minoritySupportCenterWhatWeDo2Body:
+    "An open, tolerant environment is fostered where students from different cultures and social backgrounds develop mutual respect and understanding.",
+  minoritySupportCenterWhatWeDo3Title: "Promoting social integration",
+  minoritySupportCenterWhatWeDo3Body:
+    "Programs and initiatives that raise cultural awareness and address student concerns are carried out.",
+  minoritySupportCenterWhatWeDo4Title: "Collaborative support",
+  minoritySupportCenterWhatWeDo4Body:
+    "Strategies tailored to students' needs are developed together with university leadership, faculty, and other stakeholders.",
+  minoritySupportCenterWhatWeDo5Title: "Development opportunities",
+  minoritySupportCenterWhatWeDo5Body:
+    "Mentoring and programs focused on personal and academic growth provide ongoing support for these students.",
+  minoritySupportCenterImage1Src: "/images/student-life/social-protection-meeting.png",
+  minoritySupportCenterImage1Alt:
+    "Staff and students in a meeting at the Social Protection Center with a presenter at a whiteboard",
 
-The primary objective of these support structures is to provide a secure and confidential environment where students facing specific challenges can seek guidance and assistance. Professional staff members trained in counseling, student affairs, and social support provide individual consultations addressing academic adaptation, psychological well-being, social integration, and personal development concerns. These services contribute to improved retention, student satisfaction, and overall academic performance.
+  minoritySupportCenterServicesHeading: "Services Offered",
+  minoritySupportCenterService1Title: "Counseling and psychological support",
+  minoritySupportCenterService1Body:
+    "Experienced specialists provide confidential counseling on psychological, emotional, and social issues — supporting your wellbeing and academic success.",
+  minoritySupportCenterService2Title: "Information and advocacy",
+  minoritySupportCenterService2Body:
+    "Activities that promote understanding, acceptance, and respect for people from different cultures are organized. The Center also works to protect students' rights and needs.",
+  minoritySupportCenterService3Title: "Programs and trainings",
+  minoritySupportCenterService3Body:
+    "Trainings, seminars, and skill-building sessions are held on topics such as inclusive leadership, cultural sensitivity, combating stereotypes, and allyship — helping students unlock their potential.",
+  minoritySupportCenterService4Title: "Resource center",
+  minoritySupportCenterService4Body:
+    "Books, articles, documentaries, and online materials covering social equality, justice, and human rights are made available to students.",
+  minoritySupportCenterService5Title: "Community engagement",
+  minoritySupportCenterService5Body:
+    "Events and groups that strengthen community connection are organized — helping students build relationships, share experiences, and support one another.",
+  minoritySupportCenterImage2Src: "/images/student-life/social-protection-community.png",
+  minoritySupportCenterImage2Alt:
+    "Students and staff gathered in a welcoming community session with balloons at the Social Protection Center",
 
-In addition to direct counseling services, the university implements outreach and awareness initiatives designed to promote inclusive practices across the campus. Educational workshops, seminars, and dialogue sessions are organised to enhance cultural competence, prevent discrimination, and encourage constructive engagement among students from diverse backgrounds. These initiatives aim to strengthen institutional awareness regarding unconscious bias, respectful communication, and inclusive leadership, thereby contributing to a supportive academic climate.
+  minoritySupportCenterPartnershipsHeading: "Partnerships & Collaboration",
+  minoritySupportCenterPartnershipsBody:
+    "To achieve its goals, the Center works closely with university faculties, teachers, students, and various external organizations. This collaboration expands opportunities to support students more effectively.",
 
-A dedicated resource function is maintained to provide students with access to informational materials related to diversity, equity, social inclusion, and legal rights. This includes academic literature, digital resources, and policy documentation accessible through university platforms. By ensuring availability of evidence-based information, the institution empowers students with knowledge necessary for informed participation in university life.
+  minoritySupportCenterEvaluationHeading: "Evaluation & Continuous Improvement",
+  minoritySupportCenterEvaluationBody:
+    "The Center's effectiveness is continuously monitored and evaluated. Based on feedback from students and stakeholders, service quality is regularly improved and adapted to current needs.",
 
-Community-building activities form an essential component of the support framework. Structured events, thematic discussions, and student-led initiatives create opportunities for networking, peer support, and intercultural dialogue. These activities foster a sense of belonging and encourage positive engagement within the university community, reinforcing social integration and mutual respect.
-
-The university ensures collaboration between support structures, academic departments, student organisations, and administrative units to address systemic challenges and improve institutional practices. Where appropriate, partnerships with external organisations and relevant public bodies are established to enhance expertise and expand available support mechanisms. This collaborative approach strengthens policy responsiveness and resource efficiency.
-
-Continuous monitoring and evaluation are integral to the effectiveness of these support mechanisms. Feedback from students and stakeholders is systematically collected and analysed to assess service quality, identify emerging needs, and inform strategic improvements. Periodic reviews ensure alignment with evolving best practices in diversity management and student support.
-
-Through the implementation of structured policies, qualified personnel, coordinated partnerships, and evidence-based evaluation, Termez University of Economics and Service demonstrates a sustained institutional commitment to inclusiveness and equitable access. These support structures contribute to a campus environment where students from minority and underrepresented groups are empowered to achieve academic success, personal development, and professional readiness within a framework of respect and equal opportunity.`,
+  minoritySupportCenterImplementationHeading: "Implementation",
+  minoritySupportCenterImplementationBody:
+    "To bring this concept to life, dedicated social protection centers have been established at the university. Staff working in these centers are required to be qualified in counseling and advocacy, ensuring effective operation.",
 } as const;

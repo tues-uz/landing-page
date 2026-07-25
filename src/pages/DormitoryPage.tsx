@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { TFunction } from "i18next";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,12 +13,39 @@ function trDormitory(t: TFunction, key: keyof typeof DORMITORY_DEFAULTS) {
 }
 
 const bodyClass = "text-body-article text-muted-foreground";
+const sectionTitleClass = "text-xl font-semibold tracking-tight text-foreground md:text-2xl";
 
 function splitParagraphs(raw: string): string[] {
   return raw
     .split(/\n\n+/)
     .map((p) => p.trim())
     .filter(Boolean);
+}
+
+function splitLines(raw: string): string[] {
+  return raw
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function BulletList({ items }: { items: string[] }) {
+  return (
+    <ul className={`mt-3 list-disc space-y-2 pl-5 ${bodyClass}`}>
+      {items.map((item, i) => (
+        <li key={i}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function SectionBlock({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="mt-10">
+      <h2 className={sectionTitleClass}>{title}</h2>
+      {children}
+    </section>
+  );
 }
 
 export default function DormitoryPage() {
@@ -77,30 +105,107 @@ export default function DormitoryPage() {
 }
 
 function DormitoryArticle({ t }: { t: TFunction }) {
-  const title = trDormitory(t, "dormitoryPageTitle");
-  const bodyRaw = trDormitory(t, "dormitoryPageBody");
   const heroSrc = trDormitory(t, "dormitoryHeroSrc");
-  const paragraphs = splitParagraphs(bodyRaw);
+  const heroAlt = trDormitory(t, "dormitoryHeroAlt");
+  const quickFacts = [
+    { label: trDormitory(t, "dormitoryFactCapacityLabel"), value: trDormitory(t, "dormitoryFactCapacityValue") },
+    { label: trDormitory(t, "dormitoryFactRoomsLabel"), value: trDormitory(t, "dormitoryFactRoomsValue") },
+    { label: trDormitory(t, "dormitoryFactFloorsLabel"), value: trDormitory(t, "dormitoryFactFloorsValue") },
+    { label: trDormitory(t, "dormitoryFactResidentsLabel"), value: trDormitory(t, "dormitoryFactResidentsValue") },
+  ];
 
   return (
     <article className="max-w-none">
       <figure className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
         <img
           src={heroSrc}
-          alt=""
+          alt={heroAlt}
           className="absolute inset-0 h-full w-full object-cover"
           decoding="async"
           loading="eager"
         />
       </figure>
-      <h1 className="mt-6 text-balance text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
-        {title}
+
+      <h1 className="mt-6 text-balance text-3xl font-semibold uppercase tracking-tight text-foreground md:text-[2rem] md:leading-tight">
+        {trDormitory(t, "dormitoryPageTitle")}
       </h1>
+      <p className="mt-3 text-lg font-medium leading-snug text-foreground md:text-xl">
+        {trDormitory(t, "dormitoryPageSubtitle")}
+      </p>
       <div className={`mt-3 space-y-4 text-justify ${bodyClass}`}>
-        {paragraphs.map((para, i) => (
-          <p key={i}>{para}</p>
-        ))}
+        <p>{trDormitory(t, "dormitoryPageIntro")}</p>
       </div>
+
+      <SectionBlock title={trDormitory(t, "dormitoryQuickFactsTitle")}>
+        <dl className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {quickFacts.map(({ label, value }) => (
+            <div
+              key={label}
+              className="rounded-xl border border-border bg-muted/40 px-4 py-4 md:px-5 md:py-5"
+            >
+              <dt className="text-sm font-semibold text-foreground md:text-base">{label}</dt>
+              <dd className={`mt-1 text-sm md:text-base ${bodyClass}`}>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitoryWhatsInsideTitle")}>
+        <p className={`mt-3 text-justify ${bodyClass}`}>{trDormitory(t, "dormitoryWhatsInsideIntro")}</p>
+        <BulletList items={splitLines(trDormitory(t, "dormitoryWhatsInsideList"))} />
+        <figure className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
+          <img
+            src={heroSrc}
+            alt={heroAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+            decoding="async"
+            loading="lazy"
+          />
+        </figure>
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitoryStudyTitle")}>
+        <div className={`mt-3 space-y-4 text-justify ${bodyClass}`}>
+          {splitParagraphs(trDormitory(t, "dormitoryStudyBody")).map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitoryCultureTitle")}>
+        <div className={`mt-3 text-justify ${bodyClass}`}>
+          <p>{trDormitory(t, "dormitoryCultureBody")}</p>
+        </div>
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitoryPriorityTitle")}>
+        <p className={`mt-3 text-justify ${bodyClass}`}>{trDormitory(t, "dormitoryPriorityIntro")}</p>
+        <BulletList items={splitLines(trDormitory(t, "dormitoryPriorityList"))} />
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitoryFeeTitle")}>
+        <div className={`mt-3 space-y-4 text-justify ${bodyClass}`}>
+          {splitParagraphs(trDormitory(t, "dormitoryFeeBody")).map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+        <BulletList items={splitLines(trDormitory(t, "dormitoryFeeExemptList"))} />
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trDormitory(t, "dormitoryFeeClosing")}</p>
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitorySportsTitle")}>
+        <div className={`mt-3 text-justify ${bodyClass}`}>
+          <p>{trDormitory(t, "dormitorySportsBody")}</p>
+        </div>
+      </SectionBlock>
+
+      <SectionBlock title={trDormitory(t, "dormitorySafetyTitle")}>
+        <div className={`mt-3 space-y-4 text-justify ${bodyClass}`}>
+          {splitParagraphs(trDormitory(t, "dormitorySafetyBody")).map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+      </SectionBlock>
     </article>
   );
 }

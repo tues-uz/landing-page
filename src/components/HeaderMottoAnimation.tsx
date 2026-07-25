@@ -21,13 +21,16 @@ export function HeaderMottoAnimation({ text, className }: HeaderMottoAnimationPr
     charsContainer.replaceChildren();
     if (reducedMotion) {
       charsContainer.textContent = text;
+      charsContainer.className = "text-gold-gradient";
       return;
     }
+
+    charsContainer.className = "";
 
     const letters = text.split("").map((char) => {
       const span = document.createElement("span");
       span.textContent = char === " " ? "\u00A0" : char;
-      span.className = "inline-block origin-bottom-left will-change-transform";
+      span.className = "inline-block origin-bottom-left will-change-transform text-gold-gradient";
       span.style.opacity = "0";
       charsContainer.appendChild(span);
       return span;
@@ -39,7 +42,6 @@ export function HeaderMottoAnimation({ text, className }: HeaderMottoAnimationPr
         y: 14,
         scale: 0.4,
         rotate: 0,
-        filter: "blur(3px)",
       };
 
       gsap
@@ -50,7 +52,6 @@ export function HeaderMottoAnimation({ text, className }: HeaderMottoAnimationPr
           y: 0,
           scale: 1,
           rotate: () => gsap.utils.random(-5, 5),
-          filter: "blur(0px)",
           duration: 0.32,
           stagger: {
             each: 0.05,

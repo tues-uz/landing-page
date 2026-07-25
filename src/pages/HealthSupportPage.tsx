@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { TFunction } from "i18next";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -14,15 +15,52 @@ function trHealthSupport(t: TFunction, key: keyof typeof HEALTH_SUPPORT_PAGE_DEF
 const bodyClass = "text-body-article text-muted-foreground";
 const h2Class = "text-xl font-semibold tracking-tight text-foreground md:text-2xl";
 
-const SECTIONS: { heading: keyof typeof HEALTH_SUPPORT_PAGE_DEFAULTS; body: keyof typeof HEALTH_SUPPORT_PAGE_DEFAULTS }[] = [
-  { heading: "healthSupportPhysicalHeading", body: "healthSupportPhysicalBody" },
-  { heading: "healthSupportReproductiveHeading", body: "healthSupportReproductiveBody" },
-  { heading: "healthSupportMentalHeading", body: "healthSupportMentalBody" },
-  { heading: "healthSupportInclusiveHeading", body: "healthSupportInclusiveBody" },
-  { heading: "healthSupportCapacityHeading", body: "healthSupportCapacityBody" },
-  { heading: "healthSupportCoreHeading", body: "healthSupportCoreBody" },
-  { heading: "healthSupportSignificanceHeading", body: "healthSupportSignificanceBody" },
-];
+function splitParagraphs(raw: string): string[] {
+  return raw
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
+function splitLines(raw: string): string[] {
+  return raw
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function BulletList({ items }: { items: string[] }) {
+  return (
+    <ul className={`mt-3 list-disc space-y-2 pl-5 ${bodyClass}`}>
+      {items.map((item, i) => (
+        <li key={i}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function ArticleImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <figure className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
+      <img
+        src={src}
+        alt={alt}
+        className="absolute inset-0 h-full w-full object-cover"
+        decoding="async"
+        loading="lazy"
+      />
+    </figure>
+  );
+}
+
+function SectionBlock({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="mt-10">
+      <h2 className={h2Class}>{title}</h2>
+      {children}
+    </section>
+  );
+}
 
 export default function HealthSupportPage() {
   const { t } = useTranslation("topNav");
@@ -81,22 +119,82 @@ export default function HealthSupportPage() {
 }
 
 function HealthSupportArticle({ t }: { t: TFunction }) {
-  const title = trHealthSupport(t, "healthSupportPageTitle");
-  const intro = trHealthSupport(t, "healthSupportPageIntro");
+  const stats = [
+    { value: trHealthSupport(t, "healthSupportStat1Value"), label: trHealthSupport(t, "healthSupportStat1Label") },
+    { value: trHealthSupport(t, "healthSupportStat2Value"), label: trHealthSupport(t, "healthSupportStat2Label") },
+  ];
 
   return (
     <article className="max-w-none">
       <h1 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
-        {title}
+        {trHealthSupport(t, "healthSupportPageTitle")}
       </h1>
-      <p className={`mt-3 text-justify ${bodyClass}`}>{intro}</p>
+      <p className="mt-3 text-lg font-medium leading-snug text-foreground md:text-xl">
+        {trHealthSupport(t, "healthSupportPageSubtitle")}
+      </p>
+      <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportPageIntro")}</p>
 
-      {SECTIONS.map(({ heading, body }) => (
-        <section key={String(heading)} className="mt-10">
-          <h2 className={h2Class}>{trHealthSupport(t, heading)}</h2>
-          <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, body)}</p>
-        </section>
-      ))}
+      <dl className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {stats.map(({ value, label }) => (
+          <div
+            key={label}
+            className="rounded-xl border border-border bg-muted/40 px-5 py-5 md:px-6 md:py-6"
+          >
+            <dt className="text-2xl font-semibold tabular-nums tracking-tight text-foreground md:text-3xl">{value}</dt>
+            <dd className={`mt-2 text-sm md:text-base ${bodyClass}`}>{label}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <SectionBlock title={trHealthSupport(t, "healthSupportPhysicalHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportPhysicalIntro")}</p>
+        <p className={`mt-4 font-medium text-foreground ${bodyClass}`}>
+          {trHealthSupport(t, "healthSupportPhysicalListLabel")}
+        </p>
+        <BulletList items={splitLines(trHealthSupport(t, "healthSupportPhysicalList"))} />
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportPhysicalClosing")}</p>
+        <ArticleImage
+          src={trHealthSupport(t, "healthSupportImage1Src")}
+          alt={trHealthSupport(t, "healthSupportImage1Alt")}
+        />
+      </SectionBlock>
+
+      <SectionBlock title={trHealthSupport(t, "healthSupportReproductiveHeading")}>
+        <div className={`mt-4 space-y-4 text-justify ${bodyClass}`}>
+          {splitParagraphs(trHealthSupport(t, "healthSupportReproductiveBody")).map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+      </SectionBlock>
+
+      <SectionBlock title={trHealthSupport(t, "healthSupportMentalHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportMentalIntro")}</p>
+        <p className={`mt-4 font-medium text-foreground ${bodyClass}`}>
+          {trHealthSupport(t, "healthSupportMentalListLabel")}
+        </p>
+        <BulletList items={splitLines(trHealthSupport(t, "healthSupportMentalList"))} />
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportMentalClosing")}</p>
+        <ArticleImage
+          src={trHealthSupport(t, "healthSupportImage2Src")}
+          alt={trHealthSupport(t, "healthSupportImage2Alt")}
+        />
+      </SectionBlock>
+
+      <SectionBlock title={trHealthSupport(t, "healthSupportInclusiveHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportInclusiveIntro")}</p>
+        <BulletList items={splitLines(trHealthSupport(t, "healthSupportInclusiveList"))} />
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportInclusiveClosing")}</p>
+        <ArticleImage
+          src={trHealthSupport(t, "healthSupportImage3Src")}
+          alt={trHealthSupport(t, "healthSupportImage3Alt")}
+        />
+      </SectionBlock>
+
+      <SectionBlock title={trHealthSupport(t, "healthSupportSummaryHeading")}>
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportSummaryIntro")}</p>
+        <BulletList items={splitLines(trHealthSupport(t, "healthSupportSummaryList"))} />
+        <p className={`mt-4 text-justify ${bodyClass}`}>{trHealthSupport(t, "healthSupportSummaryClosing")}</p>
+      </SectionBlock>
     </article>
   );
 }

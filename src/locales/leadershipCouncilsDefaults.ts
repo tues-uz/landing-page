@@ -11,8 +11,6 @@ export const LEADERSHIP_COUNCILS_I18N_DEFAULTS = {
 
 export const LEADERSHIP_COUNCILS_CARD_KEYS = [
   "leadershipCouncilsCard1Title",
-  "leadershipCouncilsCard2Title",
-  "leadershipCouncilsCard3Title",
 ] as const satisfies readonly (keyof typeof LEADERSHIP_COUNCILS_I18N_DEFAULTS)[];
 
 /** Optional internal routes for leadership hub cards (add entries as detail pages are published). */
@@ -20,8 +18,6 @@ export const LEADERSHIP_COUNCIL_CARD_TO: Partial<
   Record<(typeof LEADERSHIP_COUNCILS_CARD_KEYS)[number], string>
 > = {
   leadershipCouncilsCard1Title: "/about/womens-affairs-advisory-committee",
-  leadershipCouncilsCard2Title: "/about/student-council",
-  leadershipCouncilsCard3Title: "/about/new-scientific-council",
 };
 
 /** Hub card preview images (same assets as each council detail page hero). */
@@ -30,6 +26,4 @@ export const LEADERSHIP_COUNCIL_CARD_IMAGE: Record<
   string
 > = {
   leadershipCouncilsCard1Title: "/images/about/womens-affairs-advisory-committee-hero.png",
-  leadershipCouncilsCard2Title: "/images/about/student-council-hero.png",
-  leadershipCouncilsCard3Title: "/images/about/new-scientific-council-hero.png",
 };

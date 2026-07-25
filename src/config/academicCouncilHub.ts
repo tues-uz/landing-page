@@ -3,6 +3,16 @@
 export const ACADEMIC_COUNCIL_CARD_IDS = ["comparative", "historical"] as const;
 export type AcademicCouncilCardId = (typeof ACADEMIC_COUNCIL_CARD_IDS)[number];
 
+/** Cards on the hub that link to standalone About pages (moved from Leadership & Councils). */
+export const ACADEMIC_COUNCIL_LINKED_CARDS = [
+  {
+    id: "new-scientific-council",
+    titleKey: "leadershipCouncilsCard3Title",
+    image: "/images/about/new-scientific-council-hero.png",
+    href: "/about/new-scientific-council",
+  },
+] as const;
+
 export const ACADEMIC_COUNCIL_I18N: Record<
   AcademicCouncilCardId,
   { titleKey: string; bodyKey: string }

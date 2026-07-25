@@ -268,6 +268,26 @@ export function getStaticSearchRoutes(translate: (key: string) => string): Stati
       label: translate("searchRoutes.aboutUniversityPage"),
     },
     {
+      id: "officialDocumentsPage",
+      path: "/information-services/official-documents",
+      label: translate("searchRoutes.officialDocumentsPage"),
+    },
+    {
+      id: "academicFreedomPolicyPage",
+      path: "/information-services/official-documents/academic-freedom-policy",
+      label: translate("searchRoutes.academicFreedomPolicyPage"),
+    },
+    {
+      id: "annualReport2025Page",
+      path: "/information-services/official-documents/annual-report-2025",
+      label: translate("searchRoutes.annualReport2025Page"),
+    },
+    {
+      id: "antiBriberyCorruptionPolicyPage",
+      path: "/information-services/official-documents/anti-bribery-corruption-policy",
+      label: translate("searchRoutes.antiBriberyCorruptionPolicyPage"),
+    },
+    {
       id: "departmentIntlRelEmployees",
       path: "/internationalization/department-international-relations-employees",
       label: translate("searchRoutes.departmentIntlRelEmployees"),

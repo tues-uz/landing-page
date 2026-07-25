@@ -9,6 +9,7 @@ import {
   Shield,
   GraduationCap,
   ChevronDown,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
@@ -35,6 +36,7 @@ const routeTitles: Record<string, { title: string; icon: typeof LayoutDashboard 
   [`${B}/study-programs`]: { title: "Study Programs", icon: GraduationCap },
   [`${B}/programs`]: { title: "Study Programs", icon: GraduationCap },
   [`${B}/users`]: { title: "Admins", icon: Shield },
+  [`${B}/newsletter`]: { title: "Newsletter subscribers", icon: Mail },
 };
 
 export function MainHeader() {
