@@ -23,27 +23,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const skipAuth = import.meta.env.VITE_CMS_SKIP_AUTH === "true";
 
   useEffect(() => {
+    let cancelled = false;
+
+    const finishLoading = () => {
+      if (!cancelled) setIsLoading(false);
+    };
+
     if (skipAuth) {
       setUser({ id: "dev", name: "Dev User", email: "dev@local", role: "admin", permissions: ["*"] });
-      setIsLoading(false);
-      return;
+      finishLoading();
+      return () => {
+        cancelled = true;
+      };
     }
+
     const token = tokenStore.get();
     if (!token) {
-      setIsLoading(false);
-      return;
+      finishLoading();
+      return () => {
+        cancelled = true;
+      };
     }
+
+    // Safety net if the auth API hangs without rejecting.
+    const safetyTimeoutId = window.setTimeout(finishLoading, 20_000);
+
     authApi
       .me()
       .then((res) => {
+        if (cancelled) return;
         console.debug("[AuthContext] /me response:", res);
         setUser(res as User);
       })
       .catch((err: unknown) => {
-        const message = err instanceof Error ? err.message.toLowerCase() : "";
-        if (message.includes("unauthorized") || message.includes("401")) tokenStore.clear();
+        if (cancelled) return;
+        console.warn("[AuthContext] session restore failed:", err);
+        tokenStore.clear();
+        setUser(null);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        window.clearTimeout(safetyTimeoutId);
+        finishLoading();
+      });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(safetyTimeoutId);
+    };
   }, [skipAuth]);
 
   const login = useCallback(

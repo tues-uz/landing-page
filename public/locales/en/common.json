@@ -1,5 +1,11 @@
 {
   "breadcrumbHome": "Home",
+  "breadcrumbNav": "Breadcrumb",
+  "contactPhone": "Phone number",
+  "contactEmail": "E-mail",
+  "contactTelegram": "Telegram",
+  "contactReceptionTime": "Reception time",
+  "departmentStaffHeading": "Department professors and teachers",
   "previous": "Previous",
   "next": "Next",
   "changeLanguage": "Change language",

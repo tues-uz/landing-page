@@ -9,9 +9,12 @@ import { contentKeys } from "@/api/queryKeys";
 import { FALLBACK_NEWS } from "@/data/fallbackContent";
 import {
   getFirstNewsParagraph,
+  getNewsGalleryUrls,
   getNewsHeroImages,
+  isNewsGalleryParagraph,
   isNewsImageParagraph,
 } from "@/lib/newsContent";
+import { ArticleBodyCarousel } from "@/components/ArticleBodyCarousel";
 import { useTranslation } from "react-i18next";
 import {
   Carousel,
@@ -280,6 +283,16 @@ const NewsDetailPage = () => {
                     
                     if (isNewsImageParagraph(para)) {
                       return null;
+                    }
+
+                    if (isNewsGalleryParagraph(para)) {
+                      return (
+                        <ArticleBodyCarousel
+                          key={p}
+                          images={getNewsGalleryUrls(para)}
+                          title={article.title}
+                        />
+                      );
                     }
                     
                     // Render link placeholders

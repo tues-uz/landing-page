@@ -43,7 +43,7 @@ export default function StudyProgramDetailPage() {
       <main className="below-header">
         <div className="border-b border-border">
           <nav
-            aria-label="Breadcrumb"
+            aria-label={tCommon("breadcrumbNav")}
             className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto whitespace-nowrap px-5 py-3 text-sm text-muted-foreground scrollbar-hide sm:px-8"
           >
             <Link to="/" className="transition-colors hover:text-foreground">

@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { adminNavI18nKey } from "@/lib/adminNavI18n";
 
 const languages = [
   { code: "uz", name: "Uz", flag: "🇺🇿" },
@@ -67,7 +68,7 @@ export function MainHeader() {
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
           <Icon className="h-4 w-4 text-muted-foreground" />
         </div>
-        <h1 className="text-xl font-semibold text-foreground">{t(info.title.toLowerCase().replace(/\s+/g, ""))}</h1>
+        <h1 className="text-xl font-semibold text-foreground">{t(adminNavI18nKey(info.title), info.title)}</h1>
       </div>
       <div className="flex items-center gap-3">
         <DropdownMenu>

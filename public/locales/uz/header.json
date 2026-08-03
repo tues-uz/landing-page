@@ -36,6 +36,7 @@
     "studyProgramApply": "Ariza shakli — qabul",
     "universityMission": "Universitet missiyasi",
     "universityRequisites": "Rekvizitlar (yuridik va bank)",
+    "financialStatements": "Moliyaviy hisobotlar",
     "famousGraduates": "Mashhur bitiruvchilar",
     "universityFaculties": "Fakultetlar",
     "universityDepartments": "Kafedralar",
@@ -110,7 +111,8 @@
     "scientificArticles": "Ilmiy maqolalar",
     "entrepreneurialClubs": "Tadbirkorlik klublari",
     "scienceCertificates": "Sertifikatlar va reytinglar",
-    "centerResearchSustainable": "Tadqiqot va barqaror innovatsion rivojlanish markazi"
+    "centerResearchSustainable": "Tadqiqot va barqaror innovatsion rivojlanish markazi",
+    "universityRatings": "Xalqaro reytinglar"
   },
   "qualificationRequirementsPageIntro": "Quyida (mutaxassislik shifri ko‘rsatilgan holda) joriy malaka talablari tizimiga kiruvchi ta’lim yo‘nalishlari keltirilgan.",
   "mastersDegreePageIntro": "Universitetda o‘qitiladigan magistratura dasturlari, mutaxassislik kodlari, o‘qish muddati, kredit hajmi va professional yo‘nalish. Boshqacha ko‘rsatilmasa, o‘qish to‘liq kunli shaklida olib boriladi.",
@@ -246,6 +248,16 @@
     "admission2025": "Qabul 2025",
     "informationServices": "Axborot xizmatlari",
     "vacancies": "Bo'sh ish o'rinlari"
+  },
+  "secondNavMegaBlurb": {
+    "university": "Hozirda universitetda 24 ta bakalavriat va 13 ta magistratura yo'nalishi mavjud. Talabalarning ta'limi uchun zarur kitoblar bo'yicha elektron AKT shakllantirilgan. Abituriyentlar universitetga qabul jarayoni haqidagi ma'lumot bilan masofadan tanishishi mumkin.",
+    "education": "Akademik dasturlar, kurslar, taqvim, fakultetlar va kafedralar.",
+    "science": "Tadqiqot yo'nalishlari, laboratoriyalar, nashrlar va hamkorlik.",
+    "internationalization": "Almashinuv dasturlari, global hamkorliklar va xorijiy talabalar.",
+    "studentLife": "Kampus hayoti, klublar, yotoqxona, ovqatlanish va farovonlik.",
+    "admission2025": "Talablar, ariza berish tartibi, muddatlar va stipendiyalar.",
+    "informationServices": "Kutubxona, IT xizmatlari, onlayn resurslar va yordam.",
+    "vacancies": "Akademik, ma'muriy va ilmiy lavozimlar."
   },
   "secondNavItems": {
     "overview": "Umumiy ma'lumot",

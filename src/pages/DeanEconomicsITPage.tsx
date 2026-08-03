@@ -64,7 +64,7 @@ export default function DeanEconomicsITPage() {
       <main className="below-header">
         <div className="border-b border-border bg-muted/50">
           <div className="container mx-auto flex max-w-[1348px] items-center px-4 py-3 sm:px-6 lg:px-8">
-            <nav aria-label="Breadcrumb" className="min-w-0 flex-1">
+            <nav aria-label={tCommon("breadcrumbNav")} className="min-w-0 flex-1">
               <ol className="m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0 text-sm text-[#5A626C]">
                 <li className="flex items-center">
                   <Link
@@ -134,25 +134,25 @@ export default function DeanEconomicsITPage() {
                       <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                         <ContactCard
                           icon={<Phone className="h-3.5 w-3.5" />}
-                          label="Phone number"
+                          label={tCommon("contactPhone")}
                           value={PROFILE.phone}
                           href={`tel:${PROFILE.phone}`}
                         />
                         <ContactCard
                           icon={<Mail className="h-3.5 w-3.5" />}
-                          label="E-mail"
+                          label={tCommon("contactEmail")}
                           value={PROFILE.email}
                           href={`mailto:${PROFILE.email}`}
                         />
                         <ContactCard
                           icon={<MessageCircle className="h-3.5 w-3.5" />}
-                          label="Telegram"
+                          label={tCommon("contactTelegram")}
                           value={PROFILE.telegram}
                           href={`https://t.me/${PROFILE.telegram.replace(/\D/g, "")}`}
                         />
                         <ContactCard
                           icon={<Clock3 className="h-3.5 w-3.5" />}
-                          label="Reception time"
+                          label={tCommon("contactReceptionTime")}
                           value={PROFILE.reception}
                         />
                       </div>

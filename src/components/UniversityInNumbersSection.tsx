@@ -6,14 +6,16 @@ import { ChampionsAmbitionBanner } from "@/components/ChampionsAmbitionBanner";
 import { UNI_IN_NUMBERS_DECKS } from "@/config/universityInNumbersData";
 import {
   UNIVERSITY_IN_NUMBERS_REPORT,
-  UNIVERSITY_IN_NUMBERS_TABLE_COL_FIGURE,
   type UniNumbersContentBlock,
   type UniNumbersStatBlock,
 } from "@/config/universityInNumbersContent";
-import { UNIVERSITY_IN_NUMBERS_I18N_DEFAULTS } from "@/locales/universityInNumbersDefaults";
+import {
+  UNIVERSITY_IN_NUMBERS_I18N_DEFAULTS,
+  type UniNumbersI18nKey,
+} from "@/locales/universityInNumbersDefaults";
 import { cn } from "@/lib/utils";
 
-function tr(t: TFunction, key: keyof typeof UNIVERSITY_IN_NUMBERS_I18N_DEFAULTS) {
+function tr(t: TFunction, key: UniNumbersI18nKey) {
   return t(key, { defaultValue: UNIVERSITY_IN_NUMBERS_I18N_DEFAULTS[key] });
 }
 
@@ -28,26 +30,28 @@ const tableClass = "w-full min-w-[320px] border-collapse text-left text-sm";
 const thClass = "px-4 py-3 font-semibold text-foreground";
 const tdClass = "px-4 py-3 align-top";
 
-function StatTable({ block }: { block: UniNumbersStatBlock }) {
+function StatTable({ block, t }: { block: UniNumbersStatBlock; t: TFunction }) {
   return (
     <div className="space-y-3">
-      <h3 className="text-base font-semibold text-foreground md:text-lg">{block.heading}</h3>
+      <h3 className="text-base font-semibold text-foreground md:text-lg">
+        {tr(t, block.headingKey)}
+      </h3>
       <div className={tableWrapClass}>
         <table className={tableClass}>
           <thead>
             <tr className="border-b border-border bg-muted/80">
               <th scope="col" className={thClass}>
-                {UNIVERSITY_IN_NUMBERS_TABLE_COL_FIGURE}
+                {tr(t, "uniNumbersTableColFigure")}
               </th>
               <th scope="col" className={cn(thClass, "text-right")}>
-                <span className="sr-only">Value</span>
+                <span className="sr-only">{tr(t, "uniNumbersTableColValue")}</span>
               </th>
             </tr>
           </thead>
           <tbody>
             {block.rows.map((row) => (
-              <tr key={row.label} className="border-b border-border last:border-b-0">
-                <td className={cn(tdClass, "font-medium text-foreground")}>{row.label}</td>
+              <tr key={row.labelKey} className="border-b border-border last:border-b-0">
+                <td className={cn(tdClass, "font-medium text-foreground")}>{tr(t, row.labelKey)}</td>
                 <td className={cn(tdClass, "text-right tabular-nums text-muted-foreground")}>
                   {row.value}
                 </td>
@@ -60,18 +64,20 @@ function StatTable({ block }: { block: UniNumbersStatBlock }) {
   );
 }
 
-function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
+function ContentBlock({ block, t }: { block: UniNumbersContentBlock; t: TFunction }) {
   switch (block.type) {
     case "paragraph":
-      return <p className="text-justify leading-relaxed">{block.text}</p>;
+      return <p className="text-justify leading-relaxed">{tr(t, block.contentKey)}</p>;
 
     case "subheading":
       return (
-        <h3 className="text-base font-semibold text-foreground md:text-lg">{block.text}</h3>
+        <h3 className="text-base font-semibold text-foreground md:text-lg">
+          {tr(t, block.contentKey)}
+        </h3>
       );
 
     case "statBlock":
-      return <StatTable block={block.block} />;
+      return <StatTable block={block.block} t={t} />;
 
     case "progress":
       return (
@@ -82,7 +88,7 @@ function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
             <span className="text-primary">{block.progress.target}</span>
           </div>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-            {block.progress.caption}
+            {tr(t, block.progress.captionKey)}
           </p>
         </div>
       );
@@ -90,11 +96,13 @@ function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
     case "bulletGroup":
       return (
         <div className="space-y-2">
-          <h3 className="text-base font-semibold text-foreground md:text-lg">{block.group.heading}</h3>
+          <h3 className="text-base font-semibold text-foreground md:text-lg">
+            {tr(t, block.group.headingKey)}
+          </h3>
           <ul className="list-disc space-y-2 pl-5">
-            {block.group.items.map((item) => (
-              <li key={item} className="leading-relaxed">
-                {item}
+            {block.group.itemKeys.map((itemKey) => (
+              <li key={itemKey} className="leading-relaxed">
+                {tr(t, itemKey)}
               </li>
             ))}
           </ul>
@@ -104,27 +112,31 @@ function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
     case "table":
       return (
         <div className="space-y-3">
-          {block.table.heading ? (
-            <h3 className="text-base font-semibold text-foreground md:text-lg">{block.table.heading}</h3>
+          {block.table.headingKey ? (
+            <h3 className="text-base font-semibold text-foreground md:text-lg">
+              {tr(t, block.table.headingKey)}
+            </h3>
           ) : null}
           <div className={tableWrapClass}>
             <table className={tableClass}>
               <thead>
                 <tr className="border-b border-border bg-muted/80">
                   <th scope="col" className={thClass}>
-                    {block.table.col1}
+                    {tr(t, block.table.col1Key)}
                   </th>
                   <th scope="col" className={cn(thClass, "whitespace-nowrap text-right")}>
-                    {block.table.col2}
+                    {tr(t, block.table.col2Key)}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {block.table.rows.map((row) => (
-                  <tr key={row.col1} className="border-b border-border last:border-b-0">
-                    <td className={cn(tdClass, "font-medium text-foreground")}>{row.col1}</td>
+                  <tr key={row.col1Key} className="border-b border-border last:border-b-0">
+                    <td className={cn(tdClass, "font-medium text-foreground")}>
+                      {tr(t, row.col1Key)}
+                    </td>
                     <td className={cn(tdClass, "text-right tabular-nums text-muted-foreground")}>
-                      {row.col2}
+                      {row.col2Key ? tr(t, row.col2Key) : row.col2}
                     </td>
                   </tr>
                 ))}
@@ -137,18 +149,20 @@ function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
     case "rankTable":
       return (
         <div className="space-y-3">
-          {block.table.heading ? (
-            <h3 className="text-base font-semibold text-foreground md:text-lg">{block.table.heading}</h3>
+          {block.table.headingKey ? (
+            <h3 className="text-base font-semibold text-foreground md:text-lg">
+              {tr(t, block.table.headingKey)}
+            </h3>
           ) : null}
           <div className={tableWrapClass}>
             <table className={tableClass}>
               <thead>
                 <tr className="border-b border-border bg-muted/80">
                   <th scope="col" className={cn(thClass, "w-16")}>
-                    Rank
+                    {tr(t, "uniNumbersTableColRank")}
                   </th>
                   <th scope="col" className={thClass}>
-                    Region
+                    {tr(t, "uniNumbersTableColRegion")}
                   </th>
                 </tr>
               </thead>
@@ -158,7 +172,9 @@ function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
                     <td className={cn(tdClass, "tabular-nums font-medium text-foreground")}>
                       {row.rank}
                     </td>
-                    <td className={cn(tdClass, "text-muted-foreground")}>{row.region}</td>
+                    <td className={cn(tdClass, "text-muted-foreground")}>
+                      {tr(t, row.regionKey)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -170,12 +186,17 @@ function ContentBlock({ block }: { block: UniNumbersContentBlock }) {
     case "callout":
       return (
         <p className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm font-medium leading-relaxed text-foreground md:text-base">
-          {block.text}
+          {tr(t, block.contentKey)}
         </p>
       );
 
     case "highlight":
-      return <ChampionsAmbitionBanner label={block.label} caption={block.caption} />;
+      return (
+        <ChampionsAmbitionBanner
+          label={tr(t, block.labelKey)}
+          caption={tr(t, block.captionKey)}
+        />
+      );
 
     default:
       return null;
@@ -193,33 +214,37 @@ export function UniversityInNumbersSection() {
     <div className="mt-4 max-w-none">
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wider text-primary md:text-sm">
-          {report.institution}
+          {tr(t, report.institutionKey)}
         </p>
-        <p className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">{report.headline}</p>
-        <p className="text-base font-medium text-muted-foreground md:text-lg">{report.tagline}</p>
+        <p className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+          {tr(t, report.headlineKey)}
+        </p>
+        <p className="text-base font-medium text-muted-foreground md:text-lg">
+          {tr(t, report.taglineKey)}
+        </p>
       </div>
 
       <p className="mt-6 text-justify text-body-article leading-relaxed text-muted-foreground">
-        {report.intro}
+        {tr(t, report.introKey)}
       </p>
 
       <div className="mt-10 flex flex-col gap-10">
         {report.sections.map((section) => (
-          <section key={section.title} className="space-y-5">
+          <section key={section.titleKey} className="space-y-5">
             <h2 className="text-balance text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-              {section.title}
+              {tr(t, section.titleKey)}
             </h2>
             <div className="flex flex-col gap-5">
               {section.blocks.map((block, i) => (
                 <div
-                  key={`${section.title}-${i}`}
+                  key={`${section.titleKey}-${i}`}
                   className={
                     block.type === "highlight"
                       ? undefined
                       : "text-body-article text-muted-foreground"
                   }
                 >
-                  <ContentBlock block={block} />
+                  <ContentBlock block={block} t={t} />
                 </div>
               ))}
             </div>

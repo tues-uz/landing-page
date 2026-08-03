@@ -15,4 +15,6 @@ export const STUDY_PROGRAMS_I18N_DEFAULTS = {
   studyProgramsCourseNameLabel: "Course",
   studyProgramsCreditsLabel: "Credits",
   studyProgramsApplyCta: "Apply",
+  studyProgramsCodeLabel: "Code",
+  studyProgramsSectionsCourses: "{{sections}} sections · {{courses}} courses",
 } as const;

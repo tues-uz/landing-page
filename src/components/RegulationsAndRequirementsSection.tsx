@@ -22,20 +22,26 @@ function tr(
   return t(key, { defaultValue: REGULATIONS_AND_REQUIREMENTS_I18N_DEFAULTS[key] });
 }
 
-function FaqAnswer({ id }: { id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[number]["id"] }) {
+function FaqAnswer({
+  t,
+  id,
+}: {
+  t: TFunction;
+  id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[number]["id"];
+}) {
   switch (id) {
     case "what-you-need":
       return (
         <ul className="list-disc space-y-2 pl-5">
           <li>
-            <span className="font-medium text-foreground">Secondary education</span> — a high school diploma
-            or a diploma from an academic lyceum/vocational college.
+            <span className="font-medium text-foreground">{tr(t, "regulationsFaqA1Item1Label")}</span>{" "}
+            {tr(t, "regulationsFaqA1Item1Text")}
           </li>
           <li>
-            <span className="font-medium text-foreground">Entrance exams</span> — passing the exams or
-            successfully passing an interview.
+            <span className="font-medium text-foreground">{tr(t, "regulationsFaqA1Item2Label")}</span>{" "}
+            {tr(t, "regulationsFaqA1Item2Text")}
           </li>
-          <li>Gather the required documents and submit them by the specified deadline.</li>
+          <li>{tr(t, "regulationsFaqA1Item3")}</li>
         </ul>
       );
 
@@ -46,24 +52,25 @@ function FaqAnswer({ id }: { id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[numbe
             <thead>
               <tr className="border-b border-border bg-muted/80">
                 <th scope="col" className="px-4 py-3 font-semibold text-foreground">
-                  Requirement
+                  {tr(t, "regulationsFaqColRequirement")}
                 </th>
                 <th scope="col" className="px-4 py-3 font-semibold text-foreground">
-                  Explanation
+                  {tr(t, "regulationsFaqColExplanation")}
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr className="border-b border-border">
-                <td className="px-4 py-3 align-top font-medium text-foreground">Information document</td>
-                <td className="px-4 py-3 align-top">
-                  School graduation certificate (electronic) or lyceum/college diploma (original and
-                  transcript).
+                <td className="px-4 py-3 align-top font-medium text-foreground">
+                  {tr(t, "regulationsFaqRow1Requirement")}
                 </td>
+                <td className="px-4 py-3 align-top">{tr(t, "regulationsFaqRow1Explanation")}</td>
               </tr>
               <tr className="border-b border-border last:border-b-0">
-                <td className="px-4 py-3 align-top font-medium text-foreground">Entrance Examinations</td>
-                <td className="px-4 py-3 align-top">Internal exams or an interview</td>
+                <td className="px-4 py-3 align-top font-medium text-foreground">
+                  {tr(t, "regulationsFaqRow2Requirement")}
+                </td>
+                <td className="px-4 py-3 align-top">{tr(t, "regulationsFaqRow2Explanation")}</td>
               </tr>
             </tbody>
           </table>
@@ -73,10 +80,10 @@ function FaqAnswer({ id }: { id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[numbe
     case "documents-list":
       return (
         <ul className="list-disc space-y-2 pl-5">
-          <li>Application letter addressed to the Rector;</li>
-          <li>Passport or ID card (original and copy);</li>
-          <li>Transcript or diploma (with an appendix);</li>
-          <li>2 photos, 3.5 × 4.5 cm.</li>
+          <li>{tr(t, "regulationsFaqA3Item1")}</li>
+          <li>{tr(t, "regulationsFaqA3Item2")}</li>
+          <li>{tr(t, "regulationsFaqA3Item3")}</li>
+          <li>{tr(t, "regulationsFaqA3Item4")}</li>
         </ul>
       );
 
@@ -84,12 +91,12 @@ function FaqAnswer({ id }: { id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[numbe
       return (
         <ul className="list-disc space-y-2 pl-5">
           <li>
-            <span className="font-medium text-foreground">Full-time</span> — you attend classes at the
-            university every day.
+            <span className="font-medium text-foreground">{tr(t, "regulationsFaqA4Item1Label")}</span>{" "}
+            {tr(t, "regulationsFaqA4Item1Text")}
           </li>
           <li>
-            <span className="font-medium text-foreground">Master&apos;s Degree</span> — a 2-year, in-depth
-            specialization for graduates of a bachelor&apos;s program.
+            <span className="font-medium text-foreground">{tr(t, "regulationsFaqA4Item2Label")}</span>{" "}
+            {tr(t, "regulationsFaqA4Item2Text")}
           </li>
         </ul>
       );
@@ -98,7 +105,7 @@ function FaqAnswer({ id }: { id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[numbe
       return (
         <div className="space-y-2">
           <p>
-            <span className="font-medium text-foreground">Contact:</span>{" "}
+            <span className="font-medium text-foreground">{tr(t, "regulationsFaqContactLabel")}</span>{" "}
             <a href="tel:+998554527777" className="text-foreground underline-offset-4 hover:underline">
               +998 55 452 77 77
             </a>
@@ -108,7 +115,7 @@ function FaqAnswer({ id }: { id: (typeof REGULATIONS_AND_REQUIREMENTS_FAQ)[numbe
             </a>
           </p>
           <p>
-            <span className="font-medium text-foreground">Email:</span>{" "}
+            <span className="font-medium text-foreground">{tr(t, "regulationsFaqEmailLabel")}</span>{" "}
             <a
               href="mailto:university@tues.uz"
               className="text-foreground underline-offset-4 hover:underline"
@@ -141,9 +148,11 @@ export function RegulationsAndRequirementsSection() {
       >
         {REGULATIONS_AND_REQUIREMENTS_FAQ.map((item) => (
           <AccordionItem key={item.id} value={item.id} className="border-border/60">
-            <AccordionTrigger className={triggerClass}>{item.question}</AccordionTrigger>
+            <AccordionTrigger className={triggerClass}>
+              {tr(t, item.questionKey)}
+            </AccordionTrigger>
             <AccordionContent className={contentClass}>
-              <FaqAnswer id={item.id} />
+              <FaqAnswer t={t} id={item.id} />
             </AccordionContent>
           </AccordionItem>
         ))}

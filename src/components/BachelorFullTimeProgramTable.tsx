@@ -1,17 +1,15 @@
+import type { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 import type { BachelorFullTimeProgram } from "@/types/bachelorFullTime";
+import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
 import { cn } from "@/lib/utils";
 
 const cellBorder = "border border-[#000066]/45 px-2 py-2 align-middle";
 const headerCell = cn(cellBorder, "bg-muted/60 text-center text-xs font-semibold uppercase tracking-wide text-foreground sm:text-sm");
 
-const LABELS = {
-  duration: "Duration of the educational program:",
-  type: "Type of education:",
-  qualification: "Qualification:",
-  credits: "Total loan amount:",
-  languages: "Language of instruction:",
-  form: "Form of education:",
-} as const;
+function tr(t: TFunction, key: keyof typeof BACHELOR_PROGRAM_TABLE_DEFAULTS) {
+  return t(key, { defaultValue: BACHELOR_PROGRAM_TABLE_DEFAULTS[key] });
+}
 
 export function BachelorFullTimeProgramTable({
   program,
@@ -21,6 +19,7 @@ export function BachelorFullTimeProgramTable({
   /** `embedded`: used inside expandable cards (no extra bottom margin). */
   variant?: "default" | "embedded";
 }) {
+  const { t } = useTranslation("topNav");
   const qualDisplay = program.qualification.trim() ? program.qualification : "—";
 
   return (
@@ -29,8 +28,8 @@ export function BachelorFullTimeProgramTable({
         <thead>
           <tr>
             <th className={cn(headerCell, "w-10")}>№</th>
-            <th className={cn(headerCell, "min-w-[7rem]")}>Specialist cipher</th>
-            <th className={cn(headerCell, "min-w-[11rem]")}>Specialty name</th>
+            <th className={cn(headerCell, "min-w-[7rem]")}>{tr(t, "bachelorTableCipher")}</th>
+            <th className={cn(headerCell, "min-w-[11rem]")}>{tr(t, "bachelorTableSpecialty")}</th>
             <th className={cn(headerCell)} colSpan={3}>
               &nbsp;
             </th>
@@ -47,7 +46,7 @@ export function BachelorFullTimeProgramTable({
             <td className={cn(cellBorder, "text-left text-sm leading-snug")} rowSpan={6}>
               {program.specialtyName}
             </td>
-            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{LABELS.duration}</td>
+            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{tr(t, "bachelorTableDuration")}</td>
             <td className={cn(cellBorder, "text-center text-xs sm:text-sm")}>{program.duration}</td>
             <td className={cn(cellBorder, "align-top text-left text-xs leading-relaxed text-justify sm:text-sm")} rowSpan={6}>
               {program.descriptionParagraphs.some((p) => p.trim()) ? (
@@ -62,23 +61,23 @@ export function BachelorFullTimeProgramTable({
             </td>
           </tr>
           <tr>
-            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{LABELS.type}</td>
+            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{tr(t, "bachelorTableType")}</td>
             <td className={cn(cellBorder, "text-center text-xs sm:text-sm")}>{program.typeOfEducation}</td>
           </tr>
           <tr>
-            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{LABELS.qualification}</td>
+            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{tr(t, "bachelorTableQualification")}</td>
             <td className={cn(cellBorder, "text-center text-xs sm:text-sm")}>{qualDisplay}</td>
           </tr>
           <tr>
-            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{LABELS.credits}</td>
+            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{tr(t, "bachelorTableCredits")}</td>
             <td className={cn(cellBorder, "text-center font-medium tabular-nums")}>{program.totalCredits}</td>
           </tr>
           <tr>
-            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{LABELS.languages}</td>
+            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{tr(t, "bachelorTableLanguages")}</td>
             <td className={cn(cellBorder, "text-center text-xs sm:text-sm")}>{program.instructionLanguages}</td>
           </tr>
           <tr>
-            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{LABELS.form}</td>
+            <td className={cn(cellBorder, "bg-muted/25 text-center text-xs sm:text-sm")}>{tr(t, "bachelorTableForm")}</td>
             <td className={cn(cellBorder, "text-center text-xs sm:text-sm")}>{program.formOfEducation}</td>
           </tr>
         </tbody>

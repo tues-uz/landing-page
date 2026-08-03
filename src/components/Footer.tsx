@@ -141,12 +141,12 @@ const Footer = () => {
                 © 2026 TUES Economics Journal. All rights reserved.
               </div>
               <div className="flex items-center gap-4">
-                <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
+                <Link to="/privacy-policy" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
                   Privacy Policy
-                </a>
-                <a href="#" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
+                </Link>
+                <Link to="/terms-of-use" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
                   Terms of Use
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -322,13 +322,15 @@ const Footer = () => {
                 className="flex flex-wrap items-center justify-center gap-4 text-sm md:justify-start"
                 style={{ color: creamMuted }}
               >
-                <span>{t("copyright", { brand: isEduHubPage ? "EduHub" : "TUES" })}</span>
-                <a href="#" className="transition-colors hover:text-white">
+                <Link to="/copyright" className="transition-colors hover:text-white">
+                  {t("copyright", { brand: isEduHubPage ? "EduHub" : "TUES" })}
+                </Link>
+                <Link to="/privacy-policy" className="transition-colors hover:text-white">
                   {t("privacyPolicy")}
-                </a>
-                <a href="#" className="transition-colors hover:text-white">
+                </Link>
+                <Link to="/terms-of-use" className="transition-colors hover:text-white">
                   {t("termsOfUse")}
-                </a>
+                </Link>
                 <a href="#" className="transition-colors hover:text-white">
                   {t("accessibility")}
                 </a>

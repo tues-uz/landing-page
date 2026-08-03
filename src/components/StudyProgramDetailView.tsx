@@ -84,10 +84,18 @@ export function StudyProgramDetailView({
   const requestInfoLabel = t("studyProgramsRequestInfo", {
     defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsRequestInfo,
   });
+  const codeLabel = t("studyProgramsCodeLabel", {
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsCodeLabel,
+  });
 
   const displayDate = (value?: string) => formatStudyProgramDateDisplay(value, requestInfoLabel);
 
   const totalCourses = program.courseGroups.reduce((n, g) => n + g.courses.length, 0);
+  const sectionsCoursesLabel = t("studyProgramsSectionsCourses", {
+    sections: program.courseGroups.length,
+    courses: totalCourses,
+    defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS.studyProgramsSectionsCourses,
+  });
   const multiGroup = program.courseGroups.length > 1;
 
   useLayoutEffect(() => {
@@ -200,7 +208,7 @@ export function StudyProgramDetailView({
                   <dd className="mt-1 font-medium text-foreground">{program.duration}</dd>
                 </div>
                 <div>
-                  <dt className="text-muted-foreground">Code</dt>
+                  <dt className="text-muted-foreground">{codeLabel}</dt>
                   <dd className="mt-1 font-mono font-medium tabular-nums text-foreground">{program.code}</dd>
                 </div>
                 <div>
@@ -237,9 +245,7 @@ export function StudyProgramDetailView({
           <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
             {program.title}
           </h1>
-          <p className="mt-2 text-xs text-muted-foreground">
-            {program.courseGroups.length} sections · {totalCourses} courses
-          </p>
+          <p className="mt-2 text-xs text-muted-foreground">{sectionsCoursesLabel}</p>
           <h2 className="mt-6 text-sm font-medium text-muted-foreground">{coursesTitle}</h2>
 
           {multiGroup ? (

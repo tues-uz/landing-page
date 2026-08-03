@@ -47,6 +47,7 @@ import {
   Search,
   Loader2,
   Newspaper,
+  MessageCircle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -111,125 +112,101 @@ const NavItemLink = forwardRef<
 });
 NavItemLink.displayName = "NavItemLink";
 
-type MegaMenuLink = { href: string; label: string; icon: LucideIcon };
-type MegaMenuItem = { key: string; labelKey: string; description: string; links: MegaMenuLink[] };
+type SecondNavItem = {
+  key: string;
+  labelKey: string;
+  descriptionKey: string;
+  itemKeys: string[];
+};
 
-const universityMegaLinks: MegaMenuLink[] = [
-  { href: "#license", label: "License", icon: FileCheck },
-  { href: "#mission", label: "University Mission", icon: Target },
-  { href: "#charter", label: "Charter", icon: FileText },
-  { href: "#structure", label: "Organizational structure", icon: Network },
-  { href: "#councils", label: "Councils", icon: Users },
-  { href: "#ratings", label: "Ratings", icon: Award },
-  { href: "#requisites", label: "Requisites", icon: FileSearch },
-  { href: "#financial-statements", label: "Financial statements", icon: DollarSign },
-  { href: "#numbers", label: "University in numbers", icon: BarChart3 },
-  { href: "#accreditation", label: "Accreditation", icon: Award },
-  { href: "#graduates", label: "Famous graduates", icon: GraduationCap },
-  { href: "/university-faculties", label: "Faculties", icon: School },
-  { href: "/university-departments", label: "Departments", icon: Building2 },
-  { href: "#centers", label: "Center and departments", icon: FolderOpen },
-  { href: "#open-data", label: "Open data", icon: ExternalLink },
-  { href: "#trade-union", label: "Trade union committee", icon: Handshake },
-  { href: "#contract-prices", label: "Contract prices", icon: ClipboardList },
-];
+const SECOND_NAV_LINK_ICONS: Partial<Record<string, LucideIcon>> = {
+  "secondNavUniversity.license": FileCheck,
+  "secondNavUniversity.universityMission": Target,
+  "secondNavUniversity.charter": FileText,
+  "secondNavUniversity.organizationalStructure": Network,
+  "secondNavUniversity.councils": Users,
+  "secondNavUniversity.ratings": Award,
+  "secondNavUniversity.requisites": FileSearch,
+  "secondNavUniversity.financialStatements": DollarSign,
+  "secondNavUniversity.universityInNumbers": BarChart3,
+  "secondNavUniversity.accreditation": Award,
+  "secondNavUniversity.famousGraduates": GraduationCap,
+  "secondNavUniversity.faculties": School,
+  "secondNavUniversity.departments": Building2,
+  "secondNavUniversity.centerAndDepartments": FolderOpen,
+  "secondNavUniversity.openData": ExternalLink,
+  "secondNavUniversity.tradeUnionCommittee": Handshake,
+  "secondNavUniversity.contractPrices": ClipboardList,
+  "secondNavUniversity.campusCulture": Heart,
+  "secondNavEducation.courseCatalogue": BookOpen,
+  "secondNavEducation.resources": BookOpen,
+  "secondNavEducation.bachelor": GraduationCap,
+  "secondNavEducation.mastersDegree": GraduationCap,
+  "secondNavEducation.qualificationRequirements": FileText,
+  "secondNavEducation.studyPlans": ClipboardList,
+  "secondNavEducation.syllabus": FileText,
+  "secondNavEducation.distanceLearningSystem": ExternalLink,
+  "secondNavScience.seminars": Users,
+  "secondNavScience.scientificArticles": FileText,
+  "secondNavScience.scientificJournals": BookOpen,
+  "secondNavScience.expectedConferences": CalendarCheck,
+  "secondNavScience.academicCouncil": Users,
+  "secondNavScience.certificates": Award,
+  "secondNavScience.entrepreneurialClubs": Briefcase,
+  "secondNavScience.centerResearchSustainableInnovativeDevelopment": FlaskConical,
+  "secondNavInternationalization.internationalRelations": Globe,
+  "secondNavInternationalization.tisuForeignLanguagesCenter": Globe,
+  "secondNavInternationalization.departmentInternationalRelationsEmployees": Users,
+  "secondNavInternationalization.internationalGrants": Award,
+  "secondNavInternationalization.internationalScientificRelations": FlaskConical,
+  "secondNavInternationalization.internationalConferences": Users,
+  "secondNavInternationalization.professionalDevelopmentEducationChoir": GraduationCap,
+  "secondNavInternationalization.advancedTrainingProgramsForeignTeachers": BookOpen,
+  "secondNavInternationalization.internationalSupportCenter": Info,
+  "secondNavStudentLife.communityClubs": Users,
+  "secondNavStudentLife.healthSupportService": Heart,
+  "secondNavStudentLife.socialLife": Heart,
+  "secondNavStudentLife.socialRooms": Building2,
+  "secondNavStudentLife.contests": Award,
+  "secondNavStudentLife.supportCenterMinorityGroups": Users,
+  "secondNavStudentLife.dormitory": Building2,
+  "secondNavStudentLife.sportFacilities": Heart,
+  "secondNavStudentLife.cafeterias": Heart,
+  "secondNavStudentLife.bookstore": BookOpen,
+  "secondNavStudentLife.facilitiesForDisabled": Info,
+  "secondNavStudentLife.studentOpinion": MessageCircle,
+  "secondNavStudentLife.help247": Info,
+  "secondNavStudentLife.studentAcademicSupport": BookOpen,
+  "secondNavAdmission2025.listOfEducationalAreas": ClipboardList,
+  "secondNavAdmission2025.apply": FileText,
+  "secondNavAdmission2025.regulationSecondaryEducation": FileText,
+  "secondNavAdmission2025.admission2025": GraduationCap,
+  "secondNavAdmission2025.transferOfStudies": Network,
+  "secondNavAdmission2025.toLocalApplicants": Users,
+  "secondNavAdmission2025.informationTransferEducation": Info,
+  "secondNavAdmission2025.informationContractAmounts": DollarSign,
+  "secondNavAdmission2025.menu": ClipboardList,
+  "secondNavAdmission2025.forInternationalApplicants": Globe,
+  "secondNavAdmission2025.contactingAdmission": Phone,
+  "secondNavAdmission2025.instructionsApplicants": FileText,
+  "secondNavAdmission2025.registerUndergraduateAdmission": GraduationCap,
+  "secondNavAdmission2025.faq": Info,
+  "secondNavInformationServices.latestNews": Newspaper,
+  "secondNavInformationServices.upcomingEvents": CalendarCheck,
+  "secondNavInformationServices.videoGallery": ExternalLink,
+  "secondNavInformationServices.photoGallery": ExternalLink,
+  "secondNavInformationServices.officialDocuments": FileText,
+  "secondNavItems.academicPositions": Briefcase,
+  "secondNavItems.administrativePositions": Briefcase,
+  "secondNavItems.researchPositions": FlaskConical,
+  "secondNavItems.howToApply": FileText,
+  "secondNavItems.benefits": Award,
+};
 
-const secondNavMega: MegaMenuItem[] = [
-  {
-    key: "university",
-    labelKey: "secondNav.university",
-    description:
-      "Currently, the university has 24 Bachelor's and 13 master's degrees. An electronic IRC is formed on the necessary books on the education of students. Applicants may be aware of the information on the admission process to the University remotely.",
-    links: universityMegaLinks,
-  },
-  {
-    key: "education",
-    labelKey: "secondNav.education",
-    description: "Academic programs, courses, calendar, faculty and departments.",
-    links: [
-      { href: "#academic-programs", label: "Academic Programs", icon: BookOpen },
-      { href: "#courses", label: "Courses", icon: BookOpen },
-      { href: "#academic-calendar", label: "Academic Calendar", icon: CalendarCheck },
-      { href: "#faculty", label: "Faculty", icon: Users },
-      { href: "#departments", label: "Departments", icon: Building2 },
-    ],
-  },
-  {
-    key: "science",
-    labelKey: "secondNav.science",
-    description: "Research areas, laboratories, publications and collaborations.",
-    links: [
-      { href: "#research-areas", label: "Research Areas", icon: FlaskConical },
-      { href: "#laboratories", label: "Laboratories", icon: FlaskConical },
-      { href: "#publications", label: "Publications", icon: FileText },
-      { href: "#innovation", label: "Innovation", icon: Award },
-      { href: "#collaborations", label: "Collaborations", icon: Network },
-    ],
-  },
-  {
-    key: "internationalization",
-    labelKey: "secondNav.internationalization",
-    description: "Exchange programs, global partnerships and international students.",
-    links: [
-      { href: "#exchange", label: "Exchange Programs", icon: Globe },
-      { href: "#partnerships", label: "Global Partnerships", icon: Globe },
-      { href: "#international-students", label: "International Students", icon: Users },
-      { href: "#study-abroad", label: "Study Abroad", icon: Globe },
-      { href: "#global-initiatives", label: "Global Initiatives", icon: Globe },
-    ],
-  },
-  {
-    key: "studentLife",
-    labelKey: "secondNav.studentLife",
-    description: "Campus life, clubs, housing, dining and wellness.",
-    links: [
-      { href: "#campus-life", label: "Campus Life", icon: Heart },
-      { href: "#student-clubs", label: "Student Clubs", icon: Users },
-      { href: "#housing", label: "Housing", icon: Building2 },
-      { href: "#dining", label: "Dining", icon: Heart },
-      { href: "#wellness", label: "Wellness", icon: Heart },
-    ],
-  },
-  {
-    key: "admission2025",
-    labelKey: "secondNav.admission2025",
-    description: "Requirements, application process, deadlines and scholarships.",
-    links: [
-      { href: "#requirements", label: "Requirements", icon: FileText },
-      { href: "#application", label: "Application Process", icon: ClipboardList },
-      { href: "#deadlines", label: "Deadlines", icon: CalendarCheck },
-      { href: "#scholarships", label: "Scholarships", icon: Award },
-      { href: "/admission-2025/faq", label: "FAQs", icon: Info },
-    ],
-  },
-  {
-    key: "informationServices",
-    labelKey: "secondNav.informationServices",
-    description: "Library, IT services, online resources and support.",
-    links: [
-      { href: "#library", label: "Library", icon: BookOpen },
-      { href: "#it-services", label: "IT Services", icon: Info },
-      { href: "#online-resources", label: "Online Resources", icon: ExternalLink },
-      { href: "#support", label: "Support", icon: Info },
-      { href: "#help-desk", label: "Help Desk", icon: Info },
-    ],
-  },
-  {
-    key: "vacancies",
-    labelKey: "secondNav.vacancies",
-    description: "Academic, administrative and research positions.",
-    links: [
-      { href: "/vacancies/academic-positions", label: "Academic Positions", icon: Briefcase },
-      { href: "/vacancies/administrative-positions", label: "Administrative Positions", icon: Briefcase },
-      { href: "/vacancies/research-positions", label: "Research Positions", icon: FlaskConical },
-      { href: "/vacancies/how-to-apply", label: "How to Apply", icon: FileText },
-      { href: "/vacancies/benefits", label: "Benefits", icon: Award },
-    ],
-  },
-];
+const DEFAULT_SECOND_NAV_ICON = FileText;
 
-function getSecondNavMegaItem(key: string): MegaMenuItem | undefined {
-  return secondNavMega.find((m) => m.key === key);
+function getSecondNavLinkIcon(labelKey: string): LucideIcon {
+  return SECOND_NAV_LINK_ICONS[labelKey] ?? DEFAULT_SECOND_NAV_ICON;
 }
 
 type MainNavMegaItem = {
@@ -300,10 +277,11 @@ const mainNavMegaItems: MainNavMegaItem[] = [
 /** Wide mega panel: anchor so it stays in view (About left, News right, middle centered). */
 const secondaryNav = ["nav.community", "nav.colleges", "nav.journal"];
 
-const secondNavItems = [
+const secondNavItems: SecondNavItem[] = [
   {
     key: "university",
     labelKey: "secondNav.university",
+    descriptionKey: "secondNavMegaBlurb.university",
     itemKeys: [
       "secondNavUniversity.license",
       "secondNavUniversity.universityMission",
@@ -328,6 +306,7 @@ const secondNavItems = [
   {
     key: "education",
     labelKey: "secondNav.education",
+    descriptionKey: "secondNavMegaBlurb.education",
     itemKeys: [
       "secondNavEducation.courseCatalogue",
       "secondNavEducation.resources",
@@ -342,6 +321,7 @@ const secondNavItems = [
   {
     key: "science",
     labelKey: "secondNav.science",
+    descriptionKey: "secondNavMegaBlurb.science",
     itemKeys: [
       "secondNavScience.seminars",
       "secondNavScience.scientificArticles",
@@ -356,6 +336,7 @@ const secondNavItems = [
   {
     key: "internationalization",
     labelKey: "secondNav.internationalization",
+    descriptionKey: "secondNavMegaBlurb.internationalization",
     itemKeys: [
       "secondNavInternationalization.internationalRelations",
       "secondNavInternationalization.tisuForeignLanguagesCenter",
@@ -371,6 +352,7 @@ const secondNavItems = [
   {
     key: "studentLife",
     labelKey: "secondNav.studentLife",
+    descriptionKey: "secondNavMegaBlurb.studentLife",
     itemKeys: [
       "secondNavStudentLife.communityClubs",
       "secondNavStudentLife.healthSupportService",
@@ -391,6 +373,7 @@ const secondNavItems = [
   {
     key: "admission2025",
     labelKey: "secondNav.admission2025",
+    descriptionKey: "secondNavMegaBlurb.admission2025",
     itemKeys: [
       "secondNavAdmission2025.listOfEducationalAreas",
       "secondNavAdmission2025.apply",
@@ -411,6 +394,7 @@ const secondNavItems = [
   {
     key: "informationServices",
     labelKey: "secondNav.informationServices",
+    descriptionKey: "secondNavMegaBlurb.informationServices",
     itemKeys: [
       "secondNavInformationServices.latestNews",
       "secondNavInformationServices.upcomingEvents",
@@ -422,6 +406,7 @@ const secondNavItems = [
   {
     key: "vacancies",
     labelKey: "secondNav.vacancies",
+    descriptionKey: "secondNavMegaBlurb.vacancies",
     itemKeys: [
       "secondNavItems.academicPositions",
       "secondNavItems.administrativePositions",
@@ -727,12 +712,11 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 scrollbarGutter: "stable",
               }}
               role="dialog"
-              aria-label="Menu"
+              aria-label={t("menu")}
             >
               <nav className="border-b-0 px-[32px] py-5 sm:py-6">
                 <Accordion type="single" collapsible className="w-full">
                   {secondNavItems.map((item) => {
-                    const mega = getSecondNavMegaItem(item.key);
                     return (
                       <AccordionItem key={item.key} value={item.key} className="border-b border-border last:border-b-0">
                         <AccordionTrigger className="py-3 text-left text-[0.7rem] font-bold uppercase tracking-[0.14em] text-foreground hover:no-underline sm:text-xs [&[data-state=open]>svg]:rotate-180">
@@ -740,9 +724,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                         </AccordionTrigger>
                         <AccordionContent className="pb-5 pt-0">
                           <div className="flex flex-col gap-5">
-                            {mega?.description ? (
-                              <p className="text-sm leading-relaxed text-muted-foreground">{mega.description}</p>
-                            ) : null}
+                            <p className="text-sm leading-relaxed text-muted-foreground">{t(item.descriptionKey)}</p>
                             <ul className="grid grid-cols-1 gap-x-8 gap-y-0.5 sm:grid-cols-2">
                               {item.itemKeys.map((subItemKey) => {
                                 const href = getTopNavItemHref(subItemKey);
@@ -891,7 +873,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             <HeaderMottoAnimation
               text={`"${t("topBarTagline")}"`}
               className={cn(
-                isRussian ? "font-caveat" : "font-handwriting",
+                isRussian ? "font-great-vibes" : "font-handwriting",
                 "text-2xl font-medium tracking-wide xl:text-3xl",
               )}
             />
@@ -915,7 +897,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                 type="button"
                 variant="ghost"
                 className="shrink-0 h-10 gap-2 px-3 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 text-sm font-medium"
-                aria-label="Menu"
+                aria-label={t("menu")}
                 aria-expanded={secondNavMobileOpen}
                 onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
               >
@@ -940,7 +922,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             <div className="flex h-14 items-center justify-between">
               {/* Desktop nav (lg+) - centered with space between items */}
               <div className="hidden lg:flex flex-1 justify-between items-center">
-                {secondNavMega.map((item) => (
+                {secondNavItems.map((item) => (
                   <div key={item.key} className="h-14 flex items-center">
                     <button
                       type="button"
@@ -968,7 +950,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
 
               {/* Single fixed mega menu panel (same width as nav, never exceeds) - portaled to body */}
               {openMegaKey && (() => {
-                const item = secondNavMega.find((m) => m.key === openMegaKey);
+                const item = secondNavItems.find((m) => m.key === openMegaKey);
                 if (!item) return null;
                 const panelLeftPx = 32; // left-8 = 2rem
                 const arrowLeft =
@@ -997,15 +979,16 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                     <div className="flex gap-6 overflow-hidden p-4 w-full min-w-0">
                       <div className="w-[300px] flex-shrink-0 flex flex-col p-4 bg-slate-50 rounded-none">
                         <h3 className="text-base font-semibold text-slate-900 mt-0">{t(item.labelKey)}</h3>
-                        <p className="text-sm text-slate-600 leading-relaxed mt-2">{item.description}</p>
+                        <p className="text-sm text-slate-600 leading-relaxed mt-2">{t(item.descriptionKey)}</p>
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-x-0 gap-y-0 auto-rows-[36px] min-w-0">
-                        {item.links.map((link) => {
-                          const Icon = link.icon;
+                        {item.itemKeys.map((subItemKey) => {
+                          const Icon = getSecondNavLinkIcon(subItemKey);
+                          const href = getTopNavItemHref(subItemKey);
                           return (
-                            <a
-                              key={link.href + link.label}
-                              href={link.href}
+                            <NavItemLink
+                              key={subItemKey}
+                              href={href}
                               onClick={() => {
                                 setOpenMegaKey(null);
                                 setOpenMegaTriggerRect(null);
@@ -1013,8 +996,8 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                               className="block px-4 py-1.5 h-9 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors line-clamp-1 flex items-center gap-2"
                             >
                               <Icon className="h-4 w-4 flex-shrink-0" aria-hidden />
-                              <span>{link.label}</span>
-                            </a>
+                              <span>{t(subItemKey)}</span>
+                            </NavItemLink>
                           );
                         })}
                       </div>
@@ -1039,7 +1022,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                   variant="ghost"
                   size="icon"
                   className="p-2 text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
-                  aria-label="Menu"
+                  aria-label={t("menu")}
                   onClick={() => setSecondNavMobileOpen(!secondNavMobileOpen)}
                 >
                   {secondNavMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -1053,7 +1036,6 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             <div className="lg:hidden border-t border-border bg-card text-popover-foreground shadow-inner">
               <nav className="flex max-h-[70vh] flex-col gap-2 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
                 {secondNavItems.map((item) => {
-                  const mega = getSecondNavMegaItem(item.key);
                   return (
                     <DropdownMenu key={item.key}>
                       <DropdownMenuTrigger asChild>
@@ -1070,11 +1052,9 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                         align="start"
                         side="right"
                       >
-                        {mega?.description ? (
-                          <p className="mb-3 border-b border-border pb-3 text-sm leading-relaxed text-muted-foreground">
-                            {mega.description}
-                          </p>
-                        ) : null}
+                        <p className="mb-3 border-b border-border pb-3 text-sm leading-relaxed text-muted-foreground">
+                          {t(item.descriptionKey)}
+                        </p>
                         {item.itemKeys.map((subItemKey) => {
                           const href = getTopNavItemHref(subItemKey);
                           if (href !== "#") {

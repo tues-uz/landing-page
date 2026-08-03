@@ -47,22 +47,22 @@ export type MegaSectionDef = {
 
 /** University column — unique labels (header.university.*). */
 export const universityMegaLinks: MegaLinkDef[] = [
-  { href: "#license", icon: FileCheck, labelKey: "header.university.license" },
-  { href: "#mission", icon: Target, labelKey: "header.university.mission" },
-  { href: "#charter", icon: FileText, labelKey: "header.university.charter" },
-  { href: "#structure", icon: Network, labelKey: "header.university.structure" },
+  { href: "/about/regulation", icon: FileCheck, labelKey: "header.university.license" },
+  { href: "/university-mission", icon: Target, labelKey: "header.university.mission" },
+  { href: "/about/regulation", icon: FileText, labelKey: "header.university.charter" },
+  { href: "/about/organizational-structure", icon: Network, labelKey: "header.university.structure" },
   { href: "#councils", icon: Users, labelKey: "header.university.councils" },
-  { href: "#ratings", icon: Award, labelKey: "header.university.ratings" },
+  { href: "/university-ratings", icon: Award, labelKey: "header.university.ratings" },
   { href: "/university-requisites", icon: FileSearch, labelKey: "header.university.requisites" },
-  { href: "#financial-statements", icon: DollarSign, labelKey: "header.university.financialStatements" },
-  { href: "#numbers", icon: BarChart3, labelKey: "header.university.numbers" },
+  { href: "/university-financial-statements", icon: DollarSign, labelKey: "header.university.financialStatements" },
+  { href: "/about/university-in-numbers", icon: BarChart3, labelKey: "header.university.numbers" },
   { href: "#accreditation", icon: Award, labelKey: "header.university.accreditation" },
   { href: "/university-famous-graduates", icon: GraduationCap, labelKey: "header.university.graduates" },
-  { href: "/university-faculties", icon: School, labelKey: "header.university.faculties" },
-  { href: "/university-departments", icon: Building2, labelKey: "header.university.departments" },
+  { href: "/about/organizational-structure", icon: School, labelKey: "header.university.faculties" },
+  { href: "/about/organizational-structure", icon: Building2, labelKey: "header.university.departments" },
   { href: "#centers", icon: FolderOpen, labelKey: "header.university.centers" },
   { href: "#open-data", icon: ExternalLink, labelKey: "header.university.openData" },
-  { href: "#trade-union", icon: Handshake, labelKey: "header.university.tradeUnion" },
+  { href: "/about/workers-union-committee", icon: Handshake, labelKey: "header.university.tradeUnion" },
   { href: "#contract-prices", icon: ClipboardList, labelKey: "header.university.contractPrices" },
 ];
 

@@ -19,6 +19,35 @@ function tr(
   return t(key, { defaultValue: SECONDARY_EDUCATION_REQUIREMENTS_I18N_DEFAULTS[key] });
 }
 
+function FaqAnswer({
+  t,
+  item,
+}: {
+  t: TFunction;
+  item: (typeof SECONDARY_EDUCATION_REQUIREMENTS_FAQ)[number];
+}) {
+  if ("answerType" in item && item.answerType === "link-regulation") {
+    return (
+      <>
+        {tr(t, "secondaryEdFaqA6Before")}{" "}
+        <Link
+          to="/admission-2025/regulation-secondary-education"
+          className="font-medium text-foreground underline-offset-4 hover:underline"
+        >
+          {tr(t, "secondaryEdFaqA6Link")}
+        </Link>{" "}
+        {tr(t, "secondaryEdFaqA6After")}
+      </>
+    );
+  }
+
+  if ("answerKey" in item && item.answerKey) {
+    return tr(t, item.answerKey);
+  }
+
+  return null;
+}
+
 export function SecondaryEducationRequirementsSection() {
   const { t } = useTranslation("topNav");
 
@@ -32,25 +61,10 @@ export function SecondaryEducationRequirementsSection() {
         {SECONDARY_EDUCATION_REQUIREMENTS_FAQ.map((item) => (
           <AccordionItem key={item.id} value={item.id} className="border-border/60">
             <AccordionTrigger className="py-4 text-left text-base font-bold leading-snug text-foreground hover:no-underline sm:text-lg [&[data-state=open]]:text-foreground">
-              {item.question}
+              {tr(t, item.questionKey)}
             </AccordionTrigger>
             <AccordionContent className="pb-4 text-[15px] leading-relaxed text-muted-foreground">
-              {item.id === "official-regulation" ? (
-                <>
-                  The Cabinet of Ministers resolution on the procedure for obtaining a second and subsequent
-                  higher education and related admission rules are published on the Admission 2025 section of
-                  this website. See{" "}
-                  <Link
-                    to="/admission-2025/regulation-secondary-education"
-                    className="font-medium text-foreground underline-offset-4 hover:underline"
-                  >
-                    Regulation on secondary education
-                  </Link>{" "}
-                  for the full text.
-                </>
-              ) : (
-                item.answer
-              )}
+              <FaqAnswer t={t} item={item} />
             </AccordionContent>
           </AccordionItem>
         ))}

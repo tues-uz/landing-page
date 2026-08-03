@@ -1,5 +1,11 @@
 {
   "breadcrumbHome": "Главная",
+  "breadcrumbNav": "Навигационная цепочка",
+  "contactPhone": "Номер телефона",
+  "contactEmail": "E-mail",
+  "contactTelegram": "Telegram",
+  "contactReceptionTime": "Время приёма",
+  "departmentStaffHeading": "Профессорско-преподавательский состав кафедры",
   "previous": "Назад",
   "next": "Вперед",
   "changeLanguage": "Сменить язык",

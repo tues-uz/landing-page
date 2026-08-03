@@ -1,7 +1,36 @@
 import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 /** Shared layout for every admin page: same header block + content area. */
 export const ADMIN_CARD_CLASS = "rounded-xl border border-slate-200 bg-white shadow-sm";
+
+/** Fixed bottom bar for admin forms (Save / Cancel). Matches MainHeader width/offset (left-64, px-4 sm:px-6). */
+export function AdminFormFooter({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <footer
+      className={cn(
+        "fixed bottom-0 left-64 right-0 z-30 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-1px_3px_rgba(15,23,42,0.06)] backdrop-blur supports-[backdrop-filter]:bg-white/80 sm:px-6",
+        className,
+      )}
+    >
+      {children}
+    </footer>
+  );
+}
+
+/** Secondary fixed bar directly under MainHeader (Back / Publish). */
+export function AdminSubHeader({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <div
+      className={cn(
+        "fixed top-[77px] left-64 right-0 z-30 flex h-14 shrink-0 items-center justify-between border-b border-sidebar-border bg-white px-4 sm:px-6",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
 
 interface AdminPageShellProps {
   /** Page title (e.g. "Dashboard", "Hero section", "News", "Events", "Programs") */
@@ -13,11 +42,20 @@ interface AdminPageShellProps {
   actions?: ReactNode;
   /** When true, skip the default header (TUES CMS + title). Use for form pages that have their own top bar. */
   bare?: boolean;
+  /** Optional class on the bare wrapper (e.g. adjust padding when using AdminSubHeader). */
+  bareClassName?: string;
 }
 
-export function AdminPageShell({ title = "", description = "Welcome back, Admin 👋", children, actions, bare }: AdminPageShellProps) {
+export function AdminPageShell({
+  title = "",
+  description = "Welcome back, Admin 👋",
+  children,
+  actions,
+  bare,
+  bareClassName,
+}: AdminPageShellProps) {
   if (bare) {
-    return <div className="space-y-6 p-6">{children}</div>;
+    return <div className={cn("space-y-6 p-6", bareClassName)}>{children}</div>;
   }
   return (
     <div className="p-6">

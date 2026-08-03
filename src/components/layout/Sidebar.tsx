@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/features/auth/context";
 import { adminApi, type MenuItem } from "@/api/auth";
+import { adminNavI18nKey } from "@/lib/adminNavI18n";
 
 const CMS_BASE = "/admin";
 
@@ -121,7 +122,7 @@ export function Sidebar() {
               }
             >
               <Icon className="h-4 w-4 shrink-0" />
-              {t(item.id, item.label)}
+              {t(adminNavI18nKey(item.id), item.label)}
             </NavLink>
           );
         })}
@@ -177,7 +178,7 @@ export function Sidebar() {
                     }
                   >
                     <Icon className="h-3.5 w-3.5 shrink-0" />
-                    {t(label.toLowerCase().replace(/\s+/g, ""), label)}
+                    {t(adminNavI18nKey(label), label)}
                   </NavLink>
                 ))}
               </div>
@@ -217,7 +218,7 @@ export function Sidebar() {
                       }
                     >
                       <Icon className="h-3.5 w-3.5 shrink-0" />
-                      {t(item.id, item.label)}
+                      {t(adminNavI18nKey(item.id), item.label)}
                     </NavLink>
                   );
                 })}

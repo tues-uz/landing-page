@@ -1,5 +1,6 @@
 import { Clock3, Mail, MessageCircle, Phone } from "lucide-react";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import type { DepartmentProfile, DepartmentSection, DepartmentStaffMember } from "@/data/departmentProfiles";
 import { NEUTRAL_BORDER } from "@/lib/uiBorders";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,8 @@ type DepartmentProfileContentProps = {
 };
 
 export function DepartmentProfileContent({ profile }: DepartmentProfileContentProps) {
+  const { t } = useTranslation("common");
+
   return (
     <>
       <section className="overflow-hidden rounded-2xl bg-card">
@@ -39,25 +42,25 @@ export function DepartmentProfileContent({ profile }: DepartmentProfileContentPr
             <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
               <ContactCard
                 icon={<Phone className="h-3.5 w-3.5" />}
-                label="Phone number"
+                label={t("contactPhone")}
                 value={profile.phone}
                 href={`tel:${profile.phone}`}
               />
               <ContactCard
                 icon={<Mail className="h-3.5 w-3.5" />}
-                label="E-mail"
+                label={t("contactEmail")}
                 value={profile.email}
                 href={`mailto:${profile.email}`}
               />
               <ContactCard
                 icon={<MessageCircle className="h-3.5 w-3.5" />}
-                label="Telegram"
+                label={t("contactTelegram")}
                 value={profile.telegram}
                 href={`tel:${profile.telegram}`}
               />
               <ContactCard
                 icon={<Clock3 className="h-3.5 w-3.5" />}
-                label="Reception time"
+                label={t("contactReceptionTime")}
                 value={profile.reception}
               />
             </div>
@@ -72,7 +75,7 @@ export function DepartmentProfileContent({ profile }: DepartmentProfileContentPr
       {profile.staffMembers.length > 0 ? (
         <section className="mt-6 rounded-2xl bg-card p-4 sm:p-5 md:p-6">
           <h2 className="text-lg font-semibold tracking-tight text-foreground md:text-xl">
-            Department professors and teachers
+            {t("departmentStaffHeading")}
           </h2>
           <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {profile.staffMembers.map((member) => (

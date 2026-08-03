@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import useEmblaCarousel from "embla-carousel-react";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -21,6 +22,7 @@ function markNearbyIndices(set: Set<number>, active: number, total: number, radi
 }
 
 export function PhotoGalleryCards() {
+  const { t } = useTranslation("topNav");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set());
@@ -113,7 +115,11 @@ export function PhotoGalleryCards() {
                 "group block w-full overflow-hidden rounded-2xl text-left outline-none",
                 "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               )}
-              aria-label={`Open image ${index + 1} of ${items.length} in viewer`}
+              aria-label={t("photoGallery.openImage", {
+                current: index + 1,
+                total: items.length,
+                defaultValue: `Open image ${index + 1} of ${items.length} in viewer`,
+              })}
             >
               <div className="aspect-[4/3] overflow-hidden bg-muted">
                 <img
@@ -143,7 +149,11 @@ export function PhotoGalleryCards() {
           aria-describedby={undefined}
         >
           <DialogTitle className="sr-only">
-            Photo {activeIndex + 1} of {items.length}
+            {t("photoGallery.photoTitle", {
+              current: activeIndex + 1,
+              total: items.length,
+              defaultValue: `Photo ${activeIndex + 1} of ${items.length}`,
+            })}
           </DialogTitle>
           {open ? (
             <div className="flex items-center gap-2 sm:gap-3">
@@ -156,7 +166,7 @@ export function PhotoGalleryCards() {
                   e.stopPropagation();
                   goPrev();
                 }}
-                aria-label="Previous image"
+                aria-label={t("photoGallery.previousImage", { defaultValue: "Previous image" })}
               >
                 <ChevronLeft className="h-6 w-6" />
               </Button>
@@ -200,7 +210,7 @@ export function PhotoGalleryCards() {
                   e.stopPropagation();
                   goNext();
                 }}
-                aria-label="Next image"
+                aria-label={t("photoGallery.nextImage", { defaultValue: "Next image" })}
               >
                 <ChevronRight className="h-6 w-6" />
               </Button>

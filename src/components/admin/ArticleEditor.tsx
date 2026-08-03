@@ -19,6 +19,7 @@ import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import { YoutubeExtension, isValidYoutubeUrl } from "@/lib/youtubeExtension";
+import { CarouselExtension } from "@/lib/carouselExtension";
 import type { Editor } from "@tiptap/core";
 import type { TiptapDocJSON } from "@/types/article";
 import {
@@ -59,10 +60,18 @@ import {
   Plus,
   Video,
   X,
+  Images,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const PLACEHOLDER = "Tell your story...";
+
+type CarouselDraftItem = {
+  id: string;
+  file: File;
+  previewUrl: string;
+};
 
 const SLASH_COMMANDS: Array<{
   title: string;
@@ -77,6 +86,7 @@ const SLASH_COMMANDS: Array<{
   { title: "Quote", keywords: ["quote", "blockquote"], icon: <Quote className="h-4 w-4" />, run: (e) => e.chain().focus().toggleBlockquote().run() },
   { title: "Code block", keywords: ["code", "pre"], icon: <Code className="h-4 w-4" />, run: (e) => e.chain().focus().toggleCodeBlock().run() },
   { title: "Image", keywords: ["image", "img", "photo"], icon: <ImageIcon className="h-4 w-4" />, run: () => {} },
+  { title: "Carousel", keywords: ["carousel", "gallery", "slider", "images"], icon: <Images className="h-4 w-4" />, run: () => {} },
   { title: "Divider", keywords: ["divider", "hr", "line"], icon: <Minus className="h-4 w-4" />, run: (e) => e.chain().focus().setHorizontalRule().run() },
   { title: "Bullet list", keywords: ["ul", "bullet"], icon: <List className="h-4 w-4" />, run: (e) => e.chain().focus().toggleBulletList().run() },
   { title: "Numbered list", keywords: ["ol", "numbered"], icon: <ListOrdered className="h-4 w-4" />, run: (e) => e.chain().focus().toggleOrderedList().run() },
@@ -138,6 +148,12 @@ export function ArticleEditor({
   const [slashIndex, setSlashIndex] = useState(0);
   const [slashPos, setSlashPos] = useState<{ top: number; left: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const carouselInputRef = useRef<HTMLInputElement>(null);
+  const carouselInsertPosRef = useRef<number | null>(null);
+  const [carouselDialogOpen, setCarouselDialogOpen] = useState(false);
+  const [carouselDraft, setCarouselDraft] = useState<CarouselDraftItem[]>([]);
+  const carouselDraftRef = useRef<CarouselDraftItem[]>([]);
+  carouselDraftRef.current = carouselDraft;
   const slashStateRef = useRef({ open: false, filter: "", index: 0 });
   slashStateRef.current = { open: slashOpen, filter: slashFilter, index: slashIndex };
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
@@ -151,6 +167,7 @@ export function ArticleEditor({
   const [linkEmbedUrl, setLinkEmbedUrl] = useState("");
   const linkEmbedInsertPosRef = useRef<number | null>(null);
   const linkEmbedInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingCarousel, setUploadingCarousel] = useState(false);
   const { toast } = useToast();
 
   const initialContent = useMemo(() => {
@@ -173,6 +190,7 @@ export function ArticleEditor({
       Image.configure({ inline: false, allowBase64: false }),
       HorizontalRule,
       YoutubeExtension.configure({ inline: false, width: 640, height: 360 }),
+      CarouselExtension,
     ],
     content: initialContent,
     editorProps: {
@@ -208,7 +226,11 @@ export function ArticleEditor({
             event.preventDefault();
             const cmd = list[Math.min(stateRef.index, len - 1)];
             if (cmd?.title === "Image") fileInputRef.current?.click();
-            else if (cmd) cmd.run(editor!);
+            else if (cmd?.title === "Carousel") {
+              carouselInsertPosRef.current = editor!.state.selection.anchor;
+              setCarouselDraft([]);
+              setCarouselDialogOpen(true);
+            } else if (cmd) cmd.run(editor!);
             setSlashOpen(false);
             setSlashFilter("");
             setSlashIndex(0);
@@ -327,6 +349,106 @@ export function ArticleEditor({
     },
     [editor, onImageUpload]
   );
+
+  const clearCarouselDraft = useCallback((items: CarouselDraftItem[]) => {
+    for (const item of items) URL.revokeObjectURL(item.previewUrl);
+  }, []);
+
+  const addCarouselDraftFiles = useCallback((files: FileList | File[]) => {
+    const images = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (images.length === 0) {
+      toast({ title: "Select image files only", variant: "destructive" });
+      return;
+    }
+    setCarouselDraft((prev) => [
+      ...prev,
+      ...images.map((file) => ({
+        id: `${file.name}-${file.size}-${Date.now()}-${Math.random()}`,
+        file,
+        previewUrl: URL.createObjectURL(file),
+      })),
+    ]);
+  }, [toast]);
+
+  const removeCarouselDraftItem = useCallback((id: string) => {
+    setCarouselDraft((prev) => {
+      const target = prev.find((item) => item.id === id);
+      if (target) URL.revokeObjectURL(target.previewUrl);
+      return prev.filter((item) => item.id !== id);
+    });
+  }, []);
+
+  const insertCarousel = useCallback(
+    (images: string[]) => {
+      if (!editor || images.length === 0) return;
+      const pos = carouselInsertPosRef.current ?? editor.state.selection.anchor;
+      editor
+        .chain()
+        .focus()
+        .insertContentAt(pos, { type: "imageCarousel", attrs: { images } })
+        .setTextSelection(pos + 1)
+        .run();
+      carouselInsertPosRef.current = null;
+    },
+    [editor]
+  );
+
+  const openCarouselDialog = useCallback(() => {
+    if (!editor || uploadingCarousel) return;
+    editor.chain().focus().run();
+    carouselInsertPosRef.current = editor.state.selection.anchor;
+    setCarouselDraft([]);
+    setCarouselDialogOpen(true);
+  }, [editor, uploadingCarousel]);
+
+  const closeCarouselDialog = useCallback(() => {
+    setCarouselDraft((prev) => {
+      clearCarouselDraft(prev);
+      return [];
+    });
+    setCarouselDialogOpen(false);
+    carouselInsertPosRef.current = null;
+  }, [clearCarouselDraft]);
+
+  const handleCarouselInsert = useCallback(async () => {
+    if (!editor) return;
+    if (carouselDraft.length === 0) {
+      toast({ title: "Add at least one image", variant: "destructive" });
+      return;
+    }
+    setUploadingCarousel(true);
+    try {
+      const urls: string[] = [];
+      for (const item of carouselDraft) {
+        if (onImageUpload) {
+          urls.push(await onImageUpload(item.file));
+        } else {
+          urls.push(item.previewUrl);
+        }
+      }
+      insertCarousel(urls);
+      const isDemo = urls.some((url) => url.startsWith("blob:"));
+      toast({
+        title: "Carousel added",
+        description: isDemo
+          ? `${urls.length} image${urls.length === 1 ? "" : "s"} inserted (demo preview — not saved to server).`
+          : `${urls.length} image${urls.length === 1 ? "" : "s"} inserted.`,
+      });
+      clearCarouselDraft(carouselDraft);
+      setCarouselDraft([]);
+      setCarouselDialogOpen(false);
+    } catch (e) {
+      toast({ title: "Carousel upload failed", description: String(e), variant: "destructive" });
+    } finally {
+      setUploadingCarousel(false);
+    }
+  }, [carouselDraft, clearCarouselDraft, editor, insertCarousel, onImageUpload, toast]);
+
+  useEffect(() => {
+    return () => {
+      clearCarouselDraft(carouselDraftRef.current);
+    };
+  }, [clearCarouselDraft]);
 
   useEffect(() => {
     if (!editor) return;
@@ -506,6 +628,18 @@ export function ArticleEditor({
           e.target.value = "";
         }}
       />
+      <input
+        ref={carouselInputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => {
+          const files = e.target.files;
+          if (files?.length) addCarouselDraftFiles(files);
+          e.target.value = "";
+        }}
+      />
 
       <BubbleMenu
         editor={editor}
@@ -623,7 +757,7 @@ export function ArticleEditor({
                     <Plus className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" side="bottom" className="min-w-[11rem] overflow-visible p-1.5 rounded-xl border border-border shadow-lg">
+                <DropdownMenuContent align="start" side="bottom" className="min-w-[20rem] overflow-visible p-1.5 rounded-xl border border-border shadow-lg">
                   <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Insert block">
                     <button
                       type="button"
@@ -680,6 +814,16 @@ export function ArticleEditor({
                     >
                       <LinkIcon className="h-4 w-4 shrink-0" />
                       <span className="text-xs font-medium">Link</span>
+                    </button>
+                    <button
+                      type="button"
+                      title="Add an image carousel"
+                      aria-label="Add carousel"
+                      className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-[#1A8917] pl-1.5 pr-2 text-[#1A8917] bg-transparent hover:bg-[#1A8917]/10 focus:outline-none focus:ring-2 focus:ring-[#1A8917]/30 transition-colors"
+                      onClick={openCarouselDialog}
+                    >
+                      <Images className="h-4 w-4 shrink-0" />
+                      <span className="text-xs font-medium">Carousel</span>
                     </button>
                     <button
                       type="button"
@@ -795,6 +939,97 @@ export function ArticleEditor({
         </DialogContent>
       </Dialog>
 
+      <Dialog
+        open={carouselDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) closeCarouselDialog();
+          else setCarouselDialogOpen(true);
+        }}
+      >
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Add image carousel</DialogTitle>
+            <DialogDescription>
+              Upload multiple images. They will appear as a horizontal scrolling gallery in the article.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => carouselInputRef.current?.click()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  carouselInputRef.current?.click();
+                }
+              }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.dataTransfer.files?.length) addCarouselDraftFiles(e.dataTransfer.files);
+              }}
+              className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-6 text-center transition-colors hover:border-primary/60 hover:bg-muted/40 cursor-pointer"
+            >
+              <Images className="h-8 w-8 text-muted-foreground" />
+              <p className="text-sm font-medium text-foreground">Drag & drop images here</p>
+              <p className="text-xs text-muted-foreground">or click to browse · JPG, PNG, WebP</p>
+            </div>
+
+            {carouselDraft.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">
+                  {carouselDraft.length} image{carouselDraft.length === 1 ? "" : "s"} selected
+                </p>
+                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                  {carouselDraft.map((item, index) => (
+                    <div key={item.id} className="relative shrink-0">
+                      <img
+                        src={item.previewUrl}
+                        alt={`Carousel image ${index + 1}`}
+                        className="h-24 w-32 rounded-md object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeCarouselDraftItem(item.id)}
+                        className="absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-border bg-background text-muted-foreground shadow-sm hover:text-foreground"
+                        aria-label={`Remove image ${index + 1}`}
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={closeCarouselDialog} disabled={uploadingCarousel}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              className="bg-[#1A8917] hover:bg-[#1A8917]/90"
+              onClick={() => void handleCarouselInsert()}
+              disabled={uploadingCarousel || carouselDraft.length === 0}
+            >
+              {uploadingCarousel ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Uploading…
+                </>
+              ) : (
+                "Insert carousel"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {showStats && (
         <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
           <span>{wordCount} words</span>
@@ -827,6 +1062,7 @@ export function ArticleEditor({
                   onMouseEnter={() => setSlashIndex(i)}
                   onClick={() => {
                     if (cmd.title === "Image") fileInputRef.current?.click();
+                    else if (cmd.title === "Carousel") openCarouselDialog();
                     else cmd.run(editor);
                     closeSlash();
                   }}

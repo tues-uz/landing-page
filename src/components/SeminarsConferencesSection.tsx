@@ -1,5 +1,13 @@
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { SEMINARS_CONFERENCES_ROWS } from "@/config/seminarsConferencesData";
+import {
+  SEMINARS_CONFERENCES_DEFAULTS,
+  SEMINARS_CONFERENCES_ROWS,
+} from "@/config/seminarsConferencesData";
+
+function trSeminars(t: TFunction, key: keyof typeof SEMINARS_CONFERENCES_DEFAULTS) {
+  return t(key, { defaultValue: SEMINARS_CONFERENCES_DEFAULTS[key] });
+}
 
 export function SeminarsConferencesSection() {
   const { t } = useTranslation("topNav");
@@ -40,9 +48,15 @@ export function SeminarsConferencesSection() {
             {SEMINARS_CONFERENCES_ROWS.map((row) => (
               <tr key={row.no} className="border-b border-border last:border-0">
                 <td className="align-top px-3 py-3 tabular-nums text-muted-foreground sm:px-4">{row.no}</td>
-                <td className="max-w-md px-3 py-3 text-foreground sm:px-4">{row.title}</td>
-                <td className="whitespace-nowrap px-3 py-3 text-muted-foreground sm:px-4">{row.level}</td>
-                <td className="whitespace-nowrap px-3 py-3 text-muted-foreground sm:px-4">{row.date}</td>
+                <td className="max-w-md px-3 py-3 text-foreground sm:px-4">
+                  {trSeminars(t, row.titleKey as keyof typeof SEMINARS_CONFERENCES_DEFAULTS)}
+                </td>
+                <td className="whitespace-nowrap px-3 py-3 text-muted-foreground sm:px-4">
+                  {trSeminars(t, row.levelKey)}
+                </td>
+                <td className="whitespace-nowrap px-3 py-3 text-muted-foreground sm:px-4">
+                  {trSeminars(t, row.dateKey as keyof typeof SEMINARS_CONFERENCES_DEFAULTS)}
+                </td>
               </tr>
             ))}
           </tbody>

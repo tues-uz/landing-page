@@ -15,9 +15,23 @@ import type {
 import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@/types/studyPrograms";
 import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
 import type { TiptapDocJSON } from "@/types/article";
+import { toApiDateValue, toDateInputValue } from "@/lib/newsDateUtils";
 import { tokenStore } from "./auth";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+
+/** Use blob URLs locally instead of calling the media API (CMS UI demo). */
+const CMS_DEMO_MEDIA =
+  import.meta.env.VITE_CMS_DEMO_MEDIA === "true" ||
+  import.meta.env.VITE_CMS_DEMO_MEDIA === "1";
+
+function demoMediaUpload(file: File): { id: string; url: string; demo: true } {
+  return {
+    id: `demo-${Date.now()}-${file.name}`,
+    url: URL.createObjectURL(file),
+    demo: true,
+  };
+}
 
 export interface ApplicationItem {
   id: string;
@@ -80,6 +94,34 @@ function sortNewsByOrder(items: NewsItem[]): NewsItem[] {
     if (Number.isNaN(bOrder)) return -1;
     return aOrder - bOrder;
   });
+}
+
+type NewsItemRaw = NewsItem & {
+  publishedAt?: string;
+  published_at?: string;
+  createdAt?: string;
+  created_at?: string;
+};
+
+/** Map API date fields to the `date` string used by the CMS form. */
+function normalizeNewsItem(raw: NewsItemRaw): NewsItem {
+  const dateSource =
+    raw.date ?? raw.publishedAt ?? raw.published_at ?? raw.createdAt ?? raw.created_at ?? "";
+  return {
+    ...raw,
+    date: toDateInputValue(dateSource) || toDateInputValue(raw.date) || "",
+  };
+}
+
+/** Build a news write payload with a normalized publication date. */
+function serializeNewsPayload(payload: Partial<NewsItem>): Record<string, unknown> {
+  const { id: _id, ...rest } = payload as Partial<NewsItem> & { id?: string };
+  const date = toApiDateValue(rest.date);
+  return {
+    ...rest,
+    date,
+    publishedAt: date,
+  };
 }
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -150,7 +192,7 @@ export const adminApi = {
       const url = locale ? `${API_BASE}/content/news?locale=${locale}` : `${API_BASE}/content/news`;
       const data = await fetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
-      const news = unwrapped?.news ?? [];
+      const news = (unwrapped?.news ?? []).map((item: NewsItemRaw) => normalizeNewsItem(item));
       return sortNewsByOrder(news);
     },
     getBySlug: async (slug: string, locale?: string): Promise<NewsItem | null> => {
@@ -160,7 +202,8 @@ export const adminApi = {
         if (!res.ok) return null;
         const data = await res.json();
         const unwrapped = data?.data ?? data;
-        return unwrapped?.news ?? null;
+        const raw = unwrapped?.news ?? null;
+        return raw ? normalizeNewsItem(raw as NewsItemRaw) : null;
       } catch {
         return null;
       }
@@ -169,17 +212,19 @@ export const adminApi = {
       const res = await fetch(`${API_BASE}/content/news`, {
         method: "POST",
         headers: getAuthHeaders(),
-        body: JSON.stringify(payload),
+        body: JSON.stringify(serializeNewsPayload(payload)),
       });
-      return handleResponse<NewsItem>(res);
+      const created = await handleResponse<NewsItemRaw>(res);
+      return normalizeNewsItem(created);
     },
     update: async (id: string, payload: Partial<NewsItem>): Promise<NewsItem> => {
       const res = await fetch(`${API_BASE}/content/news/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
-        body: JSON.stringify(payload),
+        body: JSON.stringify(serializeNewsPayload(payload)),
       });
-      return handleResponse<NewsItem>(res);
+      const updated = await handleResponse<NewsItemRaw>(res);
+      return normalizeNewsItem(updated);
     },
     reorder: async (highlightIds: string[]): Promise<void> => {
       const res = await fetch(`${API_BASE}/content/news/reorder`, {
@@ -250,20 +295,28 @@ export const adminApi = {
       });
       return handleResponse<{ uploadUrl: string; objectKey: string; publicUrl: string }>(res);
     },
-    /** Upload file via presign: get presigned URL, PUT file, return public URL. */
-    upload: async (file: File): Promise<{ id: string; url: string }> => {
-      const contentType = file.type || "application/octet-stream";
-      const { uploadUrl, objectKey, publicUrl } = await adminApi.media.presign(contentType);
-      const putRes = await fetch(uploadUrl, {
-        method: "PUT",
-        headers: { "Content-Type": contentType },
-        body: file,
-      });
-      if (!putRes.ok) {
-        const text = await putRes.text();
-        throw new Error(`Upload PUT ${putRes.status}: ${text || putRes.statusText}`);
+    /** Upload file via presign: get presigned URL, PUT file, return public URL. Falls back to local blob URLs when demo mode is on or the API fails. */
+    upload: async (file: File): Promise<{ id: string; url: string; demo?: boolean }> => {
+      if (CMS_DEMO_MEDIA) {
+        return demoMediaUpload(file);
       }
-      return { id: objectKey, url: publicUrl };
+      const contentType = file.type || "application/octet-stream";
+      try {
+        const { uploadUrl, objectKey, publicUrl } = await adminApi.media.presign(contentType);
+        const putRes = await fetch(uploadUrl, {
+          method: "PUT",
+          headers: { "Content-Type": contentType },
+          body: file,
+        });
+        if (!putRes.ok) {
+          const text = await putRes.text();
+          throw new Error(`Upload PUT ${putRes.status}: ${text || putRes.statusText}`);
+        }
+        return { id: objectKey, url: publicUrl };
+      } catch (err) {
+        console.warn("[adminApi.media.upload] API upload failed; using local demo URL.", err);
+        return demoMediaUpload(file);
+      }
     },
   },
   programs: {

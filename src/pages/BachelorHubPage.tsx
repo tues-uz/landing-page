@@ -31,7 +31,7 @@ export default function BachelorHubPage() {
       <main className="below-header">
         <div className="border-b border-border bg-muted/50">
           <div className="container mx-auto flex max-w-[1348px] items-center px-4 py-3 sm:px-6 lg:px-8">
-            <nav aria-label="Breadcrumb" className="min-w-0 flex-1">
+            <nav aria-label={tCommon("breadcrumbNav")} className="min-w-0 flex-1">
               <ol className="m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0 text-sm text-[#5A626C]">
                 <li className="flex items-center">
                   <Link

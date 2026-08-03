@@ -4,6 +4,17 @@ export function isNewsImageParagraph(para: string): boolean {
   return para === "[Image]" || (para.startsWith("[Image: ") && para.endsWith("]"));
 }
 
+export function isNewsGalleryParagraph(para: string): boolean {
+  return para.startsWith("[Gallery: ") && para.endsWith("]");
+}
+
+export function getNewsGalleryUrls(para: string): string[] {
+  if (!isNewsGalleryParagraph(para)) return [];
+  const inner = para.slice(9, -1).trim();
+  if (!inner) return [];
+  return inner.split("|").map((url) => url.trim()).filter(Boolean);
+}
+
 export function getNewsImageSrc(para: string): string | null {
   if (para === "[Image]") return null;
   if (!para.startsWith("[Image: ") || !para.endsWith("]")) return null;
@@ -40,7 +51,12 @@ export function getNewsHeroImages(item: Pick<NewsItem, "imageUrl" | "body">): st
 }
 
 function isTextParagraph(para: string): boolean {
-  return Boolean(para && !isNewsImageParagraph(para) && !para.startsWith("[Link: "));
+  return Boolean(
+    para &&
+      !isNewsImageParagraph(para) &&
+      !isNewsGalleryParagraph(para) &&
+      !para.startsWith("[Link: "),
+  );
 }
 
 export function getFirstNewsParagraph(body: NewsSection[]): string | null {

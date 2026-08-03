@@ -4,6 +4,7 @@
  */
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const REQUEST_TIMEOUT_MS = 15_000;
 
 const TOKEN_KEY = "auth:accessToken";
 const REFRESH_KEY = "auth:refreshToken";
@@ -27,7 +28,7 @@ async function attemptRefresh(): Promise<string | null> {
   if (!refreshToken) return null;
   if (isRefreshing && refreshPromise) return refreshPromise;
   isRefreshing = true;
-  refreshPromise = fetch(`${API_BASE}/auth/refresh`, {
+  refreshPromise = fetchWithTimeout(`${API_BASE}/auth/refresh`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ refreshToken }),
@@ -49,6 +50,21 @@ async function attemptRefresh(): Promise<string | null> {
   return refreshPromise;
 }
 
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = REQUEST_TIMEOUT_MS): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      throw new Error("Request timed out");
+    }
+    throw err;
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
 async function request<T>(path: string, options?: RequestInit, retry = true): Promise<T> {
   const accessToken = tokenStore.get();
   const headers: Record<string, string> = {
@@ -57,7 +73,7 @@ async function request<T>(path: string, options?: RequestInit, retry = true): Pr
   };
   if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
 
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  const res = await fetchWithTimeout(`${API_BASE}${path}`, { ...options, headers });
 
   if (res.status === 401 && retry) {
     const newToken = await attemptRefresh();

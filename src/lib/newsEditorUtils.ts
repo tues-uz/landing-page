@@ -5,7 +5,7 @@ interface PMNode {
   type: string;
   content?: PMNode[];
   text?: string;
-  attrs?: { level?: number; href?: string; src?: string };
+  attrs?: { level?: number; href?: string; src?: string; images?: string[] };
   marks?: { type: string; attrs?: { href?: string } }[];
 }
 
@@ -18,6 +18,26 @@ function getText(node: PMNode): string {
 
 const LINK_PLACEHOLDER_PREFIX = "[Link: ";
 const LINK_PLACEHOLDER_END = "]";
+
+const GALLERY_PLACEHOLDER_PREFIX = "[Gallery: ";
+const GALLERY_PLACEHOLDER_END = "]";
+
+export function isNewsGalleryParagraph(para: string): boolean {
+  return para.startsWith(GALLERY_PLACEHOLDER_PREFIX) && para.endsWith(GALLERY_PLACEHOLDER_END);
+}
+
+export function getNewsGalleryUrls(para: string): string[] {
+  if (!isNewsGalleryParagraph(para)) return [];
+  const inner = para.slice(GALLERY_PLACEHOLDER_PREFIX.length, -GALLERY_PLACEHOLDER_END.length).trim();
+  if (!inner) return [];
+  return inner.split("|").map((url) => url.trim()).filter(Boolean);
+}
+
+export function serializeNewsGalleryUrls(urls: string[]): string {
+  const cleaned = urls.map((url) => url.trim()).filter(Boolean);
+  if (cleaned.length === 0) return "";
+  return `${GALLERY_PLACEHOLDER_PREFIX}${cleaned.join("|")}${GALLERY_PLACEHOLDER_END}`;
+}
 
 /** If paragraph is a single link (one text node with link mark), return "[Link: href]" for round-trip. */
 function getParagraphLinkSerialized(paragraph: PMNode): string | null {
@@ -84,9 +104,12 @@ export function tiptapJsonToSections(doc: { content?: PMNode[] } | null): NewsSe
       const text = getText(node).trim();
       if (text) current.paragraphs.push(text);
     } else if (node.type === "image") {
-      const alt = (node.attrs as { alt?: string })?.alt;
-      const src = (node.attrs as { src?: string })?.src;
-      current.paragraphs.push(alt || src ? `[Image: ${alt || src}]` : "[Image]");
+      const src = (node.attrs as { src?: string })?.src?.trim();
+      current.paragraphs.push(src ? `[Image: ${src}]` : "[Image]");
+    } else if (node.type === "imageCarousel") {
+      const images = (node.attrs as { images?: string[] })?.images ?? [];
+      const serialized = serializeNewsGalleryUrls(images);
+      if (serialized) current.paragraphs.push(serialized);
     }
     // horizontalRule: skip (no text to store)
   }
@@ -121,7 +144,15 @@ export function sectionsToTiptapContent(sections: NewsSection[]): PMNode[] {
       });
     }
     for (const p of section.paragraphs || []) {
-      if (isImagePlaceholder(p)) {
+      if (isNewsGalleryParagraph(p)) {
+        const images = getNewsGalleryUrls(p);
+        if (images.length > 0) {
+          blocks.push({
+            type: "imageCarousel",
+            attrs: { images },
+          });
+        }
+      } else if (isImagePlaceholder(p)) {
         const src = imagePlaceholderToSrc(p);
         if (src) {
           blocks.push({

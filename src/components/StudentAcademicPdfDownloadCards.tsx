@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { DownloadCard } from "@/components/DownloadCard";
 
 export type PdfDownloadCard = {
@@ -9,6 +10,8 @@ export type PdfDownloadCard = {
 };
 
 export function StudentAcademicPdfDownloadCards({ cards }: { cards: readonly PdfDownloadCard[] }) {
+  const { t } = useTranslation("topNav");
+
   return (
     <ul className="mt-10 grid grid-cols-1 gap-[16px] md:grid-cols-2" role="list">
       {cards.map((card) => (
@@ -16,11 +19,11 @@ export function StudentAcademicPdfDownloadCards({ cards }: { cards: readonly Pdf
           <DownloadCard
             title={card.title}
             description={card.description}
-            cta={card.cta ?? "Download"}
+            cta={card.cta ?? t("officialDocumentsDownloadCta", { defaultValue: "Download" })}
             href={card.fileHref}
             imageSrc={card.imageSrc}
             imageAlt={card.title}
-            previewBadge="PDF"
+            previewBadge={t("officialDocumentsPdfBadge", { defaultValue: "PDF" })}
           />
         </li>
       ))}

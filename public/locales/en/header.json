@@ -36,6 +36,7 @@
     "studyProgramApply": "Application form — admission",
     "universityMission": "University mission",
     "universityRequisites": "Requisites (legal & bank details)",
+    "financialStatements": "Financial statements",
     "famousGraduates": "Famous graduates",
     "universityFaculties": "Faculties",
     "universityDepartments": "Departments",
@@ -110,7 +111,8 @@
     "scientificArticles": "Scientific articles",
     "entrepreneurialClubs": "Entrepreneurial clubs",
     "scienceCertificates": "Certificates",
-    "centerResearchSustainable": "Center for research and sustainable innovation"
+    "centerResearchSustainable": "Center for research and sustainable innovation",
+    "universityRatings": "International rankings"
   },
   "qualificationRequirementsPageIntro": "The following education areas, listed with specialist ciphers, fall under the current qualification requirements framework.",
   "mastersDegreePageIntro": "Postgraduate (master’s) programs offered at the university, with specialist codes, duration, credit load, and professional scope. Programs are full-time unless stated otherwise in the information below.",
@@ -246,6 +248,16 @@
     "admission2025": "Admission 2025",
     "informationServices": "Information Services",
     "vacancies": "Vacancies"
+  },
+  "secondNavMegaBlurb": {
+    "university": "Currently, the university has 24 Bachelor's and 13 master's degrees. An electronic IRC is formed on the necessary books on the education of students. Applicants may be aware of the information on the admission process to the University remotely.",
+    "education": "Academic programs, courses, calendar, faculty and departments.",
+    "science": "Research areas, laboratories, publications and collaborations.",
+    "internationalization": "Exchange programs, global partnerships and international students.",
+    "studentLife": "Campus life, clubs, housing, dining and wellness.",
+    "admission2025": "Requirements, application process, deadlines and scholarships.",
+    "informationServices": "Library, IT services, online resources and support.",
+    "vacancies": "Academic, administrative and research positions."
   },
   "secondNavItems": {
     "overview": "Overview",

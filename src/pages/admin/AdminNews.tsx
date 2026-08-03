@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,16 +23,31 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { adminApi, type NewsItem, type NewsSection } from "@/api/adminClient";
-import { AdminPageShell } from "./AdminPageShell";
+import { AdminFormFooter, AdminPageShell, AdminSubHeader } from "./AdminPageShell";
 import { ArticleEditor } from "@/components/admin/ArticleEditor";
 import { tiptapJsonToSections, sectionsToTiptapDoc } from "@/lib/newsEditorUtils";
+import { toApiDateValue, toDateInputValue } from "@/lib/newsDateUtils";
 import type { TiptapDocJSON } from "@/types/article";
 import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload, Search } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 
-const CATEGORIES = ["News", "Announcements", "Events", "Blog"];
-const DISPLAY_OPTIONS = ["Regular", "Highlight"];
+const CATEGORY_OPTIONS = [
+  { value: "News", labelKey: "categoryNews" },
+  { value: "Announcements", labelKey: "categoryAnnouncements" },
+  { value: "Events", labelKey: "categoryEvents" },
+  { value: "Blog", labelKey: "categoryBlog" },
+] as const;
+
+const DISPLAY_OPTION_VALUES = ["Regular", "Highlight"] as const;
+
+function categoryLabelKey(value: string): (typeof CATEGORY_OPTIONS)[number]["labelKey"] {
+  return CATEGORY_OPTIONS.find((c) => c.value === value)?.labelKey ?? "categoryNews";
+}
+
+function displayLabelKey(value: string): "displayRegular" | "displayHighlight" {
+  return value === "Highlight" ? "displayHighlight" : "displayRegular";
+}
 
 /** Derive URL slug from title: lowercase, spaces to hyphens, strip non-alphanumeric. */
 function titleToSlug(title: string): string {
@@ -43,6 +58,48 @@ function titleToSlug(title: string): string {
     .replace(/[^a-z0-9-]/g, "")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+function articleToForm(article: Partial<NewsItem>): Partial<NewsItem> {
+  return {
+    ...article,
+    date: toDateInputValue(article.date) || toDateInputValue(new Date().toISOString()),
+    body: Array.isArray(article.body) ? article.body : [],
+  };
+}
+
+function buildNewsSavePayload(
+  form: Partial<NewsItem>,
+  body: NewsSection[],
+  display: string,
+): Omit<NewsItem, "id"> {
+  return {
+    slug: form.slug?.trim() ?? "",
+    category: form.category ?? "News",
+    title: form.title?.trim() ?? "",
+    excerpt: form.excerpt ?? "",
+    date: toApiDateValue(form.date),
+    imageUrl: form.imageUrl ?? "",
+    author: form.author ?? "TUES",
+    readTime: form.readTime ?? "",
+    body,
+    display,
+  };
+}
+
+function buildNewsMetadataPayload(
+  form: Partial<NewsItem>,
+  display: string,
+): Pick<NewsItem, "slug" | "category" | "date" | "imageUrl" | "author" | "readTime" | "display"> {
+  return {
+    slug: form.slug?.trim() ?? "",
+    category: form.category ?? "News",
+    date: toApiDateValue(form.date),
+    imageUrl: form.imageUrl ?? "",
+    author: form.author ?? "TUES",
+    readTime: form.readTime ?? "",
+    display,
+  };
 }
 
 export default function AdminNews() {
@@ -60,6 +117,8 @@ export default function AdminNews() {
   const [displayFilter, setDisplayFilter] = useState<string>("all");
   const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
   const [loadingLocale, setLoadingLocale] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const coverImageInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState<Partial<NewsItem>>({
     slug: "",
     category: "News",
@@ -68,7 +127,7 @@ export default function AdminNews() {
     date: "",
     imageUrl: "",
     author: "TUES",
-    readTime: "3 min read",
+    readTime: "",
     body: [],
   });
   const { toast } = useToast();
@@ -105,7 +164,7 @@ export default function AdminNews() {
         date: new Date().toISOString().slice(0, 10),
         imageUrl: "",
         author: "TUES",
-        readTime: "3 min read",
+        readTime: t("articleDefaultReadTime"),
         body: [],
       });
       setFormOpen(true);
@@ -128,7 +187,7 @@ export default function AdminNews() {
       if (article) {
         setEditing(article);
         setDisplay(article.display || "Regular");
-        setForm({ ...article, body: Array.isArray(article.body) ? article.body : [] });
+        setForm(articleToForm(article));
         setFormOpen(true);
       }
       setSearchParams(
@@ -154,7 +213,7 @@ export default function AdminNews() {
       date: new Date().toISOString().slice(0, 10),
       imageUrl: "",
       author: "TUES",
-      readTime: "3 min read",
+      readTime: t("articleDefaultReadTime"),
       body: [],
     });
     setFormOpen(true);
@@ -164,7 +223,7 @@ export default function AdminNews() {
     setEditing(a);
     setDisplay(a.display || "Regular");
     setEditLocale("uz");
-    setForm({ ...a, body: Array.isArray(a.body) ? a.body : [] });
+    setForm(articleToForm(a));
     setFormOpen(true);
   };
 
@@ -203,23 +262,24 @@ export default function AdminNews() {
       return;
     }
     const body = Array.isArray(form.body) ? form.body : [];
-    const payload = { ...form, body, display };
     setSaving(true);
     try {
       if (editing && editing.id) {
         if (editLocale === "uz") {
-          await adminApi.news.update(editing.id, payload);
+          await adminApi.news.update(editing.id, buildNewsSavePayload(form, body, display));
           toast({ title: t("toastArticleUpdated") });
         } else {
+          // Persist base metadata (date, cover, etc.) even when saving a translation.
+          await adminApi.news.update(editing.id, buildNewsMetadataPayload(form, display));
           await adminApi.news.upsertTranslation(editing.id, editLocale, {
             title: form.title!,
             excerpt: form.excerpt,
-            body: body,
+            body,
           });
           toast({ title: t("toastTranslationUpdated", { locale: editLocale.toUpperCase() }) });
         }
       } else {
-        await adminApi.news.create(payload as Omit<NewsItem, "id">);
+        await adminApi.news.create(buildNewsSavePayload(form, body, display));
         toast({ title: t("toastArticleCreated") });
       }
       closeForm();
@@ -229,6 +289,45 @@ export default function AdminNews() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const uploadCoverFile = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      toast({ title: t("toastSelectImageFile"), variant: "destructive" });
+      return;
+    }
+    setUploadingCover(true);
+    try {
+      const { url } = await adminApi.media.upload(file);
+      setForm((f) => ({ ...f, imageUrl: url }));
+      toast({ title: t("toastImageUploaded") });
+    } catch (err) {
+      toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
+    } finally {
+      setUploadingCover(false);
+    }
+  };
+
+  const handleCoverImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) await uploadCoverFile(file);
+    e.target.value = "";
+  };
+
+  const handleCoverDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (uploadingCover) return;
+    const file = e.dataTransfer.files?.[0];
+    if (file) await uploadCoverFile(file);
+  };
+
+  const handleEditorImageUpload = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      throw new Error(t("toastSelectImageFile"));
+    }
+    const { url } = await adminApi.media.upload(file);
+    return url;
   };
 
   const handleDelete = async (slug: string) => {
@@ -262,34 +361,33 @@ export default function AdminNews() {
       ) + (form.title ?? "").split(/\s+/).filter(Boolean).length + (form.excerpt ?? "").split(/\s+/).filter(Boolean).length;
 
     return (
-      <AdminPageShell title="" description="" bare>
-        <article className="w-full flex-1 px-6 pb-24 pt-10 md:px-[100px]">
-          {/* Top bar: Back | Publish */}
-          <div className="flex items-center justify-between mb-8">
-            <button
-              type="button"
-              onClick={closeForm}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
-            >
-              ← Back
-            </button>
-            <Button
-              onClick={handleSave}
-              disabled={saving}
-              className="h-9 rounded-full bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("publish")}
-            </Button>
-          </div>
+      <AdminPageShell title="" description="" bare bareClassName="space-y-6 px-6 pb-6 pt-14">
+        <AdminSubHeader>
+          <button
+            type="button"
+            onClick={closeForm}
+            className="text-sm font-medium text-muted-foreground hover:text-foreground"
+          >
+            ← {t("back")}
+          </button>
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="h-9 min-w-[120px] rounded-full bg-primary px-8 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("publish")}
+          </Button>
+        </AdminSubHeader>
 
+        <article className="w-full flex-1 px-6 pb-28 pt-4 md:px-[100px]">
           {/* Story settings */}
           <div className="pb-8 mb-8 border-b border-border">
             <div className="flex items-center justify-between mb-4">
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Story settings
+                {t("storySettings")}
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground mr-2">Language:</span>
+                <span className="text-sm font-medium text-muted-foreground mr-2">{t("languageColon")}</span>
                 <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[200px]">
                   <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="uz" disabled={!editing || loadingLocale}>UZ</TabsTrigger>
@@ -297,20 +395,20 @@ export default function AdminNews() {
                     <TabsTrigger value="ru" disabled={!editing || loadingLocale}>RU</TabsTrigger>
                   </TabsList>
                 </Tabs>
-                {!editing && <span className="text-xs text-muted-foreground/70 ml-2">Save first to translate</span>}
+                {!editing && <span className="text-xs text-muted-foreground/70 ml-2">{t("saveFirstToTranslate")}</span>}
               </div>
             </div>
             
             {loadingLocale && (
               <div className="mb-4 flex items-center justify-center py-4">
                 <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-                <span className="ml-2 text-sm text-muted-foreground">Loading translation...</span>
+                <span className="ml-2 text-sm text-muted-foreground">{t("loadingTranslation")}</span>
               </div>
             )}
 
             <div className={`flex flex-wrap gap-6 gap-y-4 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-muted-foreground">Category</label>
+                <label className="text-xs text-muted-foreground">{t("category")}</label>
                 <Select
                   value={form.category ?? "News"}
                   onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}
@@ -319,16 +417,16 @@ export default function AdminNews() {
                     <SelectValue placeholder={t("category")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {CATEGORIES.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
+                    {CATEGORY_OPTIONS.map((c) => (
+                      <SelectItem key={c.value} value={c.value}>
+                        {t(c.labelKey)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-muted-foreground">URL slug</label>
+                <label className="text-xs text-muted-foreground">{t("urlSlug")}</label>
                 <Input
                   value={form.slug ?? ""}
                   onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
@@ -338,22 +436,23 @@ export default function AdminNews() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-muted-foreground">Display on News page</label>
+                <label className="text-xs text-muted-foreground">{t("displayOnNewsPage")}</label>
                 <Select value={display} onValueChange={setDisplay}>
                   <SelectTrigger className="h-9 w-44 rounded-md border-border bg-background px-3 py-2 text-sm">
                     <SelectValue placeholder={t("display")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {DISPLAY_OPTIONS.map((d) => (
+                    {DISPLAY_OPTION_VALUES.map((d) => (
                       <SelectItem key={d} value={d} disabled={d === "Highlight" && isHighlightLimitReached}>
-                        {d}{d === "Highlight" && isHighlightLimitReached ? " (max 5 reached)" : ""}
+                        {t(displayLabelKey(d))}
+                        {d === "Highlight" && isHighlightLimitReached ? t("displayHighlightMax") : ""}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {display === "Highlight" && (
                   <p className="text-xs text-muted-foreground">
-                    This article will appear in the highlight section ({highlightCount}/5).
+                    {t("highlightSectionNote", { count: highlightCount })}
                   </p>
                 )}
               </div>
@@ -396,9 +495,9 @@ export default function AdminNews() {
             <span aria-hidden className="text-muted-foreground/70">·</span>
             <input
               type="date"
-              value={form.date ?? ""}
+              value={toDateInputValue(form.date) || ""}
               onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-              className="w-24 min-w-0 border-0 bg-transparent p-0 text-sm focus:outline-none focus:ring-0 [color-scheme:light]"
+              className="date-input-inline border-0 bg-transparent p-0 text-sm focus:outline-none focus:ring-0 [color-scheme:light]"
             />
             <span aria-hidden className="text-muted-foreground/70">·</span>
             <input
@@ -409,20 +508,55 @@ export default function AdminNews() {
               className="w-20 min-w-0 border-0 bg-transparent p-0 text-sm focus:outline-none focus:ring-0"
             />
             <span className="text-muted-foreground/70">
-              · {wordCount} words · ~{Math.max(1, Math.ceil(wordCount / 200))} min read
+              · {t("articleWordStats", {
+                count: wordCount,
+                minutes: Math.max(1, Math.ceil(wordCount / 200)),
+              })}
             </span>
           </div>
 
           {/* Add a cover image */}
           <div className={`mb-10 ${editLocale !== 'uz' ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="space-y-2">
-              <div className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border p-6 transition-colors hover:border-primary/60 hover:bg-muted/50 cursor-pointer">
-                <Upload className="h-8 w-8 text-muted-foreground" />
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => !uploadingCover && coverImageInputRef.current?.click()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    if (!uploadingCover) coverImageInputRef.current?.click();
+                  }
+                }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onDrop={handleCoverDrop}
+                className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border p-6 transition-colors hover:border-primary/60 hover:bg-muted/50 cursor-pointer"
+              >
+                {uploadingCover ? (
+                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                ) : (
+                  <Upload className="h-8 w-8 text-muted-foreground" />
+                )}
                 <div className="text-center">
-                  <p className="text-sm font-medium text-foreground">{t("addCoverImage", "Add a cover image")}</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {form.imageUrl ? t("eventImageUploadedReplace", "Replace cover image") : t("addCoverImage", "Add a cover image")}
+                  </p>
                   <p className="mt-0.5 text-xs text-muted-foreground">{t("dragDropClick", "Drag & drop or click to browse")}</p>
                   <p className="text-xs text-muted-foreground">{t("imageFileLimit", "Image files, max 50 MB")}</p>
                 </div>
+                {form.imageUrl && (
+                  <img src={form.imageUrl} alt="" className="mt-2 h-32 w-auto max-w-full rounded object-cover" />
+                )}
+                <input
+                  ref={coverImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleCoverImageUpload}
+                />
                 <Input
                   type="url"
                   value={form.imageUrl ?? ""}
@@ -442,30 +576,31 @@ export default function AdminNews() {
                 key={editing?.slug ?? "new"}
                 value={sectionsToTiptapDoc(form.body ?? []) as TiptapDocJSON}
                 onChange={(doc) => setForm((f) => ({ ...f, body: tiptapJsonToSections(doc) }))}
+                onImageUpload={handleEditorImageUpload}
                 placeholder={t("tellYourStory", "Tell your story...")}
                 showStats
               />
             </div>
           </div>
 
-          {/* Save & Cancel */}
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button
-              onClick={handleSave}
-              disabled={saving}
-              className="h-9 rounded-full bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("save", "Save")}
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={closeForm}
-              className="h-9 rounded-full px-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-            >
-              {t("cancel", "Cancel")}
-            </Button>
-          </div>
         </article>
+
+        <AdminFormFooter>
+          <Button
+            variant="ghost"
+            onClick={closeForm}
+            className="h-9 rounded-full px-3 text-sm font-medium text-muted-foreground hover:bg-slate-100 hover:text-slate-900"
+          >
+            {t("cancel", "Cancel")}
+          </Button>
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="h-9 min-w-[120px] rounded-full bg-primary px-8 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("save", "Save")}
+          </Button>
+        </AdminFormFooter>
       </AdminPageShell>
     );
   }
@@ -550,9 +685,9 @@ export default function AdminNews() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t("allCategories", "All categories")}</SelectItem>
-                  {CATEGORIES.map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
+                  {CATEGORY_OPTIONS.map((c) => (
+                    <SelectItem key={c.value} value={c.value}>
+                      {t(c.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -575,9 +710,9 @@ export default function AdminNews() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t("allDisplays", "All displays")}</SelectItem>
-                  {DISPLAY_OPTIONS.map((d) => (
+                  {DISPLAY_OPTION_VALUES.map((d) => (
                     <SelectItem key={d} value={d}>
-                      {d}
+                      {t(displayLabelKey(d))}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -599,7 +734,7 @@ export default function AdminNews() {
                   <span>{a.date}</span>
                   <span className="mx-0.5">·</span>
                   <Badge variant="outline" className="font-normal text-muted-foreground">
-                    {a.display || "Regular"}
+                    {t(displayLabelKey(a.display || "Regular"))}
                   </Badge>
                 </p>
               </div>

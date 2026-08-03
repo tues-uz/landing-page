@@ -25,7 +25,7 @@ export default {
                 forum: ["Forum", "sans-serif"],
                 "dm-sans": ["DM Sans", "sans-serif"],
                 handwriting: ["Bonheur Royale", "cursive"],
-                caveat: ["Caveat", "cursive"],
+                "great-vibes": ["Great Vibes", "cursive"],
             },
             colors: {
                 border: "rgba(var(--border), <alpha-value>)",

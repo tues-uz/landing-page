@@ -38,7 +38,13 @@ import PresidentOrderAdmissionParametersPage from "./pages/PresidentOrderAdmissi
 import ContactingAdmissionPage from "./pages/ContactingAdmissionPage";
 import StudyProgramApplyPage from "./pages/StudyProgramApplyPage";
 import UniversityMissionPage from "./pages/UniversityMissionPage";
+import TermsOfUsePage from "./pages/TermsOfUsePage";
+import CopyrightPage from "./pages/CopyrightPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import CampusCulturePage from "./pages/CampusCulturePage";
+import UniversityRatingsPage from "./pages/UniversityRatingsPage";
 import UniversityRequisitesPage from "./pages/UniversityRequisitesPage";
+import FinancialStatementsPage from "./pages/FinancialStatementsPage";
 import FamousGraduatesPage from "./pages/FamousGraduatesPage";
 import FamousGraduateDetailPage from "./pages/FamousGraduateDetailPage";
 import UniversityFacultiesPage from "./pages/UniversityFacultiesPage";
@@ -187,7 +193,13 @@ const App = () => (
             <Route path="/search" element={<SiteSearchPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/university-mission" element={<UniversityMissionPage />} />
+            <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+            <Route path="/copyright" element={<CopyrightPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/university-campus-culture" element={<CampusCulturePage />} />
+            <Route path="/university-ratings" element={<UniversityRatingsPage />} />
             <Route path="/university-requisites" element={<UniversityRequisitesPage />} />
+            <Route path="/university-financial-statements" element={<FinancialStatementsPage />} />
             <Route path="/university-famous-graduates" element={<FamousGraduatesPage />} />
             <Route path="/university-famous-graduates/:graduateId" element={<FamousGraduateDetailPage />} />
             <Route path="/university-faculties" element={<UniversityFacultiesPage />} />

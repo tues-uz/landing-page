@@ -72,9 +72,19 @@ export function getStaticSearchRoutes(translate: (key: string) => string): Stati
       label: translate("searchRoutes.universityMission"),
     },
     {
+      id: "universityRatings",
+      path: "/university-ratings",
+      label: translate("searchRoutes.universityRatings"),
+    },
+    {
       id: "universityRequisites",
       path: "/university-requisites",
       label: translate("searchRoutes.universityRequisites"),
+    },
+    {
+      id: "financialStatements",
+      path: "/university-financial-statements",
+      label: translate("searchRoutes.financialStatements"),
     },
     {
       id: "famousGraduates",

@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import type { OrgChartTreeNode } from "@/config/organizationalStructureOrgChartTree";
+import { ORG_CHART_NODE_DEFAULTS, orgChartLabelKey } from "@/locales/organizationalStructureDefaults";
 
 function OrgChartNodeLink({ node }: { node: OrgChartTreeNode }) {
+  const { t } = useTranslation("topNav");
+  const labelKey = orgChartLabelKey(node.id);
+  const label = t(labelKey, { defaultValue: ORG_CHART_NODE_DEFAULTS[labelKey] });
   const className = cn("org_item title", node.to && "hover:text-primary");
 
   const content = (
     <>
       {node.isParent ? <i className="oci oci-menu parentNodeSymbol" aria-hidden /> : null}
-      {node.label}
+      {label}
     </>
   );
 
