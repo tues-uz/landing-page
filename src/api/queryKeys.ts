@@ -23,6 +23,12 @@ export const contentKeys = {
         list: () => ["content", "study-programs", "list"] as const,
         detail: (programId: string) => ["content", "study-programs", "detail", programId] as const,
     },
+    scientificArticles: () => ["content", "scientific-articles"] as const,
+    scienceCertificates: () => ["content", "science-certificates"] as const,
+    tuitionRates: () => ["content", "tuition-rates"] as const,
+    famousGraduates: () => ["content", "famous-graduates"] as const,
+    faculties: () => ["content", "faculties"] as const,
+    departments: () => ["content", "departments"] as const,
 } as const;
 
 /** CMS admin query keys (for features that use adminApi). */

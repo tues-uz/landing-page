@@ -675,16 +675,16 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
             </div>
             <div className="flex flex-shrink-0 items-center gap-4 md:gap-8">
               <div className="flex items-center gap-3">
-                <a href="#" aria-label="Twitter" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <a href="https://x.com/tues_uz" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   <Twitter className="h-4 w-4" />
                 </a>
-                <a href="#" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <a href="https://linkedin.com/school/tues-uz" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   <Linkedin className="h-4 w-4" />
                 </a>
-                <a href="#" aria-label="Instagram" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <a href="https://instagram.com/tues.uz" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   <Instagram className="h-4 w-4" />
                 </a>
-                <a href="#" aria-label="YouTube" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <a href="https://youtube.com/@tues_uz" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   <Youtube className="h-4 w-4" />
                 </a>
               </div>
@@ -696,7 +696,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                   EduHub
                 </Button>
               </Link>
-              <Link to="/eduhub" className="self-stretch flex items-stretch min-h-[44px]">
+              <Link to="/science/scientific-articles" className="self-stretch flex items-stretch min-h-[44px]">
                 <Button
                   className="h-full min-h-[44px] min-w-[100px] py-0 rounded-sm bg-red-600 hover:bg-red-700 text-white border-0 text-[12px] px-4 py-0 font-medium"
                 >

@@ -7,11 +7,11 @@ import { newsletterSubscribersStore } from "@/data/newsletterSubscribers";
 import { useToast } from "@/components/ui/use-toast";
 
 const socialLinks = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-  { icon: Facebook, href: "#", label: "Facebook" },
+  { icon: Twitter, href: "https://x.com/tues_uz", label: "Twitter" },
+  { icon: Instagram, href: "https://instagram.com/tues.uz", label: "Instagram" },
+  { icon: Linkedin, href: "https://linkedin.com/school/tues-uz", label: "LinkedIn" },
+  { icon: Youtube, href: "https://youtube.com/@tues_uz", label: "YouTube" },
+  { icon: Facebook, href: "https://facebook.com/tues.uz", label: "Facebook" },
 ];
 
 const Footer = () => {
@@ -259,6 +259,8 @@ const Footer = () => {
                         <a
                           key={social.label}
                           href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           aria-label={social.label}
                           className="text-white/60 transition-colors hover:text-white"
                         >

@@ -1,15 +1,23 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Home } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
+import { contentApi } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
 import { SCIENCE_CERTIFICATE_CARDS } from "@/data/scienceCertificateCards";
 import { bachelorFullTimeCardImageSrc } from "@/data/bachelorFullTimeCardImages";
 
 export default function ScienceCertificatesPage() {
-  const { t } = useTranslation("header");
+  const { t, i18n } = useTranslation("header");
   const { t: tCommon } = useTranslation("common");
+
+  const { data: certificates = SCIENCE_CERTIFICATE_CARDS } = useQuery({
+    queryKey: contentKeys.scienceCertificates(),
+    queryFn: () => contentApi.scienceCertificates.list(i18n.language),
+  });
   const title = t("scienceCertificatesPageTitle");
   const intro = t("scienceCertificatesPageIntro");
 
@@ -66,7 +74,7 @@ export default function ScienceCertificatesPage() {
                   className="mt-8 grid list-none grid-cols-1 gap-[16px] p-0 sm:grid-cols-2 lg:grid-cols-3"
                   role="list"
                 >
-                  {SCIENCE_CERTIFICATE_CARDS.map((item, i) => {
+                  {certificates.map((item, i) => {
                     const imgSrc = bachelorFullTimeCardImageSrc(i + 1);
                     return (
                       <li key={item.id} className="flex min-w-0 flex-col">

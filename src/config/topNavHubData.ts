@@ -120,7 +120,17 @@ export const topNavItemHref: Record<string, string> = {
 };
 
 export function getTopNavItemHref(labelKey: string): string {
-  return topNavItemHref[labelKey] ?? "#";
+  if (topNavItemHref[labelKey]) return topNavItemHref[labelKey];
+  if (labelKey.startsWith("secondNavUniversity.")) return "/about";
+  if (labelKey.startsWith("secondNavEducation.")) return "/education/bachelor";
+  if (labelKey.startsWith("secondNavScience.")) return "/science/scientific-articles";
+  if (labelKey.startsWith("secondNavInternationalization.")) return "/internationalization/international-support-center";
+  if (labelKey.startsWith("secondNavStudentLife.")) return "/student-life/community-clubs";
+  if (labelKey.startsWith("secondNavAdmission2025.")) return "/admission-2025/menu";
+  if (labelKey.startsWith("secondNavInformationServices.")) return "/information-services/about-university";
+  if (labelKey.startsWith("secondNavVacancies.") || labelKey.startsWith("secondNavItems.")) return "/about/organizational-structure";
+  if (labelKey.startsWith("nav.")) return "/about";
+  return "/about";
 }
 
 export function getTopNavSubPageMeta(
@@ -134,3 +144,4 @@ export function getTopNavSubPageMeta(
 export function getSectionsForGroup(group: TopNavGroup): HubSection[] {
   return SECTIONS_BY_GROUP[group];
 }
+

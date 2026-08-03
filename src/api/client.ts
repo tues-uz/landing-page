@@ -9,6 +9,12 @@ import {
     FALLBACK_STUDY_PROGRAMS_CURRICULUM,
     getStudyProgramById,
 } from "@/data/studyProgramsCurriculum";
+import { SCIENTIFIC_ARTICLES } from "@/data/scientificArticles";
+import { SCIENCE_CERTIFICATE_CARDS } from "@/data/scienceCertificateCards";
+import { CONTRACT_AMOUNTS_TUITION_2024_2025 } from "@/data/contractAmountsTuition2024Rows";
+import { FAMOUS_GRADUATES } from "@/data/famousGraduates";
+import { UNIVERSITY_FACULTIES } from "@/data/universityFaculties";
+import { UNIVERSITY_DEPARTMENTS_HIERARCHY } from "@/data/universityDepartmentsHierarchy";
 import type { StudyProgramDetailResult, StudyProgramFaculty } from "@/types/studyPrograms";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
@@ -238,6 +244,42 @@ export const contentApi = {
         },
         submit: async (payload: ApplicationSubmitPayload): Promise<{ id: string }> => {
             return post<{ id: string }>("/applications", payload);
+        },
+    },
+    scientificArticles: {
+        list: async (locale: string = "uz") => {
+            const data = await getOptional<{ articles: typeof SCIENTIFIC_ARTICLES }>(`/content/scientific-articles?locale=${locale}`);
+            return data?.articles ?? SCIENTIFIC_ARTICLES;
+        },
+    },
+    scienceCertificates: {
+        list: async (locale: string = "uz") => {
+            const data = await getOptional<{ certificates: typeof SCIENCE_CERTIFICATE_CARDS }>(`/content/science-certificates?locale=${locale}`);
+            return data?.certificates ?? SCIENCE_CERTIFICATE_CARDS;
+        },
+    },
+    tuitionRates: {
+        list: async () => {
+            const data = await getOptional<{ rows: typeof CONTRACT_AMOUNTS_TUITION_2024_2025 }>(`/content/tuition-rates`);
+            return data?.rows ?? CONTRACT_AMOUNTS_TUITION_2024_2025;
+        },
+    },
+    famousGraduates: {
+        list: async (locale: string = "uz") => {
+            const data = await getOptional<{ graduates: typeof FAMOUS_GRADUATES }>(`/content/famous-graduates?locale=${locale}`);
+            return data?.graduates ?? FAMOUS_GRADUATES;
+        },
+    },
+    faculties: {
+        list: async (locale: string = "uz") => {
+            const data = await getOptional<{ faculties: typeof UNIVERSITY_FACULTIES }>(`/content/faculties?locale=${locale}`);
+            return data?.faculties ?? UNIVERSITY_FACULTIES;
+        },
+    },
+    departments: {
+        list: async (locale: string = "uz") => {
+            const data = await getOptional<{ departments: typeof UNIVERSITY_DEPARTMENTS_HIERARCHY }>(`/content/departments?locale=${locale}`);
+            return data?.departments ?? UNIVERSITY_DEPARTMENTS_HIERARCHY;
         },
     },
 };

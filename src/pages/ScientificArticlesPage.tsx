@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ExternalLink, Home } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
+import { contentApi } from "@/api/client";
+import { contentKeys } from "@/api/queryKeys";
 import { SCIENTIFIC_ARTICLES } from "@/data/scientificArticles";
 import { cn } from "@/lib/utils";
 
@@ -17,8 +20,13 @@ function quartileClass(q: string): string {
 }
 
 export default function ScientificArticlesPage() {
-  const { t } = useTranslation("header");
+  const { t, i18n } = useTranslation("header");
   const { t: tCommon } = useTranslation("common");
+
+  const { data: articles = SCIENTIFIC_ARTICLES } = useQuery({
+    queryKey: contentKeys.scientificArticles(),
+    queryFn: () => contentApi.scientificArticles.list(i18n.language),
+  });
   const title = t("secondNavScience.scientificArticles");
   const intro = t("scientificArticlesPageIntro", {
     defaultValue:
@@ -101,7 +109,7 @@ export default function ScientificArticlesPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {SCIENTIFIC_ARTICLES.map((row) => (
+                      {articles.map((row) => (
                         <tr
                           key={row.no}
                           className="border-b border-border last:border-b-0 odd:bg-background even:bg-muted/20"
