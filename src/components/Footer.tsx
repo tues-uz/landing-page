@@ -3,7 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { footerMenuSections } from "@/data/footerNav";
-import { newsletterSubscribersStore } from "@/data/newsletterSubscribers";
+import { contentApi } from "@/api/client";
 import { useToast } from "@/components/ui/use-toast";
 
 const socialLinks = [
@@ -20,20 +20,26 @@ const Footer = () => {
   const isEduHubPage = location.pathname === "/eduhub" || location.pathname.startsWith("/eduhub/");
   const isJournalPage = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
   const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = newsletterSubscribersStore.subscribe(email);
-    if (result.ok === false) {
-      toast({
-        title: result.reason === "duplicate" ? t("subscribeDuplicate") : t("subscribeInvalid"),
-        variant: "destructive",
-      });
-      return;
+    if (!email.trim() || submitting) return;
+    setSubmitting(true);
+    try {
+      await contentApi.newsletter.subscribe(email);
+      toast({ title: t("subscribeSuccess") });
+      setEmail("");
+    } catch (err: any) {
+      const msg = err?.message?.toLowerCase() || "";
+      const title = msg.includes("duplicate") || msg.includes("409")
+        ? t("subscribeDuplicate")
+        : t("subscribeInvalid");
+      toast({ title, variant: "destructive" });
+    } finally {
+      setSubmitting(false);
     }
-    toast({ title: t("subscribeSuccess") });
-    setEmail("");
   };
 
   // Journal page has different footer styling

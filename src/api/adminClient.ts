@@ -13,7 +13,7 @@ import type {
   ProgramItem,
 } from "./client";
 import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@/types/studyPrograms";
-import { FALLBACK_STUDY_PROGRAMS_CURRICULUM, getStudyProgramById } from "@/data/studyProgramsCurriculum";
+import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
 import type { TiptapDocJSON } from "@/types/article";
 import { tokenStore } from "./auth";
 
@@ -319,47 +319,26 @@ export const adminApi = {
   },
   studyPrograms: {
     list: async (locale?: string): Promise<StudyProgramFaculty[]> => {
-      try {
-        const url = locale
-          ? `${API_BASE}/content/study-programs?locale=${locale}`
-          : `${API_BASE}/content/study-programs`;
-        const res = await fetch(url, { headers: getAuthHeaders() });
-        if (!res.ok) throw new Error(String(res.status));
-        const data = await res.json();
-        const unwrapped = data?.data ?? data;
-        const faculties = unwrapped?.faculties ?? [];
-        if (faculties.length) return faculties;
-      } catch {
-        // fall through to static fallback
-      }
-      return [...FALLBACK_STUDY_PROGRAMS_CURRICULUM];
+      const url = locale
+        ? `${API_BASE}/content/study-programs?locale=${locale}`
+        : `${API_BASE}/content/study-programs`;
+      const res = await fetch(url, { headers: getAuthHeaders() });
+      const data = await handleResponse<{ faculties: StudyProgramFaculty[] }>(res);
+      return data.faculties ?? [];
     },
     getById: async (programId: string, locale?: string): Promise<StudyProgramAdminItem | null> => {
       if (programId === "new") return null;
-
-      try {
-        const url = locale
-          ? `${API_BASE}/content/study-programs/${programId}?locale=${locale}`
-          : `${API_BASE}/content/study-programs/${programId}`;
-        const res = await fetch(url, { headers: getAuthHeaders() });
-        if (res.ok) {
-          const data = await res.json();
-          const unwrapped = data?.data ?? data;
-          if (unwrapped?.program) {
-            return {
-              ...unwrapped.program,
-              facultyId: unwrapped.faculty?.id ?? unwrapped.program.facultyId ?? "",
-              updatedAt: unwrapped.program.updatedAt,
-            };
-          }
-        }
-      } catch {
-        // fall through to static fallback
-      }
-
-      const fallback = getStudyProgramById(programId);
-      if (fallback) {
-        return { ...fallback.program, facultyId: fallback.faculty.id };
+      const url = locale
+        ? `${API_BASE}/content/study-programs/${programId}?locale=${locale}`
+        : `${API_BASE}/content/study-programs/${programId}`;
+      const res = await fetch(url, { headers: getAuthHeaders() });
+      const unwrapped = await handleResponse<{ program?: StudyProgramAdminItem; faculty?: { id: string } }>(res);
+      if (unwrapped?.program) {
+        return {
+          ...unwrapped.program,
+          facultyId: unwrapped.faculty?.id ?? unwrapped.program.facultyId ?? "",
+          updatedAt: unwrapped.program.updatedAt,
+        };
       }
       return null;
     },
@@ -447,6 +426,31 @@ export const adminApi = {
         body: JSON.stringify(payload),
       });
       return handleResponse<EventItem>(res);
+    },
+  },
+  newsletter: {
+    list: async (status?: string): Promise<NewsletterSubscriber[]> => {
+      const url = status && status !== "all"
+        ? `${API_BASE}/newsletter/subscribers?status=${status}`
+        : `${API_BASE}/newsletter/subscribers`;
+      const res = await fetch(url, { headers: getAuthHeaders() });
+      const data = await handleResponse<{ subscribers: NewsletterSubscriber[] }>(res);
+      return data.subscribers ?? [];
+    },
+    updateStatus: async (id: string, status: string): Promise<NewsletterSubscriber> => {
+      const res = await fetch(`${API_BASE}/newsletter/subscribers/${id}/status`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ status }),
+      });
+      return handleResponse<NewsletterSubscriber>(res);
+    },
+    delete: async (id: string): Promise<void> => {
+      const res = await fetch(`${API_BASE}/newsletter/subscribers/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
     },
   },
 };

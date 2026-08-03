@@ -5,16 +5,6 @@
  * Auto-unwraps the { success: true, data: { ... } } envelope.
  */
 
-import {
-    FALLBACK_STUDY_PROGRAMS_CURRICULUM,
-    getStudyProgramById,
-} from "@/data/studyProgramsCurriculum";
-import { SCIENTIFIC_ARTICLES } from "@/data/scientificArticles";
-import { SCIENCE_CERTIFICATE_CARDS } from "@/data/scienceCertificateCards";
-import { CONTRACT_AMOUNTS_TUITION_2024_2025 } from "@/data/contractAmountsTuition2024Rows";
-import { FAMOUS_GRADUATES } from "@/data/famousGraduates";
-import { UNIVERSITY_FACULTIES } from "@/data/universityFaculties";
-import { UNIVERSITY_DEPARTMENTS_HIERARCHY } from "@/data/universityDepartmentsHierarchy";
 import type { StudyProgramDetailResult, StudyProgramFaculty } from "@/types/studyPrograms";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
@@ -146,14 +136,6 @@ async function get<T>(path: string): Promise<T> {
     return json as T;
 }
 
-async function getOptional<T>(path: string): Promise<T | null> {
-    try {
-        return await get<T>(path);
-    } catch {
-        return null;
-    }
-}
-
 async function post<T>(path: string, body: unknown): Promise<T> {
     const res = await fetch(`${API_BASE}${path}`, {
         method: "POST",
@@ -223,19 +205,16 @@ export const contentApi = {
     },
     studyPrograms: {
         list: async (locale: string = "uz"): Promise<StudyProgramFaculty[]> => {
-            const data = await getOptional<{ faculties: StudyProgramFaculty[] }>(
+            const data = await get<{ faculties: StudyProgramFaculty[] }>(
                 `/content/study-programs?locale=${locale}`,
             );
-            if (data?.faculties?.length) return data.faculties;
-            return [...FALLBACK_STUDY_PROGRAMS_CURRICULUM];
+            return data.faculties ?? [];
         },
         getById: async (programId: string, locale: string = "uz"): Promise<StudyProgramDetailResult | null> => {
-            const data = await getOptional<StudyProgramDetailResult>(
+            const data = await get<StudyProgramDetailResult>(
                 `/content/study-programs/${programId}?locale=${locale}`,
             );
-            if (data?.program && data?.faculty) return data;
-            const fallback = getStudyProgramById(programId);
-            return fallback ? { faculty: fallback.faculty, program: fallback.program } : null;
+            return data?.program && data?.faculty ? data : null;
         },
     },
     applications: {
@@ -246,40 +225,45 @@ export const contentApi = {
             return post<{ id: string }>("/applications", payload);
         },
     },
+    newsletter: {
+        subscribe: async (email: string): Promise<{ id: string; email: string; status: string }> => {
+            return post<{ id: string; email: string; status: string }>("/newsletter/subscribe", { email });
+        },
+    },
     scientificArticles: {
         list: async (locale: string = "uz") => {
-            const data = await getOptional<{ articles: typeof SCIENTIFIC_ARTICLES }>(`/content/scientific-articles?locale=${locale}`);
-            return data?.articles ?? SCIENTIFIC_ARTICLES;
+            const data = await get<{ articles: any[] }>(`/content/scientific-articles?locale=${locale}`);
+            return data.articles ?? [];
         },
     },
     scienceCertificates: {
         list: async (locale: string = "uz") => {
-            const data = await getOptional<{ certificates: typeof SCIENCE_CERTIFICATE_CARDS }>(`/content/science-certificates?locale=${locale}`);
-            return data?.certificates ?? SCIENCE_CERTIFICATE_CARDS;
+            const data = await get<{ certificates: any[] }>(`/content/science-certificates?locale=${locale}`);
+            return data.certificates ?? [];
         },
     },
     tuitionRates: {
         list: async () => {
-            const data = await getOptional<{ rows: typeof CONTRACT_AMOUNTS_TUITION_2024_2025 }>(`/content/tuition-rates`);
-            return data?.rows ?? CONTRACT_AMOUNTS_TUITION_2024_2025;
+            const data = await get<{ rows: any[] }>(`/content/tuition-rates`);
+            return data.rows ?? [];
         },
     },
     famousGraduates: {
         list: async (locale: string = "uz") => {
-            const data = await getOptional<{ graduates: typeof FAMOUS_GRADUATES }>(`/content/famous-graduates?locale=${locale}`);
-            return data?.graduates ?? FAMOUS_GRADUATES;
+            const data = await get<{ graduates: any[] }>(`/content/famous-graduates?locale=${locale}`);
+            return data.graduates ?? [];
         },
     },
     faculties: {
         list: async (locale: string = "uz") => {
-            const data = await getOptional<{ faculties: typeof UNIVERSITY_FACULTIES }>(`/content/faculties?locale=${locale}`);
-            return data?.faculties ?? UNIVERSITY_FACULTIES;
+            const data = await get<{ faculties: any[] }>(`/content/faculties?locale=${locale}`);
+            return data.faculties ?? [];
         },
     },
     departments: {
         list: async (locale: string = "uz") => {
-            const data = await getOptional<{ departments: typeof UNIVERSITY_DEPARTMENTS_HIERARCHY }>(`/content/departments?locale=${locale}`);
-            return data?.departments ?? UNIVERSITY_DEPARTMENTS_HIERARCHY;
+            const data = await get<{ departments: any[] }>(`/content/departments?locale=${locale}`);
+            return data.departments ?? [];
         },
     },
 };

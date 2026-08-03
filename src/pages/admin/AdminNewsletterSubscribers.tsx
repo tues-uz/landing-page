@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Download, Mail, Search, Trash2, UserCheck, UserMinus } from "lucide-react";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { Input } from "@/components/ui/input";
@@ -14,8 +14,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { adminApi } from "@/api/adminClient";
 import {
-  newsletterSubscribersStore,
+  exportNewsletterSubscribersCsv,
   type NewsletterSubscriber,
   type NewsletterSubscriberStatus,
 } from "@/data/newsletterSubscribers";
@@ -31,14 +32,27 @@ const STATUS_BADGE_CLASS: Record<NewsletterSubscriberStatus, string> = {
 export default function AdminNewsletterSubscribers() {
   const { t } = useTranslation("admin");
   const { toast } = useToast();
-  const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>(() =>
-    newsletterSubscribersStore.list(),
-  );
+  const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>([]);
+  const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | NewsletterSubscriberStatus>("all");
   const [deleteTarget, setDeleteTarget] = useState<NewsletterSubscriber | null>(null);
 
-  const refresh = () => setSubscribers(newsletterSubscribersStore.list());
+  const fetchSubscribers = async () => {
+    try {
+      setLoading(true);
+      const data = await adminApi.newsletter.list(statusFilter);
+      setSubscribers(data);
+    } catch {
+      toast({ title: t("newsletterFetchFailed") || "Failed to fetch newsletter subscribers", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubscribers();
+  }, [statusFilter]);
 
   const filtered = useMemo(() => {
     const search = q.trim().toLowerCase();
@@ -59,30 +73,30 @@ export default function AdminNewsletterSubscribers() {
     return { total: subscribers.length, active, thisMonth };
   }, [subscribers]);
 
-  const changeStatus = (id: string, status: NewsletterSubscriberStatus) => {
-    const updated = newsletterSubscribersStore.updateStatus(id, status);
-    if (!updated) {
+  const changeStatus = async (id: string, status: NewsletterSubscriberStatus) => {
+    try {
+      await adminApi.newsletter.updateStatus(id, status);
+      toast({ title: t("newsletterStatusUpdated") });
+      fetchSubscribers();
+    } catch {
       toast({ title: t("newsletterUpdateFailed"), variant: "destructive" });
-      return;
     }
-    refresh();
-    toast({ title: t("newsletterStatusUpdated") });
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!deleteTarget) return;
-    const removed = newsletterSubscribersStore.remove(deleteTarget.id);
-    if (!removed) {
+    try {
+      await adminApi.newsletter.delete(deleteTarget.id);
+      setDeleteTarget(null);
+      toast({ title: t("newsletterDeleted") });
+      fetchSubscribers();
+    } catch {
       toast({ title: t("newsletterDeleteFailed"), variant: "destructive" });
-      return;
     }
-    refresh();
-    setDeleteTarget(null);
-    toast({ title: t("newsletterDeleted") });
   };
 
   const handleExport = () => {
-    const csv = newsletterSubscribersStore.exportCsv();
+    const csv = exportNewsletterSubscribersCsv(subscribers);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -163,7 +177,9 @@ export default function AdminNewsletterSubscribers() {
         {q.trim() ? ` ${t("matching")} "${q.trim()}"` : ""}
       </p>
 
-      {subscribers.length === 0 ? (
+      {loading ? (
+        <div className="py-16 text-center text-sm text-slate-500">Loading newsletter subscribers...</div>
+      ) : subscribers.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-white py-16 text-center">
           <Mail className="mb-3 h-8 w-8 text-slate-300" />
           <p className="text-sm font-medium text-slate-700">{t("newsletterEmpty")}</p>
