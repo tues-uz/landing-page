@@ -17,10 +17,6 @@ export const tokenStore = {
   setRefresh: (_token: string) => {},
   clear: () => {
     inMemoryAccessToken = null;
-    try {
-      localStorage.removeItem("auth:accessToken");
-      localStorage.removeItem("auth:refreshToken");
-    } catch {}
   },
 };
 
