@@ -250,33 +250,6 @@ export const adminApi = {
       return handleResponse<NewsItem>(res);
     },
   },
-  /** Article drafts (Medium-style block editor). Body = Tiptap JSON. Implement backend to match. */
-  articles: {
-    saveDraft: async (payload: {
-      id?: string;
-      title: string;
-      slug: string;
-      description: string;
-      body: TiptapDocJSON;
-      status?: "draft" | "published";
-    }): Promise<{ id: string }> => {
-      const url = payload.id
-        ? `${API_BASE}/content/articles/${payload.id}`
-        : `${API_BASE}/content/articles`;
-      const res = await fetch(url, {
-        method: payload.id ? "PUT" : "POST",
-        headers: getAuthHeaders(),
-        body: JSON.stringify({
-          title: payload.title,
-          slug: payload.slug,
-          description: payload.description,
-          body: payload.body,
-          status: payload.status ?? "draft",
-        }),
-      });
-      return handleResponse<{ id: string }>(res);
-    },
-  },
   /**
    * Media upload using presigned URLs (GET /upload/presign then PUT to uploadUrl).
    * Matches staging API: https://landing-staging.kubeletto.app (upload-controller).

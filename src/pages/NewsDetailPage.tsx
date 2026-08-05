@@ -6,7 +6,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_NEWS } from "@/data/fallbackContent";
 import {
   getFirstNewsParagraph,
   getNewsGalleryUrls,
@@ -147,10 +146,9 @@ const NewsDetailPage = () => {
     retry: 1,
   });
 
-  const fallbackArticle = FALLBACK_NEWS.find((n) => n.slug === slug);
-  const article = (error || !remoteArticle) && fallbackArticle ? fallbackArticle : remoteArticle;
+  const article = remoteArticle;
 
-  const allNews = remoteAllNews && remoteAllNews.length > 0 ? remoteAllNews : FALLBACK_NEWS;
+  const allNews = remoteAllNews ?? [];
 
   const relatedArticles = article
     ? allNews.filter((n) => n.slug !== slug).slice(0, 4)

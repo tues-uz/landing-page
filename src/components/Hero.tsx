@@ -6,37 +6,12 @@ import { contentApi, type HeroSlide } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { useTranslation } from "react-i18next";
 
-// ─── Fallback slides shown when the API is unavailable ───────────────────────
-
-const FALLBACK_SLIDES: HeroSlide[] = [
-  {
-    id: "fallback-1",
-    title: "Fully Funded Graduate Studentship For 2025-2026",
-    subtitle: "Applications now open for exceptional candidates",
-    year: "2025",
-  },
-  {
-    id: "fallback-2",
-    title: "World-Leading Research in Climate Science",
-    subtitle: "TUES researchers at the forefront of sustainability",
-    year: "2025",
-  },
-  {
-    id: "fallback-3",
-    title: "New Collaborative Research Center Opens",
-    subtitle: "State-of-the-art facilities for interdisciplinary studies",
-    year: "2025",
-  },
-];
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
 const Hero = () => {
   const { t, i18n } = useTranslation("hero");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isCardVisible, setIsCardVisible] = useState(true);
 
-  // Fetch slides from API — gracefully falls back to static content
+  // Fetch slides from API
   const { data: slidesData, isLoading: slidesLoading } = useQuery({
     queryKey: [...contentKeys.heroSlides(), i18n.language],
     queryFn: () => contentApi.heroSlides.list(i18n.language),
@@ -52,7 +27,14 @@ const Hero = () => {
     retry: 1,
   });
 
-  const slides = slidesData && slidesData.length > 0 ? slidesData : FALLBACK_SLIDES;
+  const defaultSlide: HeroSlide = {
+    id: "default-tues-slide",
+    title: t("title", "Termez University of Economics and Service"),
+    subtitle: t("subtitle", "Empowerment, Innovation, Academic Excellence"),
+    year: new Date().getFullYear().toString(),
+  };
+
+  const slides = slidesData && slidesData.length > 0 ? slidesData : [defaultSlide];
 
   // Auto-advance carousel
   useEffect(() => {

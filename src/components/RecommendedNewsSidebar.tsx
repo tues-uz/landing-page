@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { contentApi, getEventImageUrl, type EventItem, type NewsItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_EVENTS, FALLBACK_NEWS } from "@/data/fallbackContent";
 import { cn } from "@/lib/utils";
 
 const MAX_SIDEBAR_CARDS = 3;
@@ -153,10 +152,10 @@ export function RecommendedNewsSidebar({ className }: { className?: string }) {
     retry: 1,
   });
 
-  const newsRaw = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
+  const newsRaw = newsData ?? [];
   const newsItems = sortByDateDesc(newsRaw).slice(0, MAX_SIDEBAR_CARDS);
 
-  const eventsRaw = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
+  const eventsRaw = eventData ?? [];
   const eventItems = sortEventsSoonestFirst(eventsRaw).slice(0, MAX_SIDEBAR_CARDS);
 
   return (

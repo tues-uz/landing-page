@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_EVENTS } from "@/data/fallbackContent";
 import type { EventItem } from "@/api/client";
 import { useTranslation } from "react-i18next";
 
@@ -66,7 +65,7 @@ const NewSection = () => {
     retry: 1,
   });
 
-  const eventItems = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
+  const eventItems = eventData ?? [];
   const displayEvents = eventItems.slice(0, 3);
 
   return (

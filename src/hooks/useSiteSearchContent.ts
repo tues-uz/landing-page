@@ -3,7 +3,6 @@ import { useQueries } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_EVENTS, FALLBACK_NEWS } from "@/data/fallbackContent";
 import type { StudyProgramSearchItem } from "@/lib/siteSearch";
 
 export function useSiteSearchContent(enabled: boolean) {
@@ -40,11 +39,11 @@ export function useSiteSearchContent(enabled: boolean) {
   const facultiesData = queries[2].data;
 
   const newsItems = useMemo(
-    () => (newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS),
+    () => newsData ?? [],
     [newsData],
   );
   const eventItems = useMemo(
-    () => (eventsData && eventsData.length > 0 ? eventsData : FALLBACK_EVENTS),
+    () => eventsData ?? [],
     [eventsData],
   );
   const studyProgramItems = useMemo((): StudyProgramSearchItem[] => {

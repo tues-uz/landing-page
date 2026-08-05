@@ -23,7 +23,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, type NewsItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_NEWS } from "@/data/fallbackContent";
 import { filterNewsByQuery } from "@/lib/newsSearch";
 import { getNewsPreviewText } from "@/lib/newsContent";
 import { getNewsCategoryLabel } from "@/lib/newsCategories";
@@ -133,7 +132,7 @@ const NewsEventsPage = () => {
     retry: 1,
   });
 
-  const newsItems = newsData && newsData.length > 0 ? newsData : FALLBACK_NEWS;
+  const newsItems = newsData ?? [];
   const highlightItems = useMemo(
     () => newsItems.filter((item) => (item.display || "").toLowerCase() === "highlight"),
     [newsItems]

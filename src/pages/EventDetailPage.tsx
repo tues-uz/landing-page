@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_EVENTS } from "@/data/fallbackContent";
 import { useTranslation } from "react-i18next";
 
 const PLACEHOLDER_IMAGE =
@@ -91,7 +90,7 @@ const EventDetailPage = () => {
     retry: 1,
   });
 
-  const events = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
+  const events = eventData ?? [];
   const event = id ? events.find((e) => e.id === id) : null;
   const otherEvents = event ? events.filter((e) => e.id !== id).slice(0, 6) : [];
 

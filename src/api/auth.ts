@@ -6,17 +6,21 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 const REQUEST_TIMEOUT_MS = 15_000;
 
-const TOKEN_KEY = "auth:accessToken";
-const REFRESH_KEY = "auth:refreshToken";
+let inMemoryAccessToken: string | null = null;
 
 export const tokenStore = {
-  get: (): string | null => localStorage.getItem(TOKEN_KEY),
-  set: (token: string) => localStorage.setItem(TOKEN_KEY, token),
-  getRefresh: (): string | null => localStorage.getItem(REFRESH_KEY),
-  setRefresh: (token: string) => localStorage.setItem(REFRESH_KEY, token),
+  get: (): string | null => inMemoryAccessToken,
+  set: (token: string) => {
+    inMemoryAccessToken = token;
+  },
+  getRefresh: (): string | null => null,
+  setRefresh: (_token: string) => {},
   clear: () => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(REFRESH_KEY);
+    inMemoryAccessToken = null;
+    try {
+      localStorage.removeItem("auth:accessToken");
+      localStorage.removeItem("auth:refreshToken");
+    } catch {}
   },
 };
 
@@ -24,14 +28,12 @@ let isRefreshing = false;
 let refreshPromise: Promise<string | null> | null = null;
 
 async function attemptRefresh(): Promise<string | null> {
-  const refreshToken = tokenStore.getRefresh();
-  if (!refreshToken) return null;
   if (isRefreshing && refreshPromise) return refreshPromise;
   isRefreshing = true;
   refreshPromise = fetchWithTimeout(`${API_BASE}/auth/refresh`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refreshToken }),
+    credentials: "include",
   })
     .then(async (res) => {
       if (!res.ok) {
@@ -73,7 +75,11 @@ async function request<T>(path: string, options?: RequestInit, retry = true): Pr
   };
   if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
 
-  const res = await fetchWithTimeout(`${API_BASE}${path}`, { ...options, headers });
+  const res = await fetchWithTimeout(`${API_BASE}${path}`, {
+    ...options,
+    headers,
+    credentials: "include",
+  });
 
   if (res.status === 401 && retry) {
     const newToken = await attemptRefresh();
@@ -94,18 +100,26 @@ async function request<T>(path: string, options?: RequestInit, retry = true): Pr
 }
 
 export const authApi = {
-  login: (body: { email: string; password: string }) =>
-    request<{ accessToken: string; refreshToken: string; user: unknown }>("/auth/login", {
+  login: async (body: { email: string; password: string }) => {
+    const res = await request<{ accessToken: string; refreshToken?: string; user: unknown }>("/auth/login", {
       method: "POST",
       body: JSON.stringify(body),
-    }),
+    });
+    if (res?.accessToken) {
+      tokenStore.set(res.accessToken);
+    }
+    return res;
+  },
   me: () =>
     request<{ id: string; email: string; name: string; role: string; permissions?: string[] }>("/auth/me"),
-  logout: (refreshToken: string) =>
-    request<{ message: string }>("/auth/logout", {
+  logout: async (refreshToken?: string) => {
+    const res = await request<{ message: string }>("/auth/logout", {
       method: "POST",
-      body: JSON.stringify({ refreshToken }),
-    }),
+      body: JSON.stringify({ refreshToken: refreshToken ?? "" }),
+    });
+    tokenStore.clear();
+    return res;
+  },
   getToken: () => tokenStore.get(),
 };
 
@@ -131,6 +145,12 @@ export interface MenuItem {
   label: string;
   route: string;
   icon: string;
+}
+
+export interface PermissionItem {
+  id: string;
+  resource: string;
+  action: string;
 }
 
 export interface PlatformPermissions {
@@ -159,6 +179,26 @@ export const adminApi = {
     }),
   deleteUser: (id: string) =>
     request<void>(`/admin/users/${id}`, { method: "DELETE" }),
-  getPlatforms: () => request<PlatformPermissions[]>("/admin/platforms"),
+  getPermissions: () => request<PermissionItem[]>("/admin/permissions"),
+  getPlatforms: async (): Promise<PlatformPermissions[]> => {
+    const permissions = await request<PermissionItem[]>("/admin/permissions");
+    const grouped = new Map<string, PermissionItem[]>();
+    (permissions || []).forEach((p) => {
+      const res = p.resource || "general";
+      if (!grouped.has(res)) grouped.set(res, []);
+      grouped.get(res)!.push(p);
+    });
+    return Array.from(grouped.entries()).map(([res, perms]) => ({
+      id: res,
+      slug: res,
+      name: res.toUpperCase(),
+      permissions: perms.map((p) => ({
+        id: p.id,
+        resource: p.resource,
+        action: p.action,
+        code: `${p.resource}:${p.action}`,
+      })),
+    }));
+  },
   getMenu: () => request<{ items: MenuItem[] }>("/admin/menu"),
 };

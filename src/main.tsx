@@ -4,7 +4,6 @@ import App from "./App.tsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./lib/i18n";
 import "./index.css";
-import "./lib/i18n";
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root not found");

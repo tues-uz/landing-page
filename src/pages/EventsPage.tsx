@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { contentApi, getEventImageUrl, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_EVENTS } from "@/data/fallbackContent";
 import { Share2, Check, Home } from "lucide-react";
 
 const PLACEHOLDER_IMAGE =
@@ -140,7 +139,7 @@ const EventsPage = () => {
     retry: 1,
   });
 
-  const upcomingEvents = eventData && eventData.length > 0 ? eventData : FALLBACK_EVENTS;
+  const upcomingEvents = eventData ?? [];
   const pastEvents: EventItem[] = []; // No past events from API; extend later if needed
 
   return (

@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 gsap.registerPlugin(ScrollTrigger);
 import { contentApi, type NewsItem, type EventItem } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
-import { FALLBACK_NEWS } from "@/data/fallbackContent";
 import { getNewsPreviewText } from "@/lib/newsContent";
 import { getNewsCategoryLabel } from "@/lib/newsCategories";
 import { NEUTRAL_BORDER } from "@/lib/uiBorders";
@@ -289,7 +288,7 @@ const LatestNews = () => {
     queryFn: () => contentApi.news.list(i18n.language),
   });
 
-  const newsItems = allNews && allNews.length > 0 ? allNews : FALLBACK_NEWS;
+  const newsItems = allNews;
   const highlightItems = newsItems.filter((item) => (item.display || "").toLowerCase() === "highlight");
   const featuredItems = (highlightItems.length > 0 ? highlightItems : newsItems).slice(0, 5);
   const featured = featuredItems[0];

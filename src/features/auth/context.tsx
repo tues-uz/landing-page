@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const skipAuth = import.meta.env.VITE_CMS_SKIP_AUTH === "true";
+  const skipAuth = import.meta.env.DEV && import.meta.env.VITE_CMS_SKIP_AUTH === "true";
 
   useEffect(() => {
     let cancelled = false;
