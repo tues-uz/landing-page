@@ -68,6 +68,10 @@ function articleToForm(article: Partial<NewsItem>): Partial<NewsItem> {
   };
 }
 
+function bodyToEditorDoc(body: NewsSection[] | undefined): TiptapDocJSON {
+  return sectionsToTiptapDoc(body ?? []) as TiptapDocJSON;
+}
+
 function buildNewsSavePayload(
   form: Partial<NewsItem>,
   body: NewsSection[],
@@ -130,6 +134,8 @@ export default function AdminNews() {
     readTime: "",
     body: [],
   });
+  /** TipTap JSON while editing — avoids NewsSection[] round-trip on every keystroke (cursor jump). */
+  const [editorDoc, setEditorDoc] = useState<TiptapDocJSON>(() => bodyToEditorDoc([]));
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -167,6 +173,7 @@ export default function AdminNews() {
         readTime: t("articleDefaultReadTime"),
         body: [],
       });
+      setEditorDoc(bodyToEditorDoc([]));
       setFormOpen(true);
       setSearchParams(
         (prev) => {
@@ -187,7 +194,9 @@ export default function AdminNews() {
       if (article) {
         setEditing(article);
         setDisplay(article.display || "Regular");
-        setForm(articleToForm(article));
+        const nextForm = articleToForm(article);
+        setForm(nextForm);
+        setEditorDoc(bodyToEditorDoc(nextForm.body as NewsSection[]));
         setFormOpen(true);
       }
       setSearchParams(
@@ -216,6 +225,7 @@ export default function AdminNews() {
       readTime: t("articleDefaultReadTime"),
       body: [],
     });
+    setEditorDoc(bodyToEditorDoc([]));
     setFormOpen(true);
   };
 
@@ -223,7 +233,9 @@ export default function AdminNews() {
     setEditing(a);
     setDisplay(a.display || "Regular");
     setEditLocale("uz");
-    setForm(articleToForm(a));
+    const nextForm = articleToForm(a);
+    setForm(nextForm);
+    setEditorDoc(bodyToEditorDoc(nextForm.body as NewsSection[]));
     setFormOpen(true);
   };
 
@@ -239,14 +251,17 @@ export default function AdminNews() {
     try {
       const localeData = await adminApi.news.getBySlug(editing.slug, newLocale);
       if (localeData && localeData.id) {
+        const body = Array.isArray(localeData.body) ? localeData.body : [];
         setForm(prev => ({
-          ...prev, 
+          ...prev,
           title: localeData.title || "",
           excerpt: localeData.excerpt || "",
-          body: Array.isArray(localeData.body) ? localeData.body : [],
+          body,
         }));
+        setEditorDoc(bodyToEditorDoc(body));
       } else {
         setForm(prev => ({ ...prev, title: "", excerpt: "", body: [] }));
+        setEditorDoc(bodyToEditorDoc([]));
       }
       setEditLocale(newLocale);
     } catch (e) {
@@ -261,7 +276,7 @@ export default function AdminNews() {
       toast({ title: t("toastSlugTitleRequired"), variant: "destructive" });
       return;
     }
-    const body = Array.isArray(form.body) ? form.body : [];
+    const body = tiptapJsonToSections(editorDoc);
     setSaving(true);
     try {
       if (editing && editing.id) {
@@ -354,8 +369,9 @@ export default function AdminNews() {
   }
 
   if (formOpen) {
+    const editorSections = tiptapJsonToSections(editorDoc);
     const wordCount =
-      (form.body ?? []).reduce(
+      editorSections.reduce(
         (n, s) => n + (s.heading?.split(/\s+/).filter(Boolean).length ?? 0) + (s.paragraphs ?? []).reduce((m, p) => m + p.split(/\s+/).filter(Boolean).length, 0),
         0
       ) + (form.title ?? "").split(/\s+/).filter(Boolean).length + (form.excerpt ?? "").split(/\s+/).filter(Boolean).length;
@@ -573,9 +589,9 @@ export default function AdminNews() {
           <div className="mb-12">
             <div className="relative rounded-lg bg-background">
               <ArticleEditor
-                key={editing?.slug ?? "new"}
-                value={sectionsToTiptapDoc(form.body ?? []) as TiptapDocJSON}
-                onChange={(doc) => setForm((f) => ({ ...f, body: tiptapJsonToSections(doc) }))}
+                key={`${editing?.slug ?? "new"}-${editLocale}`}
+                value={editorDoc}
+                onChange={setEditorDoc}
                 onImageUpload={handleEditorImageUpload}
                 placeholder={t("tellYourStory", "Tell your story...")}
                 showStats
