@@ -63,6 +63,7 @@ export const tokenStore = {
     inMemoryAccessToken = token;
     try {
       localStorage.setItem(ACCESS_TOKEN_KEY, token);
+      sessionStorage.setItem(ACCESS_TOKEN_KEY, token);
     } catch {
       // ignore storage access error
     }
@@ -80,6 +81,7 @@ export const tokenStore = {
     inMemoryRefreshToken = token;
     try {
       localStorage.setItem(REFRESH_TOKEN_KEY, token);
+      sessionStorage.setItem(REFRESH_TOKEN_KEY, token);
     } catch {
       // ignore storage access error
     }
@@ -91,6 +93,7 @@ export const tokenStore = {
       sessionStorage.removeItem(USER_CACHE_KEY);
       sessionStorage.removeItem(ACCESS_TOKEN_KEY);
       sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+      localStorage.removeItem(USER_CACHE_KEY);
       localStorage.removeItem(ACCESS_TOKEN_KEY);
       localStorage.removeItem(REFRESH_TOKEN_KEY);
     } catch {
@@ -101,7 +104,9 @@ export const tokenStore = {
 
 export function cacheAuthUser(user: unknown) {
   try {
-    sessionStorage.setItem(USER_CACHE_KEY, JSON.stringify(user));
+    const raw = JSON.stringify(user);
+    sessionStorage.setItem(USER_CACHE_KEY, raw);
+    localStorage.setItem(USER_CACHE_KEY, raw);
   } catch {
     // ignore quota / private mode
   }
@@ -109,7 +114,7 @@ export function cacheAuthUser(user: unknown) {
 
 export function readCachedAuthUser<T>(): T | null {
   try {
-    const raw = sessionStorage.getItem(USER_CACHE_KEY);
+    const raw = sessionStorage.getItem(USER_CACHE_KEY) || localStorage.getItem(USER_CACHE_KEY);
     if (!raw) return null;
     return JSON.parse(raw) as T;
   } catch {

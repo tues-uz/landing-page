@@ -10,6 +10,7 @@ import {
   getFirstNewsParagraph,
   getNewsGalleryUrls,
   getNewsHeroImages,
+  getNewsImageSrc,
   isNewsGalleryParagraph,
   isNewsImageParagraph,
 } from "@/lib/newsContent";
@@ -280,6 +281,18 @@ const NewsDetailPage = () => {
                     }
                     
                     if (isNewsImageParagraph(para)) {
+                      const imageSrc = getNewsImageSrc(para);
+                      if (imageSrc) {
+                        return (
+                          <div key={p} className="my-6 overflow-hidden rounded-xl">
+                            <img
+                              src={imageSrc}
+                              alt={article.title}
+                              className="w-full h-auto object-cover max-h-[600px] rounded-xl"
+                            />
+                          </div>
+                        );
+                      }
                       return null;
                     }
 

@@ -422,7 +422,7 @@ export default function AdminNews() {
               </div>
             )}
 
-            <div className={`flex flex-wrap gap-6 gap-y-4 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
+            <div className="flex flex-wrap gap-6 gap-y-4">
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs text-muted-foreground">{t("category")}</label>
                 <Select
@@ -500,7 +500,7 @@ export default function AdminNews() {
           />
 
           {/* Metadata line: Author · Date · Read time · words */}
-          <div className={`mb-10 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm ${editLocale !== 'uz' ? 'opacity-50 pointer-events-none' : ''}`}>
+          <div className="mb-10 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
             <input
               type="text"
               value={form.author ?? ""}
@@ -532,7 +532,7 @@ export default function AdminNews() {
           </div>
 
           {/* Add a cover image */}
-          <div className={`mb-10 ${editLocale !== 'uz' ? 'opacity-50 pointer-events-none' : ''}`}>
+          <div className="mb-10">
             <div className="space-y-2">
               <div
                 role="button"

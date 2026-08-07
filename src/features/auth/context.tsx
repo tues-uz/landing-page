@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.warn("[AuthContext] session restore failed:", err);
 
         const cached = readCachedAuthUser<User>();
-        if (cached && tokenStore.get()) {
+        if (cached) {
           console.warn("[AuthContext] using cached user profile after restore failure");
           setUser(cached);
           return;
