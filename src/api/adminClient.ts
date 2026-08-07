@@ -16,7 +16,7 @@ import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@
 import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
 import type { TiptapDocJSON } from "@/types/article";
 import { toApiDateValue, toDateInputValue } from "@/lib/newsDateUtils";
-import { tokenStore } from "./auth";
+import { tokenStore, authApi } from "./auth";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -49,10 +49,30 @@ export interface ApplicationItem {
 }
 
 function getAuthHeaders(): HeadersInit {
-  const headers: HeadersInit = { "Content-Type": "application/json" };
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
   const token = tokenStore.get();
   if (token) headers["Authorization"] = `Bearer ${token}`;
   return headers;
+}
+
+async function adminFetch(url: string, options: RequestInit = {}, retry = true): Promise<Response> {
+  const headers = new Headers(options.headers || {});
+  const token = tokenStore.get();
+  if (token && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+  const res = await fetch(url, { ...options, headers });
+  if (res.status === 401 && retry) {
+    try {
+      const restored = await authApi.restoreSession();
+      if (restored) {
+        const freshToken = tokenStore.get();
+        if (freshToken) headers.set("Authorization", `Bearer ${freshToken}`);
+        return fetch(url, { ...options, headers });
+      }
+    } catch {}
+  }
+  return res;
 }
 
 async function handleResponse<T>(res: Response): Promise<T> {
@@ -130,12 +150,12 @@ export const adminApi = {
   heroSlides: {
     list: async (locale?: string): Promise<HeroSlide[]> => {
       const url = locale ? `${API_BASE}/content/hero-slides?locale=${locale}` : `${API_BASE}/content/hero-slides`;
-      const data = await fetch(url).then((r) => r.json());
+      const data = await adminFetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.slides ?? [];
     },
     create: async (payload: Omit<HeroSlide, "id">): Promise<HeroSlide> => {
-      const res = await fetch(`${API_BASE}/content/hero-slides`, {
+      const res = await adminFetch(`${API_BASE}/content/hero-slides`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -143,7 +163,7 @@ export const adminApi = {
       return handleResponse<HeroSlide>(res);
     },
     update: async (id: string, payload: Partial<HeroSlide>): Promise<HeroSlide> => {
-      const res = await fetch(`${API_BASE}/content/hero-slides/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/hero-slides/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -151,14 +171,14 @@ export const adminApi = {
       return handleResponse<HeroSlide>(res);
     },
     delete: async (id: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/content/hero-slides/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/hero-slides/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
       await handleResponse<unknown>(res);
     },
     upsertTranslation: async (id: string, locale: string, payload: Partial<HeroSlide>): Promise<HeroSlide> => {
-      const res = await fetch(`${API_BASE}/content/hero-slides/${id}/translations/${locale}`, {
+      const res = await adminFetch(`${API_BASE}/content/hero-slides/${id}/translations/${locale}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -168,7 +188,7 @@ export const adminApi = {
   },
   heroBackground: {
     get: async (): Promise<HeroBackground | null> => {
-      const data = await fetch(`${API_BASE}/content/hero-background`).then((r) => r.json());
+      const data = await adminFetch(`${API_BASE}/content/hero-background`).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       const raw = unwrapped?.background ?? null;
       return raw ? normalizeHeroBackground(raw) : null;
@@ -178,7 +198,7 @@ export const adminApi = {
         ...payload,
         mediaType: payload.mediaType === "image" ? "IMAGE" : "VIDEO",
       };
-      const res = await fetch(`${API_BASE}/content/hero-background`, {
+      const res = await adminFetch(`${API_BASE}/content/hero-background`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(body),
@@ -190,7 +210,7 @@ export const adminApi = {
   news: {
     list: async (locale?: string): Promise<NewsItem[]> => {
       const url = locale ? `${API_BASE}/content/news?locale=${locale}` : `${API_BASE}/content/news`;
-      const data = await fetch(url).then((r) => r.json());
+      const data = await adminFetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       const news = (unwrapped?.news ?? []).map((item: NewsItemRaw) => normalizeNewsItem(item));
       return sortNewsByOrder(news);
@@ -198,7 +218,7 @@ export const adminApi = {
     getBySlug: async (slug: string, locale?: string): Promise<NewsItem | null> => {
       try {
         const url = locale ? `${API_BASE}/content/news/${slug}?locale=${locale}` : `${API_BASE}/content/news/${slug}`;
-        const res = await fetch(url);
+        const res = await adminFetch(url);
         if (!res.ok) return null;
         const data = await res.json();
         const unwrapped = data?.data ?? data;
@@ -209,7 +229,7 @@ export const adminApi = {
       }
     },
     create: async (payload: Omit<NewsItem, "id">): Promise<NewsItem> => {
-      const res = await fetch(`${API_BASE}/content/news`, {
+      const res = await adminFetch(`${API_BASE}/content/news`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(serializeNewsPayload(payload)),
@@ -218,7 +238,7 @@ export const adminApi = {
       return normalizeNewsItem(created);
     },
     update: async (id: string, payload: Partial<NewsItem>): Promise<NewsItem> => {
-      const res = await fetch(`${API_BASE}/content/news/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/news/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(serializeNewsPayload(payload)),
@@ -227,7 +247,7 @@ export const adminApi = {
       return normalizeNewsItem(updated);
     },
     reorder: async (highlightIds: string[]): Promise<void> => {
-      const res = await fetch(`${API_BASE}/content/news/reorder`, {
+      const res = await adminFetch(`${API_BASE}/content/news/reorder`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify({ highlightIds }),
@@ -235,14 +255,14 @@ export const adminApi = {
       await handleResponse<unknown>(res);
     },
     delete: async (id: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/content/news/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/news/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
       await handleResponse<unknown>(res);
     },
     upsertTranslation: async (id: string, locale: string, payload: Partial<NewsItem>): Promise<NewsItem> => {
-      const res = await fetch(`${API_BASE}/content/news/${id}/translations/${locale}`, {
+      const res = await adminFetch(`${API_BASE}/content/news/${id}/translations/${locale}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -262,7 +282,7 @@ export const adminApi = {
     ): Promise<{ uploadUrl: string; objectKey: string; publicUrl: string }> => {
       const params = new URLSearchParams({ contentType });
       if (expiryMinutes != null && expiryMinutes > 0) params.set("expiryMinutes", String(expiryMinutes));
-      const res = await fetch(`${API_BASE}/upload/presign?${params}`, {
+      const res = await adminFetch(`${API_BASE}/upload/presign?${params}`, {
         method: "GET",
         headers: getAuthHeaders(),
       });
@@ -295,14 +315,14 @@ export const adminApi = {
   programs: {
     list: async (locale?: string): Promise<ProgramItem[]> => {
       const url = locale ? `${API_BASE}/content/programs?locale=${locale}` : `${API_BASE}/content/programs`;
-      const data = await fetch(url).then((r) => r.json());
+      const data = await adminFetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.programs ?? [];
     },
     getBySlug: async (slug: string, locale?: string): Promise<ProgramItem | null> => {
       try {
         const url = locale ? `${API_BASE}/content/programs/${slug}?locale=${locale}` : `${API_BASE}/content/programs/${slug}`;
-        const res = await fetch(url);
+        const res = await adminFetch(url);
         if (!res.ok) return null;
         const data = await res.json();
         const unwrapped = data?.data ?? data;
@@ -312,7 +332,7 @@ export const adminApi = {
       }
     },
     create: async (payload: Omit<ProgramItem, "id">): Promise<ProgramItem> => {
-      const res = await fetch(`${API_BASE}/content/programs`, {
+      const res = await adminFetch(`${API_BASE}/content/programs`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -320,7 +340,7 @@ export const adminApi = {
       return handleResponse<ProgramItem>(res);
     },
     update: async (id: string, payload: Partial<ProgramItem>): Promise<ProgramItem> => {
-      const res = await fetch(`${API_BASE}/content/programs/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/programs/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -328,14 +348,14 @@ export const adminApi = {
       return handleResponse<ProgramItem>(res);
     },
     delete: async (slug: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/content/programs/${slug}`, {
+      const res = await adminFetch(`${API_BASE}/content/programs/${slug}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
       await handleResponse<unknown>(res);
     },
     upsertTranslation: async (id: string, locale: string, payload: Partial<ProgramItem>): Promise<ProgramItem> => {
-      const res = await fetch(`${API_BASE}/content/programs/${id}/translations/${locale}`, {
+      const res = await adminFetch(`${API_BASE}/content/programs/${id}/translations/${locale}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -348,7 +368,7 @@ export const adminApi = {
       const url = locale
         ? `${API_BASE}/content/study-programs?locale=${locale}`
         : `${API_BASE}/content/study-programs`;
-      const res = await fetch(url, { headers: getAuthHeaders() });
+      const res = await adminFetch(url, { headers: getAuthHeaders() });
       const data = await handleResponse<{ faculties: StudyProgramFaculty[] }>(res);
       return data.faculties ?? [];
     },
@@ -357,7 +377,7 @@ export const adminApi = {
       const url = locale
         ? `${API_BASE}/content/study-programs/${programId}?locale=${locale}`
         : `${API_BASE}/content/study-programs/${programId}`;
-      const res = await fetch(url, { headers: getAuthHeaders() });
+      const res = await adminFetch(url, { headers: getAuthHeaders() });
       const unwrapped = await handleResponse<{ program?: StudyProgramAdminItem; faculty?: { id: string } }>(res);
       if (unwrapped?.program) {
         return {
@@ -369,7 +389,7 @@ export const adminApi = {
       return null;
     },
     create: async (payload: StudyProgramAdminItem): Promise<StudyProgramAdminItem> => {
-      const res = await fetch(`${API_BASE}/content/study-programs/programs`, {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/programs`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -377,7 +397,7 @@ export const adminApi = {
       return handleResponse<StudyProgramAdminItem>(res);
     },
     update: async (programId: string, payload: Partial<StudyProgramAdminItem>): Promise<StudyProgramAdminItem> => {
-      const res = await fetch(`${API_BASE}/content/study-programs/programs/${programId}`, {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/programs/${programId}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -389,7 +409,7 @@ export const adminApi = {
       locale: string,
       payload: Partial<StudyProgram>,
     ): Promise<StudyProgramAdminItem> => {
-      const res = await fetch(`${API_BASE}/content/study-programs/programs/${programId}/translations/${locale}`, {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/programs/${programId}/translations/${locale}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -402,12 +422,12 @@ export const adminApi = {
       const url = status
         ? `${API_BASE}/applications?status=${status}`
         : `${API_BASE}/applications`;
-      const res = await fetch(url, { headers: getAuthHeaders() });
+      const res = await adminFetch(url, { headers: getAuthHeaders() });
       const data = await handleResponse<{ applications: ApplicationItem[] }>(res);
       return data.applications ?? [];
     },
     updateStatus: async (id: string, status: string): Promise<ApplicationItem> => {
-      const res = await fetch(`${API_BASE}/applications/${id}/status`, {
+      const res = await adminFetch(`${API_BASE}/applications/${id}/status`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify({ status }),
@@ -418,12 +438,12 @@ export const adminApi = {
   events: {
     list: async (locale?: string): Promise<EventItem[]> => {
       const url = locale ? `${API_BASE}/content/events?locale=${locale}` : `${API_BASE}/content/events`;
-      const data = await fetch(url).then((r) => r.json());
+      const data = await adminFetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
       return unwrapped?.events ?? [];
     },
     create: async (payload: Omit<EventItem, "id">): Promise<EventItem> => {
-      const res = await fetch(`${API_BASE}/content/events`, {
+      const res = await adminFetch(`${API_BASE}/content/events`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -431,7 +451,7 @@ export const adminApi = {
       return handleResponse<EventItem>(res);
     },
     update: async (id: string, payload: Partial<EventItem>): Promise<EventItem> => {
-      const res = await fetch(`${API_BASE}/content/events/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/events/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -439,14 +459,14 @@ export const adminApi = {
       return handleResponse<EventItem>(res);
     },
     delete: async (id: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/content/events/${id}`, {
+      const res = await adminFetch(`${API_BASE}/content/events/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
       await handleResponse<unknown>(res);
     },
     upsertTranslation: async (id: string, locale: string, payload: Partial<EventItem>): Promise<EventItem> => {
-      const res = await fetch(`${API_BASE}/content/events/${id}/translations/${locale}`, {
+      const res = await adminFetch(`${API_BASE}/content/events/${id}/translations/${locale}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),
@@ -459,12 +479,12 @@ export const adminApi = {
       const url = status && status !== "all"
         ? `${API_BASE}/newsletter/subscribers?status=${status}`
         : `${API_BASE}/newsletter/subscribers`;
-      const res = await fetch(url, { headers: getAuthHeaders() });
+      const res = await adminFetch(url, { headers: getAuthHeaders() });
       const data = await handleResponse<{ subscribers: NewsletterSubscriber[] }>(res);
       return data.subscribers ?? [];
     },
     updateStatus: async (id: string, status: string): Promise<NewsletterSubscriber> => {
-      const res = await fetch(`${API_BASE}/newsletter/subscribers/${id}/status`, {
+      const res = await adminFetch(`${API_BASE}/newsletter/subscribers/${id}/status`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify({ status }),
@@ -472,7 +492,7 @@ export const adminApi = {
       return handleResponse<NewsletterSubscriber>(res);
     },
     delete: async (id: string): Promise<void> => {
-      const res = await fetch(`${API_BASE}/newsletter/subscribers/${id}`, {
+      const res = await adminFetch(`${API_BASE}/newsletter/subscribers/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
