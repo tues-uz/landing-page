@@ -404,7 +404,7 @@ export default function AdminNews() {
               </p>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-muted-foreground mr-2">{t("languageColon")}</span>
-                <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as any)} className="w-[200px]">
+                <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as "uz" | "en" | "ru")} className="w-[200px]">
                   <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="uz" disabled={!editing || loadingLocale}>UZ</TabsTrigger>
                     <TabsTrigger value="en" disabled={!editing || loadingLocale}>EN</TabsTrigger>

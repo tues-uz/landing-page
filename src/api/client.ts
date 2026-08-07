@@ -232,37 +232,37 @@ export const contentApi = {
     },
     scientificArticles: {
         list: async (locale: string = "uz") => {
-            const data = await get<{ articles: any[] }>(`/content/scientific-articles?locale=${locale}`);
+            const data = await get<{ articles: Record<string, unknown>[] }>(`/content/scientific-articles?locale=${locale}`);
             return data.articles ?? [];
         },
     },
     scienceCertificates: {
         list: async (locale: string = "uz") => {
-            const data = await get<{ certificates: any[] }>(`/content/science-certificates?locale=${locale}`);
+            const data = await get<{ certificates: Record<string, unknown>[] }>(`/content/science-certificates?locale=${locale}`);
             return data.certificates ?? [];
         },
     },
     tuitionRates: {
         list: async () => {
-            const data = await get<{ rows: any[] }>(`/content/tuition-rates`);
+            const data = await get<{ rows: Record<string, unknown>[] }>(`/content/tuition-rates`);
             return data.rows ?? [];
         },
     },
     famousGraduates: {
         list: async (locale: string = "uz") => {
-            const data = await get<{ graduates: any[] }>(`/content/famous-graduates?locale=${locale}`);
+            const data = await get<{ graduates: Record<string, unknown>[] }>(`/content/famous-graduates?locale=${locale}`);
             return data.graduates ?? [];
         },
     },
     faculties: {
         list: async (locale: string = "uz") => {
-            const data = await get<{ faculties: any[] }>(`/content/faculties?locale=${locale}`);
+            const data = await get<{ faculties: Record<string, unknown>[] }>(`/content/faculties?locale=${locale}`);
             return data.faculties ?? [];
         },
     },
     departments: {
         list: async (locale: string = "uz") => {
-            const data = await get<{ departments: any[] }>(`/content/departments?locale=${locale}`);
+            const data = await get<{ departments: Record<string, unknown>[] }>(`/content/departments?locale=${locale}`);
             return data.departments ?? [];
         },
     },

@@ -4,13 +4,14 @@
  * Add auth (e.g. Bearer token) when your backend requires it.
  */
 
-import type {
-  HeroSlide,
-  HeroBackground,
-  NewsItem,
-  EventItem,
-  NewsSection,
-  ProgramItem,
+import {
+  getEventImageUrl,
+  type HeroSlide,
+  type HeroBackground,
+  type NewsItem,
+  type EventItem,
+  type NewsSection,
+  type ProgramItem,
 } from "./client";
 import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@/types/studyPrograms";
 import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
@@ -70,7 +71,9 @@ async function adminFetch(url: string, options: RequestInit = {}, retry = true):
         if (freshToken) headers.set("Authorization", `Bearer ${freshToken}`);
         return fetch(url, { ...options, headers });
       }
-    } catch {}
+    } catch {
+      // ignore session restore error
+    }
   }
   return res;
 }
@@ -502,3 +505,4 @@ export const adminApi = {
 };
 
 export type { HeroSlide, HeroBackground, NewsItem, EventItem, NewsSection, ProgramItem };
+export { getEventImageUrl };

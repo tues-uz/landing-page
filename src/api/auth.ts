@@ -54,27 +54,35 @@ export const tokenStore = {
     if (inMemoryAccessToken) return inMemoryAccessToken;
     try {
       inMemoryAccessToken = localStorage.getItem(ACCESS_TOKEN_KEY) || sessionStorage.getItem(ACCESS_TOKEN_KEY);
-    } catch {}
+    } catch {
+      // ignore storage access error
+    }
     return inMemoryAccessToken;
   },
   set: (token: string) => {
     inMemoryAccessToken = token;
     try {
       localStorage.setItem(ACCESS_TOKEN_KEY, token);
-    } catch {}
+    } catch {
+      // ignore storage access error
+    }
   },
   getRefresh: (): string | null => {
     if (inMemoryRefreshToken) return inMemoryRefreshToken;
     try {
       inMemoryRefreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) || sessionStorage.getItem(REFRESH_TOKEN_KEY);
-    } catch {}
+    } catch {
+      // ignore storage access error
+    }
     return inMemoryRefreshToken;
   },
   setRefresh: (token: string) => {
     inMemoryRefreshToken = token;
     try {
       localStorage.setItem(REFRESH_TOKEN_KEY, token);
-    } catch {}
+    } catch {
+      // ignore storage access error
+    }
   },
   clear: () => {
     inMemoryAccessToken = null;
@@ -85,7 +93,9 @@ export const tokenStore = {
       sessionStorage.removeItem(REFRESH_TOKEN_KEY);
       localStorage.removeItem(ACCESS_TOKEN_KEY);
       localStorage.removeItem(REFRESH_TOKEN_KEY);
-    } catch {}
+    } catch {
+      // ignore storage access error
+    }
   },
 };
 

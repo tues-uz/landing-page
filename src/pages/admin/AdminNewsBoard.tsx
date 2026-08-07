@@ -85,7 +85,7 @@ export default function AdminNewsBoard() {
 
   useEffect(() => {
     return () => {
-      dropSuccessTimeoutRef.current && clearTimeout(dropSuccessTimeoutRef.current);
+      if (dropSuccessTimeoutRef.current) clearTimeout(dropSuccessTimeoutRef.current);
     };
   }, []);
 
@@ -93,6 +93,7 @@ export default function AdminNewsBoard() {
   const highlightArticles = ordered.filter((a) => (a.display || "").toLowerCase() === "highlight").slice(0, 5);
   const regularArticles = ordered.filter((a) => (a.display || "").toLowerCase() !== "highlight");
 
+  const highlightsHash = articles.map((a) => a.id + ":" + a.display).join(",");
   useEffect(() => {
     if (loading) return;
     const currentHighlights = articles.filter((a) => (a.display || "").toLowerCase() === "highlight").slice(0, 5);
@@ -102,7 +103,7 @@ export default function AdminNewsBoard() {
       const same = prev.length === ids.length && ids.every((id, i) => prev[i] === id);
       return same ? prev : ids;
     });
-  }, [loading, articles.length, articles.map((a) => a.id + ":" + a.display).join(",")]);
+  }, [loading, articles, highlightsHash]);
 
   const effectiveList = highlightOrder.length > 0
     ? highlightOrder.map((id) => highlightArticles.find((a) => a.id === id)).filter(Boolean) as NewsItem[]
@@ -155,7 +156,7 @@ export default function AdminNewsBoard() {
     newOrder.splice(to, 0, id);
     setHighlightOrder(newOrder);
 
-    dropSuccessTimeoutRef.current && clearTimeout(dropSuccessTimeoutRef.current);
+    if (dropSuccessTimeoutRef.current) clearTimeout(dropSuccessTimeoutRef.current);
     setDropSuccessId(targetId);
     dropSuccessTimeoutRef.current = setTimeout(() => {
       setDropSuccessId(null);
