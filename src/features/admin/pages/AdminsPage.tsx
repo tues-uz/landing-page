@@ -99,11 +99,11 @@ export default function AdminsPage() {
                     <td className="px-6 py-3 text-muted-foreground">{user.email}</td>
                     <td className="px-6 py-3">
                       <div className="flex flex-wrap gap-1">
-                        {user.permissions.length === 0 ? (
+                        {(user.permissions || []).length === 0 ? (
                           <span className="text-xs text-muted-foreground italic">{t("noAccess", "No access")}</span>
                         ) : (
                           <>
-                            {user.permissions.slice(0, 4).map((perm) => {
+                            {(user.permissions || []).slice(0, 4).map((perm) => {
                               const resource = perm.resource === "*" ? t("permissionSystem") : perm.resource;
                               const actionLabel = perm.action === "full" ? t("permissionFull") : perm.action;
                               return (
@@ -116,9 +116,9 @@ export default function AdminsPage() {
                                 </span>
                               );
                             })}
-                            {user.permissions.length > 4 && (
+                            {(user.permissions || []).length > 4 && (
                               <span className="text-[10px] font-medium text-muted-foreground bg-muted/50 rounded-full px-2 py-0.5">
-                                +{user.permissions.length - 4} more
+                                +{(user.permissions || []).length - 4} more
                               </span>
                             )}
                           </>

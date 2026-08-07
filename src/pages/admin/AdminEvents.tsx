@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { adminApi, type EventItem } from "@/api/adminClient";
+import { adminApi, type EventItem, getEventImageUrl } from "@/api/adminClient";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { Loader2, Plus, Pencil, Trash2, ArrowLeft, Upload, Calendar, MapPin, ExternalLink } from "lucide-react";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -344,23 +344,25 @@ export default function AdminEvents() {
         </AlertDialog>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event) => (
-            <Card key={event.id} className={`${ADMIN_CARD_CLASS} group overflow-hidden`}>
-              <div className="aspect-video w-full bg-muted relative overflow-hidden">
-                {event.imageUrl ? (
-                  <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-muted-foreground whitespace-nowrap">
-                    <Calendar className="h-8 w-8 opacity-20 mr-2" />
-                    <span className="text-sm font-medium">{t("noImage", "No image")}</span>
-                  </div>
-                )}
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" aria-hidden />
-                <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm">
-                  <Calendar className="h-3 w-3 opacity-70" />
-                  {event.date}
-                </span>
-              </div>
+          {events.map((event) => {
+            const eventImg = getEventImageUrl(event, "");
+            return (
+              <Card key={event.id} className={`${ADMIN_CARD_CLASS} group overflow-hidden`}>
+                <div className="aspect-video w-full bg-muted relative overflow-hidden">
+                  {eventImg ? (
+                    <img src={eventImg} alt={event.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground whitespace-nowrap">
+                      <Calendar className="h-8 w-8 opacity-20 mr-2" />
+                      <span className="text-sm font-medium">{t("noImage", "No image")}</span>
+                    </div>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" aria-hidden />
+                  <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm">
+                    <Calendar className="h-3 w-3 opacity-70" />
+                    {event.date}
+                  </span>
+                </div>
               <CardHeader className="p-4 pb-2">
                 <CardTitle className="text-base line-clamp-1">{event.title}</CardTitle>
                 <CardDescription className="flex items-center gap-1.5 text-xs">
@@ -383,7 +385,8 @@ export default function AdminEvents() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+          );
+        })}
         </div>
 
         {events.length === 0 && !loading && (

@@ -32,10 +32,10 @@ export default function AdminApplications() {
     if (!s) return applications;
     return applications.filter(
       (a) =>
-        a.fullName.toLowerCase().includes(s) ||
-        a.phone.toLowerCase().includes(s) ||
-        a.courseId.toLowerCase().includes(s) ||
-        a.passport.toLowerCase().includes(s),
+        (a.fullName || "").toLowerCase().includes(s) ||
+        (a.phone || "").toLowerCase().includes(s) ||
+        (a.courseId || "").toLowerCase().includes(s) ||
+        (a.passport || "").toLowerCase().includes(s),
     );
   }, [q, applications]);
 

@@ -57,7 +57,7 @@ export default function AdminNewsletterSubscribers() {
   const filtered = useMemo(() => {
     const search = q.trim().toLowerCase();
     return subscribers.filter((s) => {
-      const matchesSearch = !search || s.email.includes(search);
+      const matchesSearch = !search || (s.email || "").toLowerCase().includes(search);
       const matchesStatus = statusFilter === "all" || s.status === statusFilter;
       return matchesSearch && matchesStatus;
     });

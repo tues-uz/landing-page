@@ -624,8 +624,8 @@ export default function AdminNews() {
   const filteredArticles = articles.filter((a) => {
     const matchesSearch =
       !searchQuery.trim() ||
-      a.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      a.slug?.toLowerCase().includes(searchQuery.toLowerCase());
+      (a.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (a.slug || "").toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = categoryFilter === "all" || a.category === categoryFilter;
     const articleDisplay = a.display || "Regular";
     const matchesDisplay = displayFilter === "all" || articleDisplay === displayFilter;
