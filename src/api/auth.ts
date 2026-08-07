@@ -43,19 +43,48 @@ function isJwtExpired(token: string, skewSeconds = 30): boolean {
   }
 }
 
+const ACCESS_TOKEN_KEY = "auth:accessToken";
+const REFRESH_TOKEN_KEY = "auth:refreshToken";
+
 let inMemoryAccessToken: string | null = null;
+let inMemoryRefreshToken: string | null = null;
 
 export const tokenStore = {
-  get: (): string | null => inMemoryAccessToken,
+  get: (): string | null => {
+    if (inMemoryAccessToken) return inMemoryAccessToken;
+    try {
+      inMemoryAccessToken = localStorage.getItem(ACCESS_TOKEN_KEY) || sessionStorage.getItem(ACCESS_TOKEN_KEY);
+    } catch {}
+    return inMemoryAccessToken;
+  },
   set: (token: string) => {
     inMemoryAccessToken = token;
+    try {
+      localStorage.setItem(ACCESS_TOKEN_KEY, token);
+    } catch {}
   },
-  getRefresh: (): string | null => null,
-  setRefresh: (_token: string) => {},
+  getRefresh: (): string | null => {
+    if (inMemoryRefreshToken) return inMemoryRefreshToken;
+    try {
+      inMemoryRefreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) || sessionStorage.getItem(REFRESH_TOKEN_KEY);
+    } catch {}
+    return inMemoryRefreshToken;
+  },
+  setRefresh: (token: string) => {
+    inMemoryRefreshToken = token;
+    try {
+      localStorage.setItem(REFRESH_TOKEN_KEY, token);
+    } catch {}
+  },
   clear: () => {
     inMemoryAccessToken = null;
+    inMemoryRefreshToken = null;
     try {
       sessionStorage.removeItem(USER_CACHE_KEY);
+      sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+      sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+      localStorage.removeItem(ACCESS_TOKEN_KEY);
+      localStorage.removeItem(REFRESH_TOKEN_KEY);
     } catch {}
   },
 };
@@ -88,9 +117,11 @@ let refreshPromise: Promise<string | null> | null = null;
 async function attemptRefresh(): Promise<string | null> {
   if (isRefreshing && refreshPromise) return refreshPromise;
   isRefreshing = true;
+  const storedRefreshToken = tokenStore.getRefresh();
   refreshPromise = fetchWithTimeout(`${API_BASE}/auth/refresh`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(storedRefreshToken ? { refreshToken: storedRefreshToken } : {}),
     credentials: "include",
   })
     .then(async (res) => {
@@ -167,12 +198,17 @@ async function request<T>(path: string, options?: RequestInit, retry = true): Pr
 
 export const authApi = {
   login: async (body: { email: string; password: string }) => {
-    const res = await request<{ accessToken: string; refreshToken?: string; user: unknown }>("/auth/login", {
+    const res = await request<{ accessToken?: string; access_token?: string; refreshToken?: string; refresh_token?: string; user: unknown }>("/auth/login", {
       method: "POST",
       body: JSON.stringify(body),
     });
-    if (res?.accessToken) {
-      tokenStore.set(res.accessToken);
+    const accessToken = readAccessToken(res) ?? res?.accessToken;
+    const refreshToken = readRefreshToken(res) ?? res?.refreshToken;
+    if (accessToken) {
+      tokenStore.set(accessToken);
+    }
+    if (refreshToken) {
+      tokenStore.setRefresh(refreshToken);
     }
     return res;
   },

@@ -37,14 +37,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
     }
 
-    const token = tokenStore.get();
-    if (!token) {
-      finishLoading();
-      return () => {
-        cancelled = true;
-      };
-    }
-
     // Safety net if the auth API hangs without rejecting.
     const safetyTimeoutId = window.setTimeout(finishLoading, 20_000);
 
