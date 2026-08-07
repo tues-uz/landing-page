@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
-import { Loader2, Plus, Search, Video, Image, Upload, CheckCircle2 } from "lucide-react";
+import { Loader2, Plus, Search, Video, Image, Upload, CheckCircle2, Trash2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 
@@ -265,9 +265,66 @@ export default function AdminHero() {
     accept: string,
     idleTitle: string,
     fileHint: string,
+    currentUrl: string | null,
+    onRemove: () => void,
   ) => {
     const successName = uploadSuccess[kind];
     const isUploading = uploadingMedia === kind;
+    const activeUrl = currentUrl;
+
+    if (activeUrl && !isUploading) {
+      return (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/30 p-4">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              {kind === "video" ? (
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <Video className="h-5 w-5" />
+                </div>
+              ) : (
+                <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-background">
+                  {activeUrl.startsWith("http") || activeUrl.startsWith("/") || activeUrl.startsWith("blob:") ? (
+                    <img src={activeUrl} alt="Preview" className="h-full w-full object-cover" />
+                  ) : (
+                    <Image className="h-5 w-5 text-muted-foreground" />
+                  )}
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  {successName ? t("newlyUploaded", "Newly Uploaded") : t("activeMedia", "Current Media")}
+                </p>
+                <p className="text-sm font-medium text-foreground truncate max-w-sm" title={activeUrl}>
+                  {successName || activeUrl}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => inputRef.current?.click()}
+                className="h-8 text-xs"
+              >
+                {t("replace", "Replace")}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onRemove}
+                className="h-8 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
+              >
+                <Trash2 className="h-3.5 w-3.5 mr-1" />
+                {t("remove", "Remove")}
+              </Button>
+            </div>
+          </div>
+          <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onChange} />
+        </div>
+      );
+    }
 
     return (
       <div className="space-y-2">
@@ -276,35 +333,19 @@ export default function AdminHero() {
           tabIndex={0}
           onClick={() => !isUploading && inputRef.current?.click()}
           onKeyDown={(e) => e.key === "Enter" && !isUploading && inputRef.current?.click()}
-          className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-60 ${
-            successName
-              ? "border-green-500/50 bg-green-500/5 hover:bg-green-500/10"
-              : "border-border hover:border-primary/60 hover:bg-muted/50"
-          }`}
+          className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
         >
           {isUploading ? (
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          ) : successName ? (
-            <CheckCircle2 className="h-8 w-8 text-green-600" />
           ) : (
             <Upload className="h-8 w-8 text-muted-foreground" />
           )}
           <div className="text-center">
-            {successName ? (
-              <>
-                <p className="text-sm font-medium text-foreground">{t("uploadedSuccess")}</p>
-                <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-[240px]">{successName}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{t("clickToReplace")}</p>
-              </>
-            ) : (
-              <>
-                <p className="text-sm font-medium text-foreground">
-                  {isUploading ? t("uploading") : idleTitle}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5">{t("dragDropClick")}</p>
-                <p className="text-xs text-muted-foreground">{fileHint}</p>
-              </>
-            )}
+            <p className="text-sm font-medium text-foreground">
+              {isUploading ? t("uploading") : idleTitle}
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">{t("dragDropClick")}</p>
+            <p className="text-xs text-muted-foreground">{fileHint}</p>
           </div>
         </div>
         <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onChange} />
@@ -366,6 +407,11 @@ export default function AdminHero() {
                     "video/mp4,video/webm,image/*",
                     t("uploadHeroVideo"),
                     t("videoOrImageMaxMb", { max: MAX_FILE_MB }),
+                    bg.videoUrl,
+                    () => {
+                      setBackground((b) => (b ? { ...b, videoUrl: null } : b));
+                      setUploadSuccess((s) => ({ ...s, video: null }));
+                    }
                   )}
                 </div>
                 <div className="grid gap-2">
@@ -377,6 +423,11 @@ export default function AdminHero() {
                     "image/*",
                     t("uploadFallbackImage"),
                     t("imageFilesMaxMb", { max: MAX_FILE_MB }),
+                    bg.imageUrl,
+                    () => {
+                      setBackground((b) => (b ? { ...b, imageUrl: null } : b));
+                      setUploadSuccess((s) => ({ ...s, fallback: null }));
+                    }
                   )}
                 </div>
               </>
@@ -391,6 +442,11 @@ export default function AdminHero() {
                   "image/*",
                   t("uploadHeroBackgroundImage"),
                   t("imageFilesMaxMb", { max: MAX_FILE_MB }),
+                  bg.imageUrl,
+                  () => {
+                    setBackground((b) => (b ? { ...b, imageUrl: null } : b));
+                    setUploadSuccess((s) => ({ ...s, image: null }));
+                  }
                 )}
               </div>
             )}
