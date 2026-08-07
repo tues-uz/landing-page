@@ -128,7 +128,7 @@ export default function AdminHero() {
       const [s, b] = await Promise.all([adminApi.heroSlides.list(i18n.language), adminApi.heroBackground.get()]);
       setSlides(s);
       const merged = b
-        ? { ...b, mediaType: "video" as const }
+        ? b
         : { mediaType: "video" as const, videoUrl: null as string | null, imageUrl: null as string | null };
       setBackground(merged);
     } catch (e) {
