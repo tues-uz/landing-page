@@ -158,7 +158,7 @@ export const contentApi = {
     heroSlides: {
         list: async (locale: string = "uz"): Promise<HeroSlide[]> => {
             const data = await get<{ slides: HeroSlide[] }>(`/content/hero-slides?locale=${locale}`);
-            return data.slides ?? [];
+            return data?.slides ?? (Array.isArray(data) ? data : []);
         },
     },
     heroBackground: {

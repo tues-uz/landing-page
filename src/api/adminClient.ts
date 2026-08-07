@@ -155,7 +155,7 @@ export const adminApi = {
       const url = locale ? `${API_BASE}/content/hero-slides?locale=${locale}` : `${API_BASE}/content/hero-slides`;
       const data = await adminFetch(url).then((r) => r.json());
       const unwrapped = data?.data ?? data;
-      return unwrapped?.slides ?? [];
+      return unwrapped?.slides ?? (Array.isArray(unwrapped) ? unwrapped : []);
     },
     create: async (payload: Omit<HeroSlide, "id">): Promise<HeroSlide> => {
       const res = await adminFetch(`${API_BASE}/content/hero-slides`, {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -122,7 +122,7 @@ export default function AdminHero() {
     e.target.value = "";
   };
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const [s, b] = await Promise.all([adminApi.heroSlides.list(i18n.language), adminApi.heroBackground.get()]);
@@ -136,11 +136,11 @@ export default function AdminHero() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [i18n.language, t, toast]);
 
   useEffect(() => {
     load();
-  }, [i18n.language]);
+  }, [load]);
 
   const filteredSlides = useMemo(() => {
     if (!searchSlides.trim()) return slides;
@@ -531,6 +531,14 @@ export default function AdminHero() {
                         value={editingSlide.year ?? ""}
                         onChange={(e) => setEditingSlide((s) => s && { ...s, year: e.target.value })}
                         placeholder={t("yearLabel")}
+                      />
+                    </div>
+                    <div className={`space-y-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>
+                      <Label>{t("learnMoreLinkOptional")}</Label>
+                      <Input
+                        value={editingSlide.linkUrl ?? ""}
+                        onChange={(e) => setEditingSlide((s) => s && { ...s, linkUrl: e.target.value })}
+                        placeholder={t("slideUrlPlaceholder")}
                       />
                     </div>
                     <div className="flex gap-2 pt-1">
