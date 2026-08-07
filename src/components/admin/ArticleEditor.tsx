@@ -454,6 +454,7 @@ export function ArticleEditor({
     if (!editor) return;
     const onUpdate = () => {
       const doc = editor.getJSON() as TiptapDocJSON;
+      lastValueRef.current = JSON.stringify(doc.content ?? []);
       onChange(doc);
     };
     editor.on("update", onUpdate);

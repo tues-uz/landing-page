@@ -6,6 +6,43 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 const REQUEST_TIMEOUT_MS = 15_000;
 
+const USER_CACHE_KEY = "auth:userCache";
+
+export class AuthError extends Error {
+  constructor(message = "Unauthorized") {
+    super(message);
+    this.name = "AuthError";
+  }
+}
+
+function readAccessToken(json: unknown): string | undefined {
+  if (!json || typeof json !== "object") return undefined;
+  const root = json as Record<string, unknown>;
+  const data = root.data && typeof root.data === "object" ? (root.data as Record<string, unknown>) : root;
+  const token = data.accessToken ?? data.access_token;
+  return typeof token === "string" && token.length > 0 ? token : undefined;
+}
+
+function readRefreshToken(json: unknown): string | undefined {
+  if (!json || typeof json !== "object") return undefined;
+  const root = json as Record<string, unknown>;
+  const data = root.data && typeof root.data === "object" ? (root.data as Record<string, unknown>) : root;
+  const token = data.refreshToken ?? data.refresh_token;
+  return typeof token === "string" && token.length > 0 ? token : undefined;
+}
+
+function isJwtExpired(token: string, skewSeconds = 30): boolean {
+  try {
+    const payloadPart = token.split(".")[1];
+    if (!payloadPart) return false;
+    const payload = JSON.parse(atob(payloadPart.replace(/-/g, "+").replace(/_/g, "/"))) as { exp?: number };
+    if (typeof payload.exp !== "number") return false;
+    return payload.exp * 1000 <= Date.now() + skewSeconds * 1000;
+  } catch {
+    return false;
+  }
+}
+
 let inMemoryAccessToken: string | null = null;
 
 export const tokenStore = {
@@ -17,8 +54,33 @@ export const tokenStore = {
   setRefresh: (_token: string) => {},
   clear: () => {
     inMemoryAccessToken = null;
+    try {
+      sessionStorage.removeItem(USER_CACHE_KEY);
+    } catch {}
   },
 };
+
+export function cacheAuthUser(user: unknown) {
+  try {
+    sessionStorage.setItem(USER_CACHE_KEY, JSON.stringify(user));
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function readCachedAuthUser<T>(): T | null {
+  try {
+    const raw = sessionStorage.getItem(USER_CACHE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+export function isAuthFailure(err: unknown): boolean {
+  return err instanceof AuthError || (err instanceof Error && err.message === "Unauthorized");
+}
 
 let isRefreshing = false;
 let refreshPromise: Promise<string | null> | null = null;
@@ -32,14 +94,22 @@ async function attemptRefresh(): Promise<string | null> {
     credentials: "include",
   })
     .then(async (res) => {
-      if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
         tokenStore.clear();
         return null;
       }
+      if (!res.ok) {
+        throw new Error(`Refresh failed: ${res.status}`);
+      }
       const json = await res.json();
-      const newToken: string = json?.data?.accessToken ?? json?.accessToken;
+      const newToken = readAccessToken(json);
+      const newRefresh = readRefreshToken(json);
       if (newToken) tokenStore.set(newToken);
+      if (newRefresh) tokenStore.setRefresh(newRefresh);
       return newToken ?? null;
+    })
+    .catch((err) => {
+      throw err;
     })
     .finally(() => {
       isRefreshing = false;
@@ -81,7 +151,7 @@ async function request<T>(path: string, options?: RequestInit, retry = true): Pr
     const newToken = await attemptRefresh();
     if (newToken) return request<T>(path, options, false);
     tokenStore.clear();
-    throw new Error("Unauthorized");
+    throw new AuthError("Unauthorized");
   }
 
   if (!res.ok) {
@@ -108,6 +178,16 @@ export const authApi = {
   },
   me: () =>
     request<{ id: string; email: string; name: string; role: string; permissions?: string[] }>("/auth/me"),
+  /** Restore session on page load: refresh expired access token, then fetch /auth/me. */
+  restoreSession: async () => {
+    let accessToken = tokenStore.get();
+    if (!accessToken || isJwtExpired(accessToken)) {
+      accessToken = await attemptRefresh();
+      if (!accessToken) throw new AuthError("Session expired");
+    }
+
+    return authApi.me();
+  },
   logout: async (refreshToken?: string) => {
     const res = await request<{ message: string }>("/auth/logout", {
       method: "POST",

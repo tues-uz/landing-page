@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authApi, tokenStore } from "@/api/auth";
+import { authApi, tokenStore, cacheAuthUser, readCachedAuthUser, isAuthFailure } from "@/api/auth";
 import type { User, LoginRequest } from "./types";
 
 interface AuthContextValue {
@@ -49,16 +49,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const safetyTimeoutId = window.setTimeout(finishLoading, 20_000);
 
     authApi
-      .me()
+      .restoreSession()
       .then((res) => {
         if (cancelled) return;
         console.debug("[AuthContext] /me response:", res);
+        cacheAuthUser(res);
         setUser(res as User);
       })
       .catch((err: unknown) => {
         if (cancelled) return;
         console.warn("[AuthContext] session restore failed:", err);
-        tokenStore.clear();
+
+        if (isAuthFailure(err)) {
+          tokenStore.clear();
+          setUser(null);
+          return;
+        }
+
+        const cached = readCachedAuthUser<User>();
+        if (cached && tokenStore.get()) {
+          console.warn("[AuthContext] using cached user profile after restore failure");
+          setUser(cached);
+          return;
+        }
+
         setUser(null);
       })
       .finally(() => {
@@ -80,9 +94,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       const res = await authApi.login(credentials);
       console.debug("[AuthContext] login response:", res);
-      tokenStore.set(res.accessToken);
-      tokenStore.setRefresh(res.refreshToken);
+      const accessToken = res.accessToken ?? (res as { access_token?: string }).access_token;
+      const refreshToken = res.refreshToken ?? (res as { refresh_token?: string }).refresh_token;
+      if (!accessToken || !refreshToken) {
+        throw new Error("Login response missing tokens");
+      }
+      tokenStore.set(accessToken);
+      tokenStore.setRefresh(refreshToken);
       console.debug("[AuthContext] login user:", res.user);
+      cacheAuthUser(res.user);
       setUser(res.user as User);
       navigate(CMS_BASE, { replace: true });
     },
