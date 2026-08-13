@@ -11,9 +11,10 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
-import { Loader2, Plus, Search, Video, Image, Upload, CheckCircle2, Trash2 } from "lucide-react";
+import { Loader2, Plus, Search, Video, Image, Upload, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
+import { getHeroImageUrls, serializeHeroBackgroundForApi } from "@/lib/heroBackgroundUtils";
 
 export default function AdminHero() {
   const { t, i18n } = useTranslation("admin");
@@ -28,10 +29,9 @@ export default function AdminHero() {
   const [searchSlides, setSearchSlides] = useState("");
   const [addSlideOpen, setAddSlideOpen] = useState(false);
   const [uploadingMedia, setUploadingMedia] = useState<"video" | "fallback" | "image" | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState<{ video: string | null; fallback: string | null; image: string | null }>({
+  const [uploadSuccess, setUploadSuccess] = useState<{ video: string | null; fallback: string | null }>({
     video: null,
     fallback: null,
-    image: null,
   });
   const { toast } = useToast();
   const videoInputRef = useRef<HTMLInputElement>(null);
@@ -103,23 +103,71 @@ export default function AdminHero() {
     e.target.value = "";
   };
 
-  const handleImageBackgroundFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
+  const handleImageBackgroundFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList?.length || !background) return;
+
+    const files = Array.from(fileList).filter((file) => file.type.startsWith("image/"));
+    if (files.length === 0) {
       toast({ title: t("toastSelectImageFile"), variant: "destructive" });
+      e.target.value = "";
       return;
     }
-    if (!background) return;
+
+    setUploadingMedia("image");
     try {
-      const url = await uploadFileAndSetUrl(file, "image");
-      setBackground((b) => (b ? { ...b, imageUrl: url } : b));
-      setUploadSuccess((s) => ({ ...s, image: file.name }));
-      toast({ title: t("toastBackgroundImageUploaded") });
+      const uploaded: string[] = [];
+      for (const file of files) {
+        if (file.size > MAX_FILE_MB * 1024 * 1024) {
+          toast({ title: t("toastFileTooLarge", { max: MAX_FILE_MB }), variant: "destructive" });
+          continue;
+        }
+        const { url } = await adminApi.media.upload(file);
+        uploaded.push(url);
+      }
+
+      if (uploaded.length > 0) {
+        setBackground((b) => {
+          if (!b) return b;
+          const merged = [...getHeroImageUrls(b), ...uploaded];
+          return {
+            ...b,
+            mediaType: "image",
+            imageUrls: merged,
+            imageUrl: merged[0] ?? null,
+          };
+        });
+        toast({ title: t("toastBackgroundImagesUploaded", { count: uploaded.length }) });
+      }
     } catch (err) {
       toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
+    } finally {
+      setUploadingMedia(null);
+      e.target.value = "";
     }
-    e.target.value = "";
+  };
+
+  const removeHeroBackgroundImage = (index: number) => {
+    setBackground((b) => {
+      if (!b) return b;
+      const urls = getHeroImageUrls(b).filter((_, i) => i !== index);
+      return {
+        ...b,
+        imageUrls: urls.length > 0 ? urls : null,
+        imageUrl: urls[0] ?? null,
+      };
+    });
+  };
+
+  const moveHeroBackgroundImage = (index: number, direction: -1 | 1) => {
+    setBackground((b) => {
+      if (!b) return b;
+      const urls = [...getHeroImageUrls(b)];
+      const target = index + direction;
+      if (target < 0 || target >= urls.length) return b;
+      [urls[index], urls[target]] = [urls[target], urls[index]];
+      return { ...b, imageUrls: urls, imageUrl: urls[0] ?? null };
+    });
   };
 
   const load = useCallback(async () => {
@@ -129,8 +177,13 @@ export default function AdminHero() {
       setSlides(s);
       const merged = b
         ? b
-        : { mediaType: "video" as const, videoUrl: null as string | null, imageUrl: null as string | null };
-      setBackground(merged);
+        : {
+            mediaType: "video" as const,
+            videoUrl: null as string | null,
+            imageUrl: null as string | null,
+            imageUrls: null as string[] | null,
+          };
+      setBackground(merged.mediaType === "image" ? serializeHeroBackgroundForApi(merged) : merged);
     } catch (e) {
       toast({ title: t("toastFailedLoadHero"), description: String(e), variant: "destructive" });
     } finally {
@@ -157,7 +210,7 @@ export default function AdminHero() {
     if (!background) return;
     setSaving(true);
     try {
-      await adminApi.heroBackground.update(background);
+      await adminApi.heroBackground.update(serializeHeroBackgroundForApi(background));
       toast({ title: t("toastHeroBackgroundSaved") });
     } catch (e) {
       toast({ title: t("toastFailedSaveBackground"), description: String(e), variant: "destructive" });
@@ -259,7 +312,7 @@ export default function AdminHero() {
   };
 
   const renderUploadZone = (
-    kind: "video" | "fallback" | "image",
+    kind: "video" | "fallback",
     inputRef: React.RefObject<HTMLInputElement | null>,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     accept: string,
@@ -363,7 +416,9 @@ export default function AdminHero() {
     );
   }
 
-  const bg = background ?? { mediaType: "video" as const, videoUrl: null, imageUrl: null };
+  const bg = background ?? { mediaType: "video" as const, videoUrl: null, imageUrl: null, imageUrls: null };
+  const heroBackgroundImages = getHeroImageUrls(bg);
+  const isUploadingBackgroundImages = uploadingMedia === "image";
 
   return (
     <AdminPageShell bare>
@@ -433,21 +488,108 @@ export default function AdminHero() {
               </>
             )}
             {bg.mediaType === "image" && (
-              <div className="grid gap-2">
-                <Label>{t("uploadBackgroundImage")}</Label>
-                {renderUploadZone(
-                  "image",
-                  imageBackgroundRef,
-                  handleImageBackgroundFile,
-                  "image/*",
-                  t("uploadHeroBackgroundImage"),
-                  t("imageFilesMaxMb", { max: MAX_FILE_MB }),
-                  bg.imageUrl,
-                  () => {
-                    setBackground((b) => (b ? { ...b, imageUrl: null } : b));
-                    setUploadSuccess((s) => ({ ...s, image: null }));
-                  }
+              <div className="grid gap-3">
+                <div>
+                  <Label>{t("uploadBackgroundImage")}</Label>
+                  <p className="text-xs text-muted-foreground mt-1">{t("heroBackgroundImagesHint")}</p>
+                </div>
+
+                {heroBackgroundImages.length > 0 && (
+                  <ul className="grid gap-3 sm:grid-cols-2">
+                    {heroBackgroundImages.map((url, index) => (
+                      <li
+                        key={`${url}-${index}`}
+                        className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-3"
+                      >
+                        <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-md border bg-background">
+                          <img src={url} alt="" className="h-full w-full object-cover" />
+                          <span className="absolute left-1 top-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                            {index + 1}
+                          </span>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {t("slideLabel", { number: index + 1 })}
+                          </p>
+                          <p className="truncate text-sm text-foreground" title={url}>
+                            {url}
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 flex-col gap-1">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            disabled={index === 0}
+                            onClick={() => moveHeroBackgroundImage(index, -1)}
+                            aria-label={t("moveImageEarlier")}
+                          >
+                            <ChevronLeft className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            disabled={index === heroBackgroundImages.length - 1}
+                            onClick={() => moveHeroBackgroundImage(index, 1)}
+                            aria-label={t("moveImageLater")}
+                          >
+                            <ChevronRight className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                            onClick={() => removeHeroBackgroundImage(index)}
+                            aria-label={t("removeImage")}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 )}
+
+                <div className="space-y-2">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => !isUploadingBackgroundImages && imageBackgroundRef.current?.click()}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && !isUploadingBackgroundImages && imageBackgroundRef.current?.click()
+                    }
+                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
+                  >
+                    {isUploadingBackgroundImages ? (
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    ) : (
+                      <Upload className="h-8 w-8 text-muted-foreground" />
+                    )}
+                    <div className="text-center">
+                      <p className="text-sm font-medium text-foreground">
+                        {isUploadingBackgroundImages
+                          ? t("uploading")
+                          : heroBackgroundImages.length > 0
+                            ? t("addMoreHeroBackgroundImages")
+                            : t("uploadHeroBackgroundImages")}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{t("dragDropClick")}</p>
+                      <p className="text-xs text-muted-foreground">{t("imageFilesMaxMb", { max: MAX_FILE_MB })}</p>
+                    </div>
+                  </div>
+                  <input
+                    ref={imageBackgroundRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={handleImageBackgroundFiles}
+                  />
+                </div>
               </div>
             )}
             <button

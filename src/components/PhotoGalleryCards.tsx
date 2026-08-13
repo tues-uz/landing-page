@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const PRIORITY_COUNT = 6;
 const items = PHOTO_GALLERY_ITEMS;
 const LIGHTBOX_VIEWPORT_CLASS =
-  "aspect-[4/3] w-[min(calc(100vw-6rem),1600px,calc(92vh*4/3))]";
+  "aspect-video w-[min(calc(100vw-6rem),1600px,calc(92vh*16/9))]";
 const LIGHTBOX_SIZES_ATTR = "min(1600px, calc(100vw - 6rem))";
 const LIGHTBOX_LOAD_RADIUS = 2;
 
@@ -190,7 +190,7 @@ export function PhotoGalleryCards() {
                             sizes={LIGHTBOX_SIZES_ATTR}
                             alt=""
                             width={800}
-                            height={600}
+                            height={450}
                             draggable={false}
                             className="h-full w-full object-cover"
                             decoding="async"

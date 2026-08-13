@@ -27,6 +27,7 @@ import ScienceCertificateDetailPage from "./pages/ScienceCertificateDetailPage";
 import ResearchSustainableCenterPage from "./pages/ResearchSustainableCenterPage";
 import ResearchSustainableCenterDetailPage from "./pages/ResearchSustainableCenterDetailPage";
 import BachelorHubPage from "./pages/BachelorHubPage";
+import InternationalFoundationYearPage from "./pages/InternationalFoundationYearPage";
 import BachelorTrackPage from "./pages/BachelorTrackPage";
 import BachelorFullTimeProgramDetailPage from "./pages/BachelorFullTimeProgramDetailPage";
 import QualificationRequirementsPage from "./pages/QualificationRequirementsPage";
@@ -269,6 +270,10 @@ const App = () => (
             <Route
               path="/admission-2025/menu/state-order-parameters-2024-2025"
               element={<PresidentOrderAdmissionParametersPage />}
+            />
+            <Route
+              path="/education/bachelor/international-foundation-year"
+              element={<InternationalFoundationYearPage />}
             />
             <Route
               path="/education/bachelor/:track/programs/:programNo"

@@ -77,6 +77,7 @@ export const topNavItemHref: Record<string, string> = {
   "secondNavEducation.bachelor": "/education/bachelor",
   "secondNavEducation.mastersDegree": "/education/masters",
   "secondNavEducation.qualificationRequirements": "/education/qualification-requirements",
+  "secondNavEducation.resources": "https://lib.tues.uz/",
   "secondNavEducation.distanceLearningSystem": "https://lms.tues.uz/",
   "secondNavAdmission2025.apply": "/admission-2025/apply",
   "secondNavAdmission2025.regulationSecondaryEducation":

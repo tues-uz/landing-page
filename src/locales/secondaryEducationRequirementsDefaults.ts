@@ -18,7 +18,7 @@ export const SECONDARY_EDUCATION_REQUIREMENTS_I18N_DEFAULTS = {
     "Applicants must meet the age requirements set in the official admission regulations for the relevant academic year. Check the current admission announcement for the exact date and age limit.",
   secondaryEdFaqQ6: "Where can I read the official regulation on secondary education?",
   secondaryEdFaqA6Before:
-    "The Cabinet of Ministers resolution on the procedure for obtaining a second and subsequent higher education and related admission rules are published on the Admission 2025 section of this website. See",
+    "The Cabinet of Ministers resolution on the procedure for obtaining a second and subsequent higher education and related admission rules are published on the Admission 2026 section of this website. See",
   secondaryEdFaqA6Link: "Regulation on secondary education",
   secondaryEdFaqA6After: "for the full text.",
 } as const;

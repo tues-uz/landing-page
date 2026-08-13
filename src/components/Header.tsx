@@ -139,7 +139,7 @@ const SECOND_NAV_LINK_ICONS: Partial<Record<string, LucideIcon>> = {
   "secondNavUniversity.contractPrices": ClipboardList,
   "secondNavUniversity.campusCulture": Heart,
   "secondNavEducation.courseCatalogue": BookOpen,
-  "secondNavEducation.resources": BookOpen,
+  "secondNavEducation.resources": ExternalLink,
   "secondNavEducation.bachelor": GraduationCap,
   "secondNavEducation.mastersDegree": GraduationCap,
   "secondNavEducation.qualificationRequirements": FileText,

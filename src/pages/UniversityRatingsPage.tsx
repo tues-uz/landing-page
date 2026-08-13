@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import {
   UNIVERSITY_RATINGS_DEFAULTS,
+  UNIVERSITY_RATINGS_GREEN_IMAGES,
   type UniversityRatingsI18nKey,
 } from "@/locales/universityRatingsDefaults";
 import { cn } from "@/lib/utils";
@@ -152,6 +153,22 @@ function UniversityRatingsArticle({ t }: { t: TFunction }) {
             <li key={key}>{trRatings(t, key)}</li>
           ))}
         </ul>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+          {UNIVERSITY_RATINGS_GREEN_IMAGES.map((image) => (
+            <figure
+              key={image.src}
+              className="mx-auto w-full max-w-sm overflow-hidden rounded-xl border border-border bg-white p-3 shadow-sm sm:max-w-none"
+            >
+              <img
+                src={image.src}
+                alt={trRatings(t, image.altKey)}
+                className="mx-auto h-auto max-h-56 w-full object-contain sm:max-h-64"
+                decoding="async"
+                loading="lazy"
+              />
+            </figure>
+          ))}
+        </div>
       </SectionBlock>
 
       <SectionBlock title={trRatings(t, "universityRatingsGlanceTitle")}>

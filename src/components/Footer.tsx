@@ -164,7 +164,7 @@ const Footer = () => {
     Science: "header:secondNav.science",
     Internationalization: "header:secondNav.internationalization",
     "Student Life": "header:secondNav.studentLife",
-    "Admission 2025": "header:secondNav.admission2025",
+    "Admission 2026": "header:secondNav.admission2025",
     "Information Services": "header:secondNav.informationServices",
     Vacancies: "header:secondNav.vacancies",
   };

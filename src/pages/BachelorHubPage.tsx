@@ -89,7 +89,9 @@ function BachelorHubContent({ t, pageTitle }: { t: TFunction; pageTitle: string 
         className="mt-10 grid grid-cols-1 gap-x-[16px] gap-y-[16px] md:grid-cols-3"
         role="list"
       >
-        {BACHELOR_HUB_CARDS.map((card, index) => (
+        {BACHELOR_HUB_CARDS.map((card, index) => {
+          const title = trBachelorHub(t, card.titleKey);
+          return (
           <li key={card.to} className="flex min-h-0">
             <Link
               to={card.to}
@@ -97,25 +99,34 @@ function BachelorHubContent({ t, pageTitle }: { t: TFunction; pageTitle: string 
                 cardClass,
                 "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
-              aria-label={card.title}
+              aria-label={title}
             >
-              <div className="relative aspect-[3/2] w-full shrink-0 overflow-hidden bg-muted">
+              <div
+                className={cn(
+                  "relative aspect-[3/2] w-full shrink-0 overflow-hidden",
+                  card.imageFit === "contain" ? "bg-white p-6" : "bg-muted",
+                )}
+              >
                 <img
                   src={card.imageSrc}
                   alt=""
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  className={cn(
+                    "h-full w-full transition-transform duration-300 group-hover:scale-[1.02]",
+                    card.imageFit === "contain" ? "object-contain" : "object-cover",
+                  )}
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"
                 />
               </div>
               <div className="flex min-h-0 flex-1 flex-col p-5">
                 <h2 className="text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
-                  {card.title}
+                  {title}
                 </h2>
               </div>
             </Link>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );

@@ -1,0 +1,6071 @@
+# TUES English Locales — Knowledge Base
+
+Structured export of all English UI and page copy for the TUES landing page CMS.
+
+> Generated: 2026-08-10T05:57:30.138Z  
+> JSON namespaces: `public/locales/en/*.json` (11 files, 2292 keys)  
+> Code defaults: `src/locales/*Defaults.ts` (145 exports, 1410 keys)  
+> Languages on site: Uzbek (uz), English (en), Russian (ru) — **this file is English only**
+
+---
+
+## Table of contents
+
+### JSON namespaces (i18next)
+
+- [admin](#namespace-admin) (337 keys)
+- [common](#namespace-common) (28 keys)
+- [events](#namespace-events) (10 keys)
+- [footer](#namespace-footer) (25 keys)
+- [header](#namespace-header) (349 keys)
+- [hero](#namespace-hero) (5 keys)
+- [home](#namespace-home) (99 keys)
+- [news](#namespace-news) (12 keys)
+- [notFound](#namespace-notFound) (3 keys)
+- [programs](#namespace-programs) (23 keys)
+- [topNav](#namespace-topNav) (1401 keys)
+
+### Code defaults (English fallbacks in `topNav` and pages)
+
+- [`aboutUniversityPageDefaults.ts`](#defaults-aboutUniversityPageDefaultsts) (1 exports)
+- [`academicFreedomPolicyDefaults.ts`](#defaults-academicFreedomPolicyDefaultsts) (2 exports)
+- [`academicPositionsDefaults.ts`](#defaults-academicPositionsDefaultsts) (1 exports)
+- [`academicSupportServicesDefaults.ts`](#defaults-academicSupportServicesDefaultsts) (1 exports)
+- [`accreditationDetailDefaults.ts`](#defaults-accreditationDetailDefaultsts) (2 exports)
+- [`accreditationLicenseDefaults.ts`](#defaults-accreditationLicenseDefaultsts) (1 exports)
+- [`administrativePositionsDefaults.ts`](#defaults-administrativePositionsDefaultsts) (1 exports)
+- [`admission2025MenuDefaults.ts`](#defaults-admission2025MenuDefaultsts) (4 exports)
+- [`advancedTrainingForeignTeachersDefaults.ts`](#defaults-advancedTrainingForeignTeachersDefaultsts) (2 exports)
+- [`annualReport2025Defaults.ts`](#defaults-annualReport2025Defaultsts) (1 exports)
+- [`antiBriberyCorruptionPolicyDefaults.ts`](#defaults-antiBriberyCorruptionPolicyDefaultsts) (2 exports)
+- [`bachelorHubDefaults.ts`](#defaults-bachelorHubDefaultsts) (3 exports)
+- [`bachelorProgramTableDefaults.ts`](#defaults-bachelorProgramTableDefaultsts) (1 exports)
+- [`benefitsDefaults.ts`](#defaults-benefitsDefaultsts) (2 exports)
+- [`bookstoreDefaults.ts`](#defaults-bookstoreDefaultsts) (1 exports)
+- [`cafeteriasDefaults.ts`](#defaults-cafeteriasDefaultsts) (1 exports)
+- [`campusCultureDefaults.ts`](#defaults-campusCultureDefaultsts) (1 exports)
+- [`careerCentreDefaults.ts`](#defaults-careerCentreDefaultsts) (1 exports)
+- [`communityClubsDefaults.ts`](#defaults-communityClubsDefaultsts) (2 exports)
+- [`communityClubsOverviewDefaults.ts`](#defaults-communityClubsOverviewDefaultsts) (1 exports)
+- [`contactingAdmissionDefaults.ts`](#defaults-contactingAdmissionDefaultsts) (2 exports)
+- [`contractAmountsTuitionDefaults.ts`](#defaults-contractAmountsTuitionDefaultsts) (1 exports)
+- [`copyrightDefaults.ts`](#defaults-copyrightDefaultsts) (2 exports)
+- [`departmentInternationalRelationsEmployeesDefaults.ts`](#defaults-departmentInternationalRelationsEmployeesDefaultsts) (5 exports)
+- [`dormitoryDefaults.ts`](#defaults-dormitoryDefaultsts) (1 exports)
+- [`facilitiesForDisabledDefaults.ts`](#defaults-facilitiesForDisabledDefaultsts) (1 exports)
+- [`facultiesPageDefaults.ts`](#defaults-facultiesPageDefaultsts) (1 exports)
+- [`facultyOfEconomicsDefaults.ts`](#defaults-facultyOfEconomicsDefaultsts) (1 exports)
+- [`facultyOfMedicineDefaults.ts`](#defaults-facultyOfMedicineDefaultsts) (1 exports)
+- [`facultyOfPedagogyDefaults.ts`](#defaults-facultyOfPedagogyDefaultsts) (1 exports)
+- [`famousGraduatesDefaults.ts`](#defaults-famousGraduatesDefaultsts) (3 exports)
+- [`faqDefaults.ts`](#defaults-faqDefaultsts) (3 exports)
+- [`financialStatementsDefaults.ts`](#defaults-financialStatementsDefaultsts) (1 exports)
+- [`fineAppliedArtsClubDefaults.ts`](#defaults-fineAppliedArtsClubDefaultsts) (1 exports)
+- [`healthSupportDefaults.ts`](#defaults-healthSupportDefaultsts) (1 exports)
+- [`help247Defaults.ts`](#defaults-help247Defaultsts) (1 exports)
+- [`howToApplyDefaults.ts`](#defaults-howToApplyDefaultsts) (3 exports)
+- [`informationTransferEducationDefaults.ts`](#defaults-informationTransferEducationDefaultsts) (5 exports)
+- [`interfacultyStudentTheatreStudioContestDefaults.ts`](#defaults-interfacultyStudentTheatreStudioContestDefaultsts) (1 exports)
+- [`internationalConferencesDefaults.ts`](#defaults-internationalConferencesDefaultsts) (2 exports)
+- [`internationalCooperationRoleDefaults.ts`](#defaults-internationalCooperationRoleDefaultsts) (2 exports)
+- [`internationalGrantsDefaults.ts`](#defaults-internationalGrantsDefaultsts) (4 exports)
+- [`internationalSupportCenterDefaults.ts`](#defaults-internationalSupportCenterDefaultsts) (4 exports)
+- [`leaderGirlsClubDefaults.ts`](#defaults-leaderGirlsClubDefaultsts) (1 exports)
+- [`leadershipCouncilsDefaults.ts`](#defaults-leadershipCouncilsDefaultsts) (4 exports)
+- [`minoritySupportCenterDefaults.ts`](#defaults-minoritySupportCenterDefaultsts) (1 exports)
+- [`mushoiraClubHonoredDefaults.ts`](#defaults-mushoiraClubHonoredDefaultsts) (1 exports)
+- [`newScientificCouncilDefaults.ts`](#defaults-newScientificCouncilDefaultsts) (1 exports)
+- [`officialDocumentsDefaults.ts`](#defaults-officialDocumentsDefaultsts) (1 exports)
+- [`organizationalStructureDefaults.ts`](#defaults-organizationalStructureDefaultsts) (2 exports)
+- [`presidentOrderAdmissionParametersDefaults.ts`](#defaults-presidentOrderAdmissionParametersDefaultsts) (1 exports)
+- [`privacyPolicyDefaults.ts`](#defaults-privacyPolicyDefaultsts) (2 exports)
+- [`professionalDevelopmentChoirDefaults.ts`](#defaults-professionalDevelopmentChoirDefaultsts) (2 exports)
+- [`qalqonShieldsDefaults.ts`](#defaults-qalqonShieldsDefaultsts) (1 exports)
+- [`qizlarjonCharityEventDefaults.ts`](#defaults-qizlarjonCharityEventDefaultsts) (1 exports)
+- [`qizlarjonClubDefaults.ts`](#defaults-qizlarjonClubDefaultsts) (1 exports)
+- [`regulationDocumentsDefaults.ts`](#defaults-regulationDocumentsDefaultsts) (1 exports)
+- [`regulationsAndRequirementsDefaults.ts`](#defaults-regulationsAndRequirementsDefaultsts) (2 exports)
+- [`regulationSecondaryEducationDefaults.ts`](#defaults-regulationSecondaryEducationDefaultsts) (1 exports)
+- [`researchPositionsDefaults.ts`](#defaults-researchPositionsDefaultsts) (1 exports)
+- [`researchPublicationsDefaults.ts`](#defaults-researchPublicationsDefaultsts) (1 exports)
+- [`secondaryEducationRequirementsDefaults.ts`](#defaults-secondaryEducationRequirementsDefaultsts) (2 exports)
+- [`socialLifeDefaults.ts`](#defaults-socialLifeDefaultsts) (1 exports)
+- [`socialRoomsDefaults.ts`](#defaults-socialRoomsDefaultsts) (1 exports)
+- [`sportFacilitiesDefaults.ts`](#defaults-sportFacilitiesDefaultsts) (1 exports)
+- [`studentAcademicSupportDefaults.ts`](#defaults-studentAcademicSupportDefaultsts) (2 exports)
+- [`studentCouncilDefaults.ts`](#defaults-studentCouncilDefaultsts) (1 exports)
+- [`studentHandbookPageDefaults.ts`](#defaults-studentHandbookPageDefaultsts) (2 exports)
+- [`studentOpinionDefaults.ts`](#defaults-studentOpinionDefaultsts) (1 exports)
+- [`studentTheaterStudioContestDefaults.ts`](#defaults-studentTheaterStudioContestDefaultsts) (1 exports)
+- [`studentUnionRegulationPageDefaults.ts`](#defaults-studentUnionRegulationPageDefaultsts) (2 exports)
+- [`studyProgramApplyDefaults.ts`](#defaults-studyProgramApplyDefaultsts) (3 exports)
+- [`studyProgramsDefaults.ts`](#defaults-studyProgramsDefaultsts) (1 exports)
+- [`termsOfUseDefaults.ts`](#defaults-termsOfUseDefaultsts) (2 exports)
+- [`transferOfStudiesDefaults.ts`](#defaults-transferOfStudiesDefaultsts) (11 exports)
+- [`universityDepartmentsPageDefaults.ts`](#defaults-universityDepartmentsPageDefaultsts) (1 exports)
+- [`universityInNumbersDefaults.ts`](#defaults-universityInNumbersDefaultsts) (1 exports)
+- [`universityMissionDefaults.ts`](#defaults-universityMissionDefaultsts) (2 exports)
+- [`universityRatingsDefaults.ts`](#defaults-universityRatingsDefaultsts) (1 exports)
+- [`universityRequisitesDefaults.ts`](#defaults-universityRequisitesDefaultsts) (1 exports)
+- [`whoWeAreMissionDefaults.ts`](#defaults-whoWeAreMissionDefaultsts) (1 exports)
+- [`whyTuesDefaults.ts`](#defaults-whyTuesDefaultsts) (1 exports)
+- [`womensAffairsDefaults.ts`](#defaults-womensAffairsDefaultsts) (1 exports)
+- [`workersUnionDefaults.ts`](#defaults-workersUnionDefaultsts) (1 exports)
+- [`youthLeadersDefaults.ts`](#defaults-youthLeadersDefaultsts) (1 exports)
+
+---
+
+## JSON structure reference (i18next)
+
+Equivalent nested shape (single `translation` bundle): `en.translation.<namespace>.<key>`
+
+Example — `common` namespace:
+
+```json
+{
+  "en": {
+    "translation": {
+      "common": {
+        "breadcrumbHome": "Home",
+        "breadcrumbNav": "Breadcrumb",
+        "contactPhone": "Phone number",
+        "contactEmail": "E-mail",
+        "contactTelegram": "Telegram",
+        "contactReceptionTime": "Reception time",
+        "departmentStaffHeading": "Department professors and teachers",
+        "previous": "Previous",
+        "next": "Next",
+        "changeLanguage": "Change language",
+        "scrollToTop": "Scroll to top",
+        "shareLink": "Share link",
+        "linkCopied": "Link copied",
+        "accessibility": {
+          "openMenu": "Open accessibility options",
+          "skipToMain": "Skip to main content",
+          "largerText": "Larger text",
+          "highContrast": "Higher contrast",
+          "colorAdjustGroup": "Color and display",
+          "invertColors": "Invert colors",
+          "grayscale": "Grayscale",
+          "brightness": "Brightness",
+          "dim": "Dimmer screen",
+          "brighten": "Brighter screen",
+          "displayContrast": "Contrast (display)",
+          "lessDisplayContrast": "Lower display contrast",
+          "moreDisplayContrast": "Raise display contrast",
+          "reset": "Reset display options",
+          "remoteDecor": "Display"
+        }
+      }
+    }
+  }
+}
+```
+
+Full keys for all namespaces are listed in the sections below.
+
+---
+
+## Namespace: `admin` {#namespace-admin}
+
+_File: `public/locales/en/admin.json`_
+
+| Key | English |
+| --- | --- |
+| `accessControl` | Access Control |
+| `account` | Account |
+| `actions` | Actions |
+| `active` | Active |
+| `addAdmin` | Add admin |
+| `addArticle` | Add article |
+| `addCourse` | Add course |
+| `addCoverImage` | Add a cover image |
+| `addEvent` | Add event |
+| `addGroup` | Add group |
+| `addRole` | Add role |
+| `addSlide` | Add slide |
+| `addStudyProgram` | Add program |
+| `admins` | Admins |
+| `adminsDesc` | Manage admin users and roles registered by super admin. |
+| `allCategories` | All categories |
+| `allDisplays` | All displays |
+| `allTime` | All time |
+| `applicationDeadlineLabel` | Application deadline |
+| `article` | article |
+| `articleAuthorPlaceholder` | Author |
+| `articleDefaultReadTime` | 3 min read |
+| `articleDeleted` | Article deleted |
+| `articleExcerptPlaceholder` | Subtitles are optional — add a short summary or hook |
+| `articleReadTimePlaceholder` | Read time |
+| `articles` | Articles |
+| `articlesDesc` | Articles and updates |
+| `articlesDescription` | Manage articles and featured content. |
+| `articleSlugPlaceholder` | article-slug |
+| `articleTitlePlaceholder` | Title |
+| `articleWordStats` | {{count}} words · ~{{minutes}} min read |
+| `back` | Back |
+| `backgroundMedia` | Background Media |
+| `backToList` | Back to list |
+| `cancel` | Cancel |
+| `carouselDesc` | Carousel and announcements |
+| `catalog` | Catalog (programs grid + detail header) |
+| `catalogDesc` | Title, count, short description, about, key areas, and icon. |
+| `category` | Category |
+| `categoryAnnouncements` | Announcements |
+| `categoryBlog` | Blog |
+| `categoryEvents` | Events |
+| `categoryNews` | News |
+| `clickToReplace` | Click to replace |
+| `codeLabel` | Code |
+| `courseNamePlaceholder` | Course name |
+| `createAdmin` | Create Admin |
+| `createProgram` | Create program |
+| `createProgramUzFirst` | Create the program in Uzbek first. Translations can be added after saving. |
+| `creditsPlaceholder` | Credits |
+| `curriculumSummary` | {{groups}} course group(s) · {{count}} total courses |
+| `dashboard` | Dashboard |
+| `date` | Date |
+| `degreeLevelLabel` | Degree level |
+| `delete` | Delete |
+| `deleteAdmin` | Delete admin? |
+| `deleteArticle` | Delete article? |
+| `deleteArticleConfirm` | This will permanently delete {{title}}. This action cannot be undone. |
+| `deleteConfirmDesc` | Are you sure you want to delete {{name}} ({{email}})? This action cannot be undone. |
+| `deleteEvent` | Delete event? |
+| `deleteEventConfirm` | This will permanently delete {{title}}. This action cannot be undone. |
+| `deleteSlideAria` | Delete slide |
+| `deleteSlideConfirm` | Delete this slide? |
+| `deleting` | Deleting |
+| `deselectAll` | Deselect All |
+| `detailPageSidebar` | Detail page & sidebar |
+| `detailPageSidebarDesc` | Introduction, career outcomes, "At a glance" facts, hero image, and PDF download URLs. |
+| `display` | Display |
+| `displayHighlight` | Highlight |
+| `displayHighlightMax` |  (max 5 reached) |
+| `displayOnNewsPage` | Display on News page |
+| `displayRegular` | Regular |
+| `dragDropClick` | Drag & drop or click to browse |
+| `dragToReorder` | Drag to reorder |
+| `durationLabel` | Duration |
+| `earliestStartDateLabel` | Earliest start date |
+| `edit` | Edit |
+| `editarticle` | Edit article |
+| `editEvent` | Edit event |
+| `editprogram` | Edit program |
+| `editSlide` | Edit Slide |
+| `editSlideAria` | Edit slide |
+| `editSlideTitle` | Edit slide |
+| `editStudyProgram` | Edit study program |
+| `email` | Email |
+| `emailAddressLabel` | Email Address |
+| `emailPlaceholder` | john@example.com |
+| `eventDate` | Date |
+| `eventImageDropHint` | Drag & drop or click to browse · image files, max 50 MB |
+| `eventImageOptional` | Event image (optional) |
+| `eventImageUploadedReplace` | Image uploaded · click to replace |
+| `eventLocation` | Location |
+| `events` | Events |
+| `eventsCount` | event(s) |
+| `eventsDesc` | Upcoming events |
+| `eventsDescription` | Manage the schedule and details for university events. |
+| `eventsFormDesc` | Events appear on the events page. |
+| `eventTime` | Time |
+| `eventTitle` | Title |
+| `eventTitlePlaceholder` | Event title |
+| `export` | Export |
+| `facultyCurrent` | Current: {{title}} |
+| `facultyLabel` | Faculty |
+| `failedToDelete` | Failed to delete |
+| `failedToSaveOrder` | Failed to save order |
+| `fallbackImageLabel` | Fallback image (shown if video fails) |
+| `favorites` | Favorites |
+| `fullNameLabel` | Full Name |
+| `fullNamePlaceholder` | John Doe |
+| `generatePassword` | Generate |
+| `groupTitleLabel` | Group title |
+| `hero` | Hero section |
+| `heroBackgroundDesc` | One video or image shown behind all slides on the landing page. |
+| `heroBackgroundTitle` | Hero background |
+| `heroDesc` | Manage the top carousel slides and visual introduction of the landing page. |
+| `herosection` | Hero section |
+| `heroSlides` | Hero slides |
+| `highlightArticles` | Highlight Articles |
+| `highlightArticlesDesc` | Feature up to 5 articles in the top section. Set an article to Highlight in the editor. |
+| `highlightSectionNote` | This article will appear in the highlight section ({{count}}/5). |
+| `identityDetails` | Identity Details |
+| `image` | Image |
+| `imageFileLimit` | Image files, max 50 MB |
+| `imageFilesMaxMb` | Image files, max {{max}} MB |
+| `inactive` | Inactive |
+| `jumpToSections` | Jump to content sections. |
+| `language` | Language |
+| `languageColon` | Language: |
+| `last30Days` | Last 30 days |
+| `last3Months` | Last 3 months |
+| `last7Days` | Last 7 days |
+| `lastYear` | Last year |
+| `learnMoreLinkOptional` | Learn more link (optional) |
+| `loading` | Loading |
+| `loadingPage` | Loading... |
+| `loadingTranslation` | Loading translation... |
+| `locationPlaceholder` | Campus Hall |
+| `logout` | Log out |
+| `manageArticles` | Manage articles |
+| `manageEvents` | Manage events |
+| `manageHero` | Manage hero slides |
+| `manageNews` | Manage news |
+| `managingAccount` | Managing Account |
+| `matching` | matching |
+| `metadataDesc` | Sidebar fields shown on the public detail page. Code, duration, and tuition are usually locale-independent. |
+| `metadataTitle` | Metadata |
+| `moveCourseDown` | Move course down |
+| `moveCourseUp` | Move course up |
+| `moveGroupDown` | Move group down |
+| `moveGroupUp` | Move group up |
+| `name` | Name |
+| `needHelp` | Need help? |
+| `new` | New |
+| `newarticle` | New article |
+| `newArticle` | New article |
+| `newEvent` | New event |
+| `newGroupTitle` | New group |
+| `news` | News |
+| `newsArticles` | News articles |
+| `newsboard` | News board |
+| `newsBoardDesc` | Overview and quick access to news content. |
+| `newsFormDesc` | Manage articles and featured content. |
+| `newsletter` | Newsletter |
+| `newsletterActive` | Active subscribers |
+| `newsletterAllStatuses` | All statuses |
+| `newsletterDeleteConfirm` | Remove {{email}} from the subscriber list? This cannot be undone. |
+| `newsletterDeleted` | Subscriber removed |
+| `newsletterDeleteFailed` | Failed to remove subscriber |
+| `newsletterDeleteTitle` | Delete subscriber? |
+| `newsletterEmpty` | No subscribers yet |
+| `newsletterEmptyDesc` | Subscribers from the footer form will appear here. |
+| `newsletterExported` | Subscriber list exported |
+| `newsletterMarkActive` | Mark as active |
+| `newsletterMarkUnsubscribed` | Mark as unsubscribed |
+| `newsletterNoMatches` | No subscribers match your filters. |
+| `newsletterSearchPlaceholder` | Search by email… |
+| `newsletterShowing` | {{count}} of {{total}} subscribers |
+| `newsletterStatus_active` | Active |
+| `newsletterStatus_unsubscribed` | Unsubscribed |
+| `newsletterStatusUpdated` | Subscriber status updated |
+| `newsletterSubscribedAt` | Subscribed |
+| `newslettersubscribers` | Newsletter subscribers |
+| `newsletterSubscribers` | Newsletter subscribers |
+| `newsletterSubscribersDesc` | Manage email subscribers from the footer newsletter form. |
+| `newsletterThisMonth` | New this month |
+| `newsletterTotal` | Total subscribers |
+| `newsletterUpdateFailed` | Failed to update subscriber |
+| `newSlideTitle` | New slide |
+| `noAccess` | No access |
+| `noAdminsYet` | No admins yet. Click "Add admin" to create one. |
+| `noEvents` | No events found |
+| `noEventsDesc` | Start by adding your first university event. |
+| `noHighlightsHint` | Set articles to "Highlight" to feature them here (max 5). |
+| `noImage` | No image |
+| `noRecentActivity` | No recent activity. Add hero slides, news, or events to see them here. |
+| `noRegularArticles` | No regular articles. All articles are set as Highlight, or there are no articles yet. |
+| `noSlidesMatchSearch` | No slides match your search. |
+| `noSlidesYet` | No slides yet. Add the first one! |
+| `notifications` | Notifications |
+| `of` | of |
+| `openProgramsPage` | Open programs page |
+| `orderSaved` | Order saved |
+| `overview` | Overview |
+| `passwordChangeHint` | User will be prompted to change this on first login. |
+| `pasteImageUrl` | Or paste image URL |
+| `pdfBrochures` | PDF brochures |
+| `permissionFull` | Full |
+| `permissionFullAccess` | Full Access |
+| `permissions` | Permissions |
+| `permissionsSelected` | {{count}} Selected |
+| `permissionSystem` | System |
+| `permissionSystemWide` | System-wide |
+| `processing` | Processing... |
+| `programs` | Programs |
+| `programsCount` | programs |
+| `programsDescription` | Manage program catalog — edit entries via the CMS; upload PDFs in public/program-brochures/. |
+| `programSlugAuto` | Auto-generated from title; used in the public URL. |
+| `programSlugLabel` | Program ID (URL slug) |
+| `programSlugPlaceholder` | e.g. pediatrics |
+| `programSlugUsedIn` | Used in /admissions/study-programs/{{id}} |
+| `provisionAdmin` | Provision Admin |
+| `provisionCreateDesc` | Create a new administrator with specific platform access. |
+| `provisionEditDesc` | Update access control for {{name}}. |
+| `provisionEditPermissions` | Edit Permissions |
+| `publish` | Publish |
+| `qualificationLabel` | Qualification |
+| `quickActions` | Quick actions |
+| `recentContent` | Recent content |
+| `recentContentDesc` | Latest updates across hero, news, and events. |
+| `regularArticles` | Regular Articles |
+| `regularArticlesDesc` | Articles not set as Highlight. They appear in the main news list. |
+| `removeCourse` | Remove course |
+| `removeGroup` | Remove group |
+| `rolesDesc` | Roles created and assigned to platforms. |
+| `rolesDescDashboard` | Roles created and assigned to platforms. |
+| `rolesTitle` | Roles registered by super admin |
+| `rolesTitleDashboard` | Roles registered by super admin |
+| `save` | Save |
+| `saveBackground` | Save background |
+| `saveChanges` | Save changes |
+| `saveEvent` | Save event |
+| `saveFirstToTranslate` | Save first to translate |
+| `saving` | Saving... |
+| `savingOrder` | Saving order |
+| `search` | Search... |
+| `searchByTitleOrSlug` | Search by title or slug... |
+| `searchContent` | Search content... |
+| `searchProgramsPlaceholder` | Search by title, slug, or description… |
+| `searchSlidesPlaceholder` | Search slides… |
+| `searchStudyProgramsPlaceholder` | Search by title, code, or faculty… |
+| `security` | Security |
+| `selectAll` | Select All |
+| `settings` | Settings |
+| `slideSubtitlePlaceholder` | Slide subtitle |
+| `slideTitlePlaceholder` | Slide title |
+| `slideUrlPlaceholder` | https://... |
+| `slideYearPlaceholder` | 2025 |
+| `status` | Status |
+| `storySettings` | Story settings |
+| `studyProgramsCount` | study programs |
+| `studyProgramsDescription` | Manage degree programs, metadata, and curriculum course lists. |
+| `studyProgramsDescriptionLong` | Manage degree programs, metadata, and curriculum course lists. Changes appear on /programs, /admissions/study-programs, and program detail pages. |
+| `subtitle` | Content management |
+| `subtitleLabel` | Subtitle |
+| `tabCurriculum` | Curriculum ({{count}} courses) |
+| `tabProgramInfo` | Program info |
+| `tellYourStory` | Tell your story... |
+| `temporaryPassword` | Temporary Password |
+| `timePlaceholder` | 14:00 |
+| `title` | TUES CMS |
+| `titleLabel` | Title |
+| `toastArticleCreated` | Article created |
+| `toastArticleUpdated` | Article updated |
+| `toastBackgroundImageUploaded` | Background image uploaded |
+| `toastChooseVideoOrImage` | Please choose a video (MP4/WebM) or image |
+| `toastCouldNotCopy` | Could not copy |
+| `toastCreateFailed` | Create failed |
+| `toastEventCreated` | Event created |
+| `toastEventDeleted` | Event deleted |
+| `toastEventUpdated` | Event updated |
+| `toastFacultyRequired` | Faculty required |
+| `toastFailedCreateSlide` | Failed to create slide |
+| `toastFailedDelete` | Failed to delete |
+| `toastFailedDeleteSlide` | Failed to delete slide |
+| `toastFailedLoadEvents` | Failed to load events |
+| `toastFailedLoadHero` | Failed to load hero |
+| `toastFailedLoadNews` | Failed to load news |
+| `toastFailedSave` | Failed to save |
+| `toastFailedSaveBackground` | Failed to save background |
+| `toastFailedSwitchLanguage` | Failed to switch language |
+| `toastFailedUpdateSlide` | Failed to update slide |
+| `toastFallbackImageUploaded` | Fallback image uploaded |
+| `toastFileTooLarge` | File too large (max {{max}} MB) |
+| `toastHeroBackgroundSaved` | Hero background saved |
+| `toastImageUploaded` | Image uploaded |
+| `toastProgramCreated` | Program created |
+| `toastProgramCreatedDesc` | "{{title}}" was added. |
+| `toastProgramIdCopied` | Program ID copied |
+| `toastProgramIdRequired` | Program ID required |
+| `toastProgramIdRequiredDesc` | Enter a URL slug for this program. |
+| `toastSaved` | Saved |
+| `toastSaveFailed` | Save failed |
+| `toastSaveProgramFirst` | Save the program first |
+| `toastSaveProgramFirstDesc` | Create the program in Uzbek (uz) before adding translations. |
+| `toastSelectImageFile` | Please select an image file |
+| `toastSlideCreated` | Slide created |
+| `toastSlideDeleted` | Slide deleted |
+| `toastSlideUpdated` | Slide updated |
+| `toastSlugTitleRequired` | Slug and title required |
+| `toastStudyProgramUpdated` | Study program updated. |
+| `toastTitleDateRequired` | Title and date required |
+| `toastTitleRequired` | Title required |
+| `toastTranslationUpdated` | {{locale}} translation updated |
+| `toastUploadFailed` | Upload failed |
+| `toastVideoUploaded` | Video uploaded |
+| `totalContent` | Total content |
+| `tuitionFeeLabel` | Tuition fee |
+| `untitled` | Untitled |
+| `upcomingEvents` | Upcoming events |
+| `uploadBackgroundImage` | Upload background image |
+| `uploadedSuccess` | Uploaded successfully |
+| `uploadFallbackImage` | Upload fallback image |
+| `uploadHeroBackgroundImage` | Upload hero background image |
+| `uploadHeroVideo` | Upload hero video (MP4 / WebM) |
+| `uploading` | Uploading… |
+| `uploadVideo` | Upload video file |
+| `urlSlug` | URL slug |
+| `video` | Video |
+| `videoOrImageMaxMb` | Video (MP4, WebM) or image, max {{max}} MB |
+| `view` | View |
+| `viewDocs` | View docs |
+| `viewDocsDesc` | View docs and guides for the CMS. |
+| `viewPublicPage` | View public page |
+| `welcome` | Welcome back, Admin 👋 |
+| `welcomeBack` | Welcome back, Admin |
+| `yearLabel` | Year |
+| `yearPrefix` | Year: {{year}} |
+
+---
+
+## Namespace: `common` {#namespace-common}
+
+_File: `public/locales/en/common.json`_
+
+| Key | English |
+| --- | --- |
+| `accessibility.brighten` | Brighter screen |
+| `accessibility.brightness` | Brightness |
+| `accessibility.colorAdjustGroup` | Color and display |
+| `accessibility.dim` | Dimmer screen |
+| `accessibility.displayContrast` | Contrast (display) |
+| `accessibility.grayscale` | Grayscale |
+| `accessibility.highContrast` | Higher contrast |
+| `accessibility.invertColors` | Invert colors |
+| `accessibility.largerText` | Larger text |
+| `accessibility.lessDisplayContrast` | Lower display contrast |
+| `accessibility.moreDisplayContrast` | Raise display contrast |
+| `accessibility.openMenu` | Open accessibility options |
+| `accessibility.remoteDecor` | Display |
+| `accessibility.reset` | Reset display options |
+| `accessibility.skipToMain` | Skip to main content |
+| `breadcrumbHome` | Home |
+| `breadcrumbNav` | Breadcrumb |
+| `changeLanguage` | Change language |
+| `contactEmail` | E-mail |
+| `contactPhone` | Phone number |
+| `contactReceptionTime` | Reception time |
+| `contactTelegram` | Telegram |
+| `departmentStaffHeading` | Department professors and teachers |
+| `linkCopied` | Link copied |
+| `next` | Next |
+| `previous` | Previous |
+| `scrollToTop` | Scroll to top |
+| `shareLink` | Share link |
+
+---
+
+## Namespace: `events` {#namespace-events}
+
+_File: `public/locales/en/events.json`_
+
+| Key | English |
+| --- | --- |
+| `linkCopied` | Link copied |
+| `mainPage` | Main page |
+| `noPast` | No past events to display. |
+| `noUpcoming` | No upcoming events at the moment. |
+| `pastEvents` | Past events |
+| `seeMore` | See more events |
+| `shareEvent` | Share event |
+| `subtitle` | University events take place throughout the year, from educational showcases to public lectures, national tours and one-off exhibitions. |
+| `title` | Events |
+| `upcomingEvents` | Upcoming events |
+
+---
+
+## Namespace: `footer` {#namespace-footer}
+
+_File: `public/locales/en/footer.json`_
+
+| Key | English |
+| --- | --- |
+| `accessibility` | Accessibility |
+| `consent` | Yes, I agree to receive email communications from TUES. |
+| `copyright` | © 2026 {{brand}}. All rights reserved. |
+| `emailAddress` | Email address |
+| `journal.about` | About |
+| `journal.contact` | Contact |
+| `journal.description` | Research, commentary, and analysis from economists, scholars, and policy thinkers. |
+| `journal.links.aboutUs` | About Us |
+| `journal.links.articles` | Articles |
+| `journal.links.authors` | Authors |
+| `journal.links.contactUs` | Contact Us |
+| `journal.links.editorialTeam` | Editorial Team |
+| `journal.links.home` | Home |
+| `journal.links.submissionGuidelines` | Submission Guidelines |
+| `journal.links.topics` | Topics |
+| `journal.quickLinks` | Quick Links |
+| `journal.title` | TUES Journal |
+| `logoAlt` | TUES University logo |
+| `newsletterTitle` | Get the latest TUES news and updates straight to your inbox. |
+| `privacyPolicy` | Privacy Policy |
+| `subscribeDuplicate` | This email is already subscribed. |
+| `subscribeInvalid` | Please enter a valid email address. |
+| `subscribeNow` | Subscribe now |
+| `subscribeSuccess` | You're subscribed! Check your inbox for TUES updates. |
+| `termsOfUse` | Terms of Use |
+
+---
+
+## Namespace: `header` {#namespace-header}
+
+_File: `public/locales/en/header.json`_
+
+| Key | English |
+| --- | --- |
+| `bachelorProgramCardCreditsLabel` | Credits |
+| `bachelorProgramCardDurationLabel` | Duration |
+| `centerResearchSustainableCardBody` | The Center for Research and Sustainable Innovative Development is established to coordinate scientific activities at the university, promote modern and practice-oriented research, and ensure the implementation of innovative ideas based on the principles of sustainable development.<br>The Center supports the research capacity of faculty members, doctoral students, and students, while also promoting research projects aligned with the United Nations Sustainable Development Goals (SDGs). In particular, it encourages research in areas such as green economy, digital transformation, energy efficiency, environmental sustainability, and social inclusion.<br>The Center facilitates the development and implementation of national and international grant projects, supports the commercialization of research outcomes, and fosters a startup ecosystem and innovative initiatives within the university. In addition, it conducts analytical research aimed at ensuring sustainable development at regional and sectoral levels, including industry and services.<br>The Center serves as an important platform for strengthening the integration of science, education, and industry, developing human capital, and achieving the university's strategic development goals. Ultimately, it aims not only to enhance academic excellence but also to contribute to sustainable economic development at both regional and national levels. |
+| `centerResearchSustainablePageIntro` | TUES units that coordinate research activity, sustainable development priorities, and innovation support across the university. The list is updated as new structures are established. |
+| `centerResearchSustainablePageTitle` | Centers for research and sustainable innovation |
+| `certificatesGreenMetric2025Body` | Thirty-eight higher education institutions of Uzbekistan have been ranked among the world's top 1000 universities in the international global environmental ranking. Notably, Termez University of Economics and Service is proudly among them.<br>On December 5, the official results of the UI GreenMetric 2025 World University Ranking on Sustainability were announced in Taiwan. This year's assessment involved thousands of higher education institutions from 105 countries worldwide, including 79 universities from Uzbekistan. According to the results, 38 Uzbek universities secured positions within the top 1000.<br>These international ranking results once again confirm the strong potential and commitment of Termez University of Economics and Service to sustainable development. The university ranked 14th among national higher education institutions and achieved absolute leadership among private universities, securing 1st place.<br>For reference: UI GreenMetric is a global environmental ranking of universities conducted by the University of Indonesia since 2010. |
+| `certificatesGreenMetric2025Title` | UI GreenMetric 2025: TUES enters the World's TOP 1000 universities |
+| `entrepreneurialClubsContactName` | Safarov Diyorbek |
+| `entrepreneurialClubsContactRole` | Responsible person |
+| `entrepreneurialClubsContactsLead` | For more information contact Scientific department. |
+| `entrepreneurialClubsContactsTitle` | Contacts |
+| `entrepreneurialClubsHeroAlt` | TUES — innovation, entrepreneurship, and student clubs |
+| `entrepreneurialClubsImage1Alt` | Innovation illustration with a lightbulb, open book, and laboratory flask |
+| `entrepreneurialClubsImage2Alt` | Leadership, business plan, and collaboration illustration |
+| `entrepreneurialClubsImage3Alt` | Startup illustration with a launching rocket, growth chart, and funding symbols |
+| `entrepreneurialClubsImage4Alt` | Quantum Club — innovation ecosystem and University 3.0 |
+| `entrepreneurialClubsInnovationBadge` | Innovation |
+| `entrepreneurialClubsLearnMore` | Learn more |
+| `entrepreneurialClubsPageIntro` | Clubs and communities that help TUES students build entrepreneurial mindsets, leadership, and startup skills — with support from the university and the Student Union. |
+| `entrepreneurialClubsPhone` | +998 88 551 91 99 |
+| `entrepreneurialClubsPhoneHref` | +998885519199 |
+| `entrepreneurialClubsPhoneLabel` | Telephone number |
+| `entrepreneurialClubsQuantumBadge` | University 3.0 |
+| `entrepreneurialClubsS1Body` | The TUES Innovation Club is a student-led organization dedicated to fostering entrepreneurial thinking and innovation among students. The club supports the development of creative ideas into practical business concepts through workshops, training sessions, competitions, and mentorship activities aimed at enhancing students’ business and problem-solving skills. |
+| `entrepreneurialClubsS1Title` | TUES Innovation Club |
+| `entrepreneurialClubsS2Body` | The club "Young Leaders" operates within the Student Union of TUES and focuses on developing leadership, management, and professional communication skills among students. The club provides a platform for student engagement through leadership training, teamwork activities, networking events, and interactions with business professionals, contributing to student representation and active participation in university life. |
+| `entrepreneurialClubsS2Title` | Young Leaders (Student Union TUES) |
+| `entrepreneurialClubsS3Body` | "Startup Community" is a student-focused club that brings together aspiring entrepreneurs to develop startup ideas, share knowledge, and collaborate on innovative projects. The club works in close cooperation with the university leadership to align student startup initiatives with institutional priorities, support innovation-driven activities, and facilitate access to mentorship, resources, and university-supported entrepreneurial programs. |
+| `entrepreneurialClubsS3Title` | Startup Community |
+| `entrepreneurialClubsS4Closing` | Together, we will elevate our university—not just as an educator, but as a creator of innovations that has a real, lasting impact on societal development. |
+| `entrepreneurialClubsS4CultureBody` | This initiative goes beyond traditional teaching and academic publishing. It is a culture built on identifying real-world problems, proposing actionable solutions, collaborating as a team, and generating measurable results. In this vision, every department is a source of ideas, every employee is a participant in change, and every project is a step forward toward University 3.0. |
+| `entrepreneurialClubsS4CultureTitle` | University 3.0 as a Culture |
+| `entrepreneurialClubsS4Intro` | Quantum Club is much more than just an IT center. Our university has set an ambitious goal: to transform from University 1.0 to University 3.0. Quantum Club acts as a catalyst on this journey—an ecosystem that turns ideas into projects, projects into innovations, and innovations into tangible results. |
+| `entrepreneurialClubsS4ModelBody` | 1. EDU LAB — Shaping knowledge and core competencies.<br>2. DEV LAB — Transforming ideas into concrete projects and prototypes.<br>3. STARTUP — Commercializing the most promising solutions into viable ventures. |
+| `entrepreneurialClubsS4ModelNote` | Every department of the university actively participates at each stage of this cycle. |
+| `entrepreneurialClubsS4ModelTitle` | Our Model |
+| `entrepreneurialClubsS4Tagline` | Learn. Create. Innovate. Launch. |
+| `entrepreneurialClubsS4Title` | Quantum Club |
+| `entrepreneurialClubsS4WhoBody` | Many assume Quantum Club is strictly for IT projects, but its scope is much broader. We welcome students and ideas from Engineering, Pedagogy, Economics, Agriculture, Energy, Medicine, Ecology, and Social & Humanitarian fields. If you have an idea, Quantum Club provides the necessary team, mentorship, technological support, and project management to bring it to life. |
+| `entrepreneurialClubsS4WhoTitle` | Who is it for? |
+| `exploreMore` | Explore more |
+| `languageNames.en` | En |
+| `languageNames.ru` | Ru |
+| `languageNames.uz` | Uz |
+| `mastersDegreeFieldCredits` | Total credit load (credits) |
+| `mastersDegreeFieldDuration` | Duration of the educational program |
+| `mastersDegreeFieldForm` | Form of education |
+| `mastersDegreeFieldLanguages` | Language of instruction |
+| `mastersDegreeFieldQualification` | Qualification |
+| `mastersDegreeFieldScope` | Professional scope |
+| `mastersDegreeFieldType` | Type of education |
+| `mastersDegreePageIntro` | Postgraduate (master’s) programs offered at the university, with specialist codes, duration, credit load, and professional scope. Programs are full-time unless stated otherwise in the information below. |
+| `mastersDegreeProgramIndex` | Program |
+| `menu` | Menu |
+| `nav.about` | About |
+| `nav.aboutMenu.accreditationAndLicense` | Accreditation & License |
+| `nav.aboutMenu.leadershipAndCouncils` | Leadership & Councils |
+| `nav.aboutMenu.organizationalStructure` | Organizational Structure |
+| `nav.aboutMenu.regulation` | Regulation |
+| `nav.aboutMenu.universityInNumbers` | University in Numbers |
+| `nav.aboutMenu.whoWeAre` | Who we are |
+| `nav.aboutMenu.whyTues` | Why TUES |
+| `nav.aboutMenu.workersUnionCommittee` | Workers Union Committee |
+| `nav.admissions` | Admissions |
+| `nav.admissionsMenu.contractAmountsTuition` | Contract Amounts / Tuition |
+| `nav.admissionsMenu.regulationsAndRequirements` | Regulations & Requirements |
+| `nav.admissionsMenu.secondaryEducationRequirements` | Secondary Education Requirements |
+| `nav.admissionsMenu.studyPrograms` | Study Programs |
+| `nav.colleges` | Colleges |
+| `nav.community` | Community |
+| `nav.journal` | Journal |
+| `nav.megaBlurbAbout` | Governance, mission, charter, and key facts about TUES — with quick links to every subsection. |
+| `nav.megaBlurbAdmissions` | Study programs, requirements for applicants, and contract tuition information. |
+| `nav.megaBlurbNews` | Latest news, upcoming events, and video and photo galleries from campus life. |
+| `nav.megaBlurbResearch` | Scientific publications, seminars, the academic council, research output, and innovation at the university. |
+| `nav.news` | News |
+| `nav.newsMenu.latestNews` | Latest News |
+| `nav.newsMenu.photoGallery` | Photo Gallery |
+| `nav.newsMenu.upcomingEvents` | Upcoming Events |
+| `nav.newsMenu.videoGallery` | Video Gallery |
+| `nav.research` | Research |
+| `nav.researchMenu.academicCouncil` | Academic Council |
+| `nav.researchMenu.entrepreneurialInnovationClubs` | Entrepreneurial & Innovation Clubs |
+| `nav.researchMenu.researchPapersPublications` | Research papers & Publications |
+| `nav.researchMenu.scientificPublicationsJournals` | Scientific Publications & Journals |
+| `nav.researchMenu.seminarsConferences` | Seminars & Conferences |
+| `qualificationRequirementsPageIntro` | The following education areas, listed with specialist ciphers, fall under the current qualification requirements framework. |
+| `scienceCertificatesPageIntro` | Rankings, sustainability assessments, and certificates that reflect TUES achievements in research, campus operations, and international benchmarking. Open a card to read more. |
+| `scienceCertificatesPageTitle` | Certificates |
+| `scientificArticlesColAuthor` | Published Professor full name |
+| `scientificArticlesColCoAuthors` | Co-authors |
+| `scientificArticlesColLink` | Related link |
+| `scientificArticlesColNo` | № |
+| `scientificArticlesColQuartile` | Quartile |
+| `scientificArticlesColTitle` | Article title |
+| `scientificArticlesPageIntro` | Publications by TUES faculty and collaborators indexed in Scopus, with journal quartile and record links. Open the Scopus page in a new tab to view the full record. |
+| `scientificArticlesScopusLabel` | Scopus |
+| `searchAria` | Open search |
+| `searchCancel` | Cancel |
+| `searchHint` | Type to search programs, events, news, and main site pages. |
+| `searchKind.event` | Event |
+| `searchKind.news` | News |
+| `searchKind.page` | Page |
+| `searchKind.program` | Program |
+| `searchLoading` | Loading… |
+| `searchNoResults` | Nothing matched your search. |
+| `searchPageEmpty` | Use the search icon in the header to search across programs, events, news, and main pages. |
+| `searchPageSubtitle` | Matches across main pages, academic programs, events, and news. |
+| `searchPageTitle` | Search results |
+| `searchPlaceholder` | Search programs, events, news, pages… |
+| `searchRoutes.about` | About |
+| `searchRoutes.aboutUniversityPage` | About university |
+| `searchRoutes.academicFreedomPolicyPage` | Academic Freedom Policy |
+| `searchRoutes.admission2025Menu` | Admission 2025 — Menu (presidential orders) |
+| `searchRoutes.admissionFaq` | Frequently asked questions — admission |
+| `searchRoutes.admissions` | Admissions |
+| `searchRoutes.advancedTrainingForeignTeachersFzu` | FZU Institute of Physics (Czech Republic) |
+| `searchRoutes.advancedTrainingForeignTeachersGuangzhou` | Guangzhou — industrial visit (China) |
+| `searchRoutes.advancedTrainingForeignTeachersPage` | Advanced training programs for foreign teachers |
+| `searchRoutes.advancedTrainingForeignTeachersSouthKorea` | Universities of South Korea |
+| `searchRoutes.annualReport2025Page` | Annual Report 2025 |
+| `searchRoutes.antiBriberyCorruptionPolicyPage` | Anti Bribery Corruption Policy |
+| `searchRoutes.bachelor` | Bachelor |
+| `searchRoutes.bookstore` | Bookstore |
+| `searchRoutes.cafeterias` | Cafeterias |
+| `searchRoutes.careerCentre` | Career centre |
+| `searchRoutes.centerResearchSustainable` | Center for research and sustainable innovation |
+| `searchRoutes.clubsAndCircles` | Clubs and circles at TUES |
+| `searchRoutes.communityClubs` | Community clubs |
+| `searchRoutes.contactingAdmission` | Contacting about admission (phone numbers) |
+| `searchRoutes.contractAmountsTuition` | Contract tuition — fields of study and amounts (2024/2025) |
+| `searchRoutes.departmentIntlRelEmployees` | Employees of the Department of International Relations |
+| `searchRoutes.dormitory` | Dormitory |
+| `searchRoutes.entrepreneurialClubs` | Entrepreneurial clubs |
+| `searchRoutes.events` | Events |
+| `searchRoutes.facilitiesForDisabled` | Facilities for the disabled |
+| `searchRoutes.facultyOfEconomics` | Faculty of Economics and information technologies |
+| `searchRoutes.facultyOfMedicine` | Faculty of medicine |
+| `searchRoutes.facultyOfPedagogy` | Faculty of Pedagogy and social-humanitarian sciences |
+| `searchRoutes.famousGraduates` | Famous graduates |
+| `searchRoutes.financialStatements` | Financial statements |
+| `searchRoutes.fineAppliedArtsClub` | Fine and applied arts club |
+| `searchRoutes.healthSupport` | Health support service |
+| `searchRoutes.help247` | 24/7 help |
+| `searchRoutes.home` | Home |
+| `searchRoutes.informationTransferCabinet578` | Cabinet resolution No. 578 — admission regulatory acts (full text) |
+| `searchRoutes.informationTransferEducationPage` | Information about transfer of education |
+| `searchRoutes.interfacultyStudentTheatreStudio` | Interfaculty Student Theatre Studio contest |
+| `searchRoutes.internationalConferenceGlobalInnovationsLanguageEducation` | Global innovations in language education (conference) |
+| `searchRoutes.internationalConferenceLinguisticsLanguageEducation` | Linguistics & language education conference (innovations) |
+| `searchRoutes.internationalConferenceLinguisticsLiteraryStudies` | Linguistics & literary studies — current issues (conference) |
+| `searchRoutes.internationalConferencePreventiveMedicine` | Preventive medicine conference (national, TUES) |
+| `searchRoutes.internationalConferenceScientificTues` | International conference in TUES (digital transformation in education) |
+| `searchRoutes.internationalConferencesPage` | International conferences |
+| `searchRoutes.internationalConferenceTourismSector2025` | Tourism sector conference — international experience (May 2025) |
+| `searchRoutes.internationalCongressGreenTransformation` | Green transformation congress (SEPDER & TUES) |
+| `searchRoutes.internationalGrantJapanMatsumae` | Matsumae Foundation — Japan research grant |
+| `searchRoutes.internationalGrantMext2026` | MEXT Japan — 2026 programs (announcement) |
+| `searchRoutes.internationalGrantsPage` | International grants |
+| `searchRoutes.internationalGrantUsaHumphrey` | Humphrey Fellowship — USA (professional development) |
+| `searchRoutes.internationalMedicalOlympiadTermez2026` | International Medical Olympiad Termez–2026 |
+| `searchRoutes.internationalSupportCenterAbout` | International Support Center — About |
+| `searchRoutes.internationalSupportCenterPage` | International Support Center |
+| `searchRoutes.intlRelRoleHead` | Head of international cooperation (M. Khoshimkhojaeva) |
+| `searchRoutes.intlRelRoleLead` | Lead specialist — international cooperation (A. Asqarov) |
+| `searchRoutes.intlRelRoleViceRector` | Vice-rector for international cooperation (Shavkat Otamurodov) |
+| `searchRoutes.leaderGirlsClub` | Leader girls club |
+| `searchRoutes.mastersDegree` | Master’s degree |
+| `searchRoutes.media` | Media gallery |
+| `searchRoutes.mushoiraClubHonored` | “Mushoira” poetry club honor |
+| `searchRoutes.news` | News |
+| `searchRoutes.officialDocumentsPage` | Official Documents |
+| `searchRoutes.presidentOrderStateOrderParameters` | State order admission parameters 2024/2025 (President order) |
+| `searchRoutes.professionalDevelopmentChoirExchangeMedipol` | Exchange of experience and strong cooperation (Medipol) |
+| `searchRoutes.professionalDevelopmentChoirIndonesiaInternshipDeparture` | TUES students depart for internship in Indonesia |
+| `searchRoutes.professionalDevelopmentChoirIndonesiaMedicalInternship` | Medical internship at Indonesian University of Education |
+| `searchRoutes.professionalDevelopmentChoirIndonesiaSummerProgram` | Summer education program in Indonesia (TUES) |
+| `searchRoutes.professionalDevelopmentChoirMedipolClinic` | Istanbul Medipol clinic: conditions and opportunities |
+| `searchRoutes.professionalDevelopmentChoirMedipolLaboratory` | In the Medipol laboratory |
+| `searchRoutes.professionalDevelopmentChoirPage` | Professional development and education in the choir |
+| `searchRoutes.professionalDevelopmentChoirPhysiotherapy` | Practice in the physiotherapy department (Medipol) |
+| `searchRoutes.professionalDevelopmentChoirTurkeyHistoricSites` | TUES students visiting historic sites in Turkey |
+| `searchRoutes.programs` | Programs |
+| `searchRoutes.qalqonShields` | “Qalqon” public group — The shields |
+| `searchRoutes.qizlarjonCharity` | Qizlarjon club charity event |
+| `searchRoutes.qizlarjonClub` | The “Qizlarjon” Club |
+| `searchRoutes.qualificationRequirements` | Qualification requirements |
+| `searchRoutes.regulationSecondaryEducation` | Regulation on secondary education (Cabinet Resolution No. 606) |
+| `searchRoutes.research` | Research |
+| `searchRoutes.scienceCertificates` | Certificates |
+| `searchRoutes.scientificArticles` | Scientific articles |
+| `searchRoutes.socialLife` | Social Life |
+| `searchRoutes.socialRooms` | Social Rooms |
+| `searchRoutes.sportFacilities` | Sport Facilities |
+| `searchRoutes.studentAcademicSupport` | Student Academic Support |
+| `searchRoutes.studentOpinion` | Student opinion |
+| `searchRoutes.studentTheaterStudio` | Student theater studio contest |
+| `searchRoutes.studyProgramApply` | Application form — admission |
+| `searchRoutes.supportCenterMinorityGroups` | Support center for minority groups |
+| `searchRoutes.transferOfStudies` | Transfer of studies — student guide |
+| `searchRoutes.universityDepartments` | Departments |
+| `searchRoutes.universityFaculties` | Faculties |
+| `searchRoutes.universityMission` | University mission |
+| `searchRoutes.universityRatings` | International rankings |
+| `searchRoutes.universityRequisites` | Requisites (legal & bank details) |
+| `searchRoutes.virtualTour` | Virtual tour |
+| `searchRoutes.youthLeaders` | Youth Leaders |
+| `searchSeeAll` | See all {{count}} results |
+| `searchSubmit` | Search |
+| `searchTitle` | Search |
+| `secondMenu` | Second Menu |
+| `secondNav.admission2025` | Admission 2025 |
+| `secondNav.education` | Education |
+| `secondNav.informationServices` | Information Services |
+| `secondNav.internationalization` | Internationalization |
+| `secondNav.science` | Science |
+| `secondNav.studentLife` | Student Life |
+| `secondNav.university` | University |
+| `secondNav.vacancies` | Vacancies |
+| `secondNavAdmission2025.admission2025` | Admission 2025 |
+| `secondNavAdmission2025.apply` | Apply |
+| `secondNavAdmission2025.contactingAdmission` | Contacting about admission |
+| `secondNavAdmission2025.faq` | FAQ |
+| `secondNavAdmission2025.forInternationalApplicants` | For international applicants |
+| `secondNavAdmission2025.informationContractAmounts` | Information about contract amounts |
+| `secondNavAdmission2025.informationTransferEducation` | Information about transfer of education |
+| `secondNavAdmission2025.instructionsApplicants` | Instructions for applicants |
+| `secondNavAdmission2025.listOfEducationalAreas` | List of educational areas |
+| `secondNavAdmission2025.menu` | Menu |
+| `secondNavAdmission2025.registerUndergraduateAdmission` | Register for undergraduate admission |
+| `secondNavAdmission2025.regulationSecondaryEducation` | Regulation on secondary education |
+| `secondNavAdmission2025.toLocalApplicants` | To local applicants |
+| `secondNavAdmission2025.transferOfStudies` | Transfer of studies |
+| `secondNavEducation.bachelor` | Bachelor |
+| `secondNavEducation.courseCatalogue` | Course catalogue |
+| `secondNavEducation.distanceLearningSystem` | Distance learning system |
+| `secondNavEducation.mastersDegree` | Master's degree |
+| `secondNavEducation.qualificationRequirements` | Qualification requirements |
+| `secondNavEducation.resources` | Resources |
+| `secondNavEducation.studyPlans` | Study plans |
+| `secondNavEducation.syllabus` | Syllabus |
+| `secondNavInformationServices.aboutUniversity` | About university |
+| `secondNavInformationServices.directionsContractSums` | Directions and contract sums |
+| `secondNavInformationServices.latestNews` | Latest news |
+| `secondNavInformationServices.officialDocuments` | Official Documents |
+| `secondNavInformationServices.photoGallery` | Photo gallery |
+| `secondNavInformationServices.upcomingEvents` | Upcoming Events |
+| `secondNavInformationServices.videoGallery` | Video gallery |
+| `secondNavInternationalization.advancedTrainingProgramsForeignTeachers` | Advanced training programs for foreign teachers |
+| `secondNavInternationalization.departmentInternationalRelationsEmployees` | Employees of the Department of International Relations |
+| `secondNavInternationalization.internationalConferences` | International conferences |
+| `secondNavInternationalization.internationalGrants` | International grants |
+| `secondNavInternationalization.internationalRelations` | International relations |
+| `secondNavInternationalization.internationalScientificRelations` | International scientific relations |
+| `secondNavInternationalization.internationalSupportCenter` | International Support Center |
+| `secondNavInternationalization.professionalDevelopmentEducationChoir` | Professional development and education in the choir |
+| `secondNavInternationalization.tisuForeignLanguagesCenter` | TISU xorijiy tillarni o'qitish markazi |
+| `secondNavItems.academicCalendar` | Academic Calendar |
+| `secondNavItems.academicPositions` | Academic Positions |
+| `secondNavItems.academicPrograms` | Academic Programs |
+| `secondNavItems.administrativePositions` | Administrative Positions |
+| `secondNavItems.applicationProcess` | Application Process |
+| `secondNavItems.benefits` | Benefits |
+| `secondNavItems.campusLife` | Campus Life |
+| `secondNavItems.collaborations` | Collaborations |
+| `secondNavItems.courses` | Courses |
+| `secondNavItems.deadlines` | Deadlines |
+| `secondNavItems.departments` | Departments |
+| `secondNavItems.dining` | Dining |
+| `secondNavItems.exchangePrograms` | Exchange Programs |
+| `secondNavItems.faculty` | Faculty |
+| `secondNavItems.faqs` | FAQs |
+| `secondNavItems.globalInitiatives` | Global Initiatives |
+| `secondNavItems.globalPartnerships` | Global Partnerships |
+| `secondNavItems.governance` | Governance |
+| `secondNavItems.helpDesk` | Help Desk |
+| `secondNavItems.history` | History |
+| `secondNavItems.housing` | Housing |
+| `secondNavItems.howToApply` | How to Apply |
+| `secondNavItems.innovation` | Innovation |
+| `secondNavItems.internationalStudents` | International Students |
+| `secondNavItems.itServices` | IT Services |
+| `secondNavItems.laboratories` | Laboratories |
+| `secondNavItems.leadership` | Leadership |
+| `secondNavItems.library` | Library |
+| `secondNavItems.onlineResources` | Online Resources |
+| `secondNavItems.overview` | Overview |
+| `secondNavItems.publications` | Publications |
+| `secondNavItems.requirements` | Requirements |
+| `secondNavItems.researchAreas` | Research Areas |
+| `secondNavItems.researchPositions` | Research Positions |
+| `secondNavItems.scholarships` | Scholarships |
+| `secondNavItems.strategicPlan` | Strategic Plan |
+| `secondNavItems.studentClubs` | Student Clubs |
+| `secondNavItems.studyAbroad` | Study Abroad |
+| `secondNavItems.support` | Support |
+| `secondNavItems.wellness` | Wellness |
+| `secondNavMegaBlurb.admission2025` | Requirements, application process, deadlines and scholarships. |
+| `secondNavMegaBlurb.education` | Academic programs, courses, calendar, faculty and departments. |
+| `secondNavMegaBlurb.informationServices` | Library, IT services, online resources and support. |
+| `secondNavMegaBlurb.internationalization` | Exchange programs, global partnerships and international students. |
+| `secondNavMegaBlurb.science` | Research areas, laboratories, publications and collaborations. |
+| `secondNavMegaBlurb.studentLife` | Campus life, clubs, housing, dining and wellness. |
+| `secondNavMegaBlurb.university` | Currently, the university has 24 Bachelor's and 13 master's degrees. An electronic IRC is formed on the necessary books on the education of students. Applicants may be aware of the information on the admission process to the University remotely. |
+| `secondNavMegaBlurb.vacancies` | Academic, administrative and research positions. |
+| `secondNavScience.academicCouncil` | Academic council |
+| `secondNavScience.centerResearchSustainableInnovativeDevelopment` | Center for Research and Sustainable Innovative Development |
+| `secondNavScience.certificates` | Certificates |
+| `secondNavScience.entrepreneurialClubs` | Entrepreneurial Clubs |
+| `secondNavScience.expectedConferences` | Expected conferences |
+| `secondNavScience.scientificArticles` | Scientific articles |
+| `secondNavScience.scientificJournals` | Scientific journals |
+| `secondNavScience.seminars` | Seminars |
+| `secondNavStudentLife.bookstore` | Bookstore |
+| `secondNavStudentLife.cafeterias` | Cafeterias |
+| `secondNavStudentLife.careerCentre` | Career centre |
+| `secondNavStudentLife.communityClubs` | Community clubs |
+| `secondNavStudentLife.contests` | Contests |
+| `secondNavStudentLife.dormitory` | Dormitory |
+| `secondNavStudentLife.facilitiesForDisabled` | Facilities for the disabled |
+| `secondNavStudentLife.healthSupportService` | Health support service |
+| `secondNavStudentLife.help247` | 24/7 help |
+| `secondNavStudentLife.socialLife` | Social Life |
+| `secondNavStudentLife.socialRooms` | Social Rooms |
+| `secondNavStudentLife.sportFacilities` | Sport Facilities |
+| `secondNavStudentLife.studentAcademicSupport` | Student Academic Support |
+| `secondNavStudentLife.studentOpinion` | Student opinion |
+| `secondNavStudentLife.supportCenterMinorityGroups` | Support center for minority groups |
+| `secondNavUniversity.accreditation` | Accreditation |
+| `secondNavUniversity.campusCulture` | Campus Culture |
+| `secondNavUniversity.centerAndDepartments` | Center and departments |
+| `secondNavUniversity.charter` | Charter |
+| `secondNavUniversity.contractPrices` | Contract prices |
+| `secondNavUniversity.councils` | Councils |
+| `secondNavUniversity.departments` | Departments |
+| `secondNavUniversity.faculties` | Faculties |
+| `secondNavUniversity.famousGraduates` | Famous graduates |
+| `secondNavUniversity.financialStatements` | Financial statements |
+| `secondNavUniversity.license` | License |
+| `secondNavUniversity.openData` | Open data |
+| `secondNavUniversity.organizationalStructure` | Organizational structure |
+| `secondNavUniversity.ratings` | Ratings |
+| `secondNavUniversity.requisites` | Requisites |
+| `secondNavUniversity.tradeUnionCommittee` | Trade union committee |
+| `secondNavUniversity.universityInNumbers` | University in numbers |
+| `secondNavUniversity.universityMission` | University Mission |
+| `topBarTagline` | Success Starts Here |
+| `universityNameLine1` | Termez University of |
+| `universityNameLine2` | Economics and Service |
+
+---
+
+## Namespace: `hero` {#namespace-hero}
+
+_File: `public/locales/en/hero.json`_
+
+| Key | English |
+| --- | --- |
+| `announcement` | Announcement |
+| `hideAnnouncement` | Hide announcement |
+| `learnMore` | Learn More |
+| `showAnnouncement` | Show announcement |
+| `slideAriaLabel` | Slide {{number}} |
+
+---
+
+## Namespace: `home` {#namespace-home}
+
+_File: `public/locales/en/home.json`_
+
+| Key | English |
+| --- | --- |
+| `about.badge` | About us |
+| `about.description` | Welcome to TUES, your trusted institution for economics and service education, dedicated to transforming futures with excellence and care. With years of experience in teaching, research, and industry partnerships, we take pride in delivering top-quality education and a seamless student experience. Our mission is to bring your academic vision to life while ensuring clear guidance and expert support at every step. |
+| `about.stats.faculties.description` | Independent, self-governing<br>communities |
+| `about.stats.faculties.label` | Faculties |
+| `about.stats.irc.description` | A legacy of<br>academic achievement |
+| `about.stats.irc.label` | IRC Fund |
+| `about.stats.professors.description` | Leading innovation<br>across disciplines |
+| `about.stats.professors.label` | Professors & Teachers |
+| `about.stats.students.description` | From over 150 countries<br>worldwide |
+| `about.stats.students.label` | Students |
+| `about.titleLine1` | The Termez University |
+| `about.titleLine2` | of Economics and Service |
+| `alumni.badge` | Our Community |
+| `alumni.description` | Join a global network of accomplished professionals, leaders, and innovators who are making a difference around the world. Connect with fellow alumni and stay engaged with your alma mater. |
+| `alumni.moreStories` | More Alumni Stories |
+| `alumni.stats.alumniWorldwide` | Alumni Worldwide |
+| `alumni.stats.careerRate` | Career Success Rate |
+| `alumni.stats.countries` | Countries Represented |
+| `alumni.stats.nobel` | Nobel Laureates |
+| `alumni.title` | Alumni Network |
+| `campus.tags.business` | Business & Enterprise |
+| `campus.tags.careerSeminars` | Career Development Seminars |
+| `campus.tags.libraries` | Libraries |
+| `campus.tags.research` | Research |
+| `campus.tags.sports` | Sports |
+| `campus.title` | Campus life |
+| `eduhub.badge` | Platform |
+| `eduhub.description` | Find out how EduHub supports your learning, keeps your course materials in one place, and connects you with the TUES community. Access assignments, events, support, and announcements all in one platform. |
+| `eduhub.features.assignments.description` | Submit assignments, track deadlines, and receive feedback through EduHub. All your coursework is in one place with clear status and instructor comments. |
+| `eduhub.features.assignments.title` | Assignments & submissions |
+| `eduhub.features.community.description` | Connect with peers, instructors, and staff through forums and messaging. Get answers, join study groups, and be part of the TUES community. |
+| `eduhub.features.community.title` | Community & connect |
+| `eduhub.features.course-materials.description` | Access all your course materials, lecture notes, and resources in one place. EduHub keeps everything organised and easy to find, so you can focus on learning. |
+| `eduhub.features.course-materials.title` | Course materials |
+| `eduhub.features.events.description` | Stay updated on campus events, workshops, and opportunities. Never miss a deadline or an event that matters for your studies and career. |
+| `eduhub.features.events.title` | Events & opportunities |
+| `eduhub.features.notifications.description` | Get timely alerts and announcements from your faculty and the university. EduHub keeps you informed about schedule changes, new content, and important updates. |
+| `eduhub.features.notifications.title` | Notifications & announcements |
+| `eduhub.features.support.description` | Get help when you need it. EduHub connects you with academic and technical support so you can resolve issues quickly and keep moving forward. |
+| `eduhub.features.support.title` | Support |
+| `eduhub.goTo` | Go to EduHub |
+| `eduhub.learningPlatform` | Learning Platform |
+| `eduhub.quote` | "Your courses, community, and support in one place. EduHub keeps you connected and on track." |
+| `eduhub.titleSubtitle` | Your learning and campus hub |
+| `events.noUpcoming` | No upcoming events. |
+| `events.recommendedSidebarTitle` | Events |
+| `events.titleLine1` | Upcoming Events |
+| `events.titleLine2` | & Activities |
+| `events.viewAll` | View All Events |
+| `faculties.description` | Explore our academic faculties to discover the schools and departments that shape every program on offer. |
+| `faculties.exploreAll` | Explore All |
+| `faculties.label` | Faculty |
+| `faculties.programs_one` | {{count}} program |
+| `faculties.programs_other` | {{count}} programs |
+| `faculties.title` | Browse faculties. |
+| `news.comments_one` | {{count}} Comment |
+| `news.comments_other` | {{count}} Comments |
+| `news.noArticles` | No articles yet. |
+| `news.onDate` | on {{date}} |
+| `news.readMore` | Read more |
+| `news.recommendedSidebarTitle` | News |
+| `news.subtitle` | Stay up to date with the latest from TUES—research, campus updates, and stories. |
+| `news.title` | News & Announcements |
+| `news.viewAll` | View All News |
+| `programs.description` | This user-friendly tool offers options to filter programs by field of study, degree level, and even learning formats like online or on-campus. |
+| `programs.exploreAll` | Explore All |
+| `programs.title` | Browse programs by. |
+| `research.badge` | Research & scholarship |
+| `research.ctaButton` | Get in touch |
+| `research.ctaText` | Would you like to publish with us or collaborate on research? |
+| `research.description` | From peer-reviewed journals to research centers and doctoral programs—TUES supports scholarship that shapes policy and practice. |
+| `research.items.doctoral.description` | Join our doctoral and postdoctoral programs. Work alongside leading researchers. |
+| `research.items.doctoral.label` | Programs |
+| `research.items.doctoral.title` | Doctoral & postdoc |
+| `research.items.journals.description` | Access our peer-reviewed journals and publication series. |
+| `research.items.journals.label` | View publications |
+| `research.items.journals.title` | Journals & publications |
+| `research.items.labs.description` | Dedicated research labs and centers focus on areas such as economic policy and innovation. |
+| `research.items.labs.label` | Discover labs |
+| `research.items.labs.title` | Labs & centers |
+| `research.items.research.description` | TUES fosters cutting-edge research in economics, business, and policy. |
+| `research.items.research.label` | Explore research |
+| `research.items.research.title` | Research |
+| `research.title` | Journals, research & innovation |
+| `virtualTour.cta` | Start Virtual Tour |
+| `virtualTour.description` | Discover our state-of-the-art facilities, beautiful campus grounds, and modern learning environments from anywhere in the world. |
+| `virtualTour.kicker` | Explore Our Campus |
+| `virtualTour.nodes.1.caption` | Main hall — campus tour |
+| `virtualTour.nodes.1.name` | Main Hall |
+| `virtualTour.nodes.2.caption` | Exhibition space — campus tour |
+| `virtualTour.nodes.2.name` | Exhibition Space |
+| `virtualTour.nodes.3.caption` | Study room — campus tour |
+| `virtualTour.nodes.3.name` | Study Room |
+| `virtualTour.nodes.4.caption` | Campus building — campus tour |
+| `virtualTour.nodes.4.name` | Campus Building |
+| `virtualTour.title` | Take a Virtual Tour |
+| `virtualTour.tours.campus` | TISU Termez Campus |
+| `virtualTour.tours.medHub` | TISU Med Hub |
+| `virtualTour.tours.medicine` | Faculty of Medicine |
+
+---
+
+## Namespace: `news` {#namespace-news}
+
+_File: `public/locales/en/news.json`_
+
+| Key | English |
+| --- | --- |
+| `allCategories` | All categories |
+| `categories.announcements` | Announcements |
+| `categories.blog` | Blog |
+| `categories.events` | Events |
+| `categories.news` | News |
+| `filterAriaLabel` | Filter by category |
+| `noArticlesYet` | No articles yet. |
+| `noMatch` | No news match your search or filter. Try different keywords or category. |
+| `searchAriaLabel` | Search news |
+| `searchPlaceholder` | Search news by title, excerpt, category, or author... |
+| `subtitle` | Stay up to date with the latest from TUES—research highlights and campus updates. |
+| `title` | News |
+
+---
+
+## Namespace: `notFound` {#namespace-notFound}
+
+_File: `public/locales/en/notFound.json`_
+
+| Key | English |
+| --- | --- |
+| `description` | The page you're looking for doesn't exist or has been moved. |
+| `returnHome` | Return to Home |
+| `title` | Oops! Page not found |
+
+---
+
+## Namespace: `programs` {#namespace-programs}
+
+_File: `public/locales/en/programs.json`_
+
+| Key | English |
+| --- | --- |
+| `filterAll` | All |
+| `filterAllFaculties` | All faculties |
+| `filterBachelors` | Bachelor's |
+| `filterDegreeLabel` | Filter by degree |
+| `filterFacultyLabel` | Faculty |
+| `filterMasters` | Master's |
+| `heroAlt` | University campus and academic programs |
+| `noProgramsMatch` | No programs match your filters. |
+| `searchPlaceholder` | Search programs... |
+| `subtitle` | Explore our full range of programs across economics, business, finance, and more. |
+| `testimonial1Designation` | Economics Student, TUES |
+| `testimonial1Name` | Darlene Robertson |
+| `testimonial1Quote` | TUES transformed my academic journey. The staff are incredibly supportive, and the campus atmosphere fosters a true sense of community. The skills I've gained have not only prepared me for my career but also given me confidence in myself. Choosing TUES was the best decision I've made. The education I received was top-notch. |
+| `testimonial2Designation` | Business Administration |
+| `testimonial2Name` | Diana Robinson |
+| `testimonial2Quote` | Attending TUES was a life-changing experience. The professors go above and beyond to support students, helping us reach our fullest potential. The welcoming campus environment promotes inclusivity and a strong sense of belonging. The skills I acquired here have given me confidence and clarity in my career path. TUES was absolutely the right choice for me. |
+| `testimonial3Designation` | Finance & Accounting |
+| `testimonial3Name` | Darcy Robins |
+| `testimonial3Quote` | My time at TUES has been extraordinary. The faculty here genuinely cares about each student's success and development. The campus atmosphere is warm and supportive, creating a space where I felt empowered to grow. The practical skills and knowledge I gained prepared me for the workforce and instilled a lasting self-confidence. |
+| `testimonialsSubtitle` | Trusted by students and graduates worldwide. |
+| `testimonialsTitleLine1` | Loved by |
+| `testimonialsTitleLine2` | Students & Alumni |
+| `title` | All Programs. |
+
+---
+
+## Namespace: `topNav` {#namespace-topNav}
+
+_File: `public/locales/en/topNav.json`_
+
+| Key | English |
+| --- | --- |
+| `aboutIntro` | Overview of TUES: governance, mission, accreditation, and key facts. Open a page below for full detail. |
+| `aboutUniversityPageIntro` | Watch the featured video for an introduction to Termez University of Economics and Service (TUES). |
+| `aboutUniversityVideoPlayLabel` | Play video on this page |
+| `academicCouncilComparativeBody` | By the proposal of the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan, in accordance with Resolution No. 375/2 of the Presidium of the Higher Attestation Commission dated September 24, 2025, a Scientific Council (PhD.03/24.09.2025.Fil.197.01) in the specialty 10.00.06 — "Comparative literary studies, contrastive linguistics and translation studies" has been established at the Termez University of Economics and Service.<br><br>The Council is authorized to confer the academic degree of Doctor of Philosophy (PhD) in the following specialty:<br><br>10.00.06 — "Comparative literary studies, contrastive linguistics and translation studies"<br><br>The Council is chaired by Doctor of Philological Sciences, Associate Professor Uralova Oysuluv Poyonovna, and the Scientific Secretary is Doctor of Philological Sciences, Associate Professor Zayniddin Radjabovich.<br><br>The Council consists of 11 members. |
+| `academicCouncilComparativeTitle` | Comparative literary studies, contrastive linguistics and translation studies |
+| `academicCouncilHistoricalBody` | Based on Resolution No. 382/2 of the Presidium of the Higher Attestation Commission under the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan dated March 5, 2026, a degree-awarding Scientific Council (PhD.03/2025.27.12.Tar.13.01) is functioning at the Termez University of Economics and Service.<br><br>The Council is authorized to confer the academic degree of Doctor of Philosophy (PhD) in the following two specialties:<br><br>07.00.01 – History of Uzbekistan;<br><br>07.00.07 – Ethnography, ethnology and anthropology.<br><br>The Chairman of the Council is Doctor of Historical Sciences, Associate Professor Tursunov Nurullo Narzullayevich, and the Scientific Secretary is Doctor of Philosophy (PhD) in Historical Sciences Eshkurbonov Sirojiddin Bozorovich.<br><br>The Council consists of 11 members. |
+| `academicCouncilHistoricalTitle` | Scientific Council in Historical Sciences |
+| `academicCouncilSelectHint` | Select a scientific council below to read its overview. Editorial staff can replace this text with full detail at any time. |
+| `academicFreedomPolicyApprovedBy` | The Rector |
+| `academicFreedomPolicyApprovedByLabel` | Approved by |
+| `academicFreedomPolicyApprovedHeading` | Approved |
+| `academicFreedomPolicyApprovedInstitution` | Termiz University of Economics and Service |
+| `academicFreedomPolicyEffectiveDate` | 10 January 2023 |
+| `academicFreedomPolicyEffectiveDateLabel` | Effective date |
+| `academicFreedomPolicyPdfDownloadCta` | Download PDF |
+| `academicFreedomPolicySection1Body` | Termez University of Economics and Service understands academic freedom as one of the essential conditions for genuine university life. Academic freedom is the right and responsibility of members of the academic community to pursue knowledge, conduct inquiry, teach, learn, discuss, publish, and communicate ideas without improper political, commercial, ideological, or personal interference.<br><br>TUES recognizes that the integrity of higher education depends on an academic culture in which intellectual disagreement is not suppressed but treated as an essential part of scholarly development. Academic freedom at TUES is inseparable from intellectual responsibility: it does not remove the obligation to act professionally, respect established academic procedures, protect the rights of others, or uphold the ethical standards of the institution.<br><br>The University affirms that academic work should be assessed according to academic criteria, professional standards, and ethical principles, and not according to external pressure unrelated to the scholarly merit of the work itself. |
+| `academicFreedomPolicySection1Title` | 1. Academic Freedom |
+| `academicFreedomPolicySection2Body` | Termez University of Economics and Service rejects all forms of discrimination, exclusion, and unequal treatment that undermine the dignity of individuals or the fairness of the academic environment. TUES does not tolerate direct or indirect discrimination on grounds such as language, ethnicity, race, nationality, religion, social origin, disability, gender, age, family status, political views, or other legally and ethically protected characteristics.<br><br>The University considers a pluralistic and respectful environment to be indispensable to the full development of scientific inquiry, teaching, and social engagement. Any conduct that humiliates, excludes, marginalizes, intimidates, or disadvantages a student, staff member, applicant, visitor, or service provider on discriminatory grounds is contrary to the values of TUES.<br><br>Where concerns of discrimination arise, the University expects them to be addressed through established institutional procedures, with due regard to confidentiality, impartiality, and procedural fairness. |
+| `academicFreedomPolicySection2Title` | 2. No to Discrimination |
+| `academicFreedomPolicySection3Body` | TUES is committed to maintaining an academic and working environment in which all persons are treated with dignity and in which harassment, intimidation, and discriminatory abuse are not tolerated. The University prohibits all forms of harassment and discriminatory behaviour, whether committed by students, academic staff, administrative staff, managers, consultants, visitors, contractors, or external partners.<br><br>Harassment may take verbal, written, visual, digital, psychological, or physical forms. It may include degrading comments, repeated humiliation, hostile or offensive conduct, threatening language, exclusionary actions, or any persistent behaviour that creates a hostile, unsafe, or degrading environment for another person.<br><br>The University likewise prohibits retaliation. No person shall be subjected to intimidation, disadvantage, pressure, or reprisal for reporting a concern in good faith, requesting advice, assisting in an investigation, or participating in institutional processes related to harassment or discrimination. |
+| `academicFreedomPolicySection3Title` | 3. Policy Against Harassment and Discrimination |
+| `academicFreedomPolicySection4Body` | Termez University of Economics and Service unequivocally prohibits sexual harassment, sexual intimidation, sexual coercion, and other forms of gender-based misconduct. The University recognizes that such behaviour is deeply harmful to individuals and destructive to the academic and social environment of the institution.<br><br>Sexual harassment includes unwelcome verbal, non-verbal, written, digital, or physical conduct of a sexual nature that violates a person's dignity, creates an intimidating or humiliating environment, interferes with academic or professional participation, or places a person under inappropriate pressure. Such conduct is unacceptable regardless of where it takes place.<br><br>TUES is committed to ensuring that any member of the University community who experiences or witnesses such conduct has access to appropriate reporting, advisory, and support mechanisms. The University will treat such matters seriously, handle them with due care and confidentiality, and ensure that those affected are not left without institutional support. |
+| `academicFreedomPolicySection4Title` | 4. No to Sexual Harassment |
+| `academicFreedomPolicySection5Body` | Termez University of Economics and Service considers academic honesty to be one of the indispensable foundations of university life. TUES expects all students, academic staff, researchers, and administrative personnel engaged in academic processes to observe the highest standards of honesty in study, teaching, assessment, research design, authorship, publication, supervision, and data handling.<br><br>The University affirms that plagiarism, fabrication, falsification, unauthorized assistance, academic sabotage, misappropriation of intellectual labour, coercive authorship practices, manipulation of research data, or any other conduct contrary to the principles of honest academic work are unacceptable.<br><br>TUES promotes academic integrity not only through sanctions and regulations, but also through awareness, guidance, mentoring, ethical review, and support for good academic practice. |
+| `academicFreedomPolicySection5Title` | 5. Academic Honesty and Ethics |
+| `academicFreedomPolicySection6Body` | Termez University of Economics and Service declares its firm commitment to protecting academic freedom, promoting equality, preventing harassment and discrimination, prohibiting sexual misconduct, and safeguarding academic honesty across all areas of university activity.<br><br>TUES undertakes to develop and maintain policies, procedures, structures, and practices that protect these principles in institutional life. It will continue to strengthen awareness, internal accountability, reporting mechanisms, leadership responsibility, and support systems so that members of the University community can study and work in an environment that is free, fair, professional, and respectful.<br><br>These principles are not merely declarative. They are expected to guide daily behaviour, academic practice, administrative decision-making, and institutional development. |
+| `academicFreedomPolicySection6Title` | 6. Institutional Commitment |
+| `academicSupportServicesAdvisingOfficeLines` | Personnel: Raxmanova Dilrabo<br>Position: Head of the Student Affairs Department<br>Telephone: +998 87 322 75 65 |
+| `academicSupportServicesAdvisingOfficeTitle` | Academic Advising Office |
+| `academicSupportServicesBreadcrumbLeaf` | Advising & support services |
+| `academicSupportServicesEnrolmentContactsLines` | Personnel: Meyliqulov Shakhboz<br>Position: Head of the center for Digital Education Technologies<br>Telephone: +998 97 670 44 77 |
+| `academicSupportServicesEnrolmentContactsTitle` | Enrolment advisory contacts |
+| `academicSupportServicesHandbookBody` | The Student Handbook brings together official policies, academic regulations, codes of conduct, and practical information for daily life at the university. Students are encouraged to consult it alongside advising appointments and faculty guidance. |
+| `academicSupportServicesHandbookTitle` | Student Handbook |
+| `academicSupportServicesHeroSrc` | https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=675&fit=crop&q=80 |
+| `academicSupportServicesIntro` | The University is committed to ensuring that all students receive comprehensive academic guidance and support throughout their studies. Our student academic support services are designed to promote inclusivity, academic success, and independent learning for students from diverse backgrounds. |
+| `academicSupportServicesPageTitle` | Student Academic Support |
+| `academicSupportServicesS1Body` | The University provides academic advising services tailored to the needs of students from diverse educational, cultural, and socio-economic backgrounds. Academic advisors support first-year students, international students, students with prior vocational education, and students facing academic or personal challenges. Advising includes course selection guidance, academic planning, adaptation to university learning environments, and referrals to relevant support services when necessary. These services aim to ensure equal access to academic opportunities and successful progression through study programs. |
+| `academicSupportServicesS1Title` | Advising Services for Students from Different Backgrounds |
+| `academicSupportServicesS2Body` | The University offers structured support during the enrolment process to help students successfully transition into academic life. Enrolment support includes guidance on application procedures, course registration, credit transfer, timetable planning, and understanding academic regulations. Dedicated staff members assist students during enrolment periods both online and on campus, ensuring clarity and accuracy in the registration process. |
+| `academicSupportServicesS2Title` | Enrolment Process Support |
+| `academicSupportServicesS3Body` | To support independent and self-directed learning, the University provides a wide range of academic resources. These include access to the university library, electronic databases, digital learning platforms, lecture materials, recorded classes, and methodological guidelines. Students are encouraged to use these resources to deepen subject knowledge, improve academic skills, and prepare for assessments. Academic staff also provide recommended reading lists and individual study guidance within courses.<br><br>The university library and licensed e-resource collections are central to self-directed study, complementing course materials and helping students stay current with scholarship in their fields. |
+| `academicSupportServicesS3Title` | Learning Resources for Individual Study |
+| `accreditationInteasCertificateAlt` | INTEAS Certificate of Accreditation for Termez University of Economics and Service (12 June 2025 – 30 June 2029) |
+| `accreditationInteasDesc` | International Education Accreditation Society — accreditation, certification, and institutional directory. |
+| `accreditationInteasPageAbout` | INTEAS (International Education Accreditation Services) is an international accreditation organisation that assesses the quality standards of higher education institutions and accredits them for international recognition. |
+| `accreditationInteasPageAdvantagesTitle` | Advantages of INTEAS accreditation for the university: |
+| `accreditationInteasPageBullets` | - International recognition – Accredited universities are considered trustworthy by students, partners, and employers worldwide;<br>- Guarantee of Quality of Education – INTEAS standards ensure that the university maintains its academic programmes, faculty, and infrastructure at a high standard;<br>- Opportunities for students – Graduates of accredited universities have an advantage when studying or working at foreign universities.<br>- Competitiveness – The opportunity for collaboration with other internationally accredited universities is enhanced;<br>- Financial and marketing benefits – Accreditation helps the university to attract new students and international grants. |
+| `accreditationInteasPageLead` | Termiz University of Economics and Service has been accredited by the international organisation INTEAS. |
+| `accreditationInteasPageTitle` | INTEAS |
+| `accreditationLicense2Desc` | Official university operating license issued by the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan. |
+| `accreditationLicense2ImageAlt` | Preview of the official university operating license issued by the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan. |
+| `accreditationLicense2Title` | License |
+| `accreditationLicenseDownloadCta` | Download |
+| `accreditationLicenseIntro` | Termez University of Economics and Service participates in international recognition frameworks. Select a card below to read more about INTEAS or WDOMS, or download the university license. |
+| `accreditationRegistryCta` | Read more |
+| `accreditationWdomsDesc` | World Directory of Medical Schools — searchable global registry maintained by WFME and FAIMER. |
+| `accreditationWdomsImageAlt` | World Directory of Medical Schools website — Sponsors page showing major sponsors and partner organisations |
+| `accreditationWdomsPageBody` | The directory supports transparency for students, regulators, and partners when verifying institutional records. Listing policies and search tools are maintained on the official WDOMS website.<br><br>Use the accreditation overview page to return to other recognition frameworks, or contact the university for questions specific to Termez University of Economics and Service. |
+| `accreditationWdomsPageLead` | The World Directory of Medical Schools (WDOMS) is a global registry developed by the World Federation for Medical Education (WFME) and FAIMER to list medical schools worldwide with structured, verified information. |
+| `accreditationWdomsPageTitle` | WDOMS |
+| `admission2025MenuCardPresidentOrderTitle` | Order of the President of the Republic of Uzbekistan |
+| `admission2025MenuPageIntro` | Official admission-related references from the President of the Republic of Uzbekistan. Open a card below when a document link is available. |
+| `admission2025MenuPageTitle` | Menu |
+| `admissionsIntro` | Study programs, requirements, and costs for applicants. Each topic has a dedicated page. |
+| `advancedTrainingForeignTeachersCard1BreadcrumbLabel` | FZU Institute of Physics |
+| `advancedTrainingForeignTeachersCard1DetailBody` | Professors and talented students of Termez University of Economics and Service visited one of the Czech Republic's most prestigious scientific institutions — the FZU Institute of Physics. They had the opportunity to learn about the institute's activities, advanced laboratories, and international research projects carried out by scientific groups.<br><br>FZU is a world-class research center conducting scientific work in six major fields:<br><br>Particle Physics<br>Condensed Matter Physics<br>Solid-State Physics<br>Optics<br>Plasma Physics<br>Laser Physics<br><br>TUES's delegation received detailed insights from FZU scientists about ongoing fundamental research, especially studies focused on understanding movements in the universe. The scientific approaches, experimental methods, and practical outcomes presented by young researchers sparked great interest among the visitors.<br><br>This visit marked an important step in establishing international academic cooperation between the two institutions, paving the way for joint projects, academic exchanges, and internship programs. |
+| `advancedTrainingForeignTeachersCard1HeroAlt` | Delegation from Termez University of Economics and Service in front of the FZU Institute of Physics building in the Czech Republic. |
+| `advancedTrainingForeignTeachersCard1PageTitle` | Our professors at a global center of scientific research |
+| `advancedTrainingForeignTeachersCard1Title` | Our professors at a global center of scientific research |
+| `advancedTrainingForeignTeachersCard2BreadcrumbLabel` | Universities of South Korea |
+| `advancedTrainingForeignTeachersCard2DetailBody` | Today, competition in the global education market is intensifying. Every country strives to equip its youth with modern knowledge and technologies. In this context, South Korea, relying on science, discipline, and innovation, has become one of Asia's leading education hubs. From November 15 to 20 of this year, the leadership of Termez University of Economics and Service visited South Korea to become familiar with the country's higher education system.<br><br>## Scientific Campuses<br><br>Visitors to Korean universities are first impressed by vast campuses, modern laboratories, and advanced technoparks. Institutions such as Seoul National University, KAIST, and POSTECH are not merely places of instruction but full-scale innovation ecosystems.<br><br>Every building, classroom, and laboratory is designed as an environment that serves future professions. Students work with cutting-edge technologies in fields such as artificial intelligence, robotics, biotechnology, and cybersecurity—technologies rarely encountered in everyday life.<br><br>## University–Industry collaboration<br><br>One of South Korea's greatest strengths is the close integration of education and industry. Global corporations such as Samsung, Hyundai, and LG have established joint laboratories with universities. As soon as students acquire theoretical knowledge, they apply it in practice.<br><br>As a result, Korean graduates enter the international labor market as highly competitive specialists with strong practical skills.<br><br>## Student Life: Responsibility and a spirit of inquiry<br><br>In Korean universities, the lights remain on even at night. Late-night study sessions in libraries, startup teams, and scientific meetings with professors reflect the students' constant pursuit of knowledge. At the same time, students enjoy well-developed infrastructure, including campus cafeterias, sports centers, and cultural clubs that operate continuously.<br><br>In recent years, the number of Uzbek students studying at Korean universities has increased significantly. This growth is driven by scholarship programs, English-taught courses, effective adaptation systems, and favorable conditions created for international students.<br><br>Each university has an international student office that provides assistance with everything from the application process to accommodation arrangements.<br><br>## An inspiring educational journey<br><br>Visiting Korean universities is not only about seeing educational institutions but also about experiencing a new perspective on science. Advanced technologies, discipline, diligence, and teamwork together define the strength of Korea's education system.<br><br>Such visits serve as a powerful motivation for young people to set ambitious goals and gain a deeper understanding of modern education.<br><br>A trip to South Korean universities opens a new educational world for youth—one that embodies science, innovation, order, and inspiration. That is why Korean universities today are not merely places of study, but institutions that guide ambitious young people toward the future.<br><br>Sadriddin Eshkarayev,<br>Vice-Rector for Research and Innovation,<br>Doctor of Philosophy (PhD) in Chemical Sciences |
+| `advancedTrainingForeignTeachersCard2HeroAlt` | Large gathering of faculty and officials in academic regalia on the steps of Kyungbok University, South Korea, during a formal academic visit. |
+| `advancedTrainingForeignTeachersCard2PageTitle` | Universities of South Korea |
+| `advancedTrainingForeignTeachersCard2Title` | Universities of South Korea |
+| `advancedTrainingForeignTeachersCard3BreadcrumbLabel` | Guangzhou |
+| `advancedTrainingForeignTeachersCard3DetailBody` | From November 22 to 27 of this year, the delegation of our university visited industrial enterprises in Guangzhou, China. Guangzhou, a major center of industry and innovation in southern China, today, in the era of globalization, stands as one of Asia's most powerful economic engines. This city is often called the heart of the "World's factory" and an international laboratory of industrial production. Visiting enterprises in Guangzhou provides an opportunity not only to witness a rapidly developing production system but also to experience the harmony of technology and order.<br><br>Upon entering Guangzhou's industrial zones, the first thing that catches the eye is the vast areas occupied by enterprises operating on high-tech foundations. Automated assembly lines, robotics, digital control systems, and artificial intelligence-based management mechanisms have all become key components of the production process.<br><br>The city's most developed sectors include automotive manufacturing, electronics, chemical industry, textiles, household appliances, construction materials, and logistics infrastructure. Of particular interest is a visit to the "Guangzhou Automobile Group" (GAC) plant to see the assembly line brought to the level of art.<br><br>Robot-assisted welding, 3D laser quality inspection platforms, and environmentally friendly paint booths set new standards in modern automotive manufacturing.<br><br>## The new face of the digital zone<br><br>Today, most Guangzhou enterprises operate under the "smart factory" concept. Every production process is monitored by a centralized digital management system. Operators can manage processes remotely, detect malfunctions in advance, and analyze data in real time.<br><br>This system not only increases productivity but also minimizes errors that could arise from the human factor.<br><br>## Ecology — an integral part of industry<br><br>One of the most notable aspects of the industrial visit to Guangzhou is the full compliance of production processes with environmental standards. Many enterprises have successfully implemented:<br><br>waste recycling centers;<br><br>water treatment plants;<br><br>workshops equipped with air monitoring sensors;<br><br>energy-saving technologies.<br><br>The city is considered one of China's leading regions in the "green industry" concept. Solar energy utilization, heat recycling in production, and exhaust gas filtration systems have become part of daily operations.<br><br>Shavkat OTAMURODOV,<br>Vice-Rector for International Cooperation,<br>Doctor of Economics, Associate Professor |
+| `advancedTrainingForeignTeachersCard3HeroAlt` | Aerial view of the Guangzhou skyline with Canton Tower and the Pearl River, China. |
+| `advancedTrainingForeignTeachersCard3PageTitle` | GUANGZHOU — THE CITY TURNED INDUSTRIAL |
+| `advancedTrainingForeignTeachersCard3Title` | GUANGZHOU — THE CITY TURNED INDUSTRIAL |
+| `advancedTrainingForeignTeachersPageIntro` | Highlights of advanced training and mobility for international teaching staff: global research collaboration, university partnerships in South Korea, and professional development visits including industrial hubs in China. |
+| `advancedTrainingForeignTeachersPageTitle` | Advanced training programs for foreign teachers |
+| `annualReport2025PageIntro` | The Annual Report 2025 presents an overview of Termiz University of Economics and Service activities, achievements, and financial performance for the reporting year.<br><br>Download the full PDF below for detailed figures, financial statements, and supporting information. |
+| `annualReport2025PdfDownloadCta` | Download PDF |
+| `antiBriberyPolicyApprovedBy` | The Rector |
+| `antiBriberyPolicyApprovedByLabel` | Approved by |
+| `antiBriberyPolicyApprovedHeading` | Approved |
+| `antiBriberyPolicyApprovedInstitution` | Termiz University of Economics and Service |
+| `antiBriberyPolicyEffectiveDate` | 11 January 2023 |
+| `antiBriberyPolicyEffectiveDateLabel` | Effective date |
+| `antiBriberyPolicyPdfDownloadCta` | Download PDF |
+| `antiBriberyPolicySection1Body` | Corruption shall be understood as dishonest, unethical, or improper conduct through which a person abuses a position of trust, authority, or institutional responsibility for personal, financial, professional, or other undue advantage. Within the context of a university, corruption may arise in financial transactions, but also in decision-making related to admissions, examinations, procurement, recruitment, academic progression, scholarships, partnerships, and certification.<br><br>Bribery shall be understood as the offering, giving, requesting, receiving, or agreeing to receive any item of value, benefit, favour, service, hospitality, influence, or other advantage with the intention of affecting the conduct, judgment, independence, or decision of a person performing a public, academic, administrative, fiduciary, or legal duty. |
+| `antiBriberyPolicySection1Title` | 1. Definitions |
+| `antiBriberyPolicySection2Body` | Termez University of Economics and Service is committed to the highest standards of integrity, transparency, probity, and ethical conduct in all areas of its activity. Bribery and corruption are incompatible with the values of a modern higher education institution and undermine academic quality, institutional credibility, public trust, and the long-term sustainability of the University.<br><br>TUES adopts a zero-tolerance approach to bribery and corruption. Any proven involvement in bribery, facilitation payments, kickbacks, improper inducements, concealed conflicts of interest, or corrupt influence over institutional decisions will be treated as a serious breach of University rules.<br><br>This Policy applies to all persons acting for, studying at, working for, representing, or otherwise carrying out functions connected with TUES. This includes academic staff, administrative staff, senior managers, consultants, contractors, volunteers, temporary workers, interns, students, members of committees, and external agents. |
+| `antiBriberyPolicySection2Title` | 2. Introduction, Approach and Scope |
+| `antiBriberyPolicySection3Body` | Bribery is not limited to the exchange of cash. It includes any financial or non-financial advantage offered, given, requested, or accepted in order to influence the improper performance of a function or decision. Within a university, this may include money, expensive gifts, paid travel, hospitality beyond reasonable limits, hidden commissions, preferential treatment for relatives, or the manipulation of academic or administrative outcomes.<br><br>This Policy is aligned with the Republic of Uzbekistan's anti-corruption policy environment and with international anti-corruption norms, including compliance with the requirements of the UN Convention against Corruption.<br><br>TUES reduces corruption risk most effectively by strengthening the overall environment in which decisions are made, improving institutional culture, restricting the opportunity to exchange improper benefits, and reducing the demand for corrupt advantage through fair and visible systems. |
+| `antiBriberyPolicySection3Title` | 3. What is Bribery? Legal and Ethical Standards |
+| `antiBriberyPolicySection4Body` | Effective risk management lies at the centre of this Policy. At TUES, bribery and corruption risks are treated as part of the University's broader governance, internal control, and institutional risk management system. Anti-bribery considerations should not be isolated from strategic planning, financial controls, procurement oversight, academic quality assurance, or operational review.<br><br>Areas requiring particularly careful attention include admissions and enrollment decisions, examinations and grading, awarding of diplomas or certificates, procurement of goods and services, construction and renovation contracts, recruitment and promotion decisions, student housing and scholarship allocation, and the use of external agents or intermediaries.<br><br>The University shall periodically review these areas and ensure that risk identification is not static. New risks may arise through digital systems, cross-border partnerships, consultancy arrangements, private sponsorship, or rapid institutional expansion. |
+| `antiBriberyPolicySection4Title` | 4. Identifying and Managing Bribery Risks |
+| `antiBriberyPolicySection5Body` | Gifts, hospitality, and entertainment are covered by this Policy. TUES recognizes that not all hospitality is improper, but such benefits become problematic where they could influence, or appear to influence, professional judgment or institutional decisions.<br><br>TUES permits only reasonable, proportionate, transparent, and professionally justifiable hospitality that serves a legitimate academic, administrative, or partnership purpose and does not create dependency, obligation, or appearance of favouritism. Hospitality must never be used to obtain an improper advantage.<br><br>The University shall maintain an appropriate internal system for recording gifts and hospitality where declaration is required. TUES prohibits the giving or receiving of money, cash-equivalents, personal commissions, or unofficial payments in all circumstances. |
+| `antiBriberyPolicySection5Title` | 5. Gifts, Hospitality and Entertainment |
+| `antiBriberyPolicySection6Body` | TUES places high value on its reputation for ethical behavior, academic fairness, lawful conduct, and responsible institutional governance. The University prohibits the offering, giving, promising, requesting, agreeing to receive, or accepting of any bribe or corrupt advantage in any form, whether direct or indirect, whether monetary or non-monetary.<br><br>Any suspected breach of this Policy, any attempted bribe, any suspicious inducement, or any concern that an institutional decision may be improperly influenced must be reported through the University's reporting processes. The prevention, detection, and reporting of bribery are shared responsibilities across the University. |
+| `antiBriberyPolicySection6Title` | 6. Policy Statement |
+| `antiBriberyPolicySection7Body` | TUES recognizes that a policy is only effective if it is known, understood, and applied. It is the responsibility of University leadership, deans, heads of departments, and managers to ensure that this Policy is communicated regularly and meaningfully to those engaged in University business.<br><br>Communication shall extend not only to staff but also, where appropriate, to students, contractors, service providers, consultants, intermediaries, and other external parties. The University shall also seek to provide appropriate guidance, orientation, and training in areas where bribery risk may be elevated. |
+| `antiBriberyPolicySection7Title` | 7. Communication |
+| `antiBriberyPolicySection8Body` | This Policy and the procedures linked to it shall be reviewed regularly to ensure that they remain effective, current, and proportionate to the University's actual risk exposure. Monitoring should include consideration of identified risks, reported incidents, control weaknesses, training needs, procurement patterns, admissions integrity, and lessons arising from audits or investigations.<br><br>The results of monitoring and review should be reported through the University's governance and management arrangements. Where incidents or control weaknesses are identified, corrective action should be documented, assigned, and followed through. |
+| `antiBriberyPolicySection8Title` | 8. Monitoring and Review |
+| `antiBriberyPolicySection9Body` | TUES encourages all staff, students, contractors, and other persons associated with the University to report concerns relating to suspected bribery, attempted bribery, improper inducements, hidden conflicts of interest, suspicious procurement conduct, admissions irregularities, examination manipulation, or any other conduct that may breach this Policy.<br><br>TUES is committed to ensuring that persons who report concerns in good faith are protected from retaliation, intimidation, adverse treatment, or procedural disadvantage. Allegations raised under this Policy shall be treated seriously, assessed fairly, and addressed in accordance with applicable University procedures and relevant law. |
+| `antiBriberyPolicySection9Title` | 9. Reporting Concerns (Whistleblowing) |
+| `bachelorCorrespondenceCardsHint` | Select a programme below to open its dedicated page with the full specification. |
+| `bachelorFullTimeCardsHint` | Select a programme below to open its dedicated page with the full specification table. |
+| `bachelorHubPageIntro` | Choose how you plan to study at Termez University of Economics and Service: full-time on campus or correspondence (distance) baccalaureate. |
+| `bachelorTableCipher` | Specialist cipher |
+| `bachelorTableCredits` | Total loan amount: |
+| `bachelorTableDuration` | Duration of the educational program: |
+| `bachelorTableForm` | Form of education: |
+| `bachelorTableLanguages` | Language of instruction: |
+| `bachelorTableQualification` | Qualification: |
+| `bachelorTableSpecialty` | Specialty name |
+| `bachelorTableType` | Type of education: |
+| `bachelorTrackCorrespondenceBody` | Correspondence (distance) baccalaureate is designed for learners who combine study with work or other commitments, using structured remote materials, scheduled consultations, and examination sessions. Refer to the official catalogue and admissions notices for the current list of programmes offered in this mode and how to apply. |
+| `bachelorTrackCorrespondenceTitle` | Baccalaureate (correspondence education) |
+| `bachelorTrackFullTimeBody` | Full-time bachelor’s study follows the on-campus timetable, combining lectures, seminars, and assessed work with access to libraries, laboratories, and student services. Admission and curriculum details are published for each intake; use the main admissions and programs sections for the latest requirements and deadlines. |
+| `bachelorTrackFullTimeTitle` | Bachelor's degree (Full-time) |
+| `backToSection` | Back to {{section}} |
+| `benefitsCard1Title` | Exchange programs |
+| `benefitsCard2Title` | Post-doctoral program |
+| `benefitsCard3Title` | In-service and retraining programs |
+| `benefitsPageIntro` | Explore the professional development opportunities available to staff at Termez University of Economics and Service. |
+| `benefitsPageTitle` | Benefits |
+| `bookstoreHeroAlt` | White grid bookshelves displaying course books and literature with covers facing outward. |
+| `bookstoreHeroSrc` | /images/student-life/bookstore.png |
+| `bookstorePageBody` | Termiz University of Economics and Service maintains an institutional bookstore that functions not only as a retail outlet for academic materials but as an integrated component of the university’s learning environment and campus life. In alignment with the university’s commitment to enhancing the quality of the student academic experience, the bookstore provides structured access to compulsory and recommended course literature, supplementary readings, and professional publications relevant to economics, business, finance, management, and related disciplines.<br><br>Beyond its core retail function, the bookstore contributes to intellectual engagement within the university community by facilitating academic and literary events. These include book presentations, thematic discussions, meetings with authors, and expert seminars connected to current economic reforms, entrepreneurship development, digital transformation, and sustainable development priorities. Such activities strengthen the academic ecosystem by encouraging dialogue between students, faculty members, researchers, and external practitioners, thereby reinforcing applied knowledge and critical thinking competencies.<br><br>Recognising the increasing relevance of digital learning resources, the bookstore supports access to electronic publications and digital academic content. Where applicable, e-books and licensed digital subscriptions are made available in coordination with the university library and academic departments. Students receive practical guidance on accessing digital platforms and integrating these resources into their independent study processes, thereby supporting blended and technology-enhanced learning models.<br><br>Affordability and resource sustainability are addressed through structured mechanisms that reduce the financial burden on students. A textbook resale or buyback initiative may be implemented at the conclusion of each academic semester, enabling students to return previously purchased materials. This practice facilitates cost recovery for individual students while allowing subsequent cohorts to obtain required literature at reduced prices. Such an approach supports financial accessibility and aligns with institutional objectives related to responsible consumption and sustainable campus operations.<br><br>The bookstore operates in close coordination with academic departments to ensure the timely availability of approved course materials prior to the start of each semester. This coordination streamlines textbook adoption procedures, reduces delays in access to required literature, and ensures academic continuity from the first week of instruction. Where relevant, procurement planning is aligned with curriculum updates and newly introduced programmes.<br><br>In addition to serving the university community, the bookstore may contribute to broader social engagement initiatives by supporting local educational institutions through the donation of books and stationery materials, subject to institutional policy and documented community outreach programmes. Such initiatives reinforce the university’s commitment to regional educational development and social responsibility.<br><br>Through its integrated academic, digital, affordability, and community-oriented functions, the bookstore at Termez University of Economics and Service serves as an essential academic support unit within the campus infrastructure. It contributes to an enabling learning environment, supports equitable access to educational resources, and strengthens the overall quality of the student experience in accordance with internationally benchmarked institutional standards. |
+| `bookstorePageTitle` | Bookstore |
+| `cafeteriasHeroSrc` | /images/student-life/cafeterias.png |
+| `cafeteriasPageBody` | In the 2025–2026 academic year, the food service operations at Termez University of Economics and Service functioned in accordance with institutional regulations governing campus facilities, student welfare, and health and safety standards. All canteens, cafés, and buffets operating within the university territory were officially authorised and subject to continuous oversight. More than ten general food service outlets operated across the campus, ensuring adequate capacity to meet the needs of students, academic staff, administrative personnel, and visitors.<br><br>The quality, quantity, nutritional value, pricing policy, storage conditions, and sanitary compliance of meals prepared in these outlets were monitored by a designated supervisory committee comprising university representatives and relevant municipal authorities. Regular inspections were conducted to verify adherence to national sanitary and epidemiological standards. Monitoring procedures included evaluation of food procurement, preparation processes, storage temperature control, and hygiene conditions of kitchen facilities and service areas. Documented inspection protocols and corrective action mechanisms were applied to maintain consistent service quality throughout the academic year.<br><br>The physical dining environment was designed to ensure comfort, safety, and accessibility. Cafeteria spaces were maintained as clean, well-ventilated, and adequately illuminated areas with seating capacity sufficient for peak academic hours. Furniture and layout arrangements were organised to accommodate both individual dining and group interaction, thereby supporting social cohesion and informal academic exchange within the campus environment.<br><br>Menu planning during the 2025–2026 academic year reflected attention to dietary diversity and nutritional balance. The food selection included a range of main courses, side dishes, salads, bakery items, beverages, and desserts, with consideration given to regional culinary preferences as well as modern dietary trends. Specific options were made available for vegetarian and other special dietary needs where applicable. Nutritional planning aimed to support balanced daily intake by incorporating fresh vegetables, fruits, whole grains, and appropriate protein sources.<br><br>Information regarding ingredients, caloric content, and potential allergens was made accessible to support informed food choices. Awareness materials promoting healthy nutrition practices were displayed within dining areas. These measures contributed to fostering a culture of health consciousness and preventive well-being among students and staff.<br><br>Food safety and hygiene remained a central operational priority. Kitchen personnel received periodic training in food handling, sanitation procedures, and occupational health requirements. Cleaning and disinfection schedules were implemented systematically, and internal audits were conducted to ensure compliance with hygiene regulations. Storage facilities were equipped to maintain appropriate temperature and preservation standards for perishable goods.<br><br>Sustainability considerations were integrated into cafeteria management practices. Measures to reduce food waste were introduced through portion management and awareness initiatives encouraging responsible consumption. Where feasible, environmentally responsible packaging materials were utilised, and waste segregation procedures were implemented in coordination with campus environmental management policies. Energy-efficient equipment and water-saving practices were progressively adopted to enhance operational sustainability.<br><br>Procurement strategies prioritised collaboration with local producers and suppliers where consistent with quality and regulatory requirements. This approach supported regional economic development while ensuring freshness and traceability of food products.<br><br>Through structured supervision, adherence to health and safety standards, attention to nutritional quality, and integration of sustainability principles, the cafeteria services at Termez University of Economics and Service during the 2025–2026 academic year contributed to a safe, inclusive, and supportive campus environment that aligns with internationally benchmarked expectations for student services and institutional facilities. |
+| `cafeteriasPageTitle` | Cafeterias |
+| `campusCultureArtGalleryHeading` | Art Gallery & Student Creative Clubs |
+| `campusCultureArtGalleryIntro` | The university's Art Gallery is the central exhibition space on campus, regularly showcasing work by students, faculty, and local artists. |
+| `campusCultureCollaborationBody` | Students, artists, researchers, and cultural practitioners are all welcome to get involved. Opportunities include exhibitions, performances, research collaboration, internships, and creative projects. |
+| `campusCultureCollaborationHeading` | Collaboration & Participation |
+| `campusCultureCommunityBody` | The university's cultural spaces welcome students, local residents, and international visitors alike. Through exhibitions, performances, and guided tours, the university contributes to the cultural life of Termez and helps promote regional heritage as part of a growing tourism scene. |
+| `campusCultureCommunityHeading` | Community Engagement & Tourism |
+| `campusCultureContact1Location` | Main Campus, Room 706 |
+| `campusCultureContact1Name` | Madina Jurayeva |
+| `campusCultureContact1PhoneDisplay` | +998 95 529 49 79 |
+| `campusCultureContact1PhoneTel` | +998955294979 |
+| `campusCultureContact1Role` | Head of the TUES Art Gallery<br>Tutor, “Fine and Applied Arts” Club |
+| `campusCultureContact2Intro` | For the “Talented Students” Theatre Club, concerts, music events, and film screenings: |
+| `campusCultureContact2Location` | Main Campus, Room 102 |
+| `campusCultureContact2Name` | Ulug'bek Choriyev |
+| `campusCultureContact2PhoneDisplay` | +998 88 810 00 22 |
+| `campusCultureContact2PhoneTel` | +998888100022 |
+| `campusCultureContact2Role` | Head of the Ma’naviyat Department |
+| `campusCultureContactHeading` | Get in Touch |
+| `campusCultureContactIntro` | For collaboration, exhibitions, or cultural initiatives: |
+| `campusCultureEthnoBody` | Located in the heart of Termez, Ethno City is a multifunctional cultural complex developed by the university together with the local administration. It's a place where traditional culture and contemporary creativity meet — with space for exhibitions, craft production, and cultural events.<br><br>Inside the complex, the University Museum hosts both permanent and temporary exhibitions. It showcases ethnographic collections that reflect the region's history and traditions, along with open-air displays of local artifacts throughout Ethno City. Interactive spaces let visitors watch traditional craftsmanship in action and engage directly with living cultural practices.<br><br>The museum also supports student learning, research, and artistic growth through exhibitions, workshops, and cultural programs. |
+| `campusCultureEthnoHeading` | Ethno City & University Museum |
+| `campusCultureFineArtsBody` | Focused on visual arts, crafts, and design, this club builds practical skills through hands-on projects and exhibitions. Members regularly take part in university art competitions on the main campus, presenting their work and earning recognition. |
+| `campusCultureFineArtsHeading` | Fine and Applied Arts Club |
+| `campusCultureGallery1Alt` | Ethno City courtyard with traditional brick buildings, blue tile panels, and wooden craft stalls |
+| `campusCultureGallery1Src` | /images/university/campus-culture-ethno-city-courtyard.png |
+| `campusCultureGallery2Alt` | Wooden directional signpost at Ethno City pointing to hotel, restaurant, crafts area, and WC |
+| `campusCultureGallery2Src` | /images/university/campus-culture-ethno-city-signpost.png |
+| `campusCultureGallery3Alt` | Ethno City main facade with crenellated towers and geometric blue mosaic tilework |
+| `campusCultureGallery3Src` | /images/university/campus-culture-ethno-city-fortress.png |
+| `campusCultureHeroAlt` | Ethno City fortress-style entrance with blue and gold tile towers and a wide stone plaza in Termez |
+| `campusCultureHeroSrc` | /images/university/campus-culture-ethno-city-fortress.png |
+| `campusCultureLabelLocation` | Location |
+| `campusCultureLabelPhone` | Phone |
+| `campusCultureOpportunitiesHeading` | Opportunities for Students |
+| `campusCultureOpportunity1Body` | Join the “Talented Students” theatre troupe and gain hands-on experience in acting, directing, and stage management while performing for public audiences. |
+| `campusCultureOpportunity1Title` | Performances |
+| `campusCultureOpportunity2Body` | Take part in musical performances and cultural shows in the concert hall, building artistic skill and stage presence. |
+| `campusCultureOpportunity2Title` | Concerts & Music Events |
+| `campusCultureOpportunity3Body` | Explore visual storytelling through regular film screenings and discussions, engaging with both educational and cultural content. |
+| `campusCultureOpportunity3Title` | Film Screenings & Cinema |
+| `campusCulturePageIntro` | The university brings arts, heritage, and public life together on campus. Its cultural network includes the University Museum, Ethno City, the Art Gallery, student creative clubs, and access to major performance venues — creating a complete ecosystem for creativity and community engagement. |
+| `campusCulturePageSubtitle` | Where education, creativity, and community come together |
+| `campusCulturePageTitle` | Campus Culture |
+| `campusCultureTheatreClubBody` | A student theatre troupe dedicated to acting, directing, and stage production. Members build performance skills through rehearsals, creative workshops, and cultural events. Rehearsals take place in the concert hall, and every performance is open to the public — a chance to connect with the wider community. |
+| `campusCultureTheatreClubHeading` | “Talented Students” Theatre Club |
+| `campusCultureVenuesBody` | The university strongly supports performing arts and large-scale cultural events. Its main venue is “San'at Saroyi” Concert Hall — the largest performance space in Termez, rented by the university for academic and cultural use. With 1,200 seats and professional-level equipment, it hosts rehearsals, performances, concerts, film screenings, and major university events. |
+| `campusCultureVenuesHeading` | Theatre, Concert Hall & Cinema |
+| `careerCentreContactBlock` | Career Center – TUES<br>Termez, Uzbekistan<br>Email: career@tues.uz<br>Phone: +998 XX XXX XX XX |
+| `careerCentreContactHeading` | Contact Us |
+| `careerCentreIntroBody` | The Career Center at Termez University of Economics and Service (TUES) is dedicated to helping students and graduates successfully transition from education to employment. We provide professional guidance, career development services, and strong connections with employers to support your career journey. |
+| `careerCentreIntroHeading` | Empowering Your Future Career |
+| `careerCentreMissionBody` | Our mission is to equip students with the skills, knowledge, and opportunities needed to succeed in a competitive global job market. We aim to bridge the gap between academic learning and real-world employment. |
+| `careerCentreMissionHeading` | Our Mission |
+| `careerCentreOfferCounselingBody` | Get personalized guidance from experienced advisors to help you choose the right career path, identify your strengths, and set professional goals. |
+| `careerCentreOfferCounselingTitle` | Career Counseling |
+| `careerCentreOfferCvBody` | Learn how to write a professional CV, prepare for interviews, and present yourself confidently to employers. |
+| `careerCentreOfferCvTitle` | CV & Interview Preparation |
+| `careerCentreOfferInternshipBody` | We collaborate with leading companies and organizations to provide students with valuable internship experiences that build practical skills. |
+| `careerCentreOfferInternshipTitle` | Internship Opportunities |
+| `careerCentreOfferPlacementBody` | Access job vacancies, recruitment programs, and employer networks to find the right job after graduation. |
+| `careerCentreOfferPlacementTitle` | Job Placement Support |
+| `careerCentreOfferWorkshopsBody` | Participate in seminars, career fairs, and skill-development workshops to enhance your employability. |
+| `careerCentreOfferWorkshopsTitle` | Workshops & Training |
+| `careerCentrePageTagline` | Take the first step toward a successful future. Visit the Career Center and unlock your potential! |
+| `careerCentrePageTitle` | Career Center – TUES |
+| `careerCentreWhatWeOfferHeading` | What We Offer |
+| `charter.documentTitle` | University charter |
+| `charter.download` | Download |
+| `charter.downloadLead` | You can download the university charter, or open each section below to read it on this site. |
+| `charter.emptySection` | Content for this section will be added soon. |
+| `charter.institution` | Termez University of Economics and Service |
+| `charter.pdfSoon` | PDF download will be linked here when available. |
+| `charter.pdfUrl` |  |
+| `charter.section1Body` |  |
+| `charter.section1Title` | 1-section: I. General rules |
+| `charter.section2Body` |  |
+| `charter.section2Title` | 2-section: II. The main tasks of the university |
+| `charter.section3Body` |  |
+| `charter.section3Title` | 3-section: III. Subjects of educational and scientific-methodical work, their rights and obligations |
+| `charter.section4Body` |  |
+| `charter.section4Title` | 4-section: IV. Educational and scientific-methodical work |
+| `communityClubsOverviewHeroSrc` | /images/community-clubs/community-clubs-overview.png |
+| `communityClubsOverviewPageIntro` | At the Termez University of Economics and Service, various clubs and circles are actively operating with the aim of organizing meaningful leisure activities for students and uncovering their interests and talents. These clubs, established at the initiative of the university’s Youth Union, have been actively engaging students for several academic years in competitions, leagues, and contests in the fields of science, culture, sports, and creativity.<br><br>The clubs and teams offer students a wide range of activities and events that provide extracurricular learning opportunities and unique experiences. The clubs meet once a week throughout the academic year. |
+| `communityClubsOverviewPageTitle` | Community clubs |
+| `communityClubsOverviewSocialHeading` | Social clubs |
+| `communityClubsOverviewSocialList` | KVN (Humor and Improvisation) club<br>IT club<br>English Language Club<br>Turkic Language Club<br>German Language Club<br>Korean Language Club<br>Gifted Youth Club<br>Female Leaders Club<br>Young Writers Club<br>Young Artists Club |
+| `communityClubsOverviewSportsHeading` | Sports clubs |
+| `communityClubsOverviewSportsList` | Football Club<br>Volleyball Club<br>Chess Club<br>Table Tennis Club<br>Judo Club<br>Arm Wrestling Club |
+| `communityClubsPageIntro` | Explore student clubs, studios, and community highlights at Termez University of Economics and Service. Below are recent activities and active groups on campus. |
+| `contactingAdmissionPageIntro` | To submit documents to the Termez University of Economics and Service, you may contact the following numbers: |
+| `contactingAdmissionPageTitle` | Contacting about admission |
+| `contractAmountsTuitionColAmount` | Contract amount |
+| `contractAmountsTuitionColCode` | Field of study code |
+| `contractAmountsTuitionColDuration` | Academic years |
+| `contractAmountsTuitionColForm` | Form of study |
+| `contractAmountsTuitionColName` | Name of field of study |
+| `contractAmountsTuitionColNo` | No. |
+| `contractAmountsTuitionPageIntro` | Contract (tuition) amounts by field of study, duration, and form of study. Amounts are in Uzbek soums (UZS) for the 2024/2025 academic year. |
+| `contractAmountsTuitionPageTitle` | Information on fields of study and contract tuition for the 2024/2025 academic year (Termiz University of Economics and Service) |
+| `copyrightEmail` | info@tisu.uz |
+| `copyrightEmailLabel` | E-mail: |
+| `copyrightNotice` | © 2026 Termez University of Economics and Service. All rights reserved. |
+| `copyrightP1` | The texts, images, logos, graphic materials, videos, software code, databases, and other intellectual property objects placed on this website are protected by copyright and related rights in accordance with the Law of the Republic of Uzbekistan "On Copyright and Related Rights" and other applicable legal and regulatory acts. |
+| `copyrightP2` | Copying, reproducing, distributing, modifying, republishing on the internet, or using these materials for commercial purposes, in whole or in part, without the prior written consent of the University, is not permitted, except in cases provided for by law. |
+| `copyrightP3` | Use of the University's news and information materials is permitted provided that "Termez University of Economics and Service" is indicated as the source and an active link to the official website is included. |
+| `copyrightP4` | For permission to use materials or for further information, you may contact the University's official email address. |
+| `copyrightPageTitle` | Copyright |
+| `departmentIntlRelEmployeesCard1Title` | Vice-rector for international cooperation |
+| `departmentIntlRelEmployeesCard2Title` | Head of the Department of international cooperation of the University |
+| `departmentIntlRelEmployeesCard3Title` | Lead specialist of the university's international cooperation department |
+| `departmentIntlRelEmployeesIntro` | The following positions represent the main leadership and specialist roles in international cooperation at Termez University of Economics and Service. |
+| `departmentIntlRelEmployeesPageTitle` | Employees of the Department of International Relations |
+| `departmentsPageIntro` | Under the Vice Rector for Academic Affairs, Termez University of Economics and Service organizes teaching through three faculties and their departments. Use the links to open official leader profiles on the main university website (opens in a new tab). |
+| `departmentsPageOfficialChartLink` | Interactive chart on tues.uz (same hierarchy as this page) |
+| `departmentsPageTitle` | Departments |
+| `dormitoryCultureBody` | Life at the dorm isn't just about studying. Our cultural hall is where memories are made. We regularly host roundtable discussions, art and music evenings, theater performances, and concerts. It's your space to express yourself, learn new things, and have fun with fellow students. |
+| `dormitoryCultureTitle` | Get Involved and Show Your Talent |
+| `dormitoryFactCapacityLabel` | Capacity |
+| `dormitoryFactCapacityValue` | Up to 450 students |
+| `dormitoryFactFloorsLabel` | Floors |
+| `dormitoryFactFloorsValue` | 3 |
+| `dormitoryFactResidentsLabel` | Current Residents |
+| `dormitoryFactResidentsValue` | 450 students (full occupancy) |
+| `dormitoryFactRoomsLabel` | Rooms |
+| `dormitoryFactRoomsValue` | 225 rooms, each shared by 2 students |
+| `dormitoryFeeBody` | The standard monthly fee is 150,000 UZS, as set by the University Council.<br><br>Some students are exempt from paying. This includes: |
+| `dormitoryFeeClosing` | Exemptions are granted in line with the Rector's official order. |
+| `dormitoryFeeExemptList` | Students with visual impairments (groups I and II)<br>Orphans and children from orphanages<br>Students from low-income families |
+| `dormitoryFeeTitle` | Monthly Fee and Exemptions |
+| `dormitoryHeroAlt` | A modern twin-room student dormitory with study desk, dining table, and patterned wallpaper at Termez University of Economics and Service |
+| `dormitoryHeroSrc` | /images/student-life/dormitory.png |
+| `dormitoryPageIntro` | Welcome to our student dormitory—a modern, comfortable, and safe place designed to help you thrive both academically and personally. Whether you're studying, relaxing, or making new friends, we've got everything you need right here. |
+| `dormitoryPageSubtitle` | Your Home Away from Home at Termez University of Economics and Service |
+| `dormitoryPageTitle` | STUDENT DORMITORY |
+| `dormitoryPriorityIntro` | We give special consideration to students who need extra support. Priority is given to: |
+| `dormitoryPriorityList` | Orphans and students who have lost a breadwinner<br>Students with disabilities (groups I and II)<br>Those undergoing treatment for chronic illnesses<br>International students<br>Students supporting two or more children on a contract basis<br>First-year students |
+| `dormitoryPriorityTitle` | Who Gets Priority for Rooms? |
+| `dormitoryQuickFactsTitle` | Quick Facts About Your Dorm |
+| `dormitorySafetyBody` | We take your well-being seriously. The dormitory is kept clean, safe, and well-organized.<br><br>Every week, university faculty members stay overnight at the dorm as on-duty supervisors. They're here not just to oversee, but to connect with you. During their visits, they hold spiritual and educational talks, offer career guidance, and provide mentoring and support. You're never alone—we're here to help you grow, guide you, and make sure you feel at home. |
+| `dormitorySafetyTitle` | Safety, Cleanliness, and Support |
+| `dormitorySportsBody` | Our sports facility is open for you to work out individually, play team sports, or join friendly competitions. It's a great way to stay fit, release stress, and bond with others. |
+| `dormitorySportsTitle` | Stay Active and Healthy |
+| `dormitoryStudyBody` | Our library isn't just a quiet place to read—it's a knowledge hub. You'll find textbooks, academic literature, fiction, encyclopedias, scholarly articles, and periodicals.<br><br>Plus, we keep you updated with important notices, class schedules, and announcements—so you're always in the loop. |
+| `dormitoryStudyTitle` | Study and Stay Informed |
+| `dormitoryWhatsInsideIntro` | We've made sure you have access to all the essentials—and a little extra: |
+| `dormitoryWhatsInsideList` | Library – stocked with books, journals, and study materials<br>Cultural Hall – for events, performances, and creative gatherings<br>Sports Facility – to stay active and healthy<br>3 Dining Halls – for convenient, everyday meals |
+| `dormitoryWhatsInsideTitle` | What's Inside? |
+| `facilitiesForDisabledDeck` | Mental health support and services for students with disabilities |
+| `facilitiesForDisabledHeroSrc` | /images/student-life/facilities-for-disabled.png |
+| `facilitiesForDisabledIntro` | The Termez University of Economics and Service (TUES) places special emphasis on creating an inclusive and comfortable learning environment for all students, including those with disabilities. The university has established necessary conditions, technical tools, and support services to ensure that students with special needs can actively participate in the educational process and student life. |
+| `facilitiesForDisabledOutro` | Termez University of Economics and Service is committed to providing equal educational and personal development opportunities for all students, especially those with disabilities. Through the provision of mental health services, academic assistance, and physical accessibility, TUES operates as an inclusive, compassionate, and progress-oriented institution of higher education. |
+| `facilitiesForDisabledPageTitle` | Facilities for the disabled |
+| `facilitiesForDisabledS1Body` | TUES takes mental health matters seriously. The university has established a Psychological Support Center that offers free psychological counseling and assistance to students, faculty, and staff. These services, provided by qualified and experienced psychologists, help manage stress, mental strain, and personal challenges faced by students during their academic journey, contributing to their overall mental well-being. |
+| `facilitiesForDisabledS1Title` | Psychological support services |
+| `facilitiesForDisabledS2Body` | Special computer systems have been installed at TUES for students with visual impairments. These technologies enable blind or visually impaired students to effectively access electronic textbooks, learning materials, and digital resources, thereby ensuring equal academic opportunities. |
+| `facilitiesForDisabledS2Title` | Technical resources for visually impaired students |
+| `facilitiesForDisabledS3Body` | To support students with hearing impairments, TUES provides the services of sign language interpreters. These professionals assist students during lectures, seminars, and other academic activities, allowing them to fully participate in the educational process. |
+| `facilitiesForDisabledS3Title` | Sign language interpreter services for hearing-impaired students |
+| `facilitiesForDisabledS4Body` | TUES has created a barrier-free environment for students who use wheelchairs. This includes specially adapted restrooms, ramps, designated parking spaces, and platforms installed at building entrances. A campus map clearly marks these accessible facilities, enabling students with physical limitations to move freely and independently around the university. |
+| `facilitiesForDisabledS4Title` | Mobility accessibility |
+| `facilitiesForDisabledS5Body` | TUES offers personalized academic support for students with disabilities. This includes specialized tutoring services, programs aimed at developing learning skills, and the use of modern assistive technologies. These measures are designed to help students succeed in their academic endeavors. |
+| `facilitiesForDisabledS5Title` | Specialized academic support |
+| `facilitiesForDisabledS6BodyBottom` | These events foster active participation from students, faculty, and staff, allowing for the exchange of ideas and experiences. |
+| `facilitiesForDisabledS6BodyTop` | The Psychological Support Center regularly organizes seminars, roundtable discussions, and educational events aimed at strengthening mental health and well-being. |
+| `facilitiesForDisabledS6List` | The role of parents in family life<br>Strategies for coping with stress<br>Developing a healthy mindset<br>Strengthening family values<br>Preparing girls for family life and the negative consequences of early marriage<br>Reproductive health and medical awareness |
+| `facilitiesForDisabledS6ListLabel` | These events cover a range of topics, including: |
+| `facilitiesForDisabledS6Title` | Activities to promote mental health and personal development |
+| `facultiesPageIntro` | Termez University of Economics and Service is organized into faculties that bring together study programs, research, and student support. The cards below introduce each faculty at a glance. |
+| `facultiesPageTitle` | Faculties |
+| `facultyEconomicsDepartmentsHeading` | The faculty of Economics and information technologies has the following departments: |
+| `facultyEconomicsIntroBody` | The Faculty of Economics and Information Technologies at Termez University of Economics and Service is today one of the leading centers for training qualified and competitive specialists in the field of economics and modern information technologies. The faculty's main goal is not only to provide theoretical knowledge but also to equip students with practical skills and introduce them to modern economic processes and technologies.<br><br>The faculty employs 70 instructors, 26 of whom hold PhD degrees, and 1 holds a Doctor of Science degree. The teaching staff consists of leading specialists in their fields, providing students with both theoretical knowledge and practical skills.<br><br>One of the faculty's strengths is that instructors regularly enhance their qualifications. Ten instructors have completed professional development abroad, particularly in Turkey, the Czech Republic, and Indonesia. Additionally, 3 foreign specialists teach students at the faculty, and around 10 professors from other local universities also conduct courses. This provides students with education that meets global standards.<br><br>The number of students at the faculty is significant: 2,356 students are enrolled in full-time programs, and 6,182 in part-time programs. Students' activities are notable not only academically but also in sports and research. Among the students, 3 are champions of Uzbekistan and 1 is an Asian champion. These achievements demonstrate that the faculty's students are well-rounded, academically, physically, and socially.<br><br>Students gain in-depth knowledge in economics and information technologies. Through laboratories, computer classes, practical exercises, and project work, they can consolidate their theoretical knowledge with practice. The faculty also prepares students to meet global standards through special courses conducted by foreign specialists and professors.<br><br>Students and instructors actively participate in scientific and innovative projects, ensuring that graduates acquire the competencies required by the labor market.<br><br>The faculty's collaboration with foreign universities and experts creates extensive opportunities for students. Teaching by foreign specialists, faculty professional development, and participation in international research projects further expand students' knowledge and make them globally competitive.<br><br>Thus, students at the faculty gain not only academic knowledge but also broad practical experience through internships, sports, and research activities. Graduates continue their professional careers in modern economics and information technologies as qualified specialists. |
+| `facultyMedicineBachelorsHeading` | Bachelor's programs |
+| `facultyMedicineClosing` | Today, every student at TISU's Faculty of Medicine is becoming a highly skilled professional ready to make a significant contribution to the development of healthcare in our country. |
+| `facultyMedicineDepartmentsHeading` | The faculty of medicine has the following departments: |
+| `facultyMedicineIntroBody` | Today, one of the key factors in the development of medicine is the training of qualified specialists. In this regard, the Faculty of Medicine at Termez University of Economics and Service (TUES) is becoming a true center of knowledge and experience for the youth of the Surkhandarya region. Currently, the faculty has 8 departments, and more than 4,000 students are studying dentistry, pediatrics, general medicine, pharmacy, and biology.<br><br>The faculty's main advantage is its highly qualified teaching staff. Ten faculty members hold academic degrees, while another twenty are actively engaged in scientific research. The university provides extensive support for students' research activities, making the faculty recognized not only nationally but also internationally.<br><br>According to the faculty dean, Begzod Bobomuratov, all conditions have been created for students to gain knowledge in modern medicine. For example, dentistry students carry out practical exercises in laboratories equipped with foreign equipment. There are also rooms with mannequins for studying first aid and anatomy, helping students integrate theoretical knowledge with practical skills.<br><br>Students and faculty members work together on many projects, achieving significant results. In 2024-2025, 15 students won prizes at international science olympiads held in Samarkand and Bukhara. In the same year, a group of talented students completed internships at Istanbul Medipol University and Medipol Clinics in Turkey, marking a new step in studying modern medicine.<br><br>Additionally, as a result of negotiations with prestigious Turkish institutions and universities, TISU has been officially recognized and admitted to the Turkish Higher Education Council (YOK). This recognition allows TISU diplomas and academic degrees to be officially accepted in Turkey, giving students the opportunity to continue their studies and even work abroad.<br><br>Students describe their education as very engaging. Laboratory practicals strengthen their theoretical knowledge, while international internship experiences provide a solid foundation for future professional activities. |
+| `facultyMedicineMastersHeading` | Master's programs |
+| `facultyMedicineResidencyHeading` | Residency programs |
+| `facultyMedicineSectionProgramsTitle` | Academic programs at the faculty of medicine |
+| `facultyPedagogyAmongStudentsHeading` | Among the faculty's students are: |
+| `facultyPedagogyClosingBody` | The Faculty of Pedagogy and Social-Humanitarian Sciences has achieved significant progress in education, research, spirituality, and international cooperation. Today, it is not only a center for training qualified teachers but also a vital institution shaping well-rounded, patriotic, and socially active youth.<br><br>The faculty continues to strengthen educational quality, scientific potential, and international ties, opening the door to even greater opportunities in the future. |
+| `facultyPedagogyDepartmentsHeading` | The faculty of pedagogy and social-humanitarian sciences includes the following departments: |
+| `facultyPedagogyIntroBody` | The Faculty of Pedagogy and Social-Humanitarian Sciences at Termez University of Economics and Service has become one of the university's leading divisions, contributing significantly not only to the quality of education but also to scientific development, international cooperation, and student achievements. In a short period, the faculty has reached major accomplishments, positively influencing the improvement of the educational process.<br><br>The faculty employs 121 professors and teachers, including 6 Doctors of Science and 60 PhD holders. The faculty's scientific potential has reached 52%, one of the highest indicators among universities in Uzbekistan.<br><br>Faculty members continuously enhance their qualifications both within the country and abroad. In recent years, more than 20 lecturers have completed professional training in Turkey, the Czech Republic, Indonesia, and other countries, contributing to the modernization of the educational process. |
+| `facultyPedagogyOlympiadsBody` | About 30 students of the faculty have achieved notable results in international Olympiads, national competitions, and spiritual-educational contests.<br><br>In 2025, the faculty's team “Matonat” won the regional stage of the national contest “Ma’rifat Maydoni” and successfully participated in the republican stage. |
+| `facultyPedagogyRectorsScholarship` | More than 100 students have been awarded the Rector's Scholarship, demonstrating strong academic performance and high motivation. |
+| `facultyPedagogyScaleIntro` | The faculty is one of the largest in the university: |
+| `facultyPedagogyScientificIntro` | The growth of the faculty's scientific potential is reflected in its academic output: |
+| `facultyPedagogyScientificOrganizerClosing` | These events serve as an important platform for scientific exchange, innovation, and the development of academic partnerships. |
+| `facultyPedagogyScientificOrganizerIntro` | The faculty is the organizer of: |
+| `facultyPedagogySectionScientificTitle` | Scientific development |
+| `facultyPedagogySectionSpiritualTitle` | Spiritual and educational activities |
+| `facultyPedagogySpiritualBody` | Alongside its academic mission, the faculty places great emphasis on spiritual and educational work. To date, nearly 500 events have been held, aimed at fostering: patriotism, national pride, intellectual development, social responsibility among students. |
+| `famousGraduateDetailAbdirakhmanovKhayitaliBody` | He was born on May 30, 1993, in Jarkurgan district, Surkhandarya region. In 2016, he successfully graduated from Termez State University, and in 2024 — from Termez University of Economics and Service, specializing in finance and economics.<br><br>His career began in 2016 at the Asakabank system, where he quickly demonstrated efficiency in various fields. With experience in lending, business support, and retail services, he has worked in responsible positions and established himself as a qualified specialist.<br><br>From 2019 to 2023, he worked effectively in the corporate and retail service departments of the bank as a leading specialist and head of department. Since 2024, he has been serving as Deputy Manager of the Termez branch of Asakabank JSC.<br><br>Abdirakhmanov Khayitali Normukhammadovich has earned respect in his team through his consistent career path, initiative, and responsible working style. His main goal is to improve the efficiency of providing the population and clients with convenient, modern, and reliable banking services. |
+| `famousGraduateDetailAlimovJalolBody` | Alimov Jalol Qudratovich was born on March 26, 1972, in Muzrabot district. In 2002, he graduated from Termez State University, and in 2006, from Samarkand State University, specializing in Macroeconomics and Law. In 2025, he completed his master’s degree in Economics at Termez University of Economics and Service.<br><br>He began his professional career in 1988 as a brigade leader in a youth production brigade. Later, he worked as an accountant and worker in trade enterprises, a court executor, and held responsible positions in the prosecutor’s office and courts. At the same time, he gained significant experience in the banking sector, working as a chief legal counsel in various branches.<br><br>Since 2014, Alimov Jalol Qudratovich has served in the system of the Central Bank of the Republic of Uzbekistan, holding the position of Chief Legal Adviser under the leadership of the Surkhandarya Regional Main Department. In 2025, he was appointed Chief Legal Counsel of the Litigation and Coordination of Legal Advisers of Regional Main Departments Division within the Legal Department of the Central Bank.<br><br>Over the course of more than 35 years of professional activity, Jalol Qudratovich has accumulated vast experience in the legal field and has earned high recognition as a responsible and proactive specialist. |
+| `famousGraduateDetailAshurovKaromatBody` | He was born on October 13, 1979, in Qiziriq district, Surkhandarya region. Married, father of three children.<br><br>From 1986 to 1996, he studied at Secondary School No. 8. In 2000, he graduated from Termez State University, and in 2003 — from Tashkent State University of Economics. In 2024, he successfully completed his master’s degree in Economics at Termez University of Economics and Service. His specialization is teaching and finance.<br><br>He began his career in 2000 as a teacher. From 2003 to 2019, he held various managerial positions in Surkhandarya region. Since July 2019, he has been serving as Deputy Mayor of Termez city for youth policy, social development, and spiritual-enlightenment affairs.<br><br>Throughout his career, he has implemented numerous innovations and reforms in the field of education and youth policy. He ensured the first-ever participation of regional students in international olympiads and achieved high results in science and sports. In 2019, he established the non-governmental educational institutions “Children’s Academy Termez” and “Smart Children of Termez.” He contributed to increasing preschool education coverage to 55.9% and reducing crime rates.<br><br>He has earned respect as a skilled organizer, an initiative-driven and demanding leader. His students are now serving the development of the country across various fields. |
+| `famousGraduateDetailBegaliyevAzamBody` | Born on February 29, 1988, in Jarkurgan district. He received his higher education at Termez State University. In 2025, he completed his master’s degree at Termez University of Economics and Service, specializing as an economist (researcher-pedagogue).<br><br>Throughout his career, Begaliyev A’zam Olimnazarovich has worked effectively in the field of education. Since 2010, he has held various positions at the Termez College of Economics and the Termez College of Transport and Services. Serving as a teacher, department head, and acting director, he made a significant contribution to the education and professional training of young people.<br><br>From 2018, A’zam Olimnazarovich has been engaged in leadership activities. Between 2020 and 2025, he served as the director of Vocational School No. 2 in Jarkurgan district. Since 2025, he has been working as the director of Polytechnic No. 2 in Jarkurgan district, Surkhandarya region.<br><br>For his dedicated service and contribution to the field of education, he was awarded the honorary badge “Excellence in Secondary Specialized and Professional Education.” |
+| `famousGraduateDetailIbragimovRustamBody` | Born on April 16, 1981, in Denau region. In 2002, he graduated from Termez State University; in 2006, from Tashkent State Law Institute; and in 2025, he completed a master’s degree at Termez University of Economics and Service, specializing in Public Finance and International Finance. His professional background covers banking, law, and finance-economics.<br><br>He began his career in 2004 as a lawyer. Later, he served in the prosecution system in various positions, including senior inspector, investigator, and department prosecutor.<br><br>From 2019 to 2021, he worked as an investigator at the Department for Investigating Especially Serious Crimes under the General Prosecutor’s Office. From 2022 to 2025, he headed the Department for Combating Organized Crime and Corruption at the Surkhandarya Regional Prosecutor’s Office.<br><br>Since 2025, Rustam Alijanovich has been serving as the Prosecutor of Termez city. He holds the rank of Junior Counselor of Justice.<br><br>With his professional experience and expertise, he is recognized as a highly qualified specialist effectively serving in law enforcement agencies. |
+| `famousGraduateDetailPanjievaNigoraBody` | Panjieva Nigora Normakhmatovna is a responsible and experienced specialist who has earned a respectable place in the energy sector of Surkhandarya region and is recognized as one of the leading professionals in the field of accounting.<br><br>She was born on February 14, 1979, in Termez city, Surkhandarya region. In 2001, she graduated from the full-time program of Termez State University with a degree in Management. In 2025, she completed her master’s degree in Economics at Termez University of Economics and Service.<br><br>Nigora Normakhmatovna began her professional career in 2002 as an economist and, within a short period, gained strong knowledge and valuable experience in her field. Afterwards, she worked successfully in various positions within the Surkhandarya Territorial Electric Networks system. Since 2016, she has been serving as Chief Accountant, actively contributing to the modernization of accounting practices.<br><br>Since 2023, she has been working as the Chief Accountant of the Central Accounting Department at the Surkhandarya regional branch of JSC “Regional Electric Networks.”<br><br>Panjieva Nigora Normakhmatovna has earned the respect of her colleagues for her honesty, precision, and responsibility in the field of accounting and economics. Her commitment to work and strong leadership skills have significantly contributed to increasing efficiency in the sector. |
+| `famousGraduateDetailSadatovOltiboyBody` | Born on August 23, 1976, in Sherobod district, Surkhandarya region. From an early age, his personal qualities such as a passion for knowledge, diligence, and initiative were evident. In 2006, he graduated in absentia from Karshi State University with a degree in socio-economic studies. In 2025, he successfully completed his Master’s degree in Economics at the Termez University of Economics and Service.<br><br>From 1995 to 1998, he worked as a private entrepreneur. Since 1998, he continued his career in the education sector. He first served as Deputy Director for administrative affairs and an accountant at the Specialized Boarding Lyceum for Gifted Children No. 17 in Termez district. Between 2009 and 2011, he worked as Chief Accountant at the Termez District Statistics Department and at the Termez Pedagogical College. During this time, he stood out for his accuracy in accounting, responsibility, and systematic approach.<br><br>From 2011 to 2018, he worked as Chief Accountant and Economics teacher at the Termez College of Preschool Education and Service. There he not only managed financial matters but also taught economics to young students, contributing to their professional training.<br><br>In 2018, he was appointed Director of the same college and effectively managed the institution for one year. From 2019 onwards, Sadatov Oltiboy Nazarovich headed the Termez City Department of Public Education of Surkhandarya region, where he implemented wide-scale efforts to improve the quality of education, strengthen the material and technical base of schools, and raise teachers’ qualifications.<br><br>Since 2023, he has been serving as the Head of the Boysun District Department of Preschool and School Education. In this position, he has focused on improving the quality of the education system, creating favorable conditions for children’s all-round development, and enhancing the potential of pedagogical staff.<br><br>Over nearly 30 years of professional activity, Oltiboy Nazarovich has progressed from financial management in the education system to high-level leadership positions. Thanks to his experience, responsibility, and dedication to education, he is recognized today as one of the leaders making a valuable contribution to the development of the education system in Surkhandarya. |
+| `famousGraduateDetailTogayevRakhmatilloBody` | He was born on October 3, 1987, in Sariosiyo district of Surkhandarya region. From an early age, he was fond of art and actively engaged in social life, combining his studies with community activities.<br><br>In 2011, he graduated from the full-time department of Termez State University with a degree in Music Education. Later, in 2023, he completed the part-time program at the same university, specializing in Economics by sectors and industries. In 2025, he successfully obtained his master’s degree in Economics from Termez University of Economics and Service.<br><br>Togayev Rakhmatillo Ravzatovich began his professional career during his student years. From 2009 to 2010, he worked as an accountant at Preschool Educational Institution No. 12 in Termez district. Between 2011 and 2017, he served as Head of the Department of Culture and Enlightenment at the Surkhandarya Regional Council of the “Kamolot” Youth Social Movement, Chairman of the Uzun District Council, as well as Head of a department of the regional council and Chairman of the district council.<br><br>From 2019 to 2021, he worked as Deputy Hokim of Uzun district for Youth Policy, Social Development, and Spiritual-Enlightenment Affairs. During this period, he implemented numerous initiatives to ensure youth employment, organize meaningful leisure activities, and strengthen their spiritual upbringing.<br><br>In 2021, he served as Deputy Chairman of the Surkhandarya Regional Council of UzMTDP for Ideological Affairs and Information Policy. In the same year, he also worked as Chief Specialist for Cooperation with Religious Organizations at the Surkhandarya Regional Department of the Committee on Religious Affairs.<br><br>Since 2024, he has been serving as Deputy Hokim of Termez district for Youth Policy, Social Development, and Spiritual-Enlightenment Affairs. |
+| `famousGraduatesPageIntro` | Alumni of Termez University of Economics and Service recognized for their achievements and contributions. |
+| `famousGraduatesPageTitle` | Famous graduates |
+| `famousGraduatesReadMore` | Read more |
+| `faqA1` | Monday–Friday until 14:00 (lunch break 12:00–13:00) |
+| `faqA2BeforeLink` | The answer to this question is available  |
+| `faqA2LinkLabel` | here |
+| `faqA3BeforeLink` | Yes, of course we do. You can find it  |
+| `faqA3LinkLabel` | here |
+| `faqA4` | Yes, absolutely. |
+| `faqA5` | For the first period of study: passport and bachelor's degree. |
+| `faqPageIntro` | Find quick answers to common questions about applying to Termez University of Economics and Service. |
+| `faqPageTitle` | Frequently Asked Questions |
+| `faqQ1` | When are applications accepted? |
+| `faqQ2` | What do I need to bring? |
+| `faqQ3` | Do you have a license? |
+| `faqQ4` | Are your diplomas recognized throughout Uzbekistan? |
+| `faqQ5` | What documents are required for admission to the master's program? |
+| `financialStatementsActualVsTargetTitle` | 2024 Actual vs. 2025 Target |
+| `financialStatementsCorporateProfileTitle` | Corporate Profile |
+| `financialStatementsEurNetLabel` | Net result (2024) |
+| `financialStatementsEurNetNote` | 2025 target: €1,150,000 |
+| `financialStatementsEurNetValue` | €822,979 |
+| `financialStatementsEurTableSource` | Source: TUES Strategic Outlook / Analysis & Forecast, 2025, pp.42–43. "2025 (F)" denotes forecasted figures, not actuals. |
+| `financialStatementsEurTrajectoryTitle` | Turnover Growth Trajectory, 2022–2025 (Forecast) |
+| `financialStatementsEurTurnoverLabel` | Annual turnover (2024 actual) |
+| `financialStatementsEurTurnoverNote` | 2025 target: €29,400,000 (+25%) |
+| `financialStatementsEurTurnoverValue` | €23,513,684 |
+| `financialStatementsHeroAssetsLabel` | Total assets (2025) |
+| `financialStatementsHeroAssetsNote` | +32.6% growth |
+| `financialStatementsHeroAssetsValue` | $4.3M |
+| `financialStatementsHeroDisclaimer` | Figures above are drawn from the university's USD-denominated annual report. A parallel EUR-denominated report with 2025 forecasts appears later in this document (see "Strategic Outlook — EUR Report"). |
+| `financialStatementsHeroProfitLabel` | Net profit (2025) |
+| `financialStatementsHeroProfitNote` | Record performance |
+| `financialStatementsHeroProfitValue` | $1.3M |
+| `financialStatementsHeroTurnoverLabel` | Total turnover (2025) |
+| `financialStatementsHeroTurnoverNote` | +29.7% growth |
+| `financialStatementsHeroTurnoverValue` | $32.9M |
+| `financialStatementsHumanCapitalJobs` | New jobs projected: +100 |
+| `financialStatementsHumanCapitalP1` | TUES remains committed to regional development, projecting to surpass 500 permanent employees by the end of 2025 — representing more than 100 new jobs created relative to the 2024 actual headcount of 404. |
+| `financialStatementsHumanCapitalTarget` | Target staff by end of 2025: 500+ |
+| `financialStatementsHumanCapitalTitle` | Human Capital Impact |
+| `financialStatementsInstitution` | TERMEZ UNIVERSITY OF ECONOMICS AND SERVICE |
+| `financialStatementsKeyHighlight1` | Turnover has grown more than tenfold since 2022, from $3.0M to $32.9M. |
+| `financialStatementsKeyHighlight2` | Net profit has grown nearly 100x over the same period, from $14K to $1.3M. |
+| `financialStatementsKeyHighlight3` | Total assets stand at $4.3M, up 32.6% year-over-year. |
+| `financialStatementsKeyHighlight4` | Equity nearly doubled between 2024 and 2025, from $1.49M to $2.75M. |
+| `financialStatementsKeyHighlightsTitle` | Key Highlights |
+| `financialStatementsNote1` | Figures in Section 2 are actual, audited results reported in US dollars for fiscal years 2022–2025. |
+| `financialStatementsNote2` | Figures in Section 3 combine actual 2024 results with 2025 targets/forecasts, reported in euros. |
+| `financialStatementsNote3` | Because the two reports use different currencies and, in the case of 2025, different bases (actual vs. forecast), totals should not be added across sections. |
+| `financialStatementsNote4` | All figures are drawn directly from TUES's 2025 Annual Report (pages 41–43). |
+| `financialStatementsPageTitle` | Financial Statements |
+| `financialStatementsProfileFounded` | Founded |
+| `financialStatementsProfileFoundedValue` | 13 September 2022 |
+| `financialStatementsProfileLocation` | Location |
+| `financialStatementsProfileLocationValue` | Termez, Uzbekistan |
+| `financialStatementsProfileRector` | Rector |
+| `financialStatementsProfileRectorValue` | Absamatov Anvar Ergashevich |
+| `financialStatementsProfileTaxId` | Tax ID (INN) |
+| `financialStatementsProfileTaxIdValue` | 309 861 576 |
+| `financialStatementsRowAnnualTurnover` | Annual Turnover |
+| `financialStatementsRowEmployees` | Employees |
+| `financialStatementsRowEquity` | Equity |
+| `financialStatementsRowEquityCapital` | Equity Capital |
+| `financialStatementsRowNetProfit` | Net Profit |
+| `financialStatementsRowNetResult` | Net Result |
+| `financialStatementsRowStaffActual` | Staff (Actual) |
+| `financialStatementsRowTotalAssets` | Total Assets |
+| `financialStatementsRowTurnover` | Turnover |
+| `financialStatementsSection1P1` | In 2025, Termez University of Economics and Service (TUES) reported strong, sustained financial growth. Annual turnover reached $32.9 million, a 29.7% increase over 2024, while net profit climbed to a record $1.3 million and total assets grew 32.6% to $4.3 million. |
+| `financialStatementsSection1P2` | These results mark a shift from the university's earlier rapid-growth phase toward a more sustainable, mature financial footing. The consistent turnover and profit growth across four consecutive years demonstrate an increasing capacity to manage substantial funds — a key factor supporting the long-term viability of the proposed BMZ/developPP partnership commitments. |
+| `financialStatementsSection1Title` | 1. Executive Summary |
+| `financialStatementsSection2Intro` | The table below summarizes TUES's core financial indicators from 2022 through 2025, as reported in the university's USD-denominated annual results. |
+| `financialStatementsSection2Title` | 2. Financial Performance (USD) |
+| `financialStatementsSection3Intro` | A companion report presents TUES's results in euros, combining 2024 actuals with 2025 targets. Figures in this section are drawn from that EUR-denominated report and should not be combined directly with the USD figures above, as they reflect different currencies and, in places, forecasted rather than actual results. |
+| `financialStatementsSection3Title` | 3. Strategic Outlook — EUR Report |
+| `financialStatementsSection4Title` | 4. Notes on This Summary |
+| `financialStatementsStaffActualValue` | 404  (Target 2025: 505) |
+| `financialStatementsStrategicSummaryP1` | The 2025 results highlight TUES's transition from a rapid growth phase to sustainable maturity. With a 29.7% increase in annual turnover and a solid net profit margin, the university has established a strong economic foundation. These figures verify TUES's capacity to manage substantial funds, supporting the successful implementation and long-term viability of the proposed BMZ/developPP project commitments. |
+| `financialStatementsStrategicSummaryTitle` | Strategic Financial Summary |
+| `financialStatementsTableCol2022` | 2022 |
+| `financialStatementsTableCol2023` | 2023 |
+| `financialStatementsTableCol2024` | 2024 |
+| `financialStatementsTableCol2024Actual` | 2024 (Actual) |
+| `financialStatementsTableCol2025` | 2025 |
+| `financialStatementsTableCol2025F` | 2025 (F) |
+| `financialStatementsTableColDetail` | Detail |
+| `financialStatementsTableColField` | Field |
+| `financialStatementsTableColIndicator` | Indicator |
+| `financialStatementsTableColYear` | Year |
+| `financialStatementsTagline` | Annual Results & Strategic Outlook — 2025 |
+| `financialStatementsTurnoverGrowthTitle` | Turnover Growth, 2022–2025 |
+| `financialStatementsUsdTableSource` | Source: TUES Financial Report, "Financial Performance Table (USD)", 2025 Annual Results, p.41. |
+| `fineAppliedArtsClubHeroSrc` | /images/community-clubs/fine-and-applied-arts-club.png |
+| `fineAppliedArtsClubPageBody` | Organizing meaningful leisure activities for youth, guiding them toward professions, and shaping their aesthetic taste are among the top priorities of the educational process. The “Fine and applied arts” club, established at the Termez University of Economics and Service, is a creative haven that fosters not only artistic skills but also patience, taste, and industriousness in students.<br><br>One of the most important directions of the club’s activities is painting. Here, students master practical skills alongside the theoretical foundations of fine arts. They are taught step-by-step the harmony of colors, composition building, the laws of light and shadow, and the secrets of portrait and landscape painting. Young creators learn to embody the world of their imagination using simple paper and paint. Every painting is not just an image, but an expression of the young soul’s inner feelings, dreams, and outlook on life. During the lessons, the club leader, Madina Jurayeva, encourages each student to think independently and find their own style, taking into account their individual abilities.<br><br>“The club has been operating since 2024. To date, more than 200 graduates have completed the course and been awarded special certificates. The club’s activities harmonize national traditions with modern trends. In particular, straw art lessons cultivate patience and refined taste in students. Ordinary pieces of straw turn into elegant landscapes, national patterns, or decorative compositions under skillful hands. This process educates youth in a spirit of respect for the rich heritage of applied arts. Additionally, one of the modern directions—resin art—is also included in the club’s program. Students learn to create various decorative items, souvenirs, and ornaments using transparent resin. Products created with a blend of colors, dried flowers, glittery elements, and various shapes are bright examples of modern taste and a creative approach,” says Madina Jurayeva.<br><br>The club also functions as a small production workshop. Here, students master the secrets of making diadems, various jewelry, bracelets, earrings, and other decorative accessories. Every item is created through a meticulously planned process, from the initial design to the finished product. These activities, which are especially interesting for female students, develop entrepreneurial skills along with shaping aesthetic taste. In fact, some graduates manage commercial pages on social media, selling their handmade items and earning their first income. Such results clearly demonstrate both the spiritual and practical significance of the club. The creative works prepared by the graduates deserve special attention, as they blend national spirit, modern design, and personal style.<br><br>“Our main goal in attending the club is not just making objects, but finding mental relaxation and increasing our self-confidence. Here, we learn not only art but also life skills. Working in a team, respecting each other’s opinions, positive thinking, completing every task with high taste, feeling responsibility, and waiting for the result with patience—all of these are formed during the creative process,” says club member Jasmina Begmatova.<br><br>The heart of every student who connects with art becomes refined, their taste elevated, and their thinking broadened. The “Fine and applied arts” club operates effectively in nurturing such a well-rounded generation. In conclusion, this club is not just a set of lessons; it is a true school of creativity where talents mature, dreams take flight, and the path to success opens through hard work. |
+| `fineAppliedArtsClubPageTitle` | Fine and applied arts club |
+| `healthSupportImage1Alt` | A medical professional in maroon scrubs taking a patient's blood pressure at the TUES Medical Hub |
+| `healthSupportImage1Src` | /images/student-life/health-support-medical-care.png |
+| `healthSupportImage2Alt` | A medical professional using diagnostic equipment with a patient at the TISU Med Hub |
+| `healthSupportImage2Src` | /images/student-life/health-support-diagnostics.png |
+| `healthSupportImage3Alt` | A medical professional performing a clinical examination on a patient at the TUES Medical Hub |
+| `healthSupportImage3Src` | /images/student-life/health-support-examination.png |
+| `healthSupportInclusiveClosing` | These measures reflect a broader view of wellbeing — one that includes physical accessibility, dignity, and equal participation, not just medical treatment. |
+| `healthSupportInclusiveHeading` | Inclusive Access for Every Student |
+| `healthSupportInclusiveIntro` | TUES is committed to making campus life accessible to everyone. A range of accommodations and support services help students with disabilities participate fully in academic and campus life, including: |
+| `healthSupportInclusiveList` | Ramps, adapted sanitary facilities, and designated accessible entry points<br>Mapped accessible routes and spaces around campus<br>Sign language support for students with hearing impairments<br>Assistive computer technology for students with visual impairments<br>Individually tailored academic support |
+| `healthSupportMentalClosing` | These programs are designed to ease the transition into university life, reduce everyday stress, and support a healthier, more balanced campus environment for everyone. |
+| `healthSupportMentalHeading` | Mental Health & Emotional Wellbeing |
+| `healthSupportMentalIntro` | The Psychological Support Center offers ongoing programs to help students, teachers, and staff build resilience and manage day-to-day pressures. This support is open to the whole campus community, not just students. |
+| `healthSupportMentalList` | Stress management and healthy thinking habits<br>Family and social wellbeing<br>Personal development and adjusting to university life |
+| `healthSupportMentalListLabel` | Regular sessions cover topics such as: |
+| `healthSupportPageIntro` | Your health and wellbeing matter to us. TUES provides an integrated network of on-campus medical, psychological, and inclusive support services — so you can focus on your studies knowing help is close by, whenever you need it. |
+| `healthSupportPageSubtitle` | Termiz University of Economics and Service (TUES) |
+| `healthSupportPageTitle` | Health, Wellbeing & Support Services |
+| `healthSupportPhysicalClosing` | Because the Medical Hub operates permanently on campus, urgent and everyday health needs can be addressed quickly — without interrupting your studies or work. |
+| `healthSupportPhysicalHeading` | Medical Care On Campus |
+| `healthSupportPhysicalIntro` | The TUES Medical Hub is our on-campus healthcare facility, open 24/7 throughout the academic year. It's the first place to turn for anything from a routine check-up to urgent care. |
+| `healthSupportPhysicalList` | General medical consultations and health assessments<br>Treatment for minor injuries and illnesses, plus first aid<br>Basic diagnostics and preventive health checks<br>Referrals to hospitals and specialist clinics when needed |
+| `healthSupportPhysicalListLabel` | What you can access at the Medical Hub: |
+| `healthSupportReproductiveBody` | Reproductive health is treated as a normal, important part of overall wellbeing. Alongside routine consultations at the Medical Hub, the Psychological Support Center runs regular seminars and round-table sessions covering reproductive health and healthy lifestyle habits.<br><br>If you need more personalised guidance, staff can connect you with further consultation or specialist referral pathways. |
+| `healthSupportReproductiveHeading` | Reproductive & Sexual Health |
+| `healthSupportStat1Label` | Medical Hub open every day, all year |
+| `healthSupportStat1Value` | 24/7 |
+| `healthSupportStat2Label` | student visits in the last reporting year |
+| `healthSupportStat2Value` | 11,000+ |
+| `healthSupportSummaryClosing` | Together, these services form a single, connected support system — helping every member of the TUES community stay healthy, supported, and able to thrive, both in and out of the classroom. |
+| `healthSupportSummaryHeading` | Everything In One Place |
+| `healthSupportSummaryIntro` | In short, TUES brings together: |
+| `healthSupportSummaryList` | Immediate and routine physical healthcare<br>Preventive care and health education<br>Reproductive health awareness and guidance<br>Mental health and psychosocial support for students and staff<br>Referral coordination for advanced medical needs<br>Accessibility and accommodation for students with disabilities |
+| `help247AcademicItems` | Information about courses, schedules, and assessments<br>Guidance on online learning platforms<br>Exam and registration assistance |
+| `help247AcademicTitle` | Academic Support |
+| `help247AdministrativeItems` | Admissions and enrollment inquiries<br>Documentation requests<br>Tuition and payment guidance<br>Policy and procedure information |
+| `help247AdministrativeTitle` | Administrative Assistance |
+| `help247CareerItems` | Career Centre inquiries<br>Internship and job portal support<br>Event information<br>Student activities guidance |
+| `help247CareerTitle` | Career and Student Services |
+| `help247PageIntro` | The 24/7 Help Centre at Termez University of Economics and Service provides continuous support to students, staff, and prospective applicants by ensuring that assistance is available anytime, from any location. The Help Centre serves as a central digital support hub designed to address academic, technical, administrative, and career-related inquiries efficiently. |
+| `help247PageTitle` | 24/7 Help Centre |
+| `help247PurposeBody` | The purpose of the 24/7 Help Centre is to deliver timely, accessible, and user-friendly support that enhances the student experience, improves service delivery, and ensures uninterrupted access to university resources and information. |
+| `help247PurposeHeading` | Purpose |
+| `help247ServicesHeading` | Services Provided |
+| `help247TechnicalItems` | Help with university systems and portals<br>Login and account recovery<br>Learning platform troubleshooting<br>IT service requests |
+| `help247TechnicalTitle` | Technical Support |
+| `howToApplyContactHeading` | Get in touch |
+| `howToApplyContactIntro` | Send your application or reach out with any questions. |
+| `howToApplyEmailLabel` | Email |
+| `howToApplyPageIntro` | Follow the steps below to apply for a position at Termez University of Economics and Service. |
+| `howToApplyPageTitle` | How to Apply |
+| `howToApplyPhoneLabel` | Phone |
+| `howToApplyStep1Body` | Send us your most recent Curriculum Vitae (PDF format preferred). |
+| `howToApplyStep1Title` | Submit your CV |
+| `howToApplyStep2Body` | If you are a good candidate, we will invite you for an initial interview. |
+| `howToApplyStep2Title` | Interview invitation |
+| `howToApplyStep3Body` | Additional interview rounds depend on the role and are tailored accordingly. |
+| `howToApplyStep3Title` | Further interviews |
+| `hubPagesList` | Pages in this section |
+| `informationTransferCabinet578HeroAlt` | Illustration of a laptop, books, and official documents on a blue background — thematic graphic for education regulations. |
+| `informationTransferCabinet578LoadError` | The document could not be loaded. Please try again later. |
+| `informationTransferCabinet578Loading` | Loading document… |
+| `informationTransferCabinet578NavNext` | Next section |
+| `informationTransferCabinet578NavPrevious` | Previous section |
+| `informationTransferCabinet578OnThisPage` | On this page |
+| `informationTransferCabinet578PageIndicator` | Page {{current}} of {{total}} |
+| `informationTransferCabinet578PageNavAria` | Previous and next section links |
+| `informationTransferCabinet578PageTitle` | Cabinet of Ministers resolution No. 578 — regulatory acts on admission to higher education (full text, Uzbek) |
+| `informationTransferCabinet578PaginationAria` | Document pages |
+| `informationTransferCabinet578TabApp1` | 1. Bachelor admission |
+| `informationTransferCabinet578TabApp2` | 2. Master’s admission |
+| `informationTransferCabinet578TabApp3` | 3. Transfer & expulsion |
+| `informationTransferCabinet578TabApp4` | 4. Academic mobility |
+| `informationTransferCabinet578TabApp5` | 5. Government amendments |
+| `informationTransferCabinet578TabApp6` | 6. Repealed decisions |
+| `informationTransferCabinet578TabResolution` | Main resolution |
+| `informationTransferEducationCard1Title` | Resolution of the Cabinet of Ministers of the Republic of Uzbekistan |
+| `informationTransferEducationPageIntro` | Official references on transferring studies at Termez University of Economics and Service. Select a topic below. |
+| `informationTransferEducationPageTitle` | Information about transfer of education |
+| `interfacultyTheatreStudioHeroSrc` | /images/community-clubs/interfaculty-student-theatre-studio-contest.png |
+| `interfacultyTheatreStudioPageIntro` | Termez University of Economics and Service organized an interfaculty “Student Theatre Studio” contest aimed at further developing students’ spiritual and educational activity, promoting stage culture, and encouraging artistic creativity.<br><br>Teams from all university faculties took an active part in the event, presenting performances based on the masterpieces of Uzbek literature, modern plays, and socially themed productions. Each performance stood out for its originality, artistic expression, and the students’ creative approach. |
+| `interfacultyTheatreStudioPageOutro` | The event served not only as a platform to showcase students’ artistic potential but also contributed to the development of their stage culture, teamwork, and creative skills.<br><br>Termez University of Economics and Service continues to support the cultural and spiritual growth of its students alongside their academic and intellectual achievements. |
+| `interfacultyTheatreStudioPageTitle` | “Student theatre studio” contest held at TUES |
+| `interfacultyTheatreStudioResultsLead` | According to the results of the contest: |
+| `interfacultyTheatreStudioResultsList` | 1st place — Faculty of Pedagogy and Social-Humanitarian Sciences<br>2nd place — Faculty of Medicine<br>3rd place — Faculty of Economics and Information Technologies |
+| `internationalConferencesCard1BreadcrumbLabel` | International scientific conference in TUES |
+| `internationalConferencesCard1DetailBody` | On April 25–26, Termez University of Economics and Service hosted an international scientific and practical conference on “Actual problems of education and upbringing in the context of digital transformation.”<br><br>In the morning, a solemn welcoming ceremony was held for the participants. The faculty of our university, as well as representatives of other leading higher educational institutions of the republic, warmly welcomed guests from Tajikistan, Kenya, South Africa and Russia.<br><br>The international scientific conference was attended by renowned scientists: Samuel Nyabere from the Republic of Kenya, Khan Adhel from South Africa, as well as professors from Termez State University, Bukhara State University, Tajik National University and Adygea State University in the Russian Federation.<br><br>Issues related to the modernization of the higher education system were discussed at the event. The participants emphasized that it is necessary to take into account the needs of the social sphere and various sectors of the economy.<br><br>It was proposed to ensure close integration of science, education and production in order to train highly qualified personnel who will be competitive in the labor market. During the discussion, problems and ways to solve them within the framework of an effective organization of scientific and innovative activities were considered.<br><br>Special attention was paid to the introduction of advanced pedagogical experience and innovative solutions. The participants shared the results of their research and discussions, and discussed scientific and practical achievements in this field.<br><br>In addition, such important issues as child rearing in the context of globalization and the prospects for the development of education became the focus of attention. Topical issues of environmental protection, public health and healthcare, as well as the improvement of the digital economy and information technology were discussed. The socio-philosophical aspects of the formation of the information society were also considered. |
+| `internationalConferencesCard1HeroAlt` | Participants at the international scientific and practical conference at Termez University of Economics and Service |
+| `internationalConferencesCard1PageTitle` | International scientific and practical conference: “Actual problems of education and upbringing in the context of digital transformation” |
+| `internationalConferencesCard1Title` | International scientific conference in TUES |
+| `internationalConferencesCard2BreadcrumbLabel` | Tourism sector conference — international experience (May 2025) |
+| `internationalConferencesCard2DetailBody` | On May 17–18, 2025, Termez University of Economics and Service hosted an international scientific and practical conference titled “International experience: prospects for the development of the tourism sector in the context of education modernization,” held in cooperation with the Ministry of Higher Education, Science and Innovation.<br><br>The conference was organized to modernize contemporary educational processes, make effective use of global experience in the tourism sector, and strengthen integration between science and practice.<br><br>Representatives of prestigious higher education institutions and research centers took part in the event, including:<br><br>Western Caspian University (Azerbaijan),<br><br>the Research Center “Scientific foundations and problems of economic development of Uzbekistan” under Tashkent State University of Economics,<br><br>Termez State University,<br><br>Urgench State University,<br><br>Denau Institute of Entrepreneurship and Pedagogy,<br><br>Alfraganus University.<br><br>Professors, researchers, and specialists from these institutions delivered presentations on topics such as modernization of the education system, innovative approaches to tourism development, the role of digital technologies, sustainable tourism development, and international cooperation.<br><br>Discussions covered tourism development in the context of education modernization, training competitive professionals for the tourism industry, accounting and statistics in the era of digital transformation, modern trends in the service sector, and opportunities for academic exchange and joint research projects.<br><br>The event served both as a platform for sharing international experience and as an important step toward implementing innovative projects in education and tourism.<br><br>At the conclusion of the conference, participants’ scientific articles were expected to be published in a collection, and a memorandum of cooperation was planned to be signed to further strengthen scientific and practical cooperation in education and tourism. |
+| `internationalConferencesCard2HeroAlt` | Opening session of the international scientific and practical conference on tourism and education modernization at Termez University of Economics and Service |
+| `internationalConferencesCard2PageTitle` | International experience: prospects for the development of the tourism sector in the context of education modernization |
+| `internationalConferencesCard2Title` | International scientific and practical conference: Cooperation and experience exchange in the direction of modernizing the tourism sector |
+| `internationalConferencesCard3BreadcrumbLabel` | Preventive medicine conference at TUES |
+| `internationalConferencesCard3DetailBody` | A two-day national scientific-practical conference titled “Current issues in preventive medicine: from disease prevention to high-tech treatment” was held at Termez University of Economics and Service.<br><br>From early in the morning, professors, lecturers, and students of the university’s Faculty of Medicine warmly welcomed guests attending the conference.<br><br>The conference brought together representatives of the Ministry of Health, medical professionals from all regions of Uzbekistan, professors, educators, and young research scientists. Professors from Avicenna State Medical University and the Tajik Medical and Social Institute of Tajikistan also took part.<br><br>The opening ceremony was held at Termez University of Economics and Service. Speakers included the university rector A. Sattarov; O. Ismoilov, Head of the Science, Education, and Innovation Department of the Ministry of Health; F. Shukurov, Head of the Department of Normal and Pathological Physiology at the Tajik Medical and Social Institute and Vice President of the Association of Physiologists of the CIS countries; and Rahmon Muhammadiyev, Hero of Uzbekistan, Honored Healthcare Worker, Head of the Ophthalmology Department at the Termez Branch of Tashkent Medical Academy. They addressed the significance of the conference, modern approaches in medicine, and current issues in preventive medicine.<br><br>Presentations focused on preventing widespread diseases globally and in Uzbekistan, early diagnostics, and effective treatment using advanced technologies.<br><br>Section meetings covered topics such as “Comparative Characteristics Between Avicenna’s Health Levels and Modern Classifications of the Body's Adaptive Capabilities”, “The Use of Xenotransplantation in Ophthalmic Surgery”, and “Improving the Treatment of Chronic Giardiasis.” |
+| `internationalConferencesCard3HeroAlt` | Faculty and guests at the opening of the national scientific-practical conference on preventive medicine at Termez University of Economics and Service |
+| `internationalConferencesCard3PageTitle` | Current issues in preventive medicine: from disease prevention to high-tech treatment |
+| `internationalConferencesCard3Title` | The opening of a scientific and practical conference took place at the TUES |
+| `internationalConferencesCard4BreadcrumbLabel` | Linguistics & language education (international conference) |
+| `internationalConferencesCard4DetailBody` | At Termez University of Economics and Service, a scientific-practical conference titled “Innovations in linguistics and language education: global trends and local perspectives” opened.<br><br>The conference focused on current developments in linguistics, integrating modern technologies into teaching, and adapting international experience to local contexts. Representatives of higher education institutions, research centers, foreign universities, and experienced specialists took part.<br><br>Distinguished international guests included:<br><br>Dr. Ahmad Bukhori Muslim, Universitas Pendidikan Indonesia<br><br>Amirsaid Sadikov, British Council Uzbekistan<br><br>Assoc. Prof. Aysel Khalilova, Azerbaijan State University of Economics<br><br>Prof. Dr. Sevtap Kadıoğlu, Istanbul University<br><br>Prof. Eri Kurniawan, Universitas Pendidikan Indonesia<br><br>Elmira Ismailova, Azerbaijan University<br><br>The conference opened with a welcoming speech by the university founder, J. Pardayev, who stressed the importance of innovation in education, stronger integration of science and practice, and adapting foreign experience to local conditions.<br><br>Vice-Rector for Research and Innovation S. Eshkarayev then addressed participants on the main goals and objectives of the event.<br><br>Among the first international speakers, Dr. Ahmad Bukhori Muslim (Universitas Pendidikan Indonesia) presented on “Innovations in Language Education: The Indonesian Experience.” |
+| `internationalConferencesCard4HeroAlt` | Participants at the scientific-practical conference on linguistics and language education at Termez University of Economics and Service |
+| `internationalConferencesCard4PageTitle` | Innovations in linguistics and language education: global trends and local perspectives |
+| `internationalConferencesCard4Title` | International conference at TUES |
+| `internationalConferencesCard5BreadcrumbLabel` | Global innovations in language education |
+| `internationalConferencesCard5DetailBody` | At an international scientific-practical conference, participants discussed current issues in language teaching. The event brought together foreign and local experts who shared their experiences.<br><br>Amirsaid Sadikov, Client Relations Manager of the British Council in Uzbekistan, delivered a detailed presentation on the latest updates in IELTS examinations, changes in the assessment system, and new approaches to the international certification process.<br><br>Professor Jennifer Johnston from Missouri State University discussed global trends in language education, innovative teaching methods, and ways to enhance learner motivation.<br><br>Professor Sevtap Kadıoğlu from Istanbul University spoke about language education at the Faculty of Literature of Istanbul University.<br><br>Associate Professor Aysel Khalilova of Azerbaijan State University of Economics and Elmira Ismaylova, Head of the International Relations Department at Azerbaijan University, emphasized the importance of language policy and education quality in the context of globalization. They outlined modern models of language assessment and approaches aligned with international standards.<br><br>Shinji Kamiyama, Director of Kamiyama Gakuin Japanese Language School, analyzed ways to develop independent thinking and learning responsibility through self-directed learning practices.<br><br>Santosh Kumari, a representative of the Ministry of Preschool and School Education of Uzbekistan, delivered a presentation titled “Revolution in language learning: the role of artificial intelligence in teaching English to foreign learners.” |
+| `internationalConferencesCard5HeroAlt` | Audience at the international scientific-practical conference on language education at Termez University of Economics and Service |
+| `internationalConferencesCard5PageTitle` | Global innovations and experiences in language education |
+| `internationalConferencesCard5Title` | Global innovations and experiences in language education under discussion |
+| `internationalConferencesCard6BreadcrumbLabel` | Linguistics & literary studies (international forum) |
+| `internationalConferencesCard6DetailBody` | Termez University of Economics and Service, in cooperation with the Ministry of Higher Education, Science and Innovation, hosted an international scientific and practical conference titled “Current issues in linguistics and literary studies.”<br><br>The conference aimed to promote research in linguistics and literary studies, explore international experience, and strengthen academic cooperation.<br><br>Scholars, professors, lecturers, and young researchers from Uzbekistan, Russia, Belarus, Tajikistan, and other countries took part, including:<br><br>Igor Leonovich Kopylov — Director of the Yakub Kolas Institute of Linguistics, Center for Belarusian Culture, Language and Literature Studies, National Academy of Sciences of Belarus;<br><br>Ivan Vasilievich Saverchenko — Director of the Yanka Kupala Institute of Literary Studies;<br><br>Kristina Grigoryevna Golubeva — Director at the N.A. Dobrolyubov Nizhny Novgorod State Linguistic University;<br><br>Poyon Uralovich Bakirov — Doctor of Philological Sciences, Professor at Termez State University;<br><br>Irina Vladimirovna Suljina — Coordinator of Educational Programs at the Representative Office of Rossotrudnichestvo under the Embassy of the Russian Federation;<br><br>Eraj Begijonovich Boyev — Candidate of Historical Sciences, Director of the Scientific and Educational Center for Oriental Studies, N.A. Dobrolyubov Nizhny Novgorod State Linguistic University;<br><br>Irina Vladimirovna Yelintseva — Candidate of Philological Sciences, Head of the Department of Belarusian–Russian Linguistic Relations, Yakub Kolas Institute of Linguistics;<br><br>Galina Borisovna Yesenova — Candidate of Philological Sciences, Leading Specialist of the Scientific Department, B.B. Gorodovikov Kalmyk State University;<br><br>Khusraw Jamshidovich Shambezoda — Doctor of Philological Sciences, Professor at the Department of Theoretical and Applied Linguistics, Russian–Tajik (Slavonic) University;<br><br>Azim Sodiqovich Aminov — Candidate of Philological Sciences, Associate Professor at the Russian–Tajik (Slavonic) University.<br><br>Professors and lecturers from Kokand State University and Yodju Technical Institute also presented their research.<br><br>The forum offered a platform for scholarly exchange, new research directions, and stronger cooperation across countries.<br><br>Reports were presented in areas including:<br><br>The Modern Russian Language: Current State and Development Trends;<br><br>Issues of Comparative Studies between Russian and Other Languages;<br><br>Theoretical and Practical Aspects of Teaching Russian in Schools and Universities;<br><br>Topical Issues in Communicative Linguistics;<br><br>Translation Theory: Problems and Solutions;<br><br>Theory and History of Literary Studies;<br><br>Interliterary Relations among Nations;<br><br>World Classical Literature and Its Contemporary Interpretations.<br><br>Participants exchanged experience, discussed joint research projects, and explored opportunities for future publications and collaboration. |
+| `internationalConferencesCard6HeroAlt` | Plenary hall during the international scientific and practical conference on linguistics and literary studies at Termez University of Economics and Service |
+| `internationalConferencesCard6PageTitle` | Current issues in linguistics and literary studies |
+| `internationalConferencesCard6Title` | International scientific and practical conference at TUES |
+| `internationalConferencesCard7BreadcrumbLabel` | Green transformation congress (SEPDER & TUES) |
+| `internationalConferencesCard7DetailBody` | Termez University of Economics and Service, in cooperation with the Turkish Association for Social and Economic Perspectives (SEPDER), hosted an international congress titled “Sustainability-oriented green transformation: cross-sectoral approaches.” The scientific forum examined social policy, sustainable development, green economy, digital transformation, innovative education, and artificial intelligence.<br><br>Renowned scholars, politicians, experts, and specialists from Uzbekistan and abroad took part. During the opening ceremony, Vice-Rector for Science and Innovations S. Eshkarayev and Vice-Rector for International Cooperation Sh. Otamurodov delivered welcome speeches on the goals and significance of the event.<br><br>Notable guests included:<br><br>Abdullah Selim Dogan, Chairman of the Organizing Committee, emphasized the importance of the meeting, noting that green transformation and sustainable development are crucial for the economy, society, and the environment.<br><br>Osman Akgul, Chairman of SEPDER, described the congress as a unique platform for exchanging views and developing cross-sectoral approaches. He stressed that science, technology, and innovative education play an essential role in ensuring global sustainability.<br><br>Jeren Turkman of Sakarya University analyzed sectoral approaches to the green economy and sustainable development. She also highlighted the importance of stronger scientific cooperation between Turkey and Uzbekistan, including experience exchange and joint project development.<br><br>Main focus areas of the congress:<br><br>Sustainable development and green economy — Participants explored links between sustainable economic growth and environmental stability, emphasizing green technologies and efficient resource management.<br><br>Digital transformation — Discussions covered how digital technologies shape the economy and support sustainable development, including artificial intelligence and digital infrastructure.<br><br>Innovative education — The congress addressed innovative education systems and equipping youth with modern knowledge, including integrating new technologies into teaching and learning.<br><br>Social and environmental policy — Sessions examined the role of public policy in social and environmental challenges and the development of sustainability-oriented strategies.<br><br>The congress organized by Termez University of Economics and Service and SEPDER underscored the value of cross-sectoral approaches and scientific cooperation. Such events advance knowledge exchange and support sustainable development and green transformation worldwide. |
+| `internationalConferencesCard7HeroAlt` | Participants at the II International Social Policies Congress hosted by Termez University of Economics and Service and SEPDER |
+| `internationalConferencesCard7PageTitle` | Sustainability-oriented green transformation: cross-sectoral approaches |
+| `internationalConferencesCard7Title` | International congress held at TUES |
+| `internationalConferencesCard8BreadcrumbLabel` | Medical Olympiad “Termez–2026” |
+| `internationalConferencesCard8DetailBody` | The opening ceremony of the 1st International Medical Olympiad “Termez–2026” was held at Termez University of Economics and Service.<br><br>Teams from international universities in Tajikistan, Kyrgyzstan, and other countries are taking part in the Olympiad. The event has brought together more than 100 talented students and representatives from more than 10 foreign and over 50 national higher education institutions, who will demonstrate their knowledge and academic potential across disciplines.<br><br>The ceremony was officially opened by Rector of Termez University of Economics and Service A. Absamatov. The event was also attended by A. Ibragimov, Director of the Institute of General and Inorganic Chemistry of the Academy of Sciences of the Republic of Uzbekistan, member of the International Union of Pure and Applied Chemistry (IUPAC), Doctor of Chemical Sciences and Professor; A. Knesheva, Assistant of the Department of Pathological Anatomy at the I. K. Akhunbaev Kyrgyz State Medical Academy; and M. Yusupov, Associate Professor of the Department of Physiology at Samarkand State Medical University, who delivered speeches on the importance of the international Olympiad.<br><br>It was emphasized that the Olympiad is not only a test of students’ knowledge but also an opportunity for scientific exchange, broader academic cooperation, and new connections among young scientists and researchers.<br><br>Within the 1st International Medical Olympiad “Termez–2026”, participants will compete in theoretical and practical stages in the designated subjects to achieve the strongest results. |
+| `internationalConferencesCard8HeroAlt` | Participants and organizers at the opening ceremony of the 1st International Medical Olympiad Termez–2026 at Termez University of Economics and Service |
+| `internationalConferencesCard8PageTitle` | The 1st International Medical Olympiad “Termez–2026” |
+| `internationalConferencesCard8Title` | The 1st International Medical Olympiad “Termez–2026” |
+| `internationalConferencesPageIntro` | Overview of international scientific and practical events held at Termez University of Economics and Service. Titles below reflect past and announced activities in this area. |
+| `internationalConferencesPageTitle` | International conferences |
+| `internationalGrantJapanApplicationPeriod` | Application period: from June 1 to June 30, 2025. |
+| `internationalGrantJapanBenefitsHeading` | Program benefits include: |
+| `internationalGrantJapanBenefitsItems` | – A monthly stipend of $1,432<br>– Round-trip airfare<br>– A settlement allowance of $781<br>– Health insurance coverage |
+| `internationalGrantJapanBreadcrumbLabel` | Matsumae Foundation — research grant in Japan |
+| `internationalGrantJapanHeroAlt` | Traditional Japanese castle with cherry blossoms, representing research opportunities in Japan |
+| `internationalGrantJapanPageTitle` | Matsumae International Foundation: A fully funded research opportunity in Japan in any field of study! |
+| `internationalGrantJapanParagraph1` | The program is open to candidates who hold a PhD degree and have a sufficient command of the English language. |
+| `internationalGrantJapanParagraph2` | The program allows researchers to conduct studies in Japan for a period of 3 to 6 months. |
+| `internationalGrantMextApplicationDeadline` | Application deadline: January 30, 2026. |
+| `internationalGrantMextApplicationInstructions` | Applicants must complete the designated application form and independently submit all required documents to the Embassy of Japan in Uzbekistan. |
+| `internationalGrantMextBreadcrumbLabel` | MEXT Japan — 2026 announcement |
+| `internationalGrantMextEmbassyIntro` | Applicants wishing to participate in the selection process are required to review the application procedures and detailed information about the programs on the official website of the Embassy of Japan in Uzbekistan: |
+| `internationalGrantMextForMoreInfoLabel` | For more information: |
+| `internationalGrantMextHeroAlt` | Japanese temple and cherry blossoms — MEXT programs for Japanese language, culture, and teacher training |
+| `internationalGrantMextLead` | The Ministry of Education, Culture, Sports, Science and Technology of Japan (MEXT) announces the following academic programs for study and professional development at Japanese higher education institutions in 2026: |
+| `internationalGrantMextNote` | Note: strict adherence to the specified deadline is required when submitting documents. |
+| `internationalGrantMextPageTitle` | Japan (MEXT): Academic programs for study and professional development at Japanese universities — 2026 announcement |
+| `internationalGrantMextProgram1` | “Japanese language and culture” — for university students; |
+| `internationalGrantMextProgram2` | “Training program for primary and secondary school and lyceum teachers.” |
+| `internationalGrantsCard1Title` | Research grant in Japan in any field of study |
+| `internationalGrantsCard2Title` | 10-month fully funded professional development opportunity in the USA! |
+| `internationalGrantsCard3Title` | ANNOUNCEMENT! |
+| `internationalGrantsPageIntro` | Explore funding and professional development opportunities linked to international cooperation at Termez University of Economics and Service. Select a topic below for highlights. |
+| `internationalGrantsPageTitle` | International grants |
+| `internationalGrantUsaApplicationDeadline` | Application deadline: July 4, 2025 |
+| `internationalGrantUsaBenefitsHeading` | Program benefits include: |
+| `internationalGrantUsaBenefitsItems` | – Coverage of university admission test fees<br>– Assistance in obtaining a J-1 visa<br>– Economy-class round-trip airfare to and from the U.S.<br>– Health insurance<br>– Monthly stipend<br>– Professional development allowance<br>– Tuition and other university-related fees covered |
+| `internationalGrantUsaBreadcrumbLabel` | Humphrey Fellowship — USA |
+| `internationalGrantUsaHeroAlt` | Hubert H. Humphrey Fellowship Program fellows at the U.S. Capitol — a Fulbright Exchange Program sponsored by the U.S. Department of State |
+| `internationalGrantUsaPageTitle` | Humphrey Fellowship Program: A 10-month professional development opportunity in the United States — all expenses covered! |
+| `internationalGrantUsaParagraphEligibility` | Eligible applicants must have at least a bachelor's degree, a minimum of 5 years of work experience, and proficiency in English. |
+| `internationalSupportCenterCard1BreadcrumbLabel` | About |
+| `internationalSupportCenterCard1DetailBody` | ## About the International Support Center<br><br>The International Support Center (ISC) at Termez University of Economics and Service provides comprehensive assistance to international students, researchers, and visiting faculty members. Our mission is to ensure that international students feel welcomed, supported, and well integrated into academic and social life at the university. The center offers guidance on immigration procedures, academic adaptation, language support, and cultural integration.<br><br>## Immigration and Visa Support<br><br>The International Support Center assists international students with immigration and visa-related procedures, including:<br><br>•    Visa application and extension guidance<br>•    Registration with local migration authorities<br>•    Residence permit support<br>•    Invitation letters for international students and scholars<br>•    Consultation on legal requirements for studying in Uzbekistan<br><br>## Responsible Officer for Immigration Support<br><br>Askarov Abror<br>Lead specialist of the university's international cooperation department<br>Email: international@tues.uz<br>Tel: +998 412 07 07<br>Office hours: Monday–Friday, 08:00–17:00<br><br>## Arrival and Orientation Support<br><br>To help new students adapt to university life, the center organizes orientation activities such as:<br><br>•    International student orientation sessions<br>•    Campus introduction and academic guidance<br>•    Assistance with accommodation and registration<br>•    Information sessions about living in Uzbekistan<br><br>## Language Support Programs<br><br>International students can improve their language skills through special courses offered by the university:<br><br>•    Uzbek language courses<br>•    Russian language courses<br>•    English language improvement programs<br>•    Academic writing and communication workshops<br><br>Language support resources are available here:<br><br>https://tues.uz/resource/view/166<br><br>## Academic Support<br><br>The center provides academic guidance to help international students succeed in their studies:<br><br>•    Academic advising and consultation<br>•    Assistance with course selection<br>•    Support in communication with faculty members<br>•    Information on academic regulations and policies<br><br>## Cultural and Social Integration<br><br>To promote intercultural understanding and student engagement, the center organizes various events:<br><br>•    Cultural exchange events<br>•    International student meetings<br>•    Participation in university festivals and celebrations<br>•    Networking events with local and international students<br><br>## Student Support and Counseling<br><br>The International Support Center offers general guidance and support for students who may face challenges during their studies.<br><br>•    Adjustment to a new academic environment<br>•    Social integration<br>•    Student welfare guidance<br>•    Referral to relevant university services when necessary<br><br>## Contact Information<br><br>International Support Center<br>Termez University of Economics and Service<br><br>Email: international@tues.uz<br>Phone: +998 55 452 77 77<br><br>Office Hours:<br>Monday – Friday<br>08:00 – 17:00 |
+| `internationalSupportCenterCard1HeroAlt` | Globe with headset icon representing international support and assistance services. |
+| `internationalSupportCenterCard1PageTitle` | About the International Support Center |
+| `internationalSupportCenterCard1Title` | International Support Center |
+| `internationalSupportCenterPageIntro` | Services and entry points for international students, partners, and visitors at Termez University of Economics and Service. Select a topic below. |
+| `internationalSupportCenterPageTitle` | International Support Center |
+| `intlRelRoleHeadHeroAlt` | Portrait of Mokhirukh Muzaffarovna Khoshimkhojaeva, Head of the Department of International Cooperation |
+| `intlRelRoleHeadPersonName` | Mokhirukh Muzaffarovna Khoshimkhojaeva |
+| `intlRelRoleHeadResponsibilitiesHeading` | Job responsibilities: |
+| `intlRelRoleHeadRoleLabel` | Head of the Department of international cooperation of the University |
+| `intlRelRoleLeadHeroAlt` | Portrait of Asqarov Abror Sobirovich, Lead specialist of the university's international cooperation department |
+| `intlRelRoleLeadPersonName` | Asqarov Abror Sobirovich |
+| `intlRelRoleLeadResponsibilitiesHeading` | Areas of responsibility |
+| `intlRelRoleLeadRoleLabel` | Lead specialist of the university's international cooperation department |
+| `intlRelRoleViceRectorHeroAlt` | Portrait of Shavkat Nusratillayevich Otamurodov, Vice-rector for international cooperation |
+| `intlRelRoleViceRectorPersonName` | Shavkat Nusratillayevich Otamurodov |
+| `intlRelRoleViceRectorResponsibilities` | · Organizing the university's international cooperation activities and ensuring the training of qualified personnel in accordance with international educational standards.<br>· Establishing academic, scientific, and practical collaboration with foreign higher education institutions; preparing proposals for joint faculties and departments.<br>· Studying development trends in foreign educational systems and assisting in the implementation of advanced methods and technologies.<br>· Organizing the effective use of distance learning, innovative pedagogical approaches, and ICT (Information and Communications Technology).<br>· Facilitating faculty development and student exchange programs at foreign universities, and preparing talented youth for foreign grants and scholarships.<br>· Managing and supervising activities of visiting educators from foreign higher education institutions.<br>· Organizing conferences and seminars with partner foreign educational institutions.<br>· Overseeing the ongoing enrichment of the library collection with foreign educational-methodological and scientific literature.<br>· Conducting internal institutional licensing and preparing for external accreditation under agreements of international cooperation.<br>· Analyzing the annual activities of faculties, departments, and divisions in the area of international cooperation, drawing conclusions, and implementing measures for improvement.<br>· Possessing comprehensive knowledge of Uzbek legislation and internal regulatory documents concerning international cooperation, and ensuring their implementation. |
+| `intlRelRoleViceRectorResponsibilitiesHeading` | Areas of responsibility |
+| `intlRelRoleViceRectorRoleLabel` | Vice-rector for international cooperation |
+| `leaderGirlsClubHeroSrc` | /images/community-clubs/leader-girls-club.png |
+| `leaderGirlsClubIntro` | Today, strengthening the role and status of women in society and unlocking their potential has become one of the priority directions of our country’s state policy. The Strategy for Achieving Gender Equality in the Republic of Uzbekistan until 2030, approved by the Resolution of the Senate of the Oliy Majlis of the Republic of Uzbekistan dated February 10, 2024, has elevated reforms in this area to a new stage. Based on these very goals, the “Leader girls club” was established at Termez University of Economics and Service as a community-based organization, operating as a unique platform that brings together the most active, talented, and initiative-driven female students of the university. |
+| `leaderGirlsClubOutro` | The “Leader girls club” at Termez University of Economics and Service, with its 110 members today, continues to operate as a vital platform for nurturing young, talented, and initiative-driven women who are building the future of our country. The club serves not only to enhance the academic and professional potential of female students but also to prepare them for responsible positions in various branches of public administration. It can be said with confidence that the young women nurtured in this club will make a worthy contribution to the development of our country in the future. |
+| `leaderGirlsClubPageTitle` | Leader girls club |
+| `leaderGirlsClubS1Body` | The primary goal of the “Leader girls club” is to transform active, initiative-driven female students with modern knowledge into true leaders, attract them to public civil service, and nurture them in the spirit of patriotism. The club unites young women aged 18 to 30 who possess leadership and public speaking skills, regardless of nationality or race.<br><br>The club carries out a number of important tasks. First, systematic work is conducted to identify talented young women and properly channel their abilities. Second, comprehensive training of club members is provided in specific areas — including Zulfiya Prize laureates, science olympiad winners, research and innovation projects, and IT technologies. Third, the club is designed to facilitate young women’s mastery of modern professions, their involvement in small business and entrepreneurship, and the realization of their intellectual and creative potential. |
+| `leaderGirlsClubS1Title` | Goals and objectives of the club |
+| `leaderGirlsClubS2Body` | The club’s membership is approved by the Rector’s order based on the recommendation of the Chairperson of the University Women’s Advisory Council. The club’s ongoing activities are managed by the sardor (leader). The sardor is elected by club members upon the recommendation of the Women’s Advisory Council Chairperson. The general meeting of the club is held on the first day of each month at the sardor’s initiative. The quarterly event plan is submitted for approval to the chairperson of the territorial youth union. |
+| `leaderGirlsClubS2Title` | Organizational structure and governance |
+| `leaderGirlsClubS3Body` | The talents and abilities of female students wishing to join the club are identified through a structured process. Each year, from the beginning of the new academic year, the abilities of first-year female students are assessed by November based on information provided by their secondary schools or citizens’ self-governance bodies at their place of residence. The talents and abilities of upper-year female students are identified annually by July 1, based on the results of various competitions, science olympiads, and feedback from professors and group mentors. |
+| `leaderGirlsClubS3Title` | Identification of talented female students |
+| `leaderGirlsClubS4Body` | A number of important initiatives are being implemented to help club members realize their talents and abilities. Peer-to-peer circles and discussion meetings are organized through the “Qizlarjon” club. Additionally, annual competitions such as “Most talented female student,” “Initiative female student,” “Leader female student,” and “Best innovative idea and project author” are held each year. These competitions serve to develop leadership qualities in female students and prepare them for leadership positions in the future.<br><br>Club members actively participate in educational seminars, trainings, forums, and roundtable discussions with women leaders from the regions. High-achieving club members are assigned to women leaders in ministries, regional administrations, and agencies, which provides them with invaluable practical experience. |
+| `leaderGirlsClubS4Title` | Areas of practical activity |
+| `leaderGirlsClubS5Body` | The “Leader girls club” carries out its activities based on the Constitution of the Republic of Uzbekistan, the Law “On state youth policy,” and other legislative acts. The club plays an important role in promoting gender equality at the university and increasing young women’s participation in democratic state-building reforms. Through this platform, the aim is to expand the ranks of young women with high moral values, independent thinking, broad worldview, and deep knowledge. |
+| `leaderGirlsClubS5Title` | Gender equality and state policy |
+| `leadershipCouncilsCard1Title` | Women's Affairs Advisory Committee at the University of Economics and Services in Termez |
+| `leadershipCouncilsCard2Title` | Termez University of Economics and Service Student Council |
+| `leadershipCouncilsCard3Title` | A new scientific council has been established at the Termez University of Economics and Service |
+| `leadershipCouncilsCardReadMore` | Read more |
+| `leadershipCouncilsIntro` | The university hosts advisory councils and representative bodies that support governance, student voice, and scientific development. The following are key groups in the leadership and council structure at Termez University of Economics and Service. |
+| `mediaIntro` | Video and photo collections from campus life and university events. |
+| `mediaPageTitle` | Media gallery |
+| `minoritySupportCenterApproachBody` | Every student deserves respect and to be valued. Recognizing the university's cultural diversity, TUES treats building a fair, equal-opportunity learning environment for all students as a top priority. |
+| `minoritySupportCenterApproachHeading` | Our Approach |
+| `minoritySupportCenterEvaluationBody` | The Center's effectiveness is continuously monitored and evaluated. Based on feedback from students and stakeholders, service quality is regularly improved and adapted to current needs. |
+| `minoritySupportCenterEvaluationHeading` | Evaluation & Continuous Improvement |
+| `minoritySupportCenterImage1Alt` | Staff and students in a meeting at the Social Protection Center with a presenter at a whiteboard |
+| `minoritySupportCenterImage1Src` | /images/student-life/social-protection-meeting.png |
+| `minoritySupportCenterImage2Alt` | Students and staff gathered in a welcoming community session with balloons at the Social Protection Center |
+| `minoritySupportCenterImage2Src` | /images/student-life/social-protection-community.png |
+| `minoritySupportCenterImplementationBody` | To bring this concept to life, dedicated social protection centers have been established at the university. Staff working in these centers are required to be qualified in counseling and advocacy, ensuring effective operation. |
+| `minoritySupportCenterImplementationHeading` | Implementation |
+| `minoritySupportCenterPageIntro` | Students in need of social protection are never alone at TUES. The Social Protection Center works to give every student — regardless of background, social status, or any other circumstance — equal opportunity and comprehensive support. Its work is grounded in the principles of inclusion, social justice, and equality. |
+| `minoritySupportCenterPageSubtitle` | Termiz University of Economics and Service (TUES) |
+| `minoritySupportCenterPageTitle` | Social Protection Center |
+| `minoritySupportCenterPartnershipsBody` | To achieve its goals, the Center works closely with university faculties, teachers, students, and various external organizations. This collaboration expands opportunities to support students more effectively. |
+| `minoritySupportCenterPartnershipsHeading` | Partnerships & Collaboration |
+| `minoritySupportCenterService1Body` | Experienced specialists provide confidential counseling on psychological, emotional, and social issues — supporting your wellbeing and academic success. |
+| `minoritySupportCenterService1Title` | Counseling and psychological support |
+| `minoritySupportCenterService2Body` | Activities that promote understanding, acceptance, and respect for people from different cultures are organized. The Center also works to protect students' rights and needs. |
+| `minoritySupportCenterService2Title` | Information and advocacy |
+| `minoritySupportCenterService3Body` | Trainings, seminars, and skill-building sessions are held on topics such as inclusive leadership, cultural sensitivity, combating stereotypes, and allyship — helping students unlock their potential. |
+| `minoritySupportCenterService3Title` | Programs and trainings |
+| `minoritySupportCenterService4Body` | Books, articles, documentaries, and online materials covering social equality, justice, and human rights are made available to students. |
+| `minoritySupportCenterService4Title` | Resource center |
+| `minoritySupportCenterService5Body` | Events and groups that strengthen community connection are organized — helping students build relationships, share experiences, and support one another. |
+| `minoritySupportCenterService5Title` | Community engagement |
+| `minoritySupportCenterServicesHeading` | Services Offered |
+| `minoritySupportCenterWhatWeDo1Body` | Students in need of social protection can receive confidential, trustworthy counseling about their personal needs, challenges, and experiences in a safe environment. |
+| `minoritySupportCenterWhatWeDo1Title` | Supporting students |
+| `minoritySupportCenterWhatWeDo2Body` | An open, tolerant environment is fostered where students from different cultures and social backgrounds develop mutual respect and understanding. |
+| `minoritySupportCenterWhatWeDo2Title` | Building an inclusive community |
+| `minoritySupportCenterWhatWeDo3Body` | Programs and initiatives that raise cultural awareness and address student concerns are carried out. |
+| `minoritySupportCenterWhatWeDo3Title` | Promoting social integration |
+| `minoritySupportCenterWhatWeDo4Body` | Strategies tailored to students' needs are developed together with university leadership, faculty, and other stakeholders. |
+| `minoritySupportCenterWhatWeDo4Title` | Collaborative support |
+| `minoritySupportCenterWhatWeDo5Body` | Mentoring and programs focused on personal and academic growth provide ongoing support for these students. |
+| `minoritySupportCenterWhatWeDo5Title` | Development opportunities |
+| `minoritySupportCenterWhatWeDoHeading` | What the Center Does |
+| `mushoiraClubHonoredHeroSrc` | /images/community-clubs/mushoira-club-honored.png |
+| `mushoiraClubHonoredPageBody` | Tursunoy Abdullaeva, a third-year student majoring in Philology and Language Teaching (Uzbek language) at the Termez University of Economics and Service, was awarded the “Young Researcher” badge by the “Scientific Academy” research center.<br><br>Tursunoy is an active member of the university’s “Mushoira” poetry club. She has published seven collections of poetry. This recognition is a well-deserved acknowledgment of the young poet’s creativity and initiative.<br><br>At the ceremony held on this occasion, poet Karamatulloh Karimov, a member of the Writers’ Union of Uzbekistan, took part, shared warm remarks about Tursunoy’s work, and presented her with the badge and a letter of appreciation in a festive atmosphere. |
+| `mushoiraClubHonoredPageTitle` | Member of the “Mushoira” club honored |
+| `newScientificCouncilPageBody` | At the suggestion of the Ministry of Higher Education, Science and Innovation of the Republic of Uzbekistan, and in accordance with the decision of the Presidium of the Supreme Attestation Commission of 24 September 2025, a scientific council has been established at Termez University of Economics and Service.<br><br>The new council will function as a council for organising the defence of dissertations in the specialisation of “Comparative Literary Studies, Comparative Linguistics and Translation Studies”, and as a council granting the Doctor of Philosophy (PhD) academic degree in the philological sciences.<br><br>This decision further strengthens the university's standing in the country's scientific and research landscape, opening new doors of opportunity for young scholars and researchers. At the same time, it will support modern research in the field of philology, attract talented young people to academia, and enhance overall scientific potential.<br><br>The establishment of the new scientific council also creates significant scientific opportunities for the youth of Surxondaryo, opening up ways to make effective use of practical experience. |
+| `newScientificCouncilPageTitle` | A new scientific council has been established at the Termez University of Economics and Service |
+| `officialDocAcademicFreedomDescription` | University policy on academic freedom, independence of teaching and research, and the rights of faculty and students. |
+| `officialDocAcademicFreedomTitle` | Academic Freedom Policy |
+| `officialDocAnnualReport2025Description` | Overview of university activities, achievements, and financial performance for the 2025 reporting year. |
+| `officialDocAnnualReport2025Title` | Annual Report 2025 |
+| `officialDocAntiBriberyDescription` | Standards and procedures for preventing bribery and corruption across university operations and partnerships. |
+| `officialDocAntiBriberyTitle` | Anti Bribery Corruption Policy |
+| `officialDocumentsDownloadCta` | Download |
+| `officialDocumentsPageIntro` | Browse official university policies and reports. Open a document card to view available downloads. |
+| `officialDocumentsPdfBadge` | PDF |
+| `officialDocumentsPdfDownloadHint` | Full policy document |
+| `onThisPage` | On this page |
+| `organizationalStructureAuxiliaryLabel` | Oversight & services |
+| `organizationalStructureCaption` | Approved organizational scheme. For the latest line-up of offices or titles, please contact the university chancellery. |
+| `organizationalStructureFacultiesLabel` | Faculties & departments |
+| `organizationalStructureIntro` | The diagram below follows the approved organizational structure of Termez University of Economics and Service. It shows how leadership, pro-rectorates, faculties, departments, and support units relate to one another.<br><br>On smaller screens, scroll horizontally if needed to see every column. For the latest titles or unit names, please contact the university chancellery. |
+| `organizationalStructureProRectorsLabel` | Pro-rectors & administration |
+| `orgChart.academic-methodical` | Academic and Methodological Department |
+| `orgChart.accounting-audit` | Department of Accounting and Audit |
+| `orgChart.admissions-office` | University Admissions Office |
+| `orgChart.advisor` | Advisor to the rector |
+| `orgChart.anti-corruption` | Department for Managing Anti-Corruption Compliance and Monitoring System |
+| `orgChart.assistant-rector` | Assistant to the Rector |
+| `orgChart.digital-edtech` | Digital Educational Technologies |
+| `orgChart.establisher` | Founder |
+| `orgChart.foreign-language-center` | Foreign Language Teaching Center |
+| `orgChart.hr-dept` | Human Resources Department |
+| `orgChart.info-resource-center` | Information Resource Center |
+| `orgChart.intl-relations` | International Relations Department |
+| `orgChart.legal-dept` | Legal Department |
+| `orgChart.marketing-dept` | Department of Marketing |
+| `orgChart.masters-dept` | Master's Degree Department |
+| `orgChart.press-dept` | Press department |
+| `orgChart.public-council` | Public council |
+| `orgChart.quality-accreditation` | Department of Quality Control and Accreditation |
+| `orgChart.rector` | Rector |
+| `orgChart.research-innovation` | Research and Innovation Department |
+| `orgChart.secretariat-archive` | Secretariat and Archive Department |
+| `orgChart.strategic-development` | Department of Strategic Development |
+| `orgChart.student-affairs` | Student Affairs Department |
+| `orgChart.technical-services` | Technical Services and Maintenance Department |
+| `orgChart.university-council` | University council |
+| `orgChart.vice-dean-academic` | Vice Dean for Academic Affairs |
+| `orgChart.vice-dean-youth` | Vice Dean for Spiritual and Youth Affairs |
+| `orgChart.vice-rector-academic` | Vice Rector for Academic Affairs |
+| `orgChart.vice-rector-international` | Vice Rector for International Relations |
+| `orgChart.vice-rector-research` | Vice Rector for Research and Innovation |
+| `orgChart.vice-rector-youth` | First Vice-Rector for Youth Affairs and Spiritual-Educational Work |
+| `orgChart.youth-dept` | Department of Spiritual and Moral Development in Youth Work |
+| `photoGallery.campus.description` | Walkways, architecture, and outdoor spaces around the university. |
+| `photoGallery.campus.title` | Campus views |
+| `photoGallery.events.description` | Conferences, cultural activities, and community moments on campus. |
+| `photoGallery.events.title` | Events and gatherings |
+| `photoGallery.graduation.description` | Graduation and milestone celebrations with students and guests. |
+| `photoGallery.graduation.title` | Ceremonies |
+| `photoGallery.gridIntro` | A selection of photos from campus, learning spaces, ceremonies, and events. New albums will appear here as they are published. |
+| `photoGallery.library.description` | Reading rooms and spaces where students focus and collaborate. |
+| `photoGallery.library.title` | Library and study |
+| `photoGallery.nextImage` | Next image |
+| `photoGallery.openImage` | Open image {{current}} of {{total}} in viewer |
+| `photoGallery.photoTitle` | Photo {{current}} of {{total}} |
+| `photoGallery.previousImage` | Previous image |
+| `presidentOrderAdmissionParamsHeroAlt` | Students in an examination hall working on papers — formal admission and testing context. |
+| `presidentOrderAdmissionParamsLocaleNote` | The official document below is provided in Uzbek. |
+| `presidentOrderAdmissionParamsPageTitle` | On the parameters of the state order for admission to study at state higher educational institutions for the 2024/2025 academic year |
+| `privacyPolicyIntro1` | Termez University of Economics and Service (hereinafter – the University) respects the privacy of its users' personal data and processes and protects it in accordance with the Law of the Republic of Uzbekistan "On Personal Data," the Law "On Informatization," and other applicable legal and regulatory acts. |
+| `privacyPolicyIntro2` | This Privacy Policy sets out the procedure for collecting, processing, storing, and protecting personal data when using the official website on the TUES.UZ domain and other electronic information resources administered by the University. |
+| `privacyPolicyLastUpdated` | Last updated: July 30, 2026 |
+| `privacyPolicyPageTitle` | Privacy Policy |
+| `privacyPolicySection1AutoBullet1` | IP address; |
+| `privacyPolicySection1AutoBullet2` | technical information about browser type, operating system, and device; |
+| `privacyPolicySection1AutoBullet3` | statistical data obtained through cookies. |
+| `privacyPolicySection1AutoTitle` | Automatically collected from the website: |
+| `privacyPolicySection1InquiryBullet1` | the content of the inquiry or application and the contact details provided. |
+| `privacyPolicySection1InquiryTitle` | Through submitting an inquiry or application: |
+| `privacyPolicySection1Intro` | The University may collect the following information: |
+| `privacyPolicySection1NewsletterBullet1` | email address. |
+| `privacyPolicySection1NewsletterTitle` | Through subscribing to email newsletters: |
+| `privacyPolicySection1P2` | The University may also collect other information voluntarily provided by the user while using the University's electronic services. |
+| `privacyPolicySection1P3` | Passport details and PINFL are requested only where precise identification of the user is required (registration and processing of related documents) and are not used for any other purpose. |
+| `privacyPolicySection1RegistrationBullet1` | last name, first name, and patronymic; |
+| `privacyPolicySection1RegistrationBullet2` | citizenship; |
+| `privacyPolicySection1RegistrationBullet3` | phone number; |
+| `privacyPolicySection1RegistrationBullet4` | passport details (series and number); |
+| `privacyPolicySection1RegistrationBullet5` | PINFL (Personal Identification Number of an Individual). |
+| `privacyPolicySection1RegistrationTitle` | Through the registration form: |
+| `privacyPolicySection1Title` | 1. What information do we collect? |
+| `privacyPolicySection2Bullet1` | responding to user inquiries; |
+| `privacyPolicySection2Bullet2` | providing the University's electronic services; |
+| `privacyPolicySection2Bullet3` | registering students, applicants, and other users, and serving them; |
+| `privacyPolicySection2Bullet4` | precisely identifying the user based on passport details and PINFL; |
+| `privacyPolicySection2Bullet5` | organizing the educational process; |
+| `privacyPolicySection2Bullet6` | informing about University news and announcements by email (as part of the newsletter subscription service); |
+| `privacyPolicySection2Bullet7` | analyzing and improving the performance of the website; |
+| `privacyPolicySection2Bullet8` | ensuring information security; |
+| `privacyPolicySection2Bullet9` | complying with applicable legal requirements. |
+| `privacyPolicySection2Intro` | Collected personal data is used for the following purposes: |
+| `privacyPolicySection2P2` | The University does not use personal data for purposes inconsistent with those for which it was collected. |
+| `privacyPolicySection2Title` | 2. Purpose of using the data |
+| `privacyPolicySection3P1` | The University's website may use cookies to provide convenient service to users, ensure the correct operation of the website's functions, and carry out statistical analysis. |
+| `privacyPolicySection3P2` | Users may restrict or disable cookies through their browser settings. |
+| `privacyPolicySection3Title` | 3. Cookies |
+| `privacyPolicySection4P1` | The University applies the necessary organizational and technical security measures to prevent the loss, unlawful use, unauthorized access, alteration, or disclosure of personal data. |
+| `privacyPolicySection4P2` | Passport details and PINFL, as identifying information, are accessible only to authorized staff and are stored under additional security controls. |
+| `privacyPolicySection4P3` | Personal data may be disclosed to third parties only in cases provided for by law or with the consent of the user. |
+| `privacyPolicySection4P4` | The University does not sell users' personal data and does not provide it to third parties for advertising purposes. |
+| `privacyPolicySection4Title` | 4. Protection of personal data |
+| `privacyPolicySection5P1` | Personal data is retained for as long as necessary to achieve the purpose of its processing, or for the periods established by the legislation of the Republic of Uzbekistan. |
+| `privacyPolicySection5P2` | Data collected during registration is retained for the duration of the user's status in relation to the University (student status, subscriber status, etc.) and thereafter for the archival periods established by law. Users may unsubscribe from newsletters at any time, upon which their email address is removed from the subscriber list. |
+| `privacyPolicySection5Title` | 5. Data retention |
+| `privacyPolicySection6Bullet1` | obtain information about their own personal data; |
+| `privacyPolicySection6Bullet2` | request the correction of inaccurate or incomplete data; |
+| `privacyPolicySection6Bullet3` | request the deletion of data or the restriction of its processing, in cases provided for by law; |
+| `privacyPolicySection6Bullet4` | submit inquiries regarding the processing of their personal data. |
+| `privacyPolicySection6Intro` | In accordance with applicable law, the user has the right to: |
+| `privacyPolicySection6Title` | 6. User rights |
+| `privacyPolicySection7P1` | The University reserves the right to amend and supplement this Privacy Policy. The updated version takes effect from the date it is published on the official website. |
+| `privacyPolicySection7Title` | 7. Amendments to the Privacy Policy |
+| `privacyPolicySection8Email` | info@tisu.uz |
+| `privacyPolicySection8EmailLabel` | E-mail: |
+| `privacyPolicySection8P1` | For questions regarding this Privacy Policy or the processing of personal data, you may contact the University's official email address. |
+| `privacyPolicySection8Title` | 8. Contact |
+| `professionalDevelopmentChoirCard1BreadcrumbLabel` | Exchange of experience and strong cooperation |
+| `professionalDevelopmentChoirCard1DetailBody` | Important agreements on future cooperation were reached during the visit of the delegation headed by Jamshid Pardaev, founder of Termez University of Economics and Service, to Istanbul Medipol University in Turkey.<br><br>During the meeting with the management of Istanbul Medipol University clinic, issues of developing cooperation between the two universities in the fields of education, research, and medicine were discussed.<br><br>The parties discussed the prospects for the exchange of experience between universities and agreements aimed at the joint implementation of new projects and programs. In the future, it is planned to create new opportunities for student exchange, scientific research, and medical innovation.<br><br>These agreements are of great importance, especially in the field of medical education and clinical research, which further strengthens the scientific potential of both universities.<br><br>At the end of the meeting, the management of Termez University of Economics and Service presented the heads of Istanbul Medipol University clinic with memorable gifts that embody our culture. These gifts were presented as a sign of respect and cooperation between the two sides. |
+| `professionalDevelopmentChoirCard1HeroAlt` | Delegation from Termez University of Economics and Service with Istanbul Medipol University representatives after a cooperation meeting; Turkish flag on the conference table. |
+| `professionalDevelopmentChoirCard1PageTitle` | Exchange of experience and strong cooperation |
+| `professionalDevelopmentChoirCard1Title` | Exchange of experience and strong cooperation |
+| `professionalDevelopmentChoirCard2BreadcrumbLabel` | Istanbul Medipol clinic |
+| `professionalDevelopmentChoirCard2DetailBody` | A delegation led by Jamshid Pardaev, founder of Termez University of Economics and Service, visited Istanbul Medipol University in Turkey. The representatives of the delegation were able to get acquainted with the educational and medical infrastructure of this university.<br><br>Special attention was paid to the conditions provided at the university clinic, as well as the modern medical equipment used in its work. Istanbul Medipol University hospital not only provides high-quality medical services, but also stands out for its advanced educational and research capabilities.<br><br>This visit of the delegation from Termez will make a significant contribution to the development of cooperation and exchange of experience between the two universities. |
+| `professionalDevelopmentChoirCard2HeroAlt` | Delegation from Termez University of Economics and Service touring a corridor at Istanbul Medipol University with a staff member explaining the clinical facilities. |
+| `professionalDevelopmentChoirCard2PageTitle` | Istanbul University Medipol clinic: conditions and opportunities |
+| `professionalDevelopmentChoirCard2Title` | Istanbul University Medipol clinic: conditions and opportunities |
+| `professionalDevelopmentChoirCard3BreadcrumbLabel` | Medipol laboratory |
+| `professionalDevelopmentChoirCard3DetailBody` | A group of students from the Faculty of Medicine visited the modern scientific laboratory of Medipol University, one of the prestigious higher education institutions in Istanbul. The purpose of this visit was to expand practical training, strengthen students' knowledge and skills in science, and introduce them to advanced laboratory equipment.<br><br>During the visit, students had the opportunity to get acquainted with the latest research projects in the fields of biomedicine, pharmacy, and engineering. The laboratory staff conducted a fascinating tour for them, explaining in detail the activities of each department, the principles of operation of modern equipment, and the experiments carried out.<br><br>The students were particularly impressed by complex processes such as genetic analysis, biomaterial testing, and work with cell cultures. They were able to observe this work directly and receive professional commentary from experts. |
+| `professionalDevelopmentChoirCard3HeroAlt` | Medical students and staff in lab coats during a guided tour of a Medipol University research laboratory in Istanbul. |
+| `professionalDevelopmentChoirCard3PageTitle` | In the Medipol laboratory |
+| `professionalDevelopmentChoirCard3Title` | In the Medipol laboratory |
+| `professionalDevelopmentChoirCard4BreadcrumbLabel` | Physiotherapy at Medipol |
+| `professionalDevelopmentChoirCard4DetailBody` | Students from the TUES Faculty of Medicine completed an internship in the physiotherapy department at the Medipol clinic. An experienced physiotherapy nurse introduced them to the daily work and practical exercises that take place in the department.<br><br>During the internship, students learned about the main areas of work of the physiotherapy department, as well as modern equipment and instructions for its use. In particular, they became acquainted with electrotherapy, used to treat problems of the nervous and muscular systems, ultrasound therapy, and a set of special physical exercises aimed at restoring and strengthening movement during rehabilitation. |
+| `professionalDevelopmentChoirCard4HeroAlt` | Medical students and an instructor in the corridor of the physiotherapy department during clinical orientation at Medipol clinic. |
+| `professionalDevelopmentChoirCard4PageTitle` | Practice in the physiotherapy department |
+| `professionalDevelopmentChoirCard4Title` | Practice in the physiotherapy department |
+| `professionalDevelopmentChoirCard5BreadcrumbLabel` | Historic sites in Turkey |
+| `professionalDevelopmentChoirCard5DetailBody` | Students of Termez University of Economics and Service, as part of the educational and cultural exchange program currently taking place in Turkey, are not only participating in academic activities but are also visiting historical and tourist attractions in Istanbul, getting closely acquainted with the rich cultural heritage of the Turkish people.<br><br>In particular, our students and professors had the opportunity to visit Hagia Sophia, Topkapı Palace, and take a walk along the Bosphorus. These historic sites have expanded their knowledge and enriched their cultural outlook.<br><br>According to the students, these visits are leaving unforgettable impressions. They are making new friends and gaining a deeper understanding of Turkish culture and traditions. |
+| `professionalDevelopmentChoirCard5HeroAlt` | TUES students and faculty posing with small university flags in front of Hagia Sophia in Istanbul. |
+| `professionalDevelopmentChoirCard5PageTitle` | TUES students visiting historic sites in Turkey |
+| `professionalDevelopmentChoirCard5Title` | TUES students visiting historic sites in Turkey |
+| `professionalDevelopmentChoirCard6BreadcrumbLabel` | Internship in Indonesia |
+| `professionalDevelopmentChoirCard6DetailBody` | Talented students from Termez University of Economics and Service have departed for Indonesia to take part in an international internship program. As part of the student delegation, they will undergo training at the prestigious Universitas Pendidikan Indonesia (UPI) located in Bandung.<br><br>The students selected for this internship underwent intensive English language preparation at the university's language center.<br><br>Founded in 1954, Universitas Pendidikan Indonesia offers modern educational programs not only in pedagogy but also in information technology, foreign languages, economics, social sciences, and natural sciences. Today, UPI is recognized as one of the leading higher education institutions in Indonesia.<br><br>During the visit, TUES students will participate in joint seminars and practical workshops with UPI students, gain insights into the Indonesian education system, and actively engage in cultural exchange programs. |
+| `professionalDevelopmentChoirCard6HeroAlt` | TUES students and faculty at an airport terminal before departing for an international internship in Indonesia. |
+| `professionalDevelopmentChoirCard6PageTitle` | TUES students depart for international internship in Indonesia |
+| `professionalDevelopmentChoirCard6Title` | TUES students depart for international internship in Indonesia |
+| `professionalDevelopmentChoirCard7BreadcrumbLabel` | Summer program in Indonesia |
+| `professionalDevelopmentChoirCard7DetailBody` | Within the framework of the summer education program organized at the Indonesian University of Education (Universitas Pendidikan Indonesia), students from Termez University of Economics and Service are actively participating in productive and meaningful educational sessions. During the program, students became closely acquainted with the Indonesian education system, academic curricula, and the advanced teaching plans implemented at the university.<br><br>The summer program serves not only as an academic exchange but also strengthens cultural collaboration. After the lessons, students from both universities engaged in mutual discussions, exchanged ideas, and established friendly relations.<br><br>The cultural excursions organized as part of the program also left a strong impression. In particular, the students visited the famous Gedung Sate museum in Bandung. At the museum, they learned about Indonesian architecture, history, and the stages of development of West Java province. |
+| `professionalDevelopmentChoirCard7HeroAlt` | TUES and Indonesian host-university students in a classroom during an interactive summer session at Universitas Pendidikan Indonesia. |
+| `professionalDevelopmentChoirCard7PageTitle` | TUES students participate in summer education program in Indonesia |
+| `professionalDevelopmentChoirCard7Title` | TUES students participate in summer education program in Indonesia |
+| `professionalDevelopmentChoirCard8BreadcrumbLabel` | Medical internship at UPI |
+| `professionalDevelopmentChoirCard8DetailBody` | Medical students from Termez University of Economics and Service are participating in a student exchange program at the Indonesian University of Education (Universitas Pendidikan Indonesia) as part of international cooperation, with the goal of strengthening their knowledge and skills and expanding their professional experience.<br><br>This exchange program includes an eight-week internship during which students not only gain deep professional experience in their field but also have the opportunity to learn about the academic process, scientific approaches, and modern pedagogical methods of the host university.<br><br>During the program, students take part in training sessions conducted by leading professors in Indonesia, actively participate in laboratory practicals, and showcase their knowledge through various international projects. |
+| `professionalDevelopmentChoirCard8HeroAlt` | TUES medical students with hosts at a World Diabetes Day community outreach event with Universitas Pendidikan Indonesia at Mitra Medika Tambakan clinic, Indonesia. |
+| `professionalDevelopmentChoirCard8PageTitle` | Medical students undergoing internship at Indonesian University of Education |
+| `professionalDevelopmentChoirCard8Title` | Medical students undergoing internship at Indonesian University of Education |
+| `professionalDevelopmentChoirPageIntro` | Snapshots of international cooperation, clinical placements, and student mobility — including exchanges with partner institutions, laboratory and departmental practice, and study visits abroad. |
+| `professionalDevelopmentChoirPageTitle` | Professional development and education in the choir |
+| `publicationsContact.accountLabel` | Account number |
+| `publicationsContact.accountNumber` | 20208 000 105568092003 |
+| `publicationsContact.accountNumberCopied` | Account number copied to clipboard |
+| `publicationsContact.addressLabel` | Postal address |
+| `publicationsContact.addressLine` | 38-B Ibn Sino Street, Yulduz MFY, Termiz, Surkhandarya Region, Uzbekistan |
+| `publicationsContact.bankPayee` | Non-state Higher Education Institution "Termez University of Economics and Service" |
+| `publicationsContact.bankTitle` | Bank transfer details |
+| `publicationsContact.contact1Name` | Bakhtiyor To'rayev |
+| `publicationsContact.contact2Name` | Shakhzod Makhmatrayimov |
+| `publicationsContact.contactsHeading` | Contact persons |
+| `publicationsContact.copyAccountNumber` | Copy account number |
+| `publicationsContact.copyFailed` | Could not copy |
+| `publicationsContact.copyMfo` | Copy MFO |
+| `publicationsContact.copyPhone` | Copy phone number |
+| `publicationsContact.copyTin` | Copy TIN |
+| `publicationsContact.emailLabel` | E-mail |
+| `publicationsContact.feeText` | The publication fee is 375,000 UZS (three hundred seventy-five thousand Uzbek soums). Payment must be made by bank transfer only, using the bank details below. |
+| `publicationsContact.feeTitle` | Publication fee |
+| `publicationsContact.intro` | For submission and organizational inquiries, please contact: |
+| `publicationsContact.mfo` | 00440 |
+| `publicationsContact.mfoCopied` | MFO copied to clipboard |
+| `publicationsContact.mfoLabel` | MFO |
+| `publicationsContact.pageLead` | The journal "Scientific Research Bulletin of TISU" is officially registered pursuant to the Resolution of the Presidium of the Higher Attestation Commission under the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan dated May 8, 2025, No. 370/5. The journal is included in the list of nationally recognized scientific publications recommended for disseminating the principal findings of doctoral and candidate dissertations in the field of economics.<br><br>Articles are accepted within the specialty 08.00.00 – Economics.<br><br>The Editorial Board considers for publication only original research articles in the field of economics that have not been previously published and that demonstrate clear scientific novelty and practical relevance. The recommended length of manuscripts is 7–10 pages, with an absolute maximum of 15 pages. Submissions must be formatted on A4 paper, using Times New Roman font (size 14), with 1.15 line spacing, 2 cm margins on all sides, and a paragraph indentation of 1.25 cm.<br><br>Each submission must include an abstract of 150–200 words, as well as the title of the article presented in Uzbek, Russian, and English. Authors are also required to provide 8–10 keywords. The structure of the manuscript should conform to established academic standards and include the following sections: introduction, literature review, methodology, analysis and results, conclusion and recommendations, and references.<br><br>All submitted manuscripts undergo mandatory screening through an antiplagiarism system to ensure academic integrity. The journal is published in both print and electronic formats. The electronic version is made available on the official website (www.tisu.uz) and is indexed in the Google Scholar database. |
+| `publicationsContact.paymentNote` | When making the payment, the author's full name and the note "for article publication" must be specified in the payment description. |
+| `publicationsContact.phone1` | +998 91 906 40 85 |
+| `publicationsContact.phone2` | +998 90 678 79 12 |
+| `publicationsContact.phoneCopied` | Phone number copied to clipboard |
+| `publicationsContact.postalCode` | 190101 |
+| `publicationsContact.postalLabel` | Postal code |
+| `publicationsContact.submissionEmail` | shahzodmahmatrayimov2001@gmail.com |
+| `publicationsContact.submissionTitle` | Manuscript submission |
+| `publicationsContact.tin` | 309 861 576 |
+| `publicationsContact.tinCopied` | TIN copied to clipboard |
+| `publicationsContact.tinLabel` | TIN |
+| `qalqonShieldsHeroSrc` | /images/community-clubs/qalqon-shields.png |
+| `qalqonShieldsPageBody` | At Termez University of Economics and Service, the public group “Qalqon” operates with the aim of assisting in the prevention of crime and offenses among students, as well as fostering youth in the spirit of military patriotism. This group was established based on Joint Resolution No. 30 dated August 28, 2023, of the Ministries of Higher Education, Science and Innovation, Defense, Internal Affairs, Youth Policy and Sports, and the National Guard of the Republic of Uzbekistan.<br><br>It is worth noting that a large number of students expressed their desire to join the group. To become a member, candidates undergo a multi-stage selection process, including interviews, physical fitness assessments, and psychological tests. In particular, for the 2025–2026 academic year, nearly 500 students applied to join the “Qalqon” public group, and based on the results of the selection process, 55 students who scored the highest points were accepted.<br><br>Members of the public group have been provided with the necessary conditions, including special uniforms and communication equipment to distinguish them during duty. In order to maintain public order at the university, they organize patrols and duty shifts during their free time from classes, providing close assistance.<br><br>In addition, group members actively support compliance with the university’s internal regulations and the “Code of ethics.” Their contribution to maintaining and monitoring public order during various university events deserves special recognition.<br><br>— Members of our group are carrying out effective and systematic work on the university campus to prevent offenses and crime among students, as well as to eliminate purposeless nighttime wandering. In this regard, cooperation has been established with law enforcement agencies, and night raids operations are regularly conducted together with prevention inspectors, — said Botir O‘roqov, commander of the “Qalqon” public group.<br><br>— In order to prevent possible crimes and offenses during nighttime hours, approximately 105 night raids were organized with the participation of members of the “Qalqon” public group, deputy deans for youth affairs, prevention inspectors, National Guard officers, and group mentors. During these raids, nearly 600 students wandering aimlessly at night were identified. Parents of 110 students prone to crime and offenses were invited and preventive discussions were held with them. In addition, to prevent students from carrying cold weapons, 40 inspection activities were conducted, — said Sherzod Allayorov, prevention inspector of TUES.<br><br>Today, the “Qalqon” public group is becoming not only a pillar of peace and security at our university, but also a symbol of student unity. It goes beyond merely monitoring and protecting the university territory, serving as an example of resilience and dedication for young people. |
+| `qalqonShieldsPageTitle` | “The shields” of our university |
+| `qizlarjonCharityHeroSrc` | /images/community-clubs/qizlarjon-charity.png |
+| `qizlarjonCharityPageBody` | Members of the “Qizlarjon” Club, operating under the Termez University of Economics and Service, organized a charity event during which food products were distributed to low-income families living in the “Yulduz” neighborhood.<br><br>The purpose of the charity event was to support citizens in need and from low-income backgrounds, as well as to strengthen the values of compassion and humanity in society.<br><br>— “When the heads of each household expressed their gratitude to the students, a smile appeared on their faces and a sense of satisfaction filled their hearts. Indeed, such events help instill a sense of social responsibility in students and nurture them in the spirit of humanism,” — said Maqsuda Norbosheva, head of the club and Chairwoman of the University’s Women’s Council. |
+| `qizlarjonCharityPageTitle` | Charity event held by the “Qizlarjon” club |
+| `qizlarjonClubHeroSrc` | /images/community-clubs/qizlarjon-club.png |
+| `qizlarjonClubIntro` | In the ongoing process of building the New Uzbekistan, the empowerment of youth—particularly female students—has emerged as one of the central pillars of state policy. Strengthening the intellectual capacity of young women, enhancing their socio-political participation, and fostering spiritually and morally mature individuals are now strategic national priorities. Numerous presidential decrees and governmental resolutions aimed at protecting women’s rights, expanding their educational opportunities, and reinforcing their role in society have significantly accelerated these efforts.<br><br>In line with these national priorities, the Women’s Council of Termez University of Economics and Service established the “Qizlarjon” Club as a dynamic platform dedicated to supporting the holistic development of female students. The club was founded with the objective of organizing meaningful extracurricular activities, nurturing leadership qualities, and promoting personal and professional growth.<br><br>Currently, the club brings together more than 200 female students aged between 16 and 30. Through systematic and well-structured initiatives, the club aims to increase students’ social engagement, strengthen their professional competencies, and reinforce their moral and ethical foundations.<br><br>The overarching mission of the “Qizlarjon” Club is to cultivate active and responsible members of society who are capable of independent thinking, loyal to national traditions and values, and equipped with contemporary knowledge and practical skills necessary for success in modern society.<br><br>The club operates under a comprehensive annual action plan that includes educational seminars, roundtable discussions, master classes, creative competitions, and interactive meetings with professionals. |
+| `qizlarjonClubOutro` | The “Qizlarjon” Club at Termez University of Economics and Service represents a comprehensive and forward-thinking initiative aimed at empowering female students. By integrating moral education, professional development, digital literacy, entrepreneurship, cultural identity, and social responsibility, the club creates a supportive environment for young women to thrive. Through collective efforts, the “Qizlarjon” Club continues to contribute meaningfully to the development of confident, competent, and socially responsible young women who are prepared to shape the future of the New Uzbekistan. |
+| `qizlarjonClubPageTitle` | The “Qizlarjon” Club |
+| `qizlarjonClubS1Body` | One of the fundamental directions of the club’s activities is the organization of regular roundtable discussions devoted to moral and ethical upbringing. These discussions address culturally and socially significant themes such as “A girl’s happiness lies in her graceful conduct” and “The image of the Uzbek girl.”<br><br>Distinguished mothers, exemplary families, experienced psychologists, and respected women from the community are invited to share their knowledge and life experiences. These sessions combine theoretical perspectives with practical wisdom drawn from real-life experiences.<br><br>Such interactive discussions contribute to cultivating values such as respect for family, modesty, patience, responsibility, and emotional intelligence. Importantly, they create an open dialogue environment where students can express their concerns, seek advice, and strengthen their understanding of social roles and responsibilities. |
+| `qizlarjonClubS1Title` | Roundtables and moral-ethical education |
+| `qizlarjonClubS2Body` | In the context of rapid digitalization, promoting safe and responsible internet usage has become an essential educational priority. Recognizing this need, the “Qizlarjon” Club actively organizes seminars and awareness campaigns on digital literacy and cybersecurity. These events involve cooperation with law enforcement agencies, prosecutors’ offices, youth commissions, and religious representatives. Topics covered include cybercrime prevention, online fraud awareness, digital reputation management, data protection, and ethical behavior on social media platforms. By strengthening information literacy, the club equips students with the necessary skills to navigate the digital world safely and responsibly, minimizing risks and enhancing their critical thinking abilities. |
+| `qizlarjonClubS2Title` | Internet safety and information literacy |
+| `qizlarjonClubS3Body` | Under the theme “The exemplary life path of enlightened women,” the club organizes meetings with accomplished female professors and academic leaders of the university. These interactions serve as motivational platforms where experienced scholars share their academic journeys, professional challenges, and achievements. Hearing real-life success stories allows female students to visualize their own potential paths in science, research, education, and leadership. These meetings foster self-confidence, ambition, and a belief that academic and professional excellence is achievable through dedication and perseverance. Such role-model-based mentorship significantly contributes to the development of leadership skills and long-term career planning among young women. |
+| `qizlarjonClubS3Title` | Inspirational women leaders and academic motivation |
+| `qizlarjonClubS4BodyBottom` | These initiatives not only enhance cultural awareness but also encourage creativity, teamwork, and appreciation of national identity. By integrating tradition with modern perspectives, the club ensures that cultural values remain relevant in contemporary society. |
+| `qizlarjonClubS4BodyTop` | Preserving and promoting national traditions is another essential dimension of the club’s activities. Through creative contests and cultural exhibitions, the club strengthens students’ connection to their cultural heritage. |
+| `qizlarjonClubS4List` | National dress exhibitions<br>Traditional cooking competitions<br>Handicraft and embroidery showcases<br>Cultural heritage presentations |
+| `qizlarjonClubS4ListLabel` | Events include: |
+| `qizlarjonClubS4Title` | Promotion of national values and cultural identity |
+| `qizlarjonClubS5Body` | Social responsibility remains a central principle of the “Qizlarjon” Club. Special attention is given to students from socially vulnerable families. The club facilitates free vocational training programs in areas such as cooking, sewing, entrepreneurship basics, and foreign language acquisition. A distinctive feature of this initiative is the “peer-to-peer” learning model, where skilled students voluntarily mentor and teach their fellow peers. This approach strengthens solidarity, mutual support, and collaborative learning while fostering a spirit of empathy and social cohesion. |
+| `qizlarjonClubS5Title` | Support for socially vulnerable girls |
+| `qizlarjonClubS6BodyBottom` | By providing practical insights and real business case studies, these master classes inspire young women to pursue independent economic activities and contribute to sustainable development. |
+| `qizlarjonClubS6BodyTop` | Recognizing the growing role of women in the modern economy, the club actively promotes entrepreneurial education. Under the slogan “Start your own business,” master classes titled “Entrepreneurial Girl” are conducted with the participation of successful businesswomen. |
+| `qizlarjonClubS6List` | Business plan development<br>Financial literacy<br>Marketing strategies<br>Customer communication<br>Personal branding |
+| `qizlarjonClubS6ListLabel` | These sessions focus on: |
+| `qizlarjonClubS6Title` | Encouraging female entrepreneurship |
+| `qizlarjonClubS7Body` | The club actively participates in national and international awareness days, including: |
+| `qizlarjonClubS7Follow` | During these events, outstanding female students are recognized and awarded, reinforcing motivation and promoting excellence. |
+| `qizlarjonClubS7List` | October 11 – International Day of the Girl Child<br>Birth anniversary of poet Zulfiya<br>March 8 – International Women’s Day |
+| `qizlarjonClubS7Title` | Commemorative and international events |
+| `qizlarjonClubS8Body` | The club strongly advocates for healthy living and physical well-being. Social media campaigns under the slogan “I choose a healthy lifestyle” encourage participation in sports and wellness activities.<br><br>Meetings with medical professionals, including narcologists under the theme “Drugs lead to destruction,” provide students with scientifically grounded information about the dangers of substance abuse and the importance of mental and physical health.<br><br>Additionally, sports weeks titled “Sport is the source of health” involve competitions, fitness sessions, and team-building activities that strengthen both physical and emotional resilience. |
+| `qizlarjonClubS8Title` | Promotion of a healthy lifestyle |
+| `regulationDocsDocxBadge` | Microsoft Word (.docx) |
+| `regulationDocsDownloadCta` | Download |
+| `regulationDocsDownloadLead` | Each link opens the file in a new tab. Use your browser’s save option if you want to keep a copy on your device. |
+| `regulationDocsDownloadTitle` | Download regulation |
+| `regulationsAndRequirementsIntro` | Key requirements, documents, and study modes for applicants to Termez University of Economics and Service. |
+| `regulationSecondaryEducationBody` | ${REGULATION_SECONDARY_EDUCATION_BODY_RESOLUTION}<br><br>${REGULATION_SECONDARY_EDUCATION_BODY_APPENDIX} |
+| `regulationSecondaryEducationHeroAlt` | Formal signing of documents: hands with a pen over papers on a desk, representing official regulations and agreements. |
+| `regulationSecondaryEducationPageTitle` | Regulation on secondary education |
+| `regulationsFaqA1Item1Label` | Secondary education |
+| `regulationsFaqA1Item1Text` | — a high school diploma or a diploma from an academic lyceum/vocational college. |
+| `regulationsFaqA1Item2Label` | Entrance exams |
+| `regulationsFaqA1Item2Text` | — passing the exams or successfully passing an interview. |
+| `regulationsFaqA1Item3` | Gather the required documents and submit them by the specified deadline. |
+| `regulationsFaqA3Item1` | Application letter addressed to the Rector; |
+| `regulationsFaqA3Item2` | Passport or ID card (original and copy); |
+| `regulationsFaqA3Item3` | Transcript or diploma (with an appendix); |
+| `regulationsFaqA3Item4` | 2 photos, 3.5 × 4.5 cm. |
+| `regulationsFaqA4Item1Label` | Full-time |
+| `regulationsFaqA4Item1Text` | — you attend classes at the university every day. |
+| `regulationsFaqA4Item2Label` | Master's Degree |
+| `regulationsFaqA4Item2Text` | — a 2-year, in-depth specialization for graduates of a bachelor's program. |
+| `regulationsFaqColExplanation` | Explanation |
+| `regulationsFaqColRequirement` | Requirement |
+| `regulationsFaqContactLabel` | Contact: |
+| `regulationsFaqEmailLabel` | Email: |
+| `regulationsFaqQ1` | What do you need to get into higher education? |
+| `regulationsFaqQ2` | Basic Requirements |
+| `regulationsFaqQ3` | List of documents (to be submitted to the admissions office) |
+| `regulationsFaqQ4` | Modes of Study |
+| `regulationsFaqQ5` | Where can additional information be obtained? |
+| `regulationsFaqRow1Explanation` | School graduation certificate (electronic) or lyceum/college diploma (original and transcript). |
+| `regulationsFaqRow1Requirement` | Information document |
+| `regulationsFaqRow2Explanation` | Internal exams or an interview |
+| `regulationsFaqRow2Requirement` | Entrance Examinations |
+| `researchIntro` | Research activity, publications, events, and innovation at TUES. Each link opens its own page. |
+| `researchPublicationsIntro` | A total of 1,276 scientific articles have been published in the Scopus and WoS databases, of which 1,274 are unique publications across the identified topic areas. An analysis by years shows a sharp upward trend in publication activity. In particular, 6 articles were published in 2023, rising to 29 in 2024. The most significant growth was observed in 2025, with 607 published articles. In the current year, 2026, 630 articles have already been recorded, and this figure is expected to rise further by year-end. The first 2 publications for 2027 have also already been recorded.<br><br>The distribution by scientific fields is as follows: |
+| `researchPubsColField` | Field of Science |
+| `researchPubsColNo` | No. |
+| `researchPubsColNumber` | Number |
+| `secondaryEdFaqA1` | Applicants must be graduates of a general secondary school (11-year certificate), an academic lyceum, or a vocational college. The document must be issued in accordance with the legislation of the Republic of Uzbekistan. |
+| `secondaryEdFaqA2` | Submit the original or a certified copy of your certificate of general secondary education, academic lyceum diploma, or vocational college diploma, together with your passport or ID card and other documents requested during the admission campaign. |
+| `secondaryEdFaqA3` | Yes. Foreign certificates and diplomas must be recognized (nostrified) or equated in the manner established by the legislation of the Republic of Uzbekistan before or during the admission process, as required by the admission regulations. |
+| `secondaryEdFaqA4` | Yes. Holders of a vocational college diploma may apply for undergraduate (bachelor's) programmes in the fields of study opened for admission, subject to the requirements of the current admission rules. |
+| `secondaryEdFaqA5` | Applicants must meet the age requirements set in the official admission regulations for the relevant academic year. Check the current admission announcement for the exact date and age limit. |
+| `secondaryEdFaqA6After` | for the full text. |
+| `secondaryEdFaqA6Before` | The Cabinet of Ministers resolution on the procedure for obtaining a second and subsequent higher education and related admission rules are published on the Admission 2025 section of this website. See |
+| `secondaryEdFaqA6Link` | Regulation on secondary education |
+| `secondaryEdFaqQ1` | What secondary education qualifications are accepted for admission to TUES? |
+| `secondaryEdFaqQ2` | What documents confirm completion of secondary education? |
+| `secondaryEdFaqQ3` | Can I apply with a secondary education certificate obtained abroad? |
+| `secondaryEdFaqQ4` | Can graduates of vocational colleges apply for a bachelor's degree? |
+| `secondaryEdFaqQ5` | Is there a minimum age for applicants? |
+| `secondaryEdFaqQ6` | Where can I read the official regulation on secondary education? |
+| `secondaryEducationRequirementsIntro` | Frequently asked questions about secondary education documents and requirements for applicants to Termez University of Economics and Service. |
+| `sectionPlaceholder` | Detailed content for this section will be published here soon. |
+| `seminarsColDate` | Date |
+| `seminarsColLevel` | Level |
+| `seminarsColNo` | No. |
+| `seminarsColTitle` | Conference Title |
+| `seminarsConferencesIntro` | At Termiz University of Economics and Service, the organization of scientific and practical conferences during 2023–2025 has been consistently implemented in a systematic manner, and this process represents an important factor in enhancing the university's scientific potential.<br><br>During the reporting period, traditional scientific and practical conferences for students and faculty members were regularly held, creating an essential academic environment for engaging young researchers in scientific activities and discussing research outcomes. At the same time, the increasing number of republican and international scientific and practical conferences has contributed to improving the relevance and practical significance of research conducted at the university.<br><br>In particular, the conferences organized in 2025 are characterized by a broad thematic scope, covering priority fields such as economics, education, medicine, tourism, history, and philology. This demonstrates the strengthening of interdisciplinary integration at the university and the transition of scientific activity to a new stage of development. |
+| `seminarsConferencesTableTitle` | Scientific and Practical Conferences Held at Termez University of Economics and Service (2023–2025) |
+| `seminarsLevelInternational` | International |
+| `seminarsLevelRepublican` | Republican |
+| `seminarsLevelTraditional` | Traditional |
+| `seminarsRow10Date` | 23–24 May 2025 |
+| `seminarsRow10Title` | Republican Scientific and Practical Conference “Current Issues of Science, Education and Innovation: Modern Aspects of Historical Sciences” |
+| `seminarsRow11Date` | 7–8 November 2025 |
+| `seminarsRow11Title` | International Scientific and Practical Conference “Current Issues of Ensuring Sustainable Economic Growth in Conditions of Economic Transformation” |
+| `seminarsRow12Date` | 20–21 June 2025 |
+| `seminarsRow12Title` | Republican Scientific and Practical Conference “Problems and Solutions of Interactive Teaching of Natural Sciences in Medical Universities” |
+| `seminarsRow13Date` | 10–11 October 2025 |
+| `seminarsRow13Title` | International Scientific and Practical Conference “Current Issues of Linguistics and Literary Studies” |
+| `seminarsRow1Date` | May/June 2023 |
+| `seminarsRow1Title` | Traditional First Scientific and Practical Conference of Students |
+| `seminarsRow2Date` | June 2023 |
+| `seminarsRow2Title` | Traditional First Scientific and Practical Conference of Faculty Members |
+| `seminarsRow3Date` | May 2023 |
+| `seminarsRow3Title` | International Scientific and Practical Conference “Current Problems of Innovative Technologies and Higher Education in the Context of Globalization” |
+| `seminarsRow4Date` | April 2024 |
+| `seminarsRow4Title` | Traditional Second Scientific and Practical Conference of Students |
+| `seminarsRow5Date` | May 2024 |
+| `seminarsRow5Title` | Traditional Second Scientific and Practical Conference of Faculty Members |
+| `seminarsRow6Date` | October 2024 |
+| `seminarsRow6Title` | Republican Scientific and Practical Conference “The Role of Abdunazar Poyonov in the Art of Bakhshi” |
+| `seminarsRow7Date` | 18–19 April 2025 |
+| `seminarsRow7Title` | Republican Scientific and Practical Conference “Current Problems of Preventive Medicine: From Disease Prevention to High-Tech Treatment” |
+| `seminarsRow8Date` | 25–26 April 2025 |
+| `seminarsRow8Title` | International Scientific and Practical Conference “Current Issues of Education and Upbringing in the Context of Digital Transformation” |
+| `seminarsRow9Date` | 16–17 May 2025 |
+| `seminarsRow9Title` | International Scientific and Practical Conference “International Experience: Prospects for Developing the Tourism Sector in the Context of Educational Modernization” |
+| `socialLifeHeroSrc` | /images/student-life/social-life.png |
+| `socialLifeIntro` | At the Termez University of Economics and Service, extensive efforts are being made by the Youth Union to organize meaningful student life and to unlock their intellectual, cultural, and creative potential. In collaboration with the university’s clubs under the Youth Union and various faculties, a wide range of events, competitions, entertainment programs, and projects are regularly organized.<br><br>To further strengthen students’ knowledge and thinking skills, and to develop their critical thinking and teamwork abilities, the “Zakovat” intellectual league has been established. Additionally, the “Mushoira” club, aimed at fostering interest in literature and promoting a culture of reading, and the “KVN” club, known for its humor and creative performances, are gaining significant popularity among students.<br><br>Moreover, various competitions related to art, painting, and handicrafts, as well as science contests based on innovative academic projects, masterclasses in different fields, and engaging excursions are continuously held. These activities, which nurture students’ initiative and creativity, play an important role in shaping them into well-rounded and mature individuals. |
+| `socialLifePageTitle` | Social Life |
+| `socialLifeTypesHeading` | Types of organized events |
+| `socialLifeTypesLead` | Types of organized events include: |
+| `socialLifeTypesList` | Social events — Teacher’s Day, Comedy show, International Women’s Day, Navruz day<br>Intellectual events — “Zakovat” club, “Mushoira” club, Mutolaa clubs<br>Sports events — Football, volleyball, chess cup<br>Skill development activities — Friday talks, “Zakovat” club, Debate club, IT club<br>Foreign language clubs — English, Korean, Turkish<br>Student council activities — Talent show, New Year’s ball, Drama club, Students’ theater studio, Art Club |
+| `socialRoomsHeroSrc` | /images/student-life/social-rooms.png |
+| `socialRoomsPageBody` | Termez University of Economics and Service maintains permanent social rooms as an integral component of its campus infrastructure, designed to support student engagement, interdisciplinary interaction, and inclusive community development. These spaces are not temporary or event-based facilities, but established and continuously functioning areas embedded within the university’s academic and student service environment. Their operation forms part of the institution’s long-term commitment to enhancing the overall quality of the student experience.<br><br>The social rooms are strategically located within academic buildings and student support zones to ensure accessibility for all faculties and programmes. They are equipped with appropriate seating arrangements, informal meeting areas, and reliable connectivity, creating an environment that supports both academic collaboration and social interaction. Their design encourages a sense of belonging and community cohesion, enabling students to interact beyond formal classroom settings and to strengthen peer networks across disciplines.<br><br>These facilities consistently serve as platforms for collaborative learning. Students utilise the social rooms for group discussions, project coordination, peer mentoring, and independent study sessions. The availability of shared workspaces and digital access supports knowledge exchange and interdisciplinary dialogue. By providing such environments, the university fosters teamwork competencies, communication skills, and cooperative problem-solving capacities that are essential for academic achievement and graduate employability.<br><br>In addition to academic collaboration, the social rooms contribute to personal and professional development. They are regularly used for student-led initiatives, thematic discussions, workshops, and informal meetings with faculty members or invited practitioners. This sustained utilisation ensures that students have ongoing opportunities to engage in intellectual dialogue, leadership activities, and community-oriented events throughout the academic year.<br><br>The university also utilises these spaces to promote inclusivity and cultural engagement. Social rooms serve as venues for cultural exhibitions, student association activities, and awareness events reflecting the diversity of the university community. By supporting such initiatives on a continuous basis, the institution reinforces values of mutual respect, intercultural understanding, and equal participation.<br><br>Recognising the importance of student well-being, the social rooms provide a balanced environment that allows students to relax, interact informally, and manage academic demands effectively. The availability of comfortable seating and open social areas contributes to a supportive campus atmosphere that enhances student satisfaction and retention.<br><br>Through their permanent operation, multifunctional use, and inclusive design, the social rooms at Termez University of Economics and Service represent an enduring institutional commitment to community building, collaborative learning, and holistic student development. They form a stable and structured component of the university’s facilities, contributing consistently to a high-quality and internationally benchmarked campus experience. |
+| `socialRoomsPageTitle` | Social Rooms |
+| `sportFacilitiesHeroAlt` | Front of the campus sports complex with a large glass entrance, steps, lawns, and trees. |
+| `sportFacilitiesHeroSrc` | /images/student-life/sport-facilities.png |
+| `sportFacilitiesPageBody` | Termiz University of Economics and Service (TUES) provides a structured and fully operational portfolio of on-campus sports facilities designed to support student wellbeing, physical development, and active campus engagement. All primary sports infrastructure is located within the main campus, ensuring direct accessibility and compliance with international higher education facilities standards.<br><br>The university maintains a fully equipped indoor fitness gym, an indoor multi-purpose sports court, outdoor sports courts, and a large outdoor sports field. These facilities collectively support academic physical education programmes, structured sports training, and recreational use. The indoor fitness gym includes modern cardiovascular and strength-training equipment, while the indoor sports court accommodates basketball, volleyball, and other competitive indoor sports. Outdoor courts and fields are used for football, athletics training, tennis, and seasonal tournaments.<br><br>The annual utilisation rate of sports facilities demonstrates strong student engagement. In the most recent academic year, more than 4,500 individual students accessed sports infrastructure at least once during the year, while approximately 2,800 students participated in regular weekly physical activities or organised sports sessions. Cumulatively, facility usage exceeded 35,000 student visits annually, reflecting sustained operational activity and effective scheduling capacity.<br><br>The university supports a structured system of student sports clubs. Currently, more than 12 officially registered sports clubs operate under the university’s student affairs framework, including football, volleyball, basketball, athletics, chess, table tennis, and fitness training groups. Each club maintains a defined membership structure and regular training schedule supervised by qualified instructors or coaches. The presence of multiple organised sports clubs strengthens student participation beyond compulsory curriculum-based physical education.<br><br>TUES actively participates in inter-university competitions at regional and national levels. During the latest academic year, university teams participated in more than 15 inter-university tournaments, including regional championships and student sports festivals. Several teams achieved podium placements in football and volleyball competitions, demonstrating competitive engagement beyond campus boundaries. Hosting of selected inter-faculty tournaments and regional student sports events further reflects the university’s integration into broader academic sports networks.<br><br>All sports facilities operate under a structured safety and maintenance regime. Facilities are supervised during scheduled activities, and access is regulated through designated entry control procedures. Routine technical inspections are conducted to ensure the operational safety of gym equipment, indoor courts, and outdoor fields. Maintenance protocols include periodic equipment servicing, surface inspections, lighting checks, and seasonal field preparation. Health and safety guidelines are visibly displayed within facilities, and first aid kits are available in all primary sports areas. In case of injury or emergency, direct coordination exists with the university’s on-campus Medical Hub, ensuring rapid medical response.<br><br>The combination of diversified sports infrastructure, measurable annual utilisation, structured club activity, competitive inter-university participation, and a formalised safety and maintenance system demonstrates a mature and fully operational campus sports ecosystem. This integrated approach reinforces the university’s commitment to student wellbeing, structured extracurricular engagement, and institutional risk management. |
+| `sportFacilitiesPageTitle` | Sport Facilities |
+| `studentAcademicSupportPageIntro` | At Termez University of Economics and Service, the resources below bring together academic guidance, official student policies, and student union governance. Use the cards to explore each topic. |
+| `studentCouncilClosing` | The establishment of the Student Council at the Termez University of Economics and Service and the adoption of its Charter is a significant step in creating a modern, democratic, and student-centred educational environment. The Council's well-thought-out structure, broad remit, democratic decision-making mechanism, and multifaceted collaborative relationships make it not just an official body, but a tool for qualitatively transforming student life. |
+| `studentCouncilCollaborationBody` | The Council is not a closed system — it operates in partnership with the Uzbekistan Youth Union, the university trade union, faculty deanships, student councils of other higher education institutions, local authorities, and non-governmental non-profit organisations. This extensive cooperation significantly expands the Council's capabilities.<br><br>A clear funding structure is also in place: the Council's activities are supported by the university budget, sponsorship and charitable funds, grant projects, and other sources not prohibited by law. A strict accountability for every penny is stipulated, ensuring the principles of transparency and responsibility are put into practice.<br><br>The Council submits a quarterly report on its activities to the university's management, and the Chair publishes the annual report at the General Student Assembly. Additionally, information regarding the Council's activities is made public via the university's official website and social media. This multi-tiered accountability system serves to ensure the transparency of the Council's activities and the trust of the student body. |
+| `studentCouncilCollaborationTitle` | Collaboration and Funding |
+| `studentCouncilDecisionMakingBody` | The Council's decision-making procedure is developed on the basis of democratic principles. Meetings are held at least once a month and are quorate with the attendance of at least two-thirds of the members.<br><br>Decisions are made by a simple majority vote, and in the event of a tie, the chair's vote is decisive. This procedure guarantees the transparency and fairness of the decision-making process.<br><br>A key aspect is that the Council's decisions are advisory for all students at the university. However, decisions reached in agreement with the university administration are binding.<br><br>This approach serves to enhance the Council's effectiveness whilst preserving its independence. |
+| `studentCouncilDecisionMakingTitle` | Decision-making Mechanism |
+| `studentCouncilMembershipBody` | The Council's membership is composed of active students with satisfactory academic standing and no disciplinary sanctions.<br><br>However, membership is not guaranteed indefinitely — a member who is absent from three consecutive meetings without a valid reason, acts in contravention of the Council's decisions, or breaches the university's internal regulations may be removed from the Council.<br><br>This procedure is designed to increase the accountability of Council members and to maintain a high standard of performance.<br><br>Council members have rights such as voting, standing for election, proposing motions, and participating in meetings with the university's leadership.<br><br>On the other hand, they also undertake obligations such as complying with the Charter, regularly attending meetings, and upholding the university's reputation. |
+| `studentCouncilMembershipTitle` | Membership: Rights and Responsibilities |
+| `studentCouncilOrganisationalStructureBody` | The Council's organisational structure is built on a clear hierarchy.<br><br>The Council is composed of a chair, two vice-chairs, a secretary, committee heads, faculty representatives, and ordinary members. The chair is elected from among the students for a one-year term, which ensures a turnover of power and the continuous influx of new ideas.<br><br>Six permanent committees operate under the Council: Education Quality and Scientific Activities, Cultural and Educational Affairs, Sport and Healthy Lifestyle, Social Issues and Volunteering, Information and Public Relations, and Discipline and Control. Each committee has its own area of focus, which serves to cover all aspects of student life. Furthermore, it is envisaged that a separate student council will be established in each faculty, and the chairs of the faculty councils are automatically considered members of the university Student Council. This vertical communication system ensures that decisions are communicated promptly to the lower level. |
+| `studentCouncilOrganisationalStructureTitle` | Organisational Structure |
+| `studentCouncilPageIntro` | Today, the formation of a student self-governance system in higher education institutions is an integral part of building a democratic society.<br><br>The Student Council is a body of student self-governance, whose main task is to protect the interests of young people, increase their social activity and ensure their active participation in the educational process. Although the Council does not have legal entity status, it operates on the principles of independence, transparency, democracy, and legality. This indicates that elements of civil society are being practically implemented at the university.<br><br>The Council conducts its activities in accordance with the Constitution of the Republic of Uzbekistan, the Laws “On Education” and “On State Youth Policy”, as well as the University's Charter, Internal Regulations, and Code of Ethics. This legal foundation ensures the legality and effectiveness of the Council's decisions.<br><br>According to the Charter, the scope of the Council's responsibilities is extremely broad. In addition to protecting students' rights and establishing effective communication with the university administration, the Council develops proposals to improve the quality of education, organising academic, cultural, sporting and social events, and strengthening discipline and moral education. It is particularly noteworthy that assisting students from low-income and socially vulnerable backgrounds is also established as one of the Council's priority tasks. This demonstrates that the Council has not only an administrative but also a social significance.<br><br>Furthermore, organising volunteer activities and developing students' leadership, organisational, and communication skills are also noted as a separate task.<br><br>These areas confirm that the modern education system is aimed at developing not only academic knowledge but also life skills in its students. |
+| `studentCouncilPageTitle` | Termez University of Economics and Service Student Council |
+| `studentHandbookPageIntro` | Download the official student handbook for your language of study. Each PDF contains academic policies, student rights and responsibilities, and practical guidance for life at Termez University of Economics and Service. |
+| `studentHandbookPageTitle` | Student Handbook |
+| `studentOpinionContactHeading` | Contact us |
+| `studentOpinionIntro` | Share feedback or reach the university using the contact details below. |
+| `studentOpinionLabelAddress` | Address |
+| `studentOpinionLabelEmail` | E-mail |
+| `studentOpinionLabelPhone` | Phone number |
+| `studentOpinionPageTitle` | Student opinion |
+| `studentOpinionValueAddress` | Termez, Farovon street 4-b |
+| `studentOpinionValueEmail` | university@tues.uz |
+| `studentOpinionValuePhoneDisplay` | 55 452 77 77 |
+| `studentOpinionValuePhoneTel` | +998554527777 |
+| `studentTheaterContestHeroSrc` | /images/community-clubs/student-theater-studio-contest.png |
+| `studentTheaterContestPageBody` | Students of the Termez University of Economics and Service have achieved another victory. The university’s team, “Talented students,” performed honorably at the republican stage of the “Student theater studios” festival and received high recognition.<br><br>The university's student theater studio was awarded in the nomination “Best student theater studio leader.”<br><br>In this regard, a ceremonial award ceremony was held at the university. The event was attended by the university administration, faculty members, and students.<br><br>Shakhlo Qurbonova, a methodologist of the department for youth affairs, spirituality, and enlightenment, was awarded a cash prize for winning in this category.<br><br>During the ceremony, the members of the winning team were presented with honorary certificates and commemorative gifts. |
+| `studentTheaterContestPageTitle` | Participants of the student theater studio contest were solemnly awarded! |
+| `studentUnionRegulationPageIntro` | Download the governing documents for the student union at Termez University of Economics and Service. Files are provided in PDF format for offline reading and printing. |
+| `studentUnionRegulationPageTitle` | Student Union Regulation |
+| `studyProgramApplyCaptchaError` | The verification code does not match. |
+| `studyProgramApplyCitizenship` | Citizenship |
+| `studyProgramApplyCitizenshipOptionAf` | Afghanistan |
+| `studyProgramApplyCitizenshipOptionKg` | Kyrgyzstan |
+| `studyProgramApplyCitizenshipOptionKz` | Kazakhstan |
+| `studyProgramApplyCitizenshipOptionOther` | Other |
+| `studyProgramApplyCitizenshipOptionRu` | Russia |
+| `studyProgramApplyCitizenshipOptionTj` | Tajikistan |
+| `studyProgramApplyCitizenshipOptionUz` | Uzbekistan |
+| `studyProgramApplyCitizenshipPlaceholder` | Choose the citizenship |
+| `studyProgramApplyCourse` | Course of Study |
+| `studyProgramApplyCoursePlaceholder` | Choose the course of study |
+| `studyProgramApplyFullName` | Full Name |
+| `studyProgramApplyJshshir` | JSHSHIR |
+| `studyProgramApplyPageIntro` | Fill in the form below to apply for admission to Termez University of Economics and Service. |
+| `studyProgramApplyPageTitle` | Application form |
+| `studyProgramApplyPassport` | Passport |
+| `studyProgramApplyPhone` | Phone Number |
+| `studyProgramApplyRefreshCaptcha` | Refresh verification code |
+| `studyProgramApplyRequired` | This field is required. |
+| `studyProgramApplySend` | Send |
+| `studyProgramApplyStudyType` | The form of education |
+| `studyProgramApplyStudyTypeCorrespondence` | Correspondence |
+| `studyProgramApplyStudyTypeFullTime` | Full-time |
+| `studyProgramApplyStudyTypePlaceholder` | Choose the study type |
+| `studyProgramApplySuccessDescription` | Your application has been received. The admissions office will contact you shortly. |
+| `studyProgramApplySuccessTitle` | Application sent |
+| `studyProgramApplyVerifyCode` | Verify Code |
+| `studyProgramsApplicationDeadlineLabel` | Application deadline |
+| `studyProgramsApplyCta` | Apply |
+| `studyProgramsBackLabel` | Back to study programs |
+| `studyProgramsCardsHint` | Select a program to view its full course list. |
+| `studyProgramsCodeLabel` | Code |
+| `studyProgramsContentsLabel` | Contents |
+| `studyProgramsCourseNameLabel` | Course |
+| `studyProgramsCoursesTitle` | Courses |
+| `studyProgramsCreditsLabel` | Credits |
+| `studyProgramsDegreeLevelLabel` | Degree |
+| `studyProgramsDurationLabel` | Duration |
+| `studyProgramsEarliestStartDateLabel` | Earliest start date |
+| `studyProgramsQualificationLabel` | Qualification |
+| `studyProgramsRequestInfo` | Request info |
+| `studyProgramsSectionsCourses` | {{sections}} sections · {{courses}} courses |
+| `studyProgramsSidebarSectionsLabel` | Curriculum sections |
+| `studyProgramsTuitionLabel` | Tuition fee |
+| `studyProgramsViewCoursesCta` | View courses |
+| `subPageIntro` | This page is dedicated to the topic below. Further content can be added by your editorial team. |
+| `termsOfUseIntro1` | These Terms of Use govern the use of the official website of Termez University of Economics and Service (hereinafter – the University). |
+| `termsOfUseIntro2` | By using the website, the user confirms that they have read these terms and agree to comply with them. |
+| `termsOfUseLastUpdated` | Last updated: July 30, 2026 |
+| `termsOfUsePageTitle` | Terms of Use |
+| `termsOfUseSection1P1` | The University provides access to the information, electronic services, and other materials placed on this website in accordance with applicable law and these Terms of Use. |
+| `termsOfUseSection1P2` | Information placed on the University's website is published for informational and educational purposes. |
+| `termsOfUseSection1Title` | 1. General provisions |
+| `termsOfUseSection2P1` | The texts, images, logos, graphic materials, videos, software code, databases, and other materials placed on the website are protected by the intellectual property legislation of the Republic of Uzbekistan. |
+| `termsOfUseSection2P2` | Copying, reproducing, distributing, modifying, republishing on the internet, or using these materials for commercial purposes without the prior written consent of the University is not permitted, except in cases provided for by law. Further details on this matter are provided in the "Copyright" document. |
+| `termsOfUseSection2Title` | 2. Intellectual property rights |
+| `termsOfUseSection3Bullet1` | comply with applicable legal requirements; |
+| `termsOfUseSection3Bullet2` | not infringe on the rights and legitimate interests of other persons; |
+| `termsOfUseSection3Bullet3` | not post malicious software, viruses, or unlawful content; |
+| `termsOfUseSection3Bullet4` | not unlawfully interfere with the operation of the website. |
+| `termsOfUseSection3Intro` | When using the website, the user is required to: |
+| `termsOfUseSection3Title` | 3. User obligations |
+| `termsOfUseSection4Bullet1` | update, modify, or remove content on the website; |
+| `termsOfUseSection4Bullet2` | temporarily restrict or suspend the operation of the website for technical maintenance purposes; |
+| `termsOfUseSection4Bullet3` | restrict access to certain services for users who act in violation of these Terms of Use. |
+| `termsOfUseSection4Intro` | The University reserves the right to: |
+| `termsOfUseSection4Title` | 4. University's rights |
+| `termsOfUseSection5P1` | The University takes the necessary measures to ensure the relevance and reliability of the information placed on the website. |
+| `termsOfUseSection5P2` | At the same time, unless otherwise provided by law, the University is not liable for any direct or indirect damages that may arise from the use of information on the website. |
+| `termsOfUseSection5P3` | The University is not responsible for the content of third-party websites linked from this website. |
+| `termsOfUseSection5Title` | 5. Limitation of liability |
+| `termsOfUseSection6P1` | The website may contain links to third-party internet resources. |
+| `termsOfUseSection6P2` | The presence of such links does not imply the University's endorsement of the activities or content of those resources. |
+| `termsOfUseSection6Title` | 6. External links |
+| `termsOfUseSection7P1` | The procedure for collecting and processing users' personal data is governed by the "Privacy Policy" document. |
+| `termsOfUseSection7Title` | 7. Privacy |
+| `termsOfUseSection8P1` | The University reserves the right to amend and supplement these Terms of Use at any time. |
+| `termsOfUseSection8P2` | The updated version takes effect from the date it is published on the official website. |
+| `termsOfUseSection8Title` | 8. Amendments to the Terms of Use |
+| `termsOfUseSection9Email` | info@tisu.uz |
+| `termsOfUseSection9EmailLabel` | E-mail: |
+| `termsOfUseSection9P1` | For questions or suggestions regarding these Terms of Use, you may contact the University's official email address. |
+| `termsOfUseSection9Title` | 9. Contact |
+| `title` | Youth Leaders |
+| `transferOfStudiesPageSubtitle` | A Guide for Students |
+| `transferOfStudiesPageTitle` | Transferring Your Studies |
+| `uniNumbersDownloadCta` | Download |
+| `uniNumbersLangCn` | Chinese (简体中文) |
+| `uniNumbersLangEn` | English |
+| `uniNumbersLangRu` | Russian |
+| `uniNumbersLangUz` | Uzbek |
+| `uniNumbersPptxBadge` | PowerPoint (.pptx) |
+| `uniNumbersReportHeadline` | TUES IN NUMBERS |
+| `uniNumbersReportInstitution` | TERMIZ UNIVERSITY OF ECONOMICS AND SERVICE (TUES) |
+| `uniNumbersReportIntro` | Termiz University of Economics and Service (TUES) is committed to transforming into a modern, innovative educational hub. This report presents a snapshot of the university's academic strength, infrastructure, scientific potential, and strategic growth as TUES advances toward its 2030 goals. |
+| `uniNumbersReportTagline` | Key Figures & Strategic Vision 2025–2030 |
+| `uniNumbersS1P1` | TUES currently operates three faculties and sixteen departments, delivering 28 bachelor's and 13 master's degree specialities to a growing academic community. |
+| `uniNumbersS1P2` | The university's total student body has reached 23,684, with women comprising more than two-thirds of overall enrollment. |
+| `uniNumbersS1P3` | This community is supported by a teaching staff of 281. Scientific potential — the share of faculty holding a Doctor of Science or PhD degree — currently stands at 42.6%, with a strategic target of 75% by 2030. |
+| `uniNumbersS1ProgressCaption` | Current scientific potential, targeting three-quarters of faculty by 2030 |
+| `uniNumbersS1StatAcademicHeading` | Academic Structure |
+| `uniNumbersS1StatAverageAge` | Average Age |
+| `uniNumbersS1StatBachelorSpecialities` | Bachelor's Degree Specialities |
+| `uniNumbersS1StatBachelorStudents` | Bachelor's Students |
+| `uniNumbersS1StatDepartments` | Departments |
+| `uniNumbersS1StatDsc` | Doctors of Science (DSc) |
+| `uniNumbersS1StatFaculties` | Faculties |
+| `uniNumbersS1StatFemaleStudents` | Female Students |
+| `uniNumbersS1StatMaleStudents` | Male Students |
+| `uniNumbersS1StatMasterSpecialities` | Master's Degree Specialities |
+| `uniNumbersS1StatMasterStudents` | Master's Students |
+| `uniNumbersS1StatPhd` | Doctors of Philosophy (PhD) |
+| `uniNumbersS1StatStudentHeading` | Student Body |
+| `uniNumbersS1StatTeachingHeading` | Teaching Staff |
+| `uniNumbersS1StatTotalStudents` | Total Students |
+| `uniNumbersS1StatTotalTeachingStaff` | Total Teaching Staff |
+| `uniNumbersS2P1` | The campus spans 1.3 hectares across four educational buildings, offering 148 auditoriums, nine laboratories, and ten computer cabins to support classroom and hands-on learning. |
+| `uniNumbersS2P2` | A series of major capital projects will reshape the campus over the coming years: |
+| `uniNumbersS2StatAdditionalArea` | Additional Useful Area |
+| `uniNumbersS2StatAreaPerStudent` | Educational Area per Student |
+| `uniNumbersS2StatAuditoriums` | Auditoriums |
+| `uniNumbersS2StatCampusArea` | Total Campus Area |
+| `uniNumbersS2StatComputerCabins` | Computer Cabins |
+| `uniNumbersS2StatEducationalArea` | Educational Area (4 Buildings) |
+| `uniNumbersS2StatInfraHeading` | Current Infrastructure |
+| `uniNumbersS2StatLaboratories` | Laboratories |
+| `uniNumbersS2SubheadingRoadmap` | Infrastructure Development Roadmap (2025–2030) |
+| `uniNumbersS2TableColInitiative` | Initiative |
+| `uniNumbersS2TableColTargetYear` | Target Year |
+| `uniNumbersS2TableRow1Col1` | New Educational Building (5,000 seats) |
+| `uniNumbersS2TableRow2Col1` | New Student Dormitory (2,000 seats) |
+| `uniNumbersS2TableRow3Col1` | Apartment Houses for Professors & Teachers (68 units) |
+| `uniNumbersS2TableRow4Col1` | "Smart Campus" & Green Campus Initiative (Solar Panels) |
+| `uniNumbersS2TableRow4Col2` | Through 2030 |
+| `uniNumbersS3P1` | TUES is expanding its global footprint through partnerships, accreditations, and student exchanges, maintaining active academic collaborations with institutions in Kazakhstan, Russia, Turkey, Tajikistan, Japan, China, India, and Czechia. |
+| `uniNumbersS3TableCol2030Goal` | 2030 Goal |
+| `uniNumbersS3TableColTarget` | Target |
+| `uniNumbersS3TableHeading` | 2030 Internationalization Targets |
+| `uniNumbersS3TableRow1Col1` | Professors & Teachers in Professional Development Abroad |
+| `uniNumbersS3TableRow2Col1` | International Students at TUES |
+| `uniNumbersS3TableRow3Col1` | Joint Educational Programs (Double Degree) |
+| `uniNumbersS3TableRow4Col1` | Research Articles in Scopus / Web of Science |
+| `uniNumbersS4Callout` | 5 Programs — Target for international academic accreditation by 2030 |
+| `uniNumbersS4P1` | Our focus is on practical research and cutting-edge laboratory infrastructure, anchored by nine newly established scientific schools and sustained investment in specialized equipment. |
+| `uniNumbersS4P2` | Nine new scientific schools have been established in Chemistry, Biophysics, Biology, Anatomy, Physiology, Histology, History, Ethnography, and Biochemistry. |
+| `uniNumbersS4P3` | Laboratory upgrades are focused on advanced equipment for medicinal plants, pharmacology, natural sciences, and software/AI research, strengthening the university's applied research capacity. |
+| `uniNumbersS4SubheadingLabs` | Laboratory Investment |
+| `uniNumbersS4SubheadingSchools` | Scientific Schools |
+| `uniNumbersS5ClubsHeading` | Student Clubs |
+| `uniNumbersS5ClubsItem1` | Chess club |
+| `uniNumbersS5ClubsItem2` | "Bookworm" reading circle |
+| `uniNumbersS5ClubsItem3` | Socio-psychological service |
+| `uniNumbersS5ClubsItem4` | Volunteer center |
+| `uniNumbersS5ClubsItem5` | Embroidery and design club |
+| `uniNumbersS5CreativeHeading` | Creative & Social Hubs |
+| `uniNumbersS5CreativeItem1` | Student Media Center |
+| `uniNumbersS5CreativeItem2` | Creative Students' Park |
+| `uniNumbersS5CreativeItem3` | "Book-cafe" |
+| `uniNumbersS5CreativeItem4` | Student Tech Zone |
+| `uniNumbersS5CreativeItem5` | The "Zulfiyaxonim izdoshlari" club and other dedicated support programs for female students |
+| `uniNumbersS5CreativeItem6` | Free vocational skills training for vulnerable youth |
+| `uniNumbersS5DigitalHeading` | Digital Campus Initiatives |
+| `uniNumbersS5DigitalItem1` | A secure mobile application for dormitory management and campus public order |
+| `uniNumbersS5DigitalItem2` | A "Smart Campus" platform hosting all lesson materials |
+| `uniNumbersS5DigitalItem3` | Digital educational platforms enhanced with AI and VR technologies |
+| `uniNumbersS5HighlightCaption` | National, Asian, World and Olympic champions<br>targeted by 2030 |
+| `uniNumbersS5HighlightLabel` | 30 Champions |
+| `uniNumbersS5P1` | Equal emphasis is placed on the holistic development of students through technology, social engagement, and sport. |
+| `uniNumbersS5P2` | A dedicated university program promotes national sports, with the ambitious goal of nurturing 30 national, Asian, World, and Olympic champions by 2030. |
+| `uniNumbersS5SubheadingSports` | Sports Ambitions |
+| `uniNumbersS6P1` | While TUES students come from every region of Uzbekistan, the highest concentration of the university's academic family hails from Surkhandarya, followed by Samarkand, Tashkent, and Kashkadarya. |
+| `uniNumbersS6Region1` | Surkhandarya region (highest concentration) |
+| `uniNumbersS6Region2` | Samarkand region |
+| `uniNumbersS6Region3` | Tashkent region |
+| `uniNumbersS6Region4` | Kashkadarya region |
+| `uniNumbersS7P1` | Guided by these targets, TUES continues its transformation into a globally connected, research-driven university — expanding its campuses, growing its scientific community, and preparing students to compete on regional and international stages through 2030. |
+| `uniNumbersSection1Title` | 1. Institutional Snapshot |
+| `uniNumbersSection2Title` | 2. Campus & Infrastructure |
+| `uniNumbersSection3Title` | 3. Global Reach & Internationalization |
+| `uniNumbersSection4Title` | 4. Science, Innovation & Laboratories |
+| `uniNumbersSection5Title` | 5. Student Development, Digitalization & Sports |
+| `uniNumbersSection6Title` | 6. Regional Footprint |
+| `uniNumbersSection7Title` | Looking Ahead |
+| `uniNumbersTableColFigure` | Figure |
+| `uniNumbersTableColRank` | Rank |
+| `uniNumbersTableColRegion` | Region |
+| `uniNumbersTableColValue` | Value |
+| `universityFacultyEconomicsTitle` | Faculty of Economics and information technologies |
+| `universityFacultyMedicineTitle` | Faculty of medicine |
+| `universityFacultyPedagogyTitle` | Faculty of Pedagogy and social-humanitarian sciences |
+| `universityInNumbersDownloadLead` | Each link opens the file in a new tab. Use your browser’s save option if you want to keep a copy on your device. |
+| `universityInNumbersDownloadTitle` | Download presentation |
+| `universityInNumbersIntro` | The University in Numbers section brings together headline statistics about Termez University of Economics and Service in one place. It is meant to give students, applicants, partners, and colleagues a concise yet meaningful picture of the institution’s scale, structure, and momentum over time.<br><br>Figures here typically cover enrolment and graduation trends, academic programmes and levels of study, faculty and professional staff, libraries and learning spaces, research and publication activity, international cooperation, and outreach that connects the campus with the wider community. Taken together, these indicators show how the university invests in teaching, discovery, and the wellbeing of its academic community.<br><br>The numbers are intended to complement longer narratives elsewhere on the website: they make priorities and growth easier to see at a glance, support transparency in how achievements are reported, and help readers compare dimensions of university life without wading through dense reports.<br><br>Below you can download the official presentation as a Microsoft PowerPoint file (.pptx). Choose the language version that suits you best. |
+| `universityMissionLearnMorePrefix` | More information:  |
+| `universityMissionLinkAccountingAuditDept` | Accounting and Audit Department |
+| `universityMissionLinkComplianceControlDept` | Compliance Control Department |
+| `universityMissionLinkEducationalMethodologicalDept` | Educational and Methodological Department |
+| `universityMissionPageTitle` | University Mission |
+| `universityMissionPdfDownloadCta` | Download PDF |
+| `universityMissionPdfPlaceholderNote` | The green strategy PDF will be linked here when the file is published. |
+| `universityMissionPolicy51P1` | The university upholds the principles of academic freedom, essential for advancing knowledge, critical thinking, and innovation. Faculty and students have the right to teach, learn, research, and freely express ideas within ethical norms and applicable laws. Academic freedom is exercised responsibly, respecting diversity of thought, academic integrity, and mutual respect among all members of the academic community. Policies and governance structures support and protect academic independence, ensuring that teaching and research remain free from external pressure or influence. |
+| `universityMissionPolicy51Title` | 5.1 Academic Freedom Policy |
+| `universityMissionPolicy52P1` | The university is committed to maintaining the highest standards of integrity, transparency, and accountability in all academic, administrative, and financial activities. A zero-tolerance policy is enforced against any unethical conduct such as offering, giving, accepting, or soliciting bribes. Clear procedures, including internal controls, financial oversight, and compliance mechanisms, are in place to prevent, detect, and address corruption risks. All staff, students, and stakeholders are expected to act honestly and with integrity. Any suspected instances of bribery or corruption can be reported through designated channels, and appropriate disciplinary measures will be taken. The Compliance Control Department oversees the implementation of anti-corruption measures. |
+| `universityMissionPolicy52Title` | 5.2 Anti-Bribery and Anti-Corruption Policy |
+| `universityMissionPolicy53P1` | The university is committed to responsible and sustainable investment practices that create long-term environmental, social, and economic value. Investment decisions are guided by principles of sustainability, ethical responsibility, and risk awareness. Priority is given to investments that contribute to environmental protection, social well-being, and good governance (ESG standards). The institution refrains from investing in activities that harm the environment, violate human rights, or contradict ethical norms. Projects and partners promoting innovation, sustainability, and positive social impact are prioritized. The investment portfolio is regularly reviewed to ensure transparency, accountability, and alignment with strategic goals. |
+| `universityMissionPolicy53Title` | 5.3 Sustainable Investment Policy |
+| `universityMissionPolicy54P1` | The university is committed to sustainable procurement practices that minimize environmental impact and promote social responsibility. Priority is given to eco-friendly, energy-efficient, and resource-saving products and services. The use of recycled materials, ecologically certified products, and sustainable technologies is encouraged. Suppliers and partners are expected to adhere to ethical, environmental, and social standards; those demonstrating responsible business practices and sustainability commitments are prioritized. Sustainability criteria are incorporated into procurement decisions to support long-term environmental protection, cost-effectiveness, and institutional accountability. |
+| `universityMissionPolicy54Title` | 5.4 Sustainable Procurement Policy |
+| `universityMissionPolicy55P1` | The university is firmly committed to preventing all forms of modern slavery, including forced labor, human trafficking, and exploitation, within its operations and supply chains. Human rights are upheld, and all partners are required to comply with ethical and legal standards. Transparency and due diligence are promoted in procurement and partnership processes. Any concerns can be confidentially reported through official channels to the Compliance Control Department. All reports are taken seriously, and appropriate actions are taken in accordance with institutional policy and legal requirements. |
+| `universityMissionPolicy55Title` | 5.5 Modern Slavery Policy |
+| `universityMissionPolicy56P1` | The university is dedicated to ensuring a safe, secure, and supportive environment for all students in academic, residential, and campus activities. Measures are in place to protect students from physical, psychological, and social risks, including campus security systems, health and safety regulations, emergency response procedures, and student support services. A culture of respect, responsibility, and well-being is promoted, ensuring all students are treated fairly and protected from bullying, discrimination, and unsafe conditions. Regular monitoring and preventive actions are carried out to maintain a safe learning environment. Students are encouraged to report any safety concerns through designated channels to the relevant departments, including Student Affairs and the Compliance Control Department. All reports are treated confidentially and receive a prompt response. |
+| `universityMissionPolicy56Title` | 5.6 Student Safety Policy |
+| `universityMissionPolicy57P1` | The university is committed to fostering a diverse, equitable, and inclusive environment for all students, faculty, staff, and stakeholders, regardless of race, ethnicity, nationality, gender, age, religion, disability, sexual orientation, or socio-economic background. Diversity enriches the academic experience, drives innovation, and strengthens community engagement. Inclusion is embedded in university policies, recruitment and admission processes, curriculum development, campus life, and decision-making structures. Equal opportunities are promoted, and proactive measures are taken to eliminate discrimination, harassment, and bias. Reasonable accommodations are provided for individuals with disabilities and other special needs. Regular training and awareness programs on diversity, equity, and inclusion are organized for staff and students, and inclusive student groups and forums are encouraged. Progress is monitored, and reports are reviewed regularly by university leadership. Any instances of discrimination or exclusion should be reported through official channels. |
+| `universityMissionPolicy57Title` | 5.7 Diversity and Inclusion Policy |
+| `universityMissionReportConcernsPrefix` | Report concerns:  |
+| `universityMissionSection1CoreValue1` | Openness to new ideas and modern approaches |
+| `universityMissionSection1CoreValue2` | Fostering collaboration within the academic community |
+| `universityMissionSection1CoreValue3` | Upholding the free expression of thoughts and ideas |
+| `universityMissionSection1CoreValuesTitle` | TUES core values: |
+| `universityMissionSection1P1` | Termiz University of Economics and Service (TUES) is dedicated to providing high-quality higher education for students from Uzbekistan and abroad. We offer a wide range of bachelor's and master's degree programs in economics, medicine, IT, and other fields, giving our graduates strong opportunities in the global job market. |
+| `universityMissionSection1P3` | The university adheres to the following values: |
+| `universityMissionSection1P4` | Through these values, TUES is dedicated to supporting individuals and shaping the future of Uzbekistan and the global community. |
+| `universityMissionSection1Title` | I. UNIVERSITY MISSION AND VISION |
+| `universityMissionSection1Value1` | Commitment to excellence |
+| `universityMissionSection1Value2` | International cooperation |
+| `universityMissionSection1Value3` | Traditional values |
+| `universityMissionSection1Value4` | Responsibility to society |
+| `universityMissionSection2Goal1` | Increase the number of international partnerships and joint programs |
+| `universityMissionSection2Goal2` | Improve the university's position in international rankings |
+| `universityMissionSection2Goal3` | Increase the number of scientific publications and research projects |
+| `universityMissionSection2Goal4` | Enhance graduate employability |
+| `universityMissionSection2Goal5` | Expand digital learning platforms and infrastructure |
+| `universityMissionSection2GoalsTitle` | Key strategic indicators: |
+| `universityMissionSection2ImplementationP1` | The strategic plan is executed through annual action plans, clearly defined responsibilities, and measurable key performance indicators (KPIs). Progress is regularly monitored and adjustments are made based on results. |
+| `universityMissionSection2ImplementationTitle` | Implementation |
+| `universityMissionSection2Objective1` | Improve education quality in line with international standards |
+| `universityMissionSection2Objective2` | Strengthen research and innovation capacity |
+| `universityMissionSection2Objective3` | Expand international cooperation and academic mobility |
+| `universityMissionSection2Objective4` | Accelerate digital transformation in education and management |
+| `universityMissionSection2Objective5` | Promote sustainable development principles |
+| `universityMissionSection2ObjectivesTitle` | Strategic goals: |
+| `universityMissionSection2PdfDescription` | Official strategic development plan outlining the university's long-term goals and priorities. |
+| `universityMissionSection2PdfPlaceholder` | The development strategy PDF will be published here soon. |
+| `universityMissionSection2PdfTitle` | Development Strategy |
+| `universityMissionSection2Title` | II. STRATEGIC DEVELOPMENT PLAN |
+| `universityMissionSection3GovernanceP1` | Risk management is overseen by university leadership and relevant departments. A designated committee or responsible unit monitors risk-related issues and reports regularly to management. Routine reports are prepared to ensure transparency, accountability, and timely decision-making. |
+| `universityMissionSection3GovernanceTitle` | Governance and reporting: |
+| `universityMissionSection3Mitigation1` | Continuous monitoring of academic quality and performance indicators |
+| `universityMissionSection3Mitigation2` | Diversification of financial resources and funding sources |
+| `universityMissionSection3Mitigation3` | Strengthening internal control and audit systems |
+| `universityMissionSection3Mitigation4` | Regular staff training and capacity building |
+| `universityMissionSection3Mitigation5` | Modernization of IT infrastructure and data protection systems |
+| `universityMissionSection3MitigationTitle` | Risk mitigation measures: |
+| `universityMissionSection3P1` | The university has established a comprehensive risk management system to identify, assess, and mitigate potential risks that may affect its strategic goals and daily operations. This system ensures institutional stability, accountability, and long-term resilience. |
+| `universityMissionSection3Risk1` | Academic risks (education quality, curriculum relevance) |
+| `universityMissionSection3Risk2` | Financial risks (budget constraints, funding sustainability) |
+| `universityMissionSection3Risk3` | Operational risks (administrative processes) |
+| `universityMissionSection3RiskIdP2` | Each identified risk is evaluated based on its likelihood and potential impact. Priorities are set so that critical areas receive immediate attention and necessary resources. |
+| `universityMissionSection3RiskIdTitle` | Risk categories: |
+| `universityMissionSection3Title` | III. RISK MANAGEMENT SYSTEM |
+| `universityMissionSection4EnvironmentalAwarenessP1` | Awareness campaigns, workshops, and student initiatives actively promote environmental consciousness. Cooperation with local and international partners supports the development of sustainable practices and ecological responsibility. |
+| `universityMissionSection4EnvironmentalAwarenessTitle` | Environmental awareness and community outreach: |
+| `universityMissionSection4FutureGoal1` | Expand green infrastructure and energy efficiency measures |
+| `universityMissionSection4FutureGoal2` | Increase environmental education programs |
+| `universityMissionSection4FutureGoal3` | Support sustainable research and innovation projects |
+| `universityMissionSection4FutureGoal4` | Strengthen partnerships on sustainability and climate action |
+| `universityMissionSection4FutureGoalsTitle` | Future sustainability goals: |
+| `universityMissionSection4GreenCampusTitle` | Green campus initiatives: |
+| `universityMissionSection4Initiative1` | Energy-efficient technologies and efficient lighting systems |
+| `universityMissionSection4Initiative2` | Rational use of water resources |
+| `universityMissionSection4Initiative3` | Waste reduction and recycling practices |
+| `universityMissionSection4Initiative4` | Green spaces and landscape development |
+| `universityMissionSection4P1` | The university is committed to environmental sustainability and has integrated green development principles into its strategic priorities. Sustainability is embedded in education, campus operations, and community engagement. |
+| `universityMissionSection4PdfDescription` | Green development and sustainability strategy for campus operations, education, and research. |
+| `universityMissionSection4PdfPlaceholder` | The green strategy PDF will be published here soon. |
+| `universityMissionSection4PdfTitle` | Green Strategy |
+| `universityMissionSection4SustainableEducationP1` | Sustainability principles are integrated into academic programs and research activities. Students are encouraged to develop environmentally responsible solutions through coursework, projects, and scientific research. |
+| `universityMissionSection4SustainableEducationTitle` | Sustainable education and research: |
+| `universityMissionSection4Title` | IV. GREEN DEVELOPMENT AND SUSTAINABILITY |
+| `universityMissionSection5Title` | V. INSTITUTIONAL POLICIES |
+| `universityRatingsClosing` | These achievements are the result of the dedicated work of TUES faculty, researchers, students, and the entire university community. TUES will continue to reach new milestones in education quality, science, and sustainable development. |
+| `universityRatingsGlance1Label` | THE Impact Rankings 2026 |
+| `universityRatingsGlance1Value` | 301–400 |
+| `universityRatingsGlance2Label` | UI GreenMetric 2025 |
+| `universityRatingsGlance2Value` | TOP 1000 |
+| `universityRatingsGlance3Label` | Regional universities |
+| `universityRatingsGlance3Value` | 1st |
+| `universityRatingsGlance4Label` | Nationwide |
+| `universityRatingsGlance4Value` | 7th |
+| `universityRatingsGlanceTitle` | At a glance |
+| `universityRatingsGreenBody` | Based on campus infrastructure, energy efficiency, waste management, water resources, and sustainable education, TUES entered the list of the world’s top 1000 “green” universities. |
+| `universityRatingsGreenBullet1` | Global TOP 1000 green university |
+| `universityRatingsGreenBullet2` | Criteria: environmental infrastructure and management policies |
+| `universityRatingsGreenTitle` | UI GreenMetric World University Rankings 2025 |
+| `universityRatingsInstitution` | Termez University of Economics and Service — International Rankings |
+| `universityRatingsIntro` | In recent years, Termiz University of Economics and Service (TUES) has achieved significant results in two prestigious international rankings. Below is an overview of these accomplishments. |
+| `universityRatingsPageTitle` | International Rankings |
+| `universityRatingsTheBody` | TUES made a historic leap in this ranking, which assesses universities based on their contribution to the UN Sustainable Development Goals, education quality, and research activity. |
+| `universityRatingsTheBullet1` | Position: 301–400 band (up from 1501+ in 2024) |
+| `universityRatingsTheBullet2` | Global TOP 400 |
+| `universityRatingsTheBullet3` | Uzbekistan ranking: 7th place |
+| `universityRatingsTheBullet4` | Regional universities: 1st place |
+| `universityRatingsTheBullet5` | Recognized as one of the fastest-rising universities internationally |
+| `universityRatingsTheTitle` | Times Higher Education (THE) Impact Rankings 2026 |
+| `universityRequisitesAddress` | 38-B Ibn Sino Street, Yulduz MFY, Termez, Surkhandarya Region, Uzbekistan |
+| `universityRequisitesBankName` | Sanoat Qurilish Bank, Termez city branch |
+| `universityRequisitesInstitutionName` | Termez University of Economics and Service |
+| `universityRequisitesLabelAccount` | Account number |
+| `universityRequisitesLabelAddress` | Address |
+| `universityRequisitesLabelBank` | Bank |
+| `universityRequisitesLabelInn` | INN (TIN) |
+| `universityRequisitesLabelMfo` | MFO |
+| `universityRequisitesLabelPhone` | Phone |
+| `universityRequisitesPageIntro` | Official legal name, address, contact numbers, and bank details of Termez University of Economics and Service. |
+| `universityRequisitesPageTitle` | Requisites |
+| `videoGallery.aboutUniversity.title` | About the University |
+| `videoGallery.anilBayirInterview.title` | Interview with Anil Bayir, Representative of the Cambridge Assessment and Press Organization |
+| `videoGallery.channelName` | Termez University of Economics and Service |
+| `videoGallery.creativityEvening.title` | A video clip from the literary and artistic evening titled "Evening of Creativity and Inspiration" |
+| `videoGallery.gridIntro` | Selected recordings from campus events, lectures, and student life. Use the player on each card to watch; more videos will be published here as they become available. |
+| `videoGallery.hippocraticOath.title` | TUES students took the Hippocratic oath |
+| `videoGallery.indonesiaProgram.title` | TUES students are participating in an 8-week academic program in Indonesia |
+| `videoGallery.internationalConference.title` | An international scientific and practical conference was held at TUES |
+| `videoGallery.linguisticsConference.title` | International scientific and practical conference on "Innovations in linguistics and language education: global trends and local perspectives" |
+| `videoGallery.medicineFaculty.title` | Faculty of Medicine, Termez university of economics and service |
+| `videoGallery.militaryUnitDay.title` | TUES students took part in the "One day in a military unit" project |
+| `videoGallery.nextVideo` | Next video |
+| `videoGallery.previousVideo` | Previous video |
+| `videoGallery.videoLabel` | Video gallery |
+| `videoGallery.watchVideo` | Watch video |
+| `videoGallery.yuzmaYuz.title` | "Yuzma-yuz" — a new project! |
+| `whoWeAreMissionDocxBadge` | Microsoft Word (.docx) |
+| `whoWeAreMissionDownloadCta` | Download |
+| `whoWeAreMissionDownloadLead` | Each link opens the file in a new tab. Use your browser’s save option if you want to keep a copy on your device. |
+| `whoWeAreMissionDownloadTitle` | Download mission statement |
+| `whoWeAreMissionIntro` | ## Welcome to Termez University of Economics and Service<br><br>At Termez University, we believe that education is a journey of exploration where possibilities are limitless and futures are shaped. We are more than just a place of higher education; we are a vibrant community dedicated to academic excellence, personal growth, and shaping the leaders of tomorrow.<br><br>## Our Mission and Values<br><br>Our institution is rooted in a rich tradition of academic rigor and a steadfast commitment to fostering innovation and creativity. Our dedicated faculty members serve as mentors, guiding students toward their full potential and helping them make a meaningful difference in the world.<br><br>## Academic Diversity<br><br>We take pride in our diverse academic departments, which offer a wide range of programs designed to meet the demands of the modern world:<br><br>- Economics and Information Technologies: Providing training in finance, accounting, banking, world economy, and cutting-edge information systems.<br>- Education and Social Sciences: Offering programs in pedagogy, psychology, history, and various languages, including English, Uzbek, and Russian.<br>- Medical Faculty: Dedicated to preparing the next generation of healthcare professionals and researchers through high-quality medical education.<br><br>## Excellence Beyond Academics<br><br>Success at Termez University goes beyond the classroom. Our students benefit from:<br><br>- State-of-the-art Facilities: From cutting-edge laboratories to extensive libraries, we provide the ideal environment for research and collaboration.<br>- Real-World Preparation: Our internship and career development programs ensure that graduates are well-equipped for their future careers.<br>- Community Impact: We believe in giving back, and our students are actively involved in service projects that make a positive impact on society.<br>- Global Understanding: Our diverse student body represents a mosaic of backgrounds and cultures, enriching the learning experience for everyone.<br><br>Join us on this incredible journey toward knowledge, growth, and success. |
+| `womensAffairsPageBody` | The University of Economics and Services in Termez has established an Advisory Committee on women's affairs, which supports women at a social and political level.<br><br>The Committee is a standing, public body designed to protect the rights and legitimate interests of women, as well as to assist in the implementation of the socio-political guarantees provided for in the Constitution and laws of the Republic of Uzbekistan.<br><br>The Council's activities are based on the Constitution and laws of the Republic of Uzbekistan, decisions of the chambers of the Oliy Majlis of the Republic of Uzbekistan, decrees, resolutions and directives of the President of the Republic of Uzbekistan and resolutions and directives of the Cabinet of Ministers of the Republic of Uzbekistan, as well as the Ministry of Science and Innovation, the normative documents of the Ministry of Higher Education, Science and Innovation, in accordance with this Regulation and other legislative acts.<br><br>At the same time, its activities are conducted on the principles of legality, collective decision-making, transparency, mutual cooperation and respect, equality, voluntariness, and taking public opinion into account. |
+| `womensAffairsPageTasksBullets` | - To coordinate the organisational work aimed at ensuring the effective implementation of state policy to support women, protecting their rights and legitimate interests, and increasing their role and active participation in the country's socio-political life;<br>- Assisting in the organisation of targeted events aimed at strengthening the role of women in the labour market, the public sector and civil service, providing them with social and legal support, and systematically monitoring their feedback;<br>- To identify in a timely manner the problems faced by women in the labour market; to assist in the organisation of targeted initiatives aimed at strengthening the role of women in the public sector and public administration; to provide systematic social and legal support; to compile a register of women in need of assistance and to provide them, including women with disabilities, with social, legal, psychological and material support;<br>- Assisting in the creation of a targeted list for women with disabilities, providing them with social, legal, psychological and material support, and supplying them with rehabilitation equipment;<br>- To conduct public oversight of the enforcement of laws ensuring equal rights and opportunities for men and women, and to make relevant recommendations;<br>- To monitor the implementation of laws protecting women from violence and harassment, and to submit well-considered recommendations to ministries to identify victims of violence, promote their rehabilitation, and assist in the protection of their rights;<br>- Participating in the development and implementation of regional plans to protect women from hooliganism and violence;<br>- To assist in preparing female students for family life, to encourage young families to participate in social activities, and to widely promote the lives and lifestyles of exemplary women engaged in social and humanitarian work;<br>- Organising various competitions and sporting events among women, as well as conducting the selection process for candidates for the “Zulfiya National Award” and the “Honourable Woman” medal under effective public supervision, with the aim of ensuring compliance with the principles of legality, social justice and transparency;<br>- To ensure the implementation and direct compliance with the documents, standards, and requirements established in national and international legislation on the protection of women's rights;<br>- Nominate outstanding female employees within the system for consideration as candidates for national awards. |
+| `womensAffairsPageTasksHeading` | The main tasks and functions of the Council are as follows: |
+| `womensAffairsPageTitle` | Women's Affairs Advisory Committee at the University of Economics and Services in Termez |
+| `workersUnionActivitiesBullets` | Participating in the development of regulatory documents concerning the protection of the rights and interests of trade union members;<br>Conducting public oversight of labour legislation;<br>Negotiating collective agreements and resolving disputes in employment relations;<br>Strengthening the social protection of members;<br>Organising cultural and educational events;<br>Promoting the health, physical fitness and sport for KUQ members and their families;<br>Establishing cooperation with social and non-governmental organisations, and foreign trade unions. |
+| `workersUnionActivitiesTitle` | The activities of the Trade Union Committee are carried out in the following areas: |
+| `workersUnionAimsLead` | The primary aim of the trade union is to protect the members' labour rights, socio-economic status, spiritual and cultural development, and intellectual and legal interests. |
+| `workersUnionAimsTitle` | The main aims and objectives of the Trade Union Committee: |
+| `workersUnionClosing` | The KUQ conducts its activities in cooperation with the university administration, based on the principles of social partnership.<br><br>The committee also cooperates with the Republican Council of the Trade Union of Education and Science Workers of Uzbekistan, the Council of the Federation of Trade Unions of Uzbekistan, all higher education institution trade unions, and theatres, art palaces, sports facilities, sanatoriums, holiday resorts and children's health camps in our republic. |
+| `workersUnionCompositionList` | 1. The Trade Union Conference is the supreme body of the KUQ and is convened once every five years.<br>2. The Trade Union Committee is the governing body between conferences and is elected for a five-year term.<br>3. During the conference, the chairperson, their deputies, members of the committee and the presidium, as well as members of the audit commission, are elected.<br>4. The committee members ensure the implementation of the decisions of the conference, the plenum and the presidium.<br>5. The financial resources of the Trade Union Committee are contributions deducted from members' monthly salaries.<br>6. Membership contributions shall amount to at least 1 per cent of the monthly wage. |
+| `workersUnionCompositionTitle` | Composition of the Trade Union Committee: |
+| `workersUnionIntro` | The Trade Union Committee (TUC) of Termez University of Economics and Service operates in accordance with the university's charter and organisational structure, as well as the charter of the primary organisation.<br><br>The KUQ operates on the basis of a Collective Agreement, in cooperation with the university management, aimed at protecting the social, economic and legal interests of employees. All provisions of this Agreement are regularly monitored and implemented. |
+| `youthLeadersHeroSrc` | /images/community-clubs/youth-leaders.png |
+| `youthLeadersIntro` | Today, strengthening the role of youth in the socio-political life of the Republic of Uzbekistan is a priority of state policy. Higher education institutions serve as the primary platform for the intellectual, spiritual, and professional development of young people. In this regard, establishing the institute of youth leaders in universities is of great significance.<br><br>The “Regulation on the organization of youth leaders’ activities,” approved in 2025 by the Rector of Termez University of Economics and Service, A.E. Absamatov, is a crucial document defining a systematic approach to working with youth. |
+| `youthLeadersPageTitle` | Youth Leaders |
+| `youthLeadersS1Body` | A Youth Leader is a representative who ensures cooperation between the university (faculty) administration and students, representing and protecting the rights and interests of the student body. Their activities are based on the Constitution of Uzbekistan, the Laws “On education” and “On state youth policy,” the University Charter, Internal Regulations, and the Code of Ethics.<br><br>Youth leaders adhere to three core principles: Legality (compliance with laws), Transparency (keeping students and management informed), and Solidarity (collaborative action and team-oriented work). |
+| `youthLeadersS1Title` | Definition and legal basis of the youth leader |
+| `youthLeadersS2Body` | The primary goal is to protect student interests and enhance their social, spiritual, and intellectual potential. Key tasks include increasing socio-political activity, creating a zero-tolerance environment for corruption, organizing meaningful leisure time, supporting research, and promoting a healthy lifestyle. |
+| `youthLeadersS2Title` | Main objectives and tasks |
+| `youthLeadersS3Lead` | The regulation covers eight main areas: |
+| `youthLeadersS3List` | Organizational and Educational: Spiritual and moral development and fostering civic responsibility.<br>Support for Youth Initiatives: Implementing projects within the “5 Important Initiatives” and coordinating volunteer movements.<br>Social Protection: Identifying and supporting students in need regarding scholarships and housing.<br>Cultural and Public Events: Organizing sports competitions, intellectual games, and international forums.<br>Prevention and Healthy Lifestyle: Preventing crime, drug addiction, and extremism.<br>Work with Student Dormitories: Improving living conditions and maintaining discipline.<br>Information, Analysis, and Reporting: Monitoring program implementation and analyzing student feedback.<br>Cooperation and External Relations: Collaborating with the Youth Affairs Agency and other universities. |
+| `youthLeadersS3Title` | Core fields of activity |
+| `youthLeadersS4Body` | Leaders have the right to participate in University Council and Rectorate meetings regarding youth issues, submit proposals, and make official inquiries to management. Their duties include planning events, organizing charity auctions, and ensuring effective communication through social media. |
+| `youthLeadersS4Title` | Legal status and powers |
+| `youthLeadersS5Body` | Faculty youth leaders are appointed by the First Vice-Rector for a term of one year, based on the recommendation of the Deputy Dean for Youth Affairs. Candidates must possess leadership qualities, public speaking skills, and organizational abilities. |
+| `youthLeadersS5Title` | Selection and appointment procedure |
+| `youthLeadersS6Body` | Active leaders may be awarded a one-time monetary prize of up to 3 times the Base Calculating Amount (BCA) under the “Most active leader of the year” category.<br><br>Leaders are required to submit quarterly reports on the implementation of their work plans. |
+| `youthLeadersS6Title` | Incentives and accountability |
+
+---
+
+# Code defaults (English)
+
+These strings live in TypeScript and are used as `defaultValue` when a key is missing from `topNav.json` or other locale files.
+
+## `aboutUniversityPageDefaults.ts` {#defaults-aboutUniversityPageDefaultsts}
+
+### `ABOUT_UNIVERSITY_PAGE_DEFAULTS`
+
+_Source: `src/locales/aboutUniversityPageDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `aboutUniversityPageIntro` | Watch the featured video for an introduction to Termez University of Economics and Service (TUES). |
+| `aboutUniversityVideoPlayLabel` | Play video on this page |
+
+---
+
+## `academicFreedomPolicyDefaults.ts` {#defaults-academicFreedomPolicyDefaultsts}
+
+### `ACADEMIC_FREEDOM_POLICY_DEFAULTS`
+
+_Source: `src/locales/academicFreedomPolicyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `academicFreedomPolicyApprovedBy` | The Rector |
+| `academicFreedomPolicyApprovedByLabel` | Approved by |
+| `academicFreedomPolicyApprovedHeading` | Approved |
+| `academicFreedomPolicyApprovedInstitution` | Termiz University of Economics and Service |
+| `academicFreedomPolicyEffectiveDate` | 10 January 2023 |
+| `academicFreedomPolicyEffectiveDateLabel` | Effective date |
+| `academicFreedomPolicyPdfDownloadCta` | Download PDF |
+| `academicFreedomPolicySection1Body` | Termez University of Economics and Service understands academic freedom as one of the essential conditions for genuine university life. Academic freedom is the right and responsibility of members of the academic community to pursue knowledge, conduct inquiry, teach, learn, discuss, publish, and communicate ideas without improper political, commercial, ideological, or personal interference.<br><br>TUES recognizes that the integrity of higher education depends on an academic culture in which intellectual disagreement is not suppressed but treated as an essential part of scholarly development. Academic freedom at TUES is inseparable from intellectual responsibility: it does not remove the obligation to act professionally, respect established academic procedures, protect the rights of others, or uphold the ethical standards of the institution.<br><br>The University affirms that academic work should be assessed according to academic criteria, professional standards, and ethical principles, and not according to external pressure unrelated to the scholarly merit of the work itself. |
+| `academicFreedomPolicySection1Title` | 1. Academic Freedom |
+| `academicFreedomPolicySection2Body` | Termez University of Economics and Service rejects all forms of discrimination, exclusion, and unequal treatment that undermine the dignity of individuals or the fairness of the academic environment. TUES does not tolerate direct or indirect discrimination on grounds such as language, ethnicity, race, nationality, religion, social origin, disability, gender, age, family status, political views, or other legally and ethically protected characteristics.<br><br>The University considers a pluralistic and respectful environment to be indispensable to the full development of scientific inquiry, teaching, and social engagement. Any conduct that humiliates, excludes, marginalizes, intimidates, or disadvantages a student, staff member, applicant, visitor, or service provider on discriminatory grounds is contrary to the values of TUES.<br><br>Where concerns of discrimination arise, the University expects them to be addressed through established institutional procedures, with due regard to confidentiality, impartiality, and procedural fairness. |
+| `academicFreedomPolicySection2Title` | 2. No to Discrimination |
+| `academicFreedomPolicySection3Body` | TUES is committed to maintaining an academic and working environment in which all persons are treated with dignity and in which harassment, intimidation, and discriminatory abuse are not tolerated. The University prohibits all forms of harassment and discriminatory behaviour, whether committed by students, academic staff, administrative staff, managers, consultants, visitors, contractors, or external partners.<br><br>Harassment may take verbal, written, visual, digital, psychological, or physical forms. It may include degrading comments, repeated humiliation, hostile or offensive conduct, threatening language, exclusionary actions, or any persistent behaviour that creates a hostile, unsafe, or degrading environment for another person.<br><br>The University likewise prohibits retaliation. No person shall be subjected to intimidation, disadvantage, pressure, or reprisal for reporting a concern in good faith, requesting advice, assisting in an investigation, or participating in institutional processes related to harassment or discrimination. |
+| `academicFreedomPolicySection3Title` | 3. Policy Against Harassment and Discrimination |
+| `academicFreedomPolicySection4Body` | Termez University of Economics and Service unequivocally prohibits sexual harassment, sexual intimidation, sexual coercion, and other forms of gender-based misconduct. The University recognizes that such behaviour is deeply harmful to individuals and destructive to the academic and social environment of the institution.<br><br>Sexual harassment includes unwelcome verbal, non-verbal, written, digital, or physical conduct of a sexual nature that violates a person's dignity, creates an intimidating or humiliating environment, interferes with academic or professional participation, or places a person under inappropriate pressure. Such conduct is unacceptable regardless of where it takes place.<br><br>TUES is committed to ensuring that any member of the University community who experiences or witnesses such conduct has access to appropriate reporting, advisory, and support mechanisms. The University will treat such matters seriously, handle them with due care and confidentiality, and ensure that those affected are not left without institutional support. |
+| `academicFreedomPolicySection4Title` | 4. No to Sexual Harassment |
+| `academicFreedomPolicySection5Body` | Termez University of Economics and Service considers academic honesty to be one of the indispensable foundations of university life. TUES expects all students, academic staff, researchers, and administrative personnel engaged in academic processes to observe the highest standards of honesty in study, teaching, assessment, research design, authorship, publication, supervision, and data handling.<br><br>The University affirms that plagiarism, fabrication, falsification, unauthorized assistance, academic sabotage, misappropriation of intellectual labour, coercive authorship practices, manipulation of research data, or any other conduct contrary to the principles of honest academic work are unacceptable.<br><br>TUES promotes academic integrity not only through sanctions and regulations, but also through awareness, guidance, mentoring, ethical review, and support for good academic practice. |
+| `academicFreedomPolicySection5Title` | 5. Academic Honesty and Ethics |
+| `academicFreedomPolicySection6Body` | Termez University of Economics and Service declares its firm commitment to protecting academic freedom, promoting equality, preventing harassment and discrimination, prohibiting sexual misconduct, and safeguarding academic honesty across all areas of university activity.<br><br>TUES undertakes to develop and maintain policies, procedures, structures, and practices that protect these principles in institutional life. It will continue to strengthen awareness, internal accountability, reporting mechanisms, leadership responsibility, and support systems so that members of the University community can study and work in an environment that is free, fair, professional, and respectful.<br><br>These principles are not merely declarative. They are expected to guide daily behaviour, academic practice, administrative decision-making, and institutional development. |
+| `academicFreedomPolicySection6Title` | 6. Institutional Commitment |
+
+### `ACADEMIC_FREEDOM_POLICY_SECTIONS`
+
+_Source: `src/locales/academicFreedomPolicyDefaults.ts`_
+
+```json
+[
+  {
+    "titleKey": "academicFreedomPolicySection1Title",
+    "bodyKey": "academicFreedomPolicySection1Body"
+  },
+  {
+    "titleKey": "academicFreedomPolicySection2Title",
+    "bodyKey": "academicFreedomPolicySection2Body"
+  },
+  {
+    "titleKey": "academicFreedomPolicySection3Title",
+    "bodyKey": "academicFreedomPolicySection3Body"
+  },
+  {
+    "titleKey": "academicFreedomPolicySection4Title",
+    "bodyKey": "academicFreedomPolicySection4Body"
+  },
+  {
+    "titleKey": "academicFreedomPolicySection5Title",
+    "bodyKey": "academicFreedomPolicySection5Body"
+  },
+  {
+    "titleKey": "academicFreedomPolicySection6Title",
+    "bodyKey": "academicFreedomPolicySection6Body"
+  }
+]
+```
+
+---
+
+## `academicPositionsDefaults.ts` {#defaults-academicPositionsDefaultsts}
+
+### `ACADEMIC_POSITIONS_PAGE_DEFAULTS`
+
+_Source: `src/locales/academicPositionsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `academicPositionsEmptyImageAlt` | Empty folder with documents |
+| `academicPositionsEmptyImageSrc` | /images/vacancies/academic-positions-empty.png?v=2 |
+| `academicPositionsEmptyMessage` | No available positions at this time. |
+| `academicPositionsPageTitle` | Academic Positions |
+
+---
+
+## `academicSupportServicesDefaults.ts` {#defaults-academicSupportServicesDefaultsts}
+
+### `ACADEMIC_SUPPORT_SERVICES_DEFAULTS`
+
+_Source: `src/locales/academicSupportServicesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `academicSupportServicesAdvisingOfficeLines` | Personnel: Raxmanova Dilrabo<br>Position: Head of the Student Affairs Department<br>Telephone: +998 87 322 75 65 |
+| `academicSupportServicesAdvisingOfficeTitle` | Academic Advising Office |
+| `academicSupportServicesBreadcrumbLeaf` | Advising & support services |
+| `academicSupportServicesEnrolmentContactsLines` | Personnel: Meyliqulov Shakhboz<br>Position: Head of the center for Digital Education Technologies<br>Telephone: +998 97 670 44 77 |
+| `academicSupportServicesEnrolmentContactsTitle` | Enrolment advisory contacts |
+| `academicSupportServicesHandbookBody` | The Student Handbook brings together official policies, academic regulations, codes of conduct, and practical information for daily life at the university. Students are encouraged to consult it alongside advising appointments and faculty guidance. |
+| `academicSupportServicesHandbookTitle` | Student Handbook |
+| `academicSupportServicesHeroSrc` | https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=675&fit=crop&q=80 |
+| `academicSupportServicesIntro` | The University is committed to ensuring that all students receive comprehensive academic guidance and support throughout their studies. Our student academic support services are designed to promote inclusivity, academic success, and independent learning for students from diverse backgrounds. |
+| `academicSupportServicesPageTitle` | Student Academic Support |
+| `academicSupportServicesS1Body` | The University provides academic advising services tailored to the needs of students from diverse educational, cultural, and socio-economic backgrounds. Academic advisors support first-year students, international students, students with prior vocational education, and students facing academic or personal challenges. Advising includes course selection guidance, academic planning, adaptation to university learning environments, and referrals to relevant support services when necessary. These services aim to ensure equal access to academic opportunities and successful progression through study programs. |
+| `academicSupportServicesS1Title` | Advising Services for Students from Different Backgrounds |
+| `academicSupportServicesS2Body` | The University offers structured support during the enrolment process to help students successfully transition into academic life. Enrolment support includes guidance on application procedures, course registration, credit transfer, timetable planning, and understanding academic regulations. Dedicated staff members assist students during enrolment periods both online and on campus, ensuring clarity and accuracy in the registration process. |
+| `academicSupportServicesS2Title` | Enrolment Process Support |
+| `academicSupportServicesS3Body` | To support independent and self-directed learning, the University provides a wide range of academic resources. These include access to the university library, electronic databases, digital learning platforms, lecture materials, recorded classes, and methodological guidelines. Students are encouraged to use these resources to deepen subject knowledge, improve academic skills, and prepare for assessments. Academic staff also provide recommended reading lists and individual study guidance within courses.<br><br>The university library and licensed e-resource collections are central to self-directed study, complementing course materials and helping students stay current with scholarship in their fields. |
+| `academicSupportServicesS3Title` | Learning Resources for Individual Study |
+
+---
+
+## `accreditationDetailDefaults.ts` {#defaults-accreditationDetailDefaultsts}
+
+### `ACCREDITATION_INTEAS_PAGE_DEFAULTS`
+
+_Source: `src/locales/accreditationDetailDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `accreditationInteasCertificateAlt` | INTEAS Certificate of Accreditation for Termez University of Economics and Service (12 June 2025 – 30 June 2029) |
+| `accreditationInteasPageAbout` | INTEAS (International Education Accreditation Services) is an international accreditation organisation that assesses the quality standards of higher education institutions and accredits them for international recognition. |
+| `accreditationInteasPageAdvantagesTitle` | Advantages of INTEAS accreditation for the university: |
+| `accreditationInteasPageBullets` | - International recognition – Accredited universities are considered trustworthy by students, partners, and employers worldwide;<br>- Guarantee of Quality of Education – INTEAS standards ensure that the university maintains its academic programmes, faculty, and infrastructure at a high standard;<br>- Opportunities for students – Graduates of accredited universities have an advantage when studying or working at foreign universities.<br>- Competitiveness – The opportunity for collaboration with other internationally accredited universities is enhanced;<br>- Financial and marketing benefits – Accreditation helps the university to attract new students and international grants. |
+| `accreditationInteasPageLead` | Termiz University of Economics and Service has been accredited by the international organisation INTEAS. |
+| `accreditationInteasPageTitle` | INTEAS |
+
+### `ACCREDITATION_WDOMS_PAGE_DEFAULTS`
+
+_Source: `src/locales/accreditationDetailDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `accreditationWdomsImageAlt` | World Directory of Medical Schools website — Sponsors page showing major sponsors and partner organisations |
+| `accreditationWdomsPageBody` | The directory supports transparency for students, regulators, and partners when verifying institutional records. Listing policies and search tools are maintained on the official WDOMS website.<br><br>Use the accreditation overview page to return to other recognition frameworks, or contact the university for questions specific to Termez University of Economics and Service. |
+| `accreditationWdomsPageLead` | The World Directory of Medical Schools (WDOMS) is a global registry developed by the World Federation for Medical Education (WFME) and FAIMER to list medical schools worldwide with structured, verified information. |
+| `accreditationWdomsPageTitle` | WDOMS |
+
+---
+
+## `accreditationLicenseDefaults.ts` {#defaults-accreditationLicenseDefaultsts}
+
+### `ACCREDITATION_LICENSE_I18N_DEFAULTS`
+
+_Source: `src/locales/accreditationLicenseDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `accreditationInteasDesc` | International Education Accreditation Society — accreditation, certification, and institutional directory. |
+| `accreditationLicense2Desc` | Official university operating license issued by the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan. |
+| `accreditationLicense2ImageAlt` | Preview of the official university operating license issued by the Ministry of Higher Education, Science and Innovations of the Republic of Uzbekistan. |
+| `accreditationLicense2Title` | License |
+| `accreditationLicenseDownloadCta` | Download |
+| `accreditationLicenseIntro` | Termez University of Economics and Service participates in international recognition frameworks. Select a card below to read more about INTEAS or WDOMS, or download the university license. |
+| `accreditationRegistryCta` | Read more |
+| `accreditationWdomsDesc` | World Directory of Medical Schools — searchable global registry maintained by WFME and FAIMER. |
+
+---
+
+## `administrativePositionsDefaults.ts` {#defaults-administrativePositionsDefaultsts}
+
+### `ADMINISTRATIVE_POSITIONS_PAGE_DEFAULTS`
+
+_Source: `src/locales/administrativePositionsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `administrativePositionsEmptyImageAlt` | Empty folder with documents |
+| `administrativePositionsEmptyImageSrc` | /images/vacancies/administrative-positions-empty.png?v=1 |
+| `administrativePositionsEmptyMessage` | No available positions at this time. |
+| `administrativePositionsPageTitle` | Administrative Positions |
+
+---
+
+## `admission2025MenuDefaults.ts` {#defaults-admission2025MenuDefaultsts}
+
+### `ADMISSION_2025_MENU_PAGE_DEFAULTS`
+
+_Source: `src/locales/admission2025MenuDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `admission2025MenuCardPresidentOrderTitle` | Order of the President of the Republic of Uzbekistan |
+| `admission2025MenuPageIntro` | Official admission-related references from the President of the Republic of Uzbekistan. Open a card below when a document link is available. |
+| `admission2025MenuPageTitle` | Menu |
+
+### `ADMISSION_2025_MENU_CARD_KEYS`
+
+_Source: `src/locales/admission2025MenuDefaults.ts`_
+
+```json
+[
+  {
+    "id": "presidentOrder",
+    "titleKey": "admission2025MenuCardPresidentOrderTitle"
+  }
+]
+```
+
+### `ADMISSION_2025_MENU_CARD_HREFS`
+
+_Source: `src/locales/admission2025MenuDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `presidentOrder` | /admission-2025/menu/state-order-parameters-2024-2025 |
+
+### `ADMISSION_2025_MENU_CARD_IMAGES`
+
+_Source: `src/locales/admission2025MenuDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `presidentOrder` | /images/admission-2025/president-order-examination-hall.jpg |
+
+---
+
+## `advancedTrainingForeignTeachersDefaults.ts` {#defaults-advancedTrainingForeignTeachersDefaultsts}
+
+### `ADVANCED_TRAINING_FOREIGN_TEACHERS_PAGE_DEFAULTS`
+
+_Source: `src/locales/advancedTrainingForeignTeachersDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `advancedTrainingForeignTeachersCard1BreadcrumbLabel` | FZU Institute of Physics |
+| `advancedTrainingForeignTeachersCard1DetailBody` | Professors and talented students of Termez University of Economics and Service visited one of the Czech Republic's most prestigious scientific institutions — the FZU Institute of Physics. They had the opportunity to learn about the institute's activities, advanced laboratories, and international research projects carried out by scientific groups.<br><br>FZU is a world-class research center conducting scientific work in six major fields:<br><br>Particle Physics<br>Condensed Matter Physics<br>Solid-State Physics<br>Optics<br>Plasma Physics<br>Laser Physics<br><br>TUES's delegation received detailed insights from FZU scientists about ongoing fundamental research, especially studies focused on understanding movements in the universe. The scientific approaches, experimental methods, and practical outcomes presented by young researchers sparked great interest among the visitors.<br><br>This visit marked an important step in establishing international academic cooperation between the two institutions, paving the way for joint projects, academic exchanges, and internship programs. |
+| `advancedTrainingForeignTeachersCard1HeroAlt` | Delegation from Termez University of Economics and Service in front of the FZU Institute of Physics building in the Czech Republic. |
+| `advancedTrainingForeignTeachersCard1PageTitle` | Our professors at a global center of scientific research |
+| `advancedTrainingForeignTeachersCard1Title` | Our professors at a global center of scientific research |
+| `advancedTrainingForeignTeachersCard2BreadcrumbLabel` | Universities of South Korea |
+| `advancedTrainingForeignTeachersCard2DetailBody` | Today, competition in the global education market is intensifying. Every country strives to equip its youth with modern knowledge and technologies. In this context, South Korea, relying on science, discipline, and innovation, has become one of Asia's leading education hubs. From November 15 to 20 of this year, the leadership of Termez University of Economics and Service visited South Korea to become familiar with the country's higher education system.<br><br>## Scientific Campuses<br><br>Visitors to Korean universities are first impressed by vast campuses, modern laboratories, and advanced technoparks. Institutions such as Seoul National University, KAIST, and POSTECH are not merely places of instruction but full-scale innovation ecosystems.<br><br>Every building, classroom, and laboratory is designed as an environment that serves future professions. Students work with cutting-edge technologies in fields such as artificial intelligence, robotics, biotechnology, and cybersecurity—technologies rarely encountered in everyday life.<br><br>## University–Industry collaboration<br><br>One of South Korea's greatest strengths is the close integration of education and industry. Global corporations such as Samsung, Hyundai, and LG have established joint laboratories with universities. As soon as students acquire theoretical knowledge, they apply it in practice.<br><br>As a result, Korean graduates enter the international labor market as highly competitive specialists with strong practical skills.<br><br>## Student Life: Responsibility and a spirit of inquiry<br><br>In Korean universities, the lights remain on even at night. Late-night study sessions in libraries, startup teams, and scientific meetings with professors reflect the students' constant pursuit of knowledge. At the same time, students enjoy well-developed infrastructure, including campus cafeterias, sports centers, and cultural clubs that operate continuously.<br><br>In recent years, the number of Uzbek students studying at Korean universities has increased significantly. This growth is driven by scholarship programs, English-taught courses, effective adaptation systems, and favorable conditions created for international students.<br><br>Each university has an international student office that provides assistance with everything from the application process to accommodation arrangements.<br><br>## An inspiring educational journey<br><br>Visiting Korean universities is not only about seeing educational institutions but also about experiencing a new perspective on science. Advanced technologies, discipline, diligence, and teamwork together define the strength of Korea's education system.<br><br>Such visits serve as a powerful motivation for young people to set ambitious goals and gain a deeper understanding of modern education.<br><br>A trip to South Korean universities opens a new educational world for youth—one that embodies science, innovation, order, and inspiration. That is why Korean universities today are not merely places of study, but institutions that guide ambitious young people toward the future.<br><br>Sadriddin Eshkarayev,<br>Vice-Rector for Research and Innovation,<br>Doctor of Philosophy (PhD) in Chemical Sciences |
+| `advancedTrainingForeignTeachersCard2HeroAlt` | Large gathering of faculty and officials in academic regalia on the steps of Kyungbok University, South Korea, during a formal academic visit. |
+| `advancedTrainingForeignTeachersCard2PageTitle` | Universities of South Korea |
+| `advancedTrainingForeignTeachersCard2Title` | Universities of South Korea |
+| `advancedTrainingForeignTeachersCard3BreadcrumbLabel` | Guangzhou |
+| `advancedTrainingForeignTeachersCard3DetailBody` | From November 22 to 27 of this year, the delegation of our university visited industrial enterprises in Guangzhou, China. Guangzhou, a major center of industry and innovation in southern China, today, in the era of globalization, stands as one of Asia's most powerful economic engines. This city is often called the heart of the "World's factory" and an international laboratory of industrial production. Visiting enterprises in Guangzhou provides an opportunity not only to witness a rapidly developing production system but also to experience the harmony of technology and order.<br><br>Upon entering Guangzhou's industrial zones, the first thing that catches the eye is the vast areas occupied by enterprises operating on high-tech foundations. Automated assembly lines, robotics, digital control systems, and artificial intelligence-based management mechanisms have all become key components of the production process.<br><br>The city's most developed sectors include automotive manufacturing, electronics, chemical industry, textiles, household appliances, construction materials, and logistics infrastructure. Of particular interest is a visit to the "Guangzhou Automobile Group" (GAC) plant to see the assembly line brought to the level of art.<br><br>Robot-assisted welding, 3D laser quality inspection platforms, and environmentally friendly paint booths set new standards in modern automotive manufacturing.<br><br>## The new face of the digital zone<br><br>Today, most Guangzhou enterprises operate under the "smart factory" concept. Every production process is monitored by a centralized digital management system. Operators can manage processes remotely, detect malfunctions in advance, and analyze data in real time.<br><br>This system not only increases productivity but also minimizes errors that could arise from the human factor.<br><br>## Ecology — an integral part of industry<br><br>One of the most notable aspects of the industrial visit to Guangzhou is the full compliance of production processes with environmental standards. Many enterprises have successfully implemented:<br><br>waste recycling centers;<br><br>water treatment plants;<br><br>workshops equipped with air monitoring sensors;<br><br>energy-saving technologies.<br><br>The city is considered one of China's leading regions in the "green industry" concept. Solar energy utilization, heat recycling in production, and exhaust gas filtration systems have become part of daily operations.<br><br>Shavkat OTAMURODOV,<br>Vice-Rector for International Cooperation,<br>Doctor of Economics, Associate Professor |
+| `advancedTrainingForeignTeachersCard3HeroAlt` | Aerial view of the Guangzhou skyline with Canton Tower and the Pearl River, China. |
+| `advancedTrainingForeignTeachersCard3PageTitle` | GUANGZHOU — THE CITY TURNED INDUSTRIAL |
+| `advancedTrainingForeignTeachersCard3Title` | GUANGZHOU — THE CITY TURNED INDUSTRIAL |
+| `advancedTrainingForeignTeachersPageIntro` | Highlights of advanced training and mobility for international teaching staff: global research collaboration, university partnerships in South Korea, and professional development visits including industrial hubs in China. |
+| `advancedTrainingForeignTeachersPageTitle` | Advanced training programs for foreign teachers |
+
+### `ADVANCED_TRAINING_FOREIGN_TEACHERS_CARD_KEYS`
+
+_Source: `src/locales/advancedTrainingForeignTeachersDefaults.ts`_
+
+```json
+[
+  "advancedTrainingForeignTeachersCard1Title",
+  "advancedTrainingForeignTeachersCard2Title",
+  "advancedTrainingForeignTeachersCard3Title"
+]
+```
+
+---
+
+## `annualReport2025Defaults.ts` {#defaults-annualReport2025Defaultsts}
+
+### `ANNUAL_REPORT_2025_DEFAULTS`
+
+_Source: `src/locales/annualReport2025Defaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `annualReport2025PageIntro` | The Annual Report 2025 presents an overview of Termiz University of Economics and Service activities, achievements, and financial performance for the reporting year.<br><br>Download the full PDF below for detailed figures, financial statements, and supporting information. |
+| `annualReport2025PdfDownloadCta` | Download PDF |
+
+---
+
+## `antiBriberyCorruptionPolicyDefaults.ts` {#defaults-antiBriberyCorruptionPolicyDefaultsts}
+
+### `ANTI_BRIBERY_CORRUPTION_POLICY_DEFAULTS`
+
+_Source: `src/locales/antiBriberyCorruptionPolicyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `antiBriberyPolicyApprovedBy` | The Rector |
+| `antiBriberyPolicyApprovedByLabel` | Approved by |
+| `antiBriberyPolicyApprovedHeading` | Approved |
+| `antiBriberyPolicyApprovedInstitution` | Termiz University of Economics and Service |
+| `antiBriberyPolicyEffectiveDate` | 11 January 2023 |
+| `antiBriberyPolicyEffectiveDateLabel` | Effective date |
+| `antiBriberyPolicyPdfDownloadCta` | Download PDF |
+| `antiBriberyPolicySection1Body` | Corruption shall be understood as dishonest, unethical, or improper conduct through which a person abuses a position of trust, authority, or institutional responsibility for personal, financial, professional, or other undue advantage. Within the context of a university, corruption may arise in financial transactions, but also in decision-making related to admissions, examinations, procurement, recruitment, academic progression, scholarships, partnerships, and certification.<br><br>Bribery shall be understood as the offering, giving, requesting, receiving, or agreeing to receive any item of value, benefit, favour, service, hospitality, influence, or other advantage with the intention of affecting the conduct, judgment, independence, or decision of a person performing a public, academic, administrative, fiduciary, or legal duty. |
+| `antiBriberyPolicySection1Title` | 1. Definitions |
+| `antiBriberyPolicySection2Body` | Termez University of Economics and Service is committed to the highest standards of integrity, transparency, probity, and ethical conduct in all areas of its activity. Bribery and corruption are incompatible with the values of a modern higher education institution and undermine academic quality, institutional credibility, public trust, and the long-term sustainability of the University.<br><br>TUES adopts a zero-tolerance approach to bribery and corruption. Any proven involvement in bribery, facilitation payments, kickbacks, improper inducements, concealed conflicts of interest, or corrupt influence over institutional decisions will be treated as a serious breach of University rules.<br><br>This Policy applies to all persons acting for, studying at, working for, representing, or otherwise carrying out functions connected with TUES. This includes academic staff, administrative staff, senior managers, consultants, contractors, volunteers, temporary workers, interns, students, members of committees, and external agents. |
+| `antiBriberyPolicySection2Title` | 2. Introduction, Approach and Scope |
+| `antiBriberyPolicySection3Body` | Bribery is not limited to the exchange of cash. It includes any financial or non-financial advantage offered, given, requested, or accepted in order to influence the improper performance of a function or decision. Within a university, this may include money, expensive gifts, paid travel, hospitality beyond reasonable limits, hidden commissions, preferential treatment for relatives, or the manipulation of academic or administrative outcomes.<br><br>This Policy is aligned with the Republic of Uzbekistan's anti-corruption policy environment and with international anti-corruption norms, including compliance with the requirements of the UN Convention against Corruption.<br><br>TUES reduces corruption risk most effectively by strengthening the overall environment in which decisions are made, improving institutional culture, restricting the opportunity to exchange improper benefits, and reducing the demand for corrupt advantage through fair and visible systems. |
+| `antiBriberyPolicySection3Title` | 3. What is Bribery? Legal and Ethical Standards |
+| `antiBriberyPolicySection4Body` | Effective risk management lies at the centre of this Policy. At TUES, bribery and corruption risks are treated as part of the University's broader governance, internal control, and institutional risk management system. Anti-bribery considerations should not be isolated from strategic planning, financial controls, procurement oversight, academic quality assurance, or operational review.<br><br>Areas requiring particularly careful attention include admissions and enrollment decisions, examinations and grading, awarding of diplomas or certificates, procurement of goods and services, construction and renovation contracts, recruitment and promotion decisions, student housing and scholarship allocation, and the use of external agents or intermediaries.<br><br>The University shall periodically review these areas and ensure that risk identification is not static. New risks may arise through digital systems, cross-border partnerships, consultancy arrangements, private sponsorship, or rapid institutional expansion. |
+| `antiBriberyPolicySection4Title` | 4. Identifying and Managing Bribery Risks |
+| `antiBriberyPolicySection5Body` | Gifts, hospitality, and entertainment are covered by this Policy. TUES recognizes that not all hospitality is improper, but such benefits become problematic where they could influence, or appear to influence, professional judgment or institutional decisions.<br><br>TUES permits only reasonable, proportionate, transparent, and professionally justifiable hospitality that serves a legitimate academic, administrative, or partnership purpose and does not create dependency, obligation, or appearance of favouritism. Hospitality must never be used to obtain an improper advantage.<br><br>The University shall maintain an appropriate internal system for recording gifts and hospitality where declaration is required. TUES prohibits the giving or receiving of money, cash-equivalents, personal commissions, or unofficial payments in all circumstances. |
+| `antiBriberyPolicySection5Title` | 5. Gifts, Hospitality and Entertainment |
+| `antiBriberyPolicySection6Body` | TUES places high value on its reputation for ethical behavior, academic fairness, lawful conduct, and responsible institutional governance. The University prohibits the offering, giving, promising, requesting, agreeing to receive, or accepting of any bribe or corrupt advantage in any form, whether direct or indirect, whether monetary or non-monetary.<br><br>Any suspected breach of this Policy, any attempted bribe, any suspicious inducement, or any concern that an institutional decision may be improperly influenced must be reported through the University's reporting processes. The prevention, detection, and reporting of bribery are shared responsibilities across the University. |
+| `antiBriberyPolicySection6Title` | 6. Policy Statement |
+| `antiBriberyPolicySection7Body` | TUES recognizes that a policy is only effective if it is known, understood, and applied. It is the responsibility of University leadership, deans, heads of departments, and managers to ensure that this Policy is communicated regularly and meaningfully to those engaged in University business.<br><br>Communication shall extend not only to staff but also, where appropriate, to students, contractors, service providers, consultants, intermediaries, and other external parties. The University shall also seek to provide appropriate guidance, orientation, and training in areas where bribery risk may be elevated. |
+| `antiBriberyPolicySection7Title` | 7. Communication |
+| `antiBriberyPolicySection8Body` | This Policy and the procedures linked to it shall be reviewed regularly to ensure that they remain effective, current, and proportionate to the University's actual risk exposure. Monitoring should include consideration of identified risks, reported incidents, control weaknesses, training needs, procurement patterns, admissions integrity, and lessons arising from audits or investigations.<br><br>The results of monitoring and review should be reported through the University's governance and management arrangements. Where incidents or control weaknesses are identified, corrective action should be documented, assigned, and followed through. |
+| `antiBriberyPolicySection8Title` | 8. Monitoring and Review |
+| `antiBriberyPolicySection9Body` | TUES encourages all staff, students, contractors, and other persons associated with the University to report concerns relating to suspected bribery, attempted bribery, improper inducements, hidden conflicts of interest, suspicious procurement conduct, admissions irregularities, examination manipulation, or any other conduct that may breach this Policy.<br><br>TUES is committed to ensuring that persons who report concerns in good faith are protected from retaliation, intimidation, adverse treatment, or procedural disadvantage. Allegations raised under this Policy shall be treated seriously, assessed fairly, and addressed in accordance with applicable University procedures and relevant law. |
+| `antiBriberyPolicySection9Title` | 9. Reporting Concerns (Whistleblowing) |
+
+### `ANTI_BRIBERY_CORRUPTION_POLICY_SECTIONS`
+
+_Source: `src/locales/antiBriberyCorruptionPolicyDefaults.ts`_
+
+```json
+[
+  {
+    "titleKey": "antiBriberyPolicySection1Title",
+    "bodyKey": "antiBriberyPolicySection1Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection2Title",
+    "bodyKey": "antiBriberyPolicySection2Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection3Title",
+    "bodyKey": "antiBriberyPolicySection3Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection4Title",
+    "bodyKey": "antiBriberyPolicySection4Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection5Title",
+    "bodyKey": "antiBriberyPolicySection5Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection6Title",
+    "bodyKey": "antiBriberyPolicySection6Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection7Title",
+    "bodyKey": "antiBriberyPolicySection7Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection8Title",
+    "bodyKey": "antiBriberyPolicySection8Body"
+  },
+  {
+    "titleKey": "antiBriberyPolicySection9Title",
+    "bodyKey": "antiBriberyPolicySection9Body"
+  }
+]
+```
+
+---
+
+## `bachelorHubDefaults.ts` {#defaults-bachelorHubDefaultsts}
+
+### `BACHELOR_HUB_PAGE_DEFAULTS`
+
+_Source: `src/locales/bachelorHubDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `bachelorHubPageIntro` | Choose how you plan to study at Termez University of Economics and Service: full-time on campus or correspondence (distance) baccalaureate. |
+
+### `BACHELOR_HUB_CARDS`
+
+_Source: `src/locales/bachelorHubDefaults.ts`_
+
+```json
+[
+  {
+    "title": "Bachelor's degree (Full-time)",
+    "imageSrc": "/tuesw-gallery/480/8.webp",
+    "to": "/education/bachelor/full-time"
+  },
+  {
+    "title": "Baccalaureate (correspondence education)",
+    "imageSrc": "/tuesw-gallery/480/24.webp",
+    "to": "/education/bachelor/correspondence"
+  }
+]
+```
+
+### `BACHELOR_TRACK_DEFAULTS`
+
+_Source: `src/locales/bachelorHubDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `correspondence.bachelorCorrespondenceCardsHint` | Select a programme below to open its dedicated page with the full specification. |
+| `correspondence.bachelorTrackCorrespondenceBody` | Correspondence (distance) baccalaureate is designed for learners who combine study with work or other commitments, using structured remote materials, scheduled consultations, and examination sessions. Refer to the official catalogue and admissions notices for the current list of programmes offered in this mode and how to apply. |
+| `correspondence.bachelorTrackCorrespondenceTitle` | Baccalaureate (correspondence education) |
+| `fullTime.bachelorFullTimeCardsHint` | Select a programme below to open its dedicated page with the full specification table. |
+| `fullTime.bachelorTrackFullTimeBody` | Full-time bachelor’s study follows the on-campus timetable, combining lectures, seminars, and assessed work with access to libraries, laboratories, and student services. Admission and curriculum details are published for each intake; use the main admissions and programs sections for the latest requirements and deadlines. |
+| `fullTime.bachelorTrackFullTimeTitle` | Bachelor's degree (Full-time) |
+
+---
+
+## `bachelorProgramTableDefaults.ts` {#defaults-bachelorProgramTableDefaultsts}
+
+### `BACHELOR_PROGRAM_TABLE_DEFAULTS`
+
+_Source: `src/locales/bachelorProgramTableDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `bachelorTableCipher` | Specialist cipher |
+| `bachelorTableCredits` | Total loan amount: |
+| `bachelorTableDuration` | Duration of the educational program: |
+| `bachelorTableForm` | Form of education: |
+| `bachelorTableLanguages` | Language of instruction: |
+| `bachelorTableQualification` | Qualification: |
+| `bachelorTableSpecialty` | Specialty name |
+| `bachelorTableType` | Type of education: |
+
+---
+
+## `benefitsDefaults.ts` {#defaults-benefitsDefaultsts}
+
+### `BENEFITS_PAGE_DEFAULTS`
+
+_Source: `src/locales/benefitsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `benefitsCard1Title` | Exchange programs |
+| `benefitsCard2Title` | Post-doctoral program |
+| `benefitsCard3Title` | In-service and retraining programs |
+| `benefitsPageIntro` | Explore the professional development opportunities available to staff at Termez University of Economics and Service. |
+| `benefitsPageTitle` | Benefits |
+
+### `BENEFITS_CARD_KEYS`
+
+_Source: `src/locales/benefitsDefaults.ts`_
+
+```json
+[
+  "benefitsCard1Title",
+  "benefitsCard2Title",
+  "benefitsCard3Title"
+]
+```
+
+---
+
+## `bookstoreDefaults.ts` {#defaults-bookstoreDefaultsts}
+
+### `BOOKSTORE_DEFAULTS`
+
+_Source: `src/locales/bookstoreDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `bookstoreHeroAlt` | White grid bookshelves displaying course books and literature with covers facing outward. |
+| `bookstoreHeroSrc` | /images/student-life/bookstore.png |
+| `bookstorePageBody` | Termiz University of Economics and Service maintains an institutional bookstore that functions not only as a retail outlet for academic materials but as an integrated component of the university’s learning environment and campus life. In alignment with the university’s commitment to enhancing the quality of the student academic experience, the bookstore provides structured access to compulsory and recommended course literature, supplementary readings, and professional publications relevant to economics, business, finance, management, and related disciplines.<br><br>Beyond its core retail function, the bookstore contributes to intellectual engagement within the university community by facilitating academic and literary events. These include book presentations, thematic discussions, meetings with authors, and expert seminars connected to current economic reforms, entrepreneurship development, digital transformation, and sustainable development priorities. Such activities strengthen the academic ecosystem by encouraging dialogue between students, faculty members, researchers, and external practitioners, thereby reinforcing applied knowledge and critical thinking competencies.<br><br>Recognising the increasing relevance of digital learning resources, the bookstore supports access to electronic publications and digital academic content. Where applicable, e-books and licensed digital subscriptions are made available in coordination with the university library and academic departments. Students receive practical guidance on accessing digital platforms and integrating these resources into their independent study processes, thereby supporting blended and technology-enhanced learning models.<br><br>Affordability and resource sustainability are addressed through structured mechanisms that reduce the financial burden on students. A textbook resale or buyback initiative may be implemented at the conclusion of each academic semester, enabling students to return previously purchased materials. This practice facilitates cost recovery for individual students while allowing subsequent cohorts to obtain required literature at reduced prices. Such an approach supports financial accessibility and aligns with institutional objectives related to responsible consumption and sustainable campus operations.<br><br>The bookstore operates in close coordination with academic departments to ensure the timely availability of approved course materials prior to the start of each semester. This coordination streamlines textbook adoption procedures, reduces delays in access to required literature, and ensures academic continuity from the first week of instruction. Where relevant, procurement planning is aligned with curriculum updates and newly introduced programmes.<br><br>In addition to serving the university community, the bookstore may contribute to broader social engagement initiatives by supporting local educational institutions through the donation of books and stationery materials, subject to institutional policy and documented community outreach programmes. Such initiatives reinforce the university’s commitment to regional educational development and social responsibility.<br><br>Through its integrated academic, digital, affordability, and community-oriented functions, the bookstore at Termez University of Economics and Service serves as an essential academic support unit within the campus infrastructure. It contributes to an enabling learning environment, supports equitable access to educational resources, and strengthens the overall quality of the student experience in accordance with internationally benchmarked institutional standards. |
+| `bookstorePageTitle` | Bookstore |
+
+---
+
+## `cafeteriasDefaults.ts` {#defaults-cafeteriasDefaultsts}
+
+### `CAFETERIAS_DEFAULTS`
+
+_Source: `src/locales/cafeteriasDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `cafeteriasHeroSrc` | /images/student-life/cafeterias.png |
+| `cafeteriasPageBody` | In the 2025–2026 academic year, the food service operations at Termez University of Economics and Service functioned in accordance with institutional regulations governing campus facilities, student welfare, and health and safety standards. All canteens, cafés, and buffets operating within the university territory were officially authorised and subject to continuous oversight. More than ten general food service outlets operated across the campus, ensuring adequate capacity to meet the needs of students, academic staff, administrative personnel, and visitors.<br><br>The quality, quantity, nutritional value, pricing policy, storage conditions, and sanitary compliance of meals prepared in these outlets were monitored by a designated supervisory committee comprising university representatives and relevant municipal authorities. Regular inspections were conducted to verify adherence to national sanitary and epidemiological standards. Monitoring procedures included evaluation of food procurement, preparation processes, storage temperature control, and hygiene conditions of kitchen facilities and service areas. Documented inspection protocols and corrective action mechanisms were applied to maintain consistent service quality throughout the academic year.<br><br>The physical dining environment was designed to ensure comfort, safety, and accessibility. Cafeteria spaces were maintained as clean, well-ventilated, and adequately illuminated areas with seating capacity sufficient for peak academic hours. Furniture and layout arrangements were organised to accommodate both individual dining and group interaction, thereby supporting social cohesion and informal academic exchange within the campus environment.<br><br>Menu planning during the 2025–2026 academic year reflected attention to dietary diversity and nutritional balance. The food selection included a range of main courses, side dishes, salads, bakery items, beverages, and desserts, with consideration given to regional culinary preferences as well as modern dietary trends. Specific options were made available for vegetarian and other special dietary needs where applicable. Nutritional planning aimed to support balanced daily intake by incorporating fresh vegetables, fruits, whole grains, and appropriate protein sources.<br><br>Information regarding ingredients, caloric content, and potential allergens was made accessible to support informed food choices. Awareness materials promoting healthy nutrition practices were displayed within dining areas. These measures contributed to fostering a culture of health consciousness and preventive well-being among students and staff.<br><br>Food safety and hygiene remained a central operational priority. Kitchen personnel received periodic training in food handling, sanitation procedures, and occupational health requirements. Cleaning and disinfection schedules were implemented systematically, and internal audits were conducted to ensure compliance with hygiene regulations. Storage facilities were equipped to maintain appropriate temperature and preservation standards for perishable goods.<br><br>Sustainability considerations were integrated into cafeteria management practices. Measures to reduce food waste were introduced through portion management and awareness initiatives encouraging responsible consumption. Where feasible, environmentally responsible packaging materials were utilised, and waste segregation procedures were implemented in coordination with campus environmental management policies. Energy-efficient equipment and water-saving practices were progressively adopted to enhance operational sustainability.<br><br>Procurement strategies prioritised collaboration with local producers and suppliers where consistent with quality and regulatory requirements. This approach supported regional economic development while ensuring freshness and traceability of food products.<br><br>Through structured supervision, adherence to health and safety standards, attention to nutritional quality, and integration of sustainability principles, the cafeteria services at Termez University of Economics and Service during the 2025–2026 academic year contributed to a safe, inclusive, and supportive campus environment that aligns with internationally benchmarked expectations for student services and institutional facilities. |
+| `cafeteriasPageTitle` | Cafeterias |
+
+---
+
+## `campusCultureDefaults.ts` {#defaults-campusCultureDefaultsts}
+
+### `CAMPUS_CULTURE_DEFAULTS`
+
+_Source: `src/locales/campusCultureDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `campusCultureArtGalleryHeading` | Art Gallery & Student Creative Clubs |
+| `campusCultureArtGalleryIntro` | The university's Art Gallery is the central exhibition space on campus, regularly showcasing work by students, faculty, and local artists. |
+| `campusCultureCollaborationBody` | Students, artists, researchers, and cultural practitioners are all welcome to get involved. Opportunities include exhibitions, performances, research collaboration, internships, and creative projects. |
+| `campusCultureCollaborationHeading` | Collaboration & Participation |
+| `campusCultureCommunityBody` | The university's cultural spaces welcome students, local residents, and international visitors alike. Through exhibitions, performances, and guided tours, the university contributes to the cultural life of Termez and helps promote regional heritage as part of a growing tourism scene. |
+| `campusCultureCommunityHeading` | Community Engagement & Tourism |
+| `campusCultureContact1Location` | Main Campus, Room 706 |
+| `campusCultureContact1Name` | Madina Jurayeva |
+| `campusCultureContact1PhoneDisplay` | +998 95 529 49 79 |
+| `campusCultureContact1PhoneTel` | +998955294979 |
+| `campusCultureContact1Role` | Head of the TUES Art Gallery<br>Tutor, “Fine and Applied Arts” Club |
+| `campusCultureContact2Intro` | For the “Talented Students” Theatre Club, concerts, music events, and film screenings: |
+| `campusCultureContact2Location` | Main Campus, Room 102 |
+| `campusCultureContact2Name` | Ulug'bek Choriyev |
+| `campusCultureContact2PhoneDisplay` | +998 88 810 00 22 |
+| `campusCultureContact2PhoneTel` | +998888100022 |
+| `campusCultureContact2Role` | Head of the Ma’naviyat Department |
+| `campusCultureContactHeading` | Get in Touch |
+| `campusCultureContactIntro` | For collaboration, exhibitions, or cultural initiatives: |
+| `campusCultureEthnoBody` | Located in the heart of Termez, Ethno City is a multifunctional cultural complex developed by the university together with the local administration. It's a place where traditional culture and contemporary creativity meet — with space for exhibitions, craft production, and cultural events.<br><br>Inside the complex, the University Museum hosts both permanent and temporary exhibitions. It showcases ethnographic collections that reflect the region's history and traditions, along with open-air displays of local artifacts throughout Ethno City. Interactive spaces let visitors watch traditional craftsmanship in action and engage directly with living cultural practices.<br><br>The museum also supports student learning, research, and artistic growth through exhibitions, workshops, and cultural programs. |
+| `campusCultureEthnoHeading` | Ethno City & University Museum |
+| `campusCultureFineArtsBody` | Focused on visual arts, crafts, and design, this club builds practical skills through hands-on projects and exhibitions. Members regularly take part in university art competitions on the main campus, presenting their work and earning recognition. |
+| `campusCultureFineArtsHeading` | Fine and Applied Arts Club |
+| `campusCultureGallery1Alt` | Ethno City courtyard with traditional brick buildings, blue tile panels, and wooden craft stalls |
+| `campusCultureGallery1Src` | /images/university/campus-culture-ethno-city-courtyard.png |
+| `campusCultureGallery2Alt` | Wooden directional signpost at Ethno City pointing to hotel, restaurant, crafts area, and WC |
+| `campusCultureGallery2Src` | /images/university/campus-culture-ethno-city-signpost.png |
+| `campusCultureGallery3Alt` | Ethno City main facade with crenellated towers and geometric blue mosaic tilework |
+| `campusCultureGallery3Src` | /images/university/campus-culture-ethno-city-fortress.png |
+| `campusCultureHeroAlt` | Ethno City fortress-style entrance with blue and gold tile towers and a wide stone plaza in Termez |
+| `campusCultureHeroSrc` | /images/university/campus-culture-ethno-city-fortress.png |
+| `campusCultureLabelLocation` | Location |
+| `campusCultureLabelPhone` | Phone |
+| `campusCultureOpportunitiesHeading` | Opportunities for Students |
+| `campusCultureOpportunity1Body` | Join the “Talented Students” theatre troupe and gain hands-on experience in acting, directing, and stage management while performing for public audiences. |
+| `campusCultureOpportunity1Title` | Performances |
+| `campusCultureOpportunity2Body` | Take part in musical performances and cultural shows in the concert hall, building artistic skill and stage presence. |
+| `campusCultureOpportunity2Title` | Concerts & Music Events |
+| `campusCultureOpportunity3Body` | Explore visual storytelling through regular film screenings and discussions, engaging with both educational and cultural content. |
+| `campusCultureOpportunity3Title` | Film Screenings & Cinema |
+| `campusCulturePageIntro` | The university brings arts, heritage, and public life together on campus. Its cultural network includes the University Museum, Ethno City, the Art Gallery, student creative clubs, and access to major performance venues — creating a complete ecosystem for creativity and community engagement. |
+| `campusCulturePageSubtitle` | Where education, creativity, and community come together |
+| `campusCulturePageTitle` | Campus Culture |
+| `campusCultureTheatreClubBody` | A student theatre troupe dedicated to acting, directing, and stage production. Members build performance skills through rehearsals, creative workshops, and cultural events. Rehearsals take place in the concert hall, and every performance is open to the public — a chance to connect with the wider community. |
+| `campusCultureTheatreClubHeading` | “Talented Students” Theatre Club |
+| `campusCultureVenuesBody` | The university strongly supports performing arts and large-scale cultural events. Its main venue is “San'at Saroyi” Concert Hall — the largest performance space in Termez, rented by the university for academic and cultural use. With 1,200 seats and professional-level equipment, it hosts rehearsals, performances, concerts, film screenings, and major university events. |
+| `campusCultureVenuesHeading` | Theatre, Concert Hall & Cinema |
+
+---
+
+## `careerCentreDefaults.ts` {#defaults-careerCentreDefaultsts}
+
+### `CAREER_CENTRE_PAGE_DEFAULTS`
+
+_Source: `src/locales/careerCentreDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `careerCentreContactBlock` | Career Center – TUES<br>Termez, Uzbekistan<br>Email: career@tues.uz<br>Phone: +998 XX XXX XX XX |
+| `careerCentreContactHeading` | Contact Us |
+| `careerCentreIntroBody` | The Career Center at Termez University of Economics and Service (TUES) is dedicated to helping students and graduates successfully transition from education to employment. We provide professional guidance, career development services, and strong connections with employers to support your career journey. |
+| `careerCentreIntroHeading` | Empowering Your Future Career |
+| `careerCentreMissionBody` | Our mission is to equip students with the skills, knowledge, and opportunities needed to succeed in a competitive global job market. We aim to bridge the gap between academic learning and real-world employment. |
+| `careerCentreMissionHeading` | Our Mission |
+| `careerCentreOfferCounselingBody` | Get personalized guidance from experienced advisors to help you choose the right career path, identify your strengths, and set professional goals. |
+| `careerCentreOfferCounselingTitle` | Career Counseling |
+| `careerCentreOfferCvBody` | Learn how to write a professional CV, prepare for interviews, and present yourself confidently to employers. |
+| `careerCentreOfferCvTitle` | CV & Interview Preparation |
+| `careerCentreOfferInternshipBody` | We collaborate with leading companies and organizations to provide students with valuable internship experiences that build practical skills. |
+| `careerCentreOfferInternshipTitle` | Internship Opportunities |
+| `careerCentreOfferPlacementBody` | Access job vacancies, recruitment programs, and employer networks to find the right job after graduation. |
+| `careerCentreOfferPlacementTitle` | Job Placement Support |
+| `careerCentreOfferWorkshopsBody` | Participate in seminars, career fairs, and skill-development workshops to enhance your employability. |
+| `careerCentreOfferWorkshopsTitle` | Workshops & Training |
+| `careerCentrePageTagline` | Take the first step toward a successful future. Visit the Career Center and unlock your potential! |
+| `careerCentrePageTitle` | Career Center – TUES |
+| `careerCentreWhatWeOfferHeading` | What We Offer |
+
+---
+
+## `communityClubsDefaults.ts` {#defaults-communityClubsDefaultsts}
+
+### `COMMUNITY_CLUBS_PAGE_DEFAULTS`
+
+_Source: `src/locales/communityClubsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `communityClubsPageIntro` | Explore student clubs, studios, and community highlights at Termez University of Economics and Service. Below are recent activities and active groups on campus. |
+
+### `COMMUNITY_CLUB_CARDS`
+
+_Source: `src/locales/communityClubsDefaults.ts`_
+
+```json
+[
+  {
+    "title": "Charity event held by the “Qizlarjon” club",
+    "imageSrc": "/images/community-clubs/qizlarjon-charity.png",
+    "to": "/student-life/community-clubs/qizlarjon-charity"
+  },
+  {
+    "title": "Participants of the student theater studio contest were solemnly awarded!",
+    "imageSrc": "/images/community-clubs/student-theater-studio-contest.png",
+    "to": "/student-life/community-clubs/student-theater-studio-contest"
+  },
+  {
+    "title": "Member of the “Mushoira” club honored",
+    "imageSrc": "/images/community-clubs/mushoira-club-honored.png",
+    "to": "/student-life/community-clubs/mushoira-club-honored"
+  },
+  {
+    "title": "Community clubs",
+    "imageSrc": "/images/community-clubs/community-clubs-overview.png",
+    "to": "/student-life/community-clubs/clubs-and-circles"
+  },
+  {
+    "title": "“Student theatre studio” contest held at TUES",
+    "imageSrc": "/images/community-clubs/interfaculty-student-theatre-studio-contest.png",
+    "to": "/student-life/community-clubs/interfaculty-student-theatre-studio-contest"
+  },
+  {
+    "title": "“The shields” of our university",
+    "imageSrc": "/images/community-clubs/qalqon-shields.png",
+    "to": "/student-life/community-clubs/qalqon-shields"
+  },
+  {
+    "title": "The “Qizlarjon” Club",
+    "imageSrc": "/images/community-clubs/qizlarjon-club.png",
+    "to": "/student-life/community-clubs/qizlarjon-club"
+  },
+  {
+    "title": "Leader girls club",
+    "imageSrc": "/images/community-clubs/leader-girls-club.png",
+    "to": "/student-life/community-clubs/leader-girls-club"
+  },
+  {
+    "title": "Fine and applied arts club",
+    "imageSrc": "/images/community-clubs/fine-and-applied-arts-club.png",
+    "to": "/student-life/community-clubs/fine-and-applied-arts-club"
+  },
+  {
+    "title": "Youth Leaders",
+    "imageSrc": "/images/community-clubs/youth-leaders.png",
+    "to": "/student-life/community-clubs/youth-leaders"
+  }
+]
+```
+
+---
+
+## `communityClubsOverviewDefaults.ts` {#defaults-communityClubsOverviewDefaultsts}
+
+### `COMMUNITY_CLUBS_OVERVIEW_DEFAULTS`
+
+_Source: `src/locales/communityClubsOverviewDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `communityClubsOverviewHeroSrc` | /images/community-clubs/community-clubs-overview.png |
+| `communityClubsOverviewPageIntro` | At the Termez University of Economics and Service, various clubs and circles are actively operating with the aim of organizing meaningful leisure activities for students and uncovering their interests and talents. These clubs, established at the initiative of the university’s Youth Union, have been actively engaging students for several academic years in competitions, leagues, and contests in the fields of science, culture, sports, and creativity.<br><br>The clubs and teams offer students a wide range of activities and events that provide extracurricular learning opportunities and unique experiences. The clubs meet once a week throughout the academic year. |
+| `communityClubsOverviewPageTitle` | Community clubs |
+| `communityClubsOverviewSocialHeading` | Social clubs |
+| `communityClubsOverviewSocialList` | KVN (Humor and Improvisation) club<br>IT club<br>English Language Club<br>Turkic Language Club<br>German Language Club<br>Korean Language Club<br>Gifted Youth Club<br>Female Leaders Club<br>Young Writers Club<br>Young Artists Club |
+| `communityClubsOverviewSportsHeading` | Sports clubs |
+| `communityClubsOverviewSportsList` | Football Club<br>Volleyball Club<br>Chess Club<br>Table Tennis Club<br>Judo Club<br>Arm Wrestling Club |
+
+---
+
+## `contactingAdmissionDefaults.ts` {#defaults-contactingAdmissionDefaultsts}
+
+### `CONTACTING_ADMISSION_PAGE_DEFAULTS`
+
+_Source: `src/locales/contactingAdmissionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `contactingAdmissionPageIntro` | To submit documents to the Termez University of Economics and Service, you may contact the following numbers: |
+| `contactingAdmissionPageTitle` | Contacting about admission |
+
+### `CONTACTING_ADMISSION_PHONES`
+
+_Source: `src/locales/contactingAdmissionDefaults.ts`_
+
+```json
+[
+  {
+    "display": "+998 55 452 77 77",
+    "tel": "+998554527777"
+  },
+  {
+    "display": "+998 95 412 07 07",
+    "tel": "+998954120707"
+  }
+]
+```
+
+---
+
+## `contractAmountsTuitionDefaults.ts` {#defaults-contractAmountsTuitionDefaultsts}
+
+### `CONTRACT_AMOUNTS_TUITION_PAGE_DEFAULTS`
+
+_Source: `src/locales/contractAmountsTuitionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `contractAmountsTuitionColAmount` | Contract amount |
+| `contractAmountsTuitionColCode` | Field of study code |
+| `contractAmountsTuitionColDuration` | Academic years |
+| `contractAmountsTuitionColForm` | Form of study |
+| `contractAmountsTuitionColName` | Name of field of study |
+| `contractAmountsTuitionColNo` | No. |
+| `contractAmountsTuitionPageIntro` | Contract (tuition) amounts by field of study, duration, and form of study. Amounts are shown in Uzbek soums (UZS) for the 2024/2025 academic year. |
+| `contractAmountsTuitionPageTitle` | Information on fields of study and contract tuition for the 2024/2025 academic year (Termiz University of Economics and Service) |
+
+---
+
+## `copyrightDefaults.ts` {#defaults-copyrightDefaultsts}
+
+### `COPYRIGHT_PAGE_DEFAULTS`
+
+_Source: `src/locales/copyrightDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `copyrightEmail` | info@tisu.uz |
+| `copyrightEmailLabel` | E-mail: |
+| `copyrightNotice` | © 2026 Termez University of Economics and Service. All rights reserved. |
+| `copyrightP1` | The texts, images, logos, graphic materials, videos, software code, databases, and other intellectual property objects placed on this website are protected by copyright and related rights in accordance with the Law of the Republic of Uzbekistan "On Copyright and Related Rights" and other applicable legal and regulatory acts. |
+| `copyrightP2` | Copying, reproducing, distributing, modifying, republishing on the internet, or using these materials for commercial purposes, in whole or in part, without the prior written consent of the University, is not permitted, except in cases provided for by law. |
+| `copyrightP3` | Use of the University's news and information materials is permitted provided that "Termez University of Economics and Service" is indicated as the source and an active link to the official website is included. |
+| `copyrightP4` | For permission to use materials or for further information, you may contact the University's official email address. |
+| `copyrightPageTitle` | Copyright |
+
+### `COPYRIGHT_PARAGRAPH_KEYS`
+
+_Source: `src/locales/copyrightDefaults.ts`_
+
+```json
+[
+  "copyrightP1",
+  "copyrightP2",
+  "copyrightP3",
+  "copyrightP4"
+]
+```
+
+---
+
+## `departmentInternationalRelationsEmployeesDefaults.ts` {#defaults-departmentInternationalRelationsEmployeesDefaultsts}
+
+### `DEPARTMENT_INTL_REL_EMPLOYEES_CARD_HREFS`
+
+_Source: `src/locales/departmentInternationalRelationsEmployeesDefaults.ts`_
+
+```json
+[
+  "/internationalization/department-international-relations-employees/vice-rector-international-cooperation",
+  "/internationalization/department-international-relations-employees/head-department-international-cooperation",
+  "/internationalization/department-international-relations-employees/lead-specialist-international-cooperation"
+]
+```
+
+### `DEPARTMENT_INTL_REL_EMPLOYEES_CARD_IMAGES`
+
+_Source: `src/locales/departmentInternationalRelationsEmployeesDefaults.ts`_
+
+```json
+[
+  "/images/internationalization/vice-rector-international-cooperation.png",
+  "/images/internationalization/head-department-international-cooperation.png",
+  "/images/internationalization/lead-specialist-international-cooperation.png"
+]
+```
+
+### `DEPARTMENT_INTL_REL_EMPLOYEES_DEFAULTS`
+
+_Source: `src/locales/departmentInternationalRelationsEmployeesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `departmentIntlRelEmployeesCard1Title` | Vice-rector for international cooperation |
+| `departmentIntlRelEmployeesCard2Title` | Head of the Department of international cooperation of the University |
+| `departmentIntlRelEmployeesCard3Title` | Lead specialist of the university's international cooperation department |
+| `departmentIntlRelEmployeesIntro` | The following positions represent the main leadership and specialist roles in international cooperation at Termez University of Economics and Service. |
+| `departmentIntlRelEmployeesPageTitle` | Employees of the Department of International Relations |
+
+### `DEPARTMENT_INTL_REL_EMPLOYEES_CARD_KEYS`
+
+_Source: `src/locales/departmentInternationalRelationsEmployeesDefaults.ts`_
+
+```json
+[
+  "departmentIntlRelEmployeesCard1Title",
+  "departmentIntlRelEmployeesCard2Title",
+  "departmentIntlRelEmployeesCard3Title"
+]
+```
+
+### `DEPARTMENT_INTL_REL_EMPLOYEES_CARD_ICONS`
+
+_Source: `src/locales/departmentInternationalRelationsEmployeesDefaults.ts`_
+
+```json
+[
+  "viceRector",
+  "head",
+  "specialist"
+]
+```
+
+---
+
+## `dormitoryDefaults.ts` {#defaults-dormitoryDefaultsts}
+
+### `DORMITORY_DEFAULTS`
+
+_Source: `src/locales/dormitoryDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `dormitoryCultureBody` | Life at the dorm isn't just about studying. Our cultural hall is where memories are made. We regularly host roundtable discussions, art and music evenings, theater performances, and concerts. It's your space to express yourself, learn new things, and have fun with fellow students. |
+| `dormitoryCultureTitle` | Get Involved and Show Your Talent |
+| `dormitoryFactCapacityLabel` | Capacity |
+| `dormitoryFactCapacityValue` | Up to 450 students |
+| `dormitoryFactFloorsLabel` | Floors |
+| `dormitoryFactFloorsValue` | 3 |
+| `dormitoryFactResidentsLabel` | Current Residents |
+| `dormitoryFactResidentsValue` | 450 students (full occupancy) |
+| `dormitoryFactRoomsLabel` | Rooms |
+| `dormitoryFactRoomsValue` | 225 rooms, each shared by 2 students |
+| `dormitoryFeeBody` | The standard monthly fee is 150,000 UZS, as set by the University Council.<br><br>Some students are exempt from paying. This includes: |
+| `dormitoryFeeClosing` | Exemptions are granted in line with the Rector's official order. |
+| `dormitoryFeeExemptList` | Students with visual impairments (groups I and II)<br>Orphans and children from orphanages<br>Students from low-income families |
+| `dormitoryFeeTitle` | Monthly Fee and Exemptions |
+| `dormitoryHeroAlt` | A modern twin-room student dormitory with study desk, dining table, and patterned wallpaper at Termez University of Economics and Service |
+| `dormitoryHeroSrc` | /images/student-life/dormitory.png |
+| `dormitoryPageIntro` | Welcome to our student dormitory—a modern, comfortable, and safe place designed to help you thrive both academically and personally. Whether you're studying, relaxing, or making new friends, we've got everything you need right here. |
+| `dormitoryPageSubtitle` | Your Home Away from Home at Termez University of Economics and Service |
+| `dormitoryPageTitle` | STUDENT DORMITORY |
+| `dormitoryPriorityIntro` | We give special consideration to students who need extra support. Priority is given to: |
+| `dormitoryPriorityList` | Orphans and students who have lost a breadwinner<br>Students with disabilities (groups I and II)<br>Those undergoing treatment for chronic illnesses<br>International students<br>Students supporting two or more children on a contract basis<br>First-year students |
+| `dormitoryPriorityTitle` | Who Gets Priority for Rooms? |
+| `dormitoryQuickFactsTitle` | Quick Facts About Your Dorm |
+| `dormitorySafetyBody` | We take your well-being seriously. The dormitory is kept clean, safe, and well-organized.<br><br>Every week, university faculty members stay overnight at the dorm as on-duty supervisors. They're here not just to oversee, but to connect with you. During their visits, they hold spiritual and educational talks, offer career guidance, and provide mentoring and support. You're never alone—we're here to help you grow, guide you, and make sure you feel at home. |
+| `dormitorySafetyTitle` | Safety, Cleanliness, and Support |
+| `dormitorySportsBody` | Our sports facility is open for you to work out individually, play team sports, or join friendly competitions. It's a great way to stay fit, release stress, and bond with others. |
+| `dormitorySportsTitle` | Stay Active and Healthy |
+| `dormitoryStudyBody` | Our library isn't just a quiet place to read—it's a knowledge hub. You'll find textbooks, academic literature, fiction, encyclopedias, scholarly articles, and periodicals.<br><br>Plus, we keep you updated with important notices, class schedules, and announcements—so you're always in the loop. |
+| `dormitoryStudyTitle` | Study and Stay Informed |
+| `dormitoryWhatsInsideIntro` | We've made sure you have access to all the essentials—and a little extra: |
+| `dormitoryWhatsInsideList` | Library – stocked with books, journals, and study materials<br>Cultural Hall – for events, performances, and creative gatherings<br>Sports Facility – to stay active and healthy<br>3 Dining Halls – for convenient, everyday meals |
+| `dormitoryWhatsInsideTitle` | What's Inside? |
+
+---
+
+## `facilitiesForDisabledDefaults.ts` {#defaults-facilitiesForDisabledDefaultsts}
+
+### `FACILITIES_FOR_DISABLED_DEFAULTS`
+
+_Source: `src/locales/facilitiesForDisabledDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `facilitiesForDisabledDeck` | Mental health support and services for students with disabilities |
+| `facilitiesForDisabledHeroSrc` | /images/student-life/facilities-for-disabled.png |
+| `facilitiesForDisabledIntro` | The Termez University of Economics and Service (TUES) places special emphasis on creating an inclusive and comfortable learning environment for all students, including those with disabilities. The university has established necessary conditions, technical tools, and support services to ensure that students with special needs can actively participate in the educational process and student life. |
+| `facilitiesForDisabledOutro` | Termez University of Economics and Service is committed to providing equal educational and personal development opportunities for all students, especially those with disabilities. Through the provision of mental health services, academic assistance, and physical accessibility, TUES operates as an inclusive, compassionate, and progress-oriented institution of higher education. |
+| `facilitiesForDisabledPageTitle` | Facilities for the disabled |
+| `facilitiesForDisabledS1Body` | TUES takes mental health matters seriously. The university has established a Psychological Support Center that offers free psychological counseling and assistance to students, faculty, and staff. These services, provided by qualified and experienced psychologists, help manage stress, mental strain, and personal challenges faced by students during their academic journey, contributing to their overall mental well-being. |
+| `facilitiesForDisabledS1Title` | Psychological support services |
+| `facilitiesForDisabledS2Body` | Special computer systems have been installed at TUES for students with visual impairments. These technologies enable blind or visually impaired students to effectively access electronic textbooks, learning materials, and digital resources, thereby ensuring equal academic opportunities. |
+| `facilitiesForDisabledS2Title` | Technical resources for visually impaired students |
+| `facilitiesForDisabledS3Body` | To support students with hearing impairments, TUES provides the services of sign language interpreters. These professionals assist students during lectures, seminars, and other academic activities, allowing them to fully participate in the educational process. |
+| `facilitiesForDisabledS3Title` | Sign language interpreter services for hearing-impaired students |
+| `facilitiesForDisabledS4Body` | TUES has created a barrier-free environment for students who use wheelchairs. This includes specially adapted restrooms, ramps, designated parking spaces, and platforms installed at building entrances. A campus map clearly marks these accessible facilities, enabling students with physical limitations to move freely and independently around the university. |
+| `facilitiesForDisabledS4Title` | Mobility accessibility |
+| `facilitiesForDisabledS5Body` | TUES offers personalized academic support for students with disabilities. This includes specialized tutoring services, programs aimed at developing learning skills, and the use of modern assistive technologies. These measures are designed to help students succeed in their academic endeavors. |
+| `facilitiesForDisabledS5Title` | Specialized academic support |
+| `facilitiesForDisabledS6BodyBottom` | These events foster active participation from students, faculty, and staff, allowing for the exchange of ideas and experiences. |
+| `facilitiesForDisabledS6BodyTop` | The Psychological Support Center regularly organizes seminars, roundtable discussions, and educational events aimed at strengthening mental health and well-being. |
+| `facilitiesForDisabledS6List` | The role of parents in family life<br>Strategies for coping with stress<br>Developing a healthy mindset<br>Strengthening family values<br>Preparing girls for family life and the negative consequences of early marriage<br>Reproductive health and medical awareness |
+| `facilitiesForDisabledS6ListLabel` | These events cover a range of topics, including: |
+| `facilitiesForDisabledS6Title` | Activities to promote mental health and personal development |
+
+---
+
+## `facultiesPageDefaults.ts` {#defaults-facultiesPageDefaultsts}
+
+### `FACULTIES_PAGE_DEFAULTS`
+
+_Source: `src/locales/facultiesPageDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `facultiesPageIntro` | Termez University of Economics and Service is organized into faculties that bring together study programs, research, and student support. The cards below introduce each faculty at a glance. |
+| `facultiesPageTitle` | Faculties |
+| `universityFacultyEconomicsTitle` | Faculty of Economics and information technologies |
+| `universityFacultyMedicineTitle` | Faculty of medicine |
+| `universityFacultyPedagogyTitle` | Faculty of Pedagogy and social-humanitarian sciences |
+
+---
+
+## `facultyOfEconomicsDefaults.ts` {#defaults-facultyOfEconomicsDefaultsts}
+
+### `FACULTY_ECONOMICS_DEFAULTS`
+
+_Source: `src/locales/facultyOfEconomicsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `facultyEconomicsDepartmentsHeading` | The faculty of Economics and information technologies has the following departments: |
+| `facultyEconomicsIntroBody` | The Faculty of Economics and Information Technologies at Termez University of Economics and Service is today one of the leading centers for training qualified and competitive specialists in the field of economics and modern information technologies. The faculty's main goal is not only to provide theoretical knowledge but also to equip students with practical skills and introduce them to modern economic processes and technologies.<br><br>The faculty employs 70 instructors, 26 of whom hold PhD degrees, and 1 holds a Doctor of Science degree. The teaching staff consists of leading specialists in their fields, providing students with both theoretical knowledge and practical skills.<br><br>One of the faculty's strengths is that instructors regularly enhance their qualifications. Ten instructors have completed professional development abroad, particularly in Turkey, the Czech Republic, and Indonesia. Additionally, 3 foreign specialists teach students at the faculty, and around 10 professors from other local universities also conduct courses. This provides students with education that meets global standards.<br><br>The number of students at the faculty is significant: 2,356 students are enrolled in full-time programs, and 6,182 in part-time programs. Students' activities are notable not only academically but also in sports and research. Among the students, 3 are champions of Uzbekistan and 1 is an Asian champion. These achievements demonstrate that the faculty's students are well-rounded, academically, physically, and socially.<br><br>Students gain in-depth knowledge in economics and information technologies. Through laboratories, computer classes, practical exercises, and project work, they can consolidate their theoretical knowledge with practice. The faculty also prepares students to meet global standards through special courses conducted by foreign specialists and professors.<br><br>Students and instructors actively participate in scientific and innovative projects, ensuring that graduates acquire the competencies required by the labor market.<br><br>The faculty's collaboration with foreign universities and experts creates extensive opportunities for students. Teaching by foreign specialists, faculty professional development, and participation in international research projects further expand students' knowledge and make them globally competitive.<br><br>Thus, students at the faculty gain not only academic knowledge but also broad practical experience through internships, sports, and research activities. Graduates continue their professional careers in modern economics and information technologies as qualified specialists. |
+
+---
+
+## `facultyOfMedicineDefaults.ts` {#defaults-facultyOfMedicineDefaultsts}
+
+### `FACULTY_MEDICINE_DEFAULTS`
+
+_Source: `src/locales/facultyOfMedicineDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `facultyMedicineBachelorsHeading` | Bachelor's programs |
+| `facultyMedicineClosing` | Today, every student at TISU's Faculty of Medicine is becoming a highly skilled professional ready to make a significant contribution to the development of healthcare in our country. |
+| `facultyMedicineDepartmentsHeading` | The faculty of medicine has the following departments: |
+| `facultyMedicineIntroBody` | Today, one of the key factors in the development of medicine is the training of qualified specialists. In this regard, the Faculty of Medicine at Termez University of Economics and Service (TUES) is becoming a true center of knowledge and experience for the youth of the Surkhandarya region. Currently, the faculty has 8 departments, and more than 4,000 students are studying dentistry, pediatrics, general medicine, pharmacy, and biology.<br><br>The faculty's main advantage is its highly qualified teaching staff. Ten faculty members hold academic degrees, while another twenty are actively engaged in scientific research. The university provides extensive support for students' research activities, making the faculty recognized not only nationally but also internationally.<br><br>According to the faculty dean, Begzod Bobomuratov, all conditions have been created for students to gain knowledge in modern medicine. For example, dentistry students carry out practical exercises in laboratories equipped with foreign equipment. There are also rooms with mannequins for studying first aid and anatomy, helping students integrate theoretical knowledge with practical skills.<br><br>Students and faculty members work together on many projects, achieving significant results. In 2024-2025, 15 students won prizes at international science olympiads held in Samarkand and Bukhara. In the same year, a group of talented students completed internships at Istanbul Medipol University and Medipol Clinics in Turkey, marking a new step in studying modern medicine.<br><br>Additionally, as a result of negotiations with prestigious Turkish institutions and universities, TISU has been officially recognized and admitted to the Turkish Higher Education Council (YOK). This recognition allows TISU diplomas and academic degrees to be officially accepted in Turkey, giving students the opportunity to continue their studies and even work abroad.<br><br>Students describe their education as very engaging. Laboratory practicals strengthen their theoretical knowledge, while international internship experiences provide a solid foundation for future professional activities. |
+| `facultyMedicineMastersHeading` | Master's programs |
+| `facultyMedicineResidencyHeading` | Residency programs |
+| `facultyMedicineSectionProgramsTitle` | Academic programs at the faculty of medicine |
+
+---
+
+## `facultyOfPedagogyDefaults.ts` {#defaults-facultyOfPedagogyDefaultsts}
+
+### `FACULTY_PEDAGOGY_DEFAULTS`
+
+_Source: `src/locales/facultyOfPedagogyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `facultyPedagogyAmongStudentsHeading` | Among the faculty's students are: |
+| `facultyPedagogyClosingBody` | The Faculty of Pedagogy and Social-Humanitarian Sciences has achieved significant progress in education, research, spirituality, and international cooperation. Today, it is not only a center for training qualified teachers but also a vital institution shaping well-rounded, patriotic, and socially active youth.<br><br>The faculty continues to strengthen educational quality, scientific potential, and international ties, opening the door to even greater opportunities in the future. |
+| `facultyPedagogyDepartmentsHeading` | The faculty of pedagogy and social-humanitarian sciences includes the following departments: |
+| `facultyPedagogyIntroBody` | The Faculty of Pedagogy and Social-Humanitarian Sciences at Termez University of Economics and Service has become one of the university's leading divisions, contributing significantly not only to the quality of education but also to scientific development, international cooperation, and student achievements. In a short period, the faculty has reached major accomplishments, positively influencing the improvement of the educational process.<br><br>The faculty employs 121 professors and teachers, including 6 Doctors of Science and 60 PhD holders. The faculty's scientific potential has reached 52%, one of the highest indicators among universities in Uzbekistan.<br><br>Faculty members continuously enhance their qualifications both within the country and abroad. In recent years, more than 20 lecturers have completed professional training in Turkey, the Czech Republic, Indonesia, and other countries, contributing to the modernization of the educational process. |
+| `facultyPedagogyOlympiadsBody` | About 30 students of the faculty have achieved notable results in international Olympiads, national competitions, and spiritual-educational contests.<br><br>In 2025, the faculty's team “Matonat” won the regional stage of the national contest “Ma’rifat Maydoni” and successfully participated in the republican stage. |
+| `facultyPedagogyRectorsScholarship` | More than 100 students have been awarded the Rector's Scholarship, demonstrating strong academic performance and high motivation. |
+| `facultyPedagogyScaleIntro` | The faculty is one of the largest in the university: |
+| `facultyPedagogyScientificIntro` | The growth of the faculty's scientific potential is reflected in its academic output: |
+| `facultyPedagogyScientificOrganizerClosing` | These events serve as an important platform for scientific exchange, innovation, and the development of academic partnerships. |
+| `facultyPedagogyScientificOrganizerIntro` | The faculty is the organizer of: |
+| `facultyPedagogySectionScientificTitle` | Scientific development |
+| `facultyPedagogySectionSpiritualTitle` | Spiritual and educational activities |
+| `facultyPedagogySpiritualBody` | Alongside its academic mission, the faculty places great emphasis on spiritual and educational work. To date, nearly 500 events have been held, aimed at fostering: patriotism, national pride, intellectual development, social responsibility among students. |
+
+---
+
+## `famousGraduatesDefaults.ts` {#defaults-famousGraduatesDefaultsts}
+
+### `FAMOUS_GRADUATES_PAGE_DEFAULTS`
+
+_Source: `src/locales/famousGraduatesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `famousGraduatesPageIntro` | Alumni of Termez University of Economics and Service recognized for their achievements and contributions. |
+| `famousGraduatesPageTitle` | Famous graduates |
+| `famousGraduatesReadMore` | Read more |
+
+### `FAMOUS_GRADUATE_DETAIL_DEFAULTS`
+
+_Source: `src/locales/famousGraduatesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `famousGraduateDetailAbdirakhmanovKhayitaliBody` | He was born on May 30, 1993, in Jarkurgan district, Surkhandarya region. In 2016, he successfully graduated from Termez State University, and in 2024 — from Termez University of Economics and Service, specializing in finance and economics.<br><br>His career began in 2016 at the Asakabank system, where he quickly demonstrated efficiency in various fields. With experience in lending, business support, and retail services, he has worked in responsible positions and established himself as a qualified specialist.<br><br>From 2019 to 2023, he worked effectively in the corporate and retail service departments of the bank as a leading specialist and head of department. Since 2024, he has been serving as Deputy Manager of the Termez branch of Asakabank JSC.<br><br>Abdirakhmanov Khayitali Normukhammadovich has earned respect in his team through his consistent career path, initiative, and responsible working style. His main goal is to improve the efficiency of providing the population and clients with convenient, modern, and reliable banking services. |
+| `famousGraduateDetailAlimovJalolBody` | Alimov Jalol Qudratovich was born on March 26, 1972, in Muzrabot district. In 2002, he graduated from Termez State University, and in 2006, from Samarkand State University, specializing in Macroeconomics and Law. In 2025, he completed his master’s degree in Economics at Termez University of Economics and Service.<br><br>He began his professional career in 1988 as a brigade leader in a youth production brigade. Later, he worked as an accountant and worker in trade enterprises, a court executor, and held responsible positions in the prosecutor’s office and courts. At the same time, he gained significant experience in the banking sector, working as a chief legal counsel in various branches.<br><br>Since 2014, Alimov Jalol Qudratovich has served in the system of the Central Bank of the Republic of Uzbekistan, holding the position of Chief Legal Adviser under the leadership of the Surkhandarya Regional Main Department. In 2025, he was appointed Chief Legal Counsel of the Litigation and Coordination of Legal Advisers of Regional Main Departments Division within the Legal Department of the Central Bank.<br><br>Over the course of more than 35 years of professional activity, Jalol Qudratovich has accumulated vast experience in the legal field and has earned high recognition as a responsible and proactive specialist. |
+| `famousGraduateDetailAshurovKaromatBody` | He was born on October 13, 1979, in Qiziriq district, Surkhandarya region. Married, father of three children.<br><br>From 1986 to 1996, he studied at Secondary School No. 8. In 2000, he graduated from Termez State University, and in 2003 — from Tashkent State University of Economics. In 2024, he successfully completed his master’s degree in Economics at Termez University of Economics and Service. His specialization is teaching and finance.<br><br>He began his career in 2000 as a teacher. From 2003 to 2019, he held various managerial positions in Surkhandarya region. Since July 2019, he has been serving as Deputy Mayor of Termez city for youth policy, social development, and spiritual-enlightenment affairs.<br><br>Throughout his career, he has implemented numerous innovations and reforms in the field of education and youth policy. He ensured the first-ever participation of regional students in international olympiads and achieved high results in science and sports. In 2019, he established the non-governmental educational institutions “Children’s Academy Termez” and “Smart Children of Termez.” He contributed to increasing preschool education coverage to 55.9% and reducing crime rates.<br><br>He has earned respect as a skilled organizer, an initiative-driven and demanding leader. His students are now serving the development of the country across various fields. |
+| `famousGraduateDetailBegaliyevAzamBody` | Born on February 29, 1988, in Jarkurgan district. He received his higher education at Termez State University. In 2025, he completed his master’s degree at Termez University of Economics and Service, specializing as an economist (researcher-pedagogue).<br><br>Throughout his career, Begaliyev A’zam Olimnazarovich has worked effectively in the field of education. Since 2010, he has held various positions at the Termez College of Economics and the Termez College of Transport and Services. Serving as a teacher, department head, and acting director, he made a significant contribution to the education and professional training of young people.<br><br>From 2018, A’zam Olimnazarovich has been engaged in leadership activities. Between 2020 and 2025, he served as the director of Vocational School No. 2 in Jarkurgan district. Since 2025, he has been working as the director of Polytechnic No. 2 in Jarkurgan district, Surkhandarya region.<br><br>For his dedicated service and contribution to the field of education, he was awarded the honorary badge “Excellence in Secondary Specialized and Professional Education.” |
+| `famousGraduateDetailIbragimovRustamBody` | Born on April 16, 1981, in Denau region. In 2002, he graduated from Termez State University; in 2006, from Tashkent State Law Institute; and in 2025, he completed a master’s degree at Termez University of Economics and Service, specializing in Public Finance and International Finance. His professional background covers banking, law, and finance-economics.<br><br>He began his career in 2004 as a lawyer. Later, he served in the prosecution system in various positions, including senior inspector, investigator, and department prosecutor.<br><br>From 2019 to 2021, he worked as an investigator at the Department for Investigating Especially Serious Crimes under the General Prosecutor’s Office. From 2022 to 2025, he headed the Department for Combating Organized Crime and Corruption at the Surkhandarya Regional Prosecutor’s Office.<br><br>Since 2025, Rustam Alijanovich has been serving as the Prosecutor of Termez city. He holds the rank of Junior Counselor of Justice.<br><br>With his professional experience and expertise, he is recognized as a highly qualified specialist effectively serving in law enforcement agencies. |
+| `famousGraduateDetailPanjievaNigoraBody` | Panjieva Nigora Normakhmatovna is a responsible and experienced specialist who has earned a respectable place in the energy sector of Surkhandarya region and is recognized as one of the leading professionals in the field of accounting.<br><br>She was born on February 14, 1979, in Termez city, Surkhandarya region. In 2001, she graduated from the full-time program of Termez State University with a degree in Management. In 2025, she completed her master’s degree in Economics at Termez University of Economics and Service.<br><br>Nigora Normakhmatovna began her professional career in 2002 as an economist and, within a short period, gained strong knowledge and valuable experience in her field. Afterwards, she worked successfully in various positions within the Surkhandarya Territorial Electric Networks system. Since 2016, she has been serving as Chief Accountant, actively contributing to the modernization of accounting practices.<br><br>Since 2023, she has been working as the Chief Accountant of the Central Accounting Department at the Surkhandarya regional branch of JSC “Regional Electric Networks.”<br><br>Panjieva Nigora Normakhmatovna has earned the respect of her colleagues for her honesty, precision, and responsibility in the field of accounting and economics. Her commitment to work and strong leadership skills have significantly contributed to increasing efficiency in the sector. |
+| `famousGraduateDetailSadatovOltiboyBody` | Born on August 23, 1976, in Sherobod district, Surkhandarya region. From an early age, his personal qualities such as a passion for knowledge, diligence, and initiative were evident. In 2006, he graduated in absentia from Karshi State University with a degree in socio-economic studies. In 2025, he successfully completed his Master’s degree in Economics at the Termez University of Economics and Service.<br><br>From 1995 to 1998, he worked as a private entrepreneur. Since 1998, he continued his career in the education sector. He first served as Deputy Director for administrative affairs and an accountant at the Specialized Boarding Lyceum for Gifted Children No. 17 in Termez district. Between 2009 and 2011, he worked as Chief Accountant at the Termez District Statistics Department and at the Termez Pedagogical College. During this time, he stood out for his accuracy in accounting, responsibility, and systematic approach.<br><br>From 2011 to 2018, he worked as Chief Accountant and Economics teacher at the Termez College of Preschool Education and Service. There he not only managed financial matters but also taught economics to young students, contributing to their professional training.<br><br>In 2018, he was appointed Director of the same college and effectively managed the institution for one year. From 2019 onwards, Sadatov Oltiboy Nazarovich headed the Termez City Department of Public Education of Surkhandarya region, where he implemented wide-scale efforts to improve the quality of education, strengthen the material and technical base of schools, and raise teachers’ qualifications.<br><br>Since 2023, he has been serving as the Head of the Boysun District Department of Preschool and School Education. In this position, he has focused on improving the quality of the education system, creating favorable conditions for children’s all-round development, and enhancing the potential of pedagogical staff.<br><br>Over nearly 30 years of professional activity, Oltiboy Nazarovich has progressed from financial management in the education system to high-level leadership positions. Thanks to his experience, responsibility, and dedication to education, he is recognized today as one of the leaders making a valuable contribution to the development of the education system in Surkhandarya. |
+| `famousGraduateDetailTogayevRakhmatilloBody` | He was born on October 3, 1987, in Sariosiyo district of Surkhandarya region. From an early age, he was fond of art and actively engaged in social life, combining his studies with community activities.<br><br>In 2011, he graduated from the full-time department of Termez State University with a degree in Music Education. Later, in 2023, he completed the part-time program at the same university, specializing in Economics by sectors and industries. In 2025, he successfully obtained his master’s degree in Economics from Termez University of Economics and Service.<br><br>Togayev Rakhmatillo Ravzatovich began his professional career during his student years. From 2009 to 2010, he worked as an accountant at Preschool Educational Institution No. 12 in Termez district. Between 2011 and 2017, he served as Head of the Department of Culture and Enlightenment at the Surkhandarya Regional Council of the “Kamolot” Youth Social Movement, Chairman of the Uzun District Council, as well as Head of a department of the regional council and Chairman of the district council.<br><br>From 2019 to 2021, he worked as Deputy Hokim of Uzun district for Youth Policy, Social Development, and Spiritual-Enlightenment Affairs. During this period, he implemented numerous initiatives to ensure youth employment, organize meaningful leisure activities, and strengthen their spiritual upbringing.<br><br>In 2021, he served as Deputy Chairman of the Surkhandarya Regional Council of UzMTDP for Ideological Affairs and Information Policy. In the same year, he also worked as Chief Specialist for Cooperation with Religious Organizations at the Surkhandarya Regional Department of the Committee on Religious Affairs.<br><br>Since 2024, he has been serving as Deputy Hokim of Termez district for Youth Policy, Social Development, and Spiritual-Enlightenment Affairs. |
+
+### `FAMOUS_GRADUATE_DETAIL_BIO_KEY_BY_ID`
+
+_Source: `src/locales/famousGraduatesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `abdirakhmanov-khayitali-normukhammadovich` | famousGraduateDetailAbdirakhmanovKhayitaliBody |
+| `alimov-jalol-qudratovich` | famousGraduateDetailAlimovJalolBody |
+| `ashurov-karomat-musulmonqulovich` | famousGraduateDetailAshurovKaromatBody |
+| `begaliyev-azam-olimnazarovich` | famousGraduateDetailBegaliyevAzamBody |
+| `ibragimov-rustam-alijanovich` | famousGraduateDetailIbragimovRustamBody |
+| `panjieva-nigora-normakhmatovna` | famousGraduateDetailPanjievaNigoraBody |
+| `sadatov-oltiboy-nazarovich` | famousGraduateDetailSadatovOltiboyBody |
+| `togayev-rakhmatillo-ravzatovich` | famousGraduateDetailTogayevRakhmatilloBody |
+
+---
+
+## `faqDefaults.ts` {#defaults-faqDefaultsts}
+
+### `FAQ_PAGE_DEFAULTS`
+
+_Source: `src/locales/faqDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `faqA1` | Monday–Friday until 14:00 (lunch break 12:00–13:00) |
+| `faqA2BeforeLink` | The answer to this question is available  |
+| `faqA2LinkLabel` | here |
+| `faqA3BeforeLink` | Yes, of course we do. You can find it  |
+| `faqA3LinkLabel` | here |
+| `faqA4` | Yes, absolutely. |
+| `faqA5` | For the first period of study: passport and bachelor's degree. |
+| `faqPageIntro` | Find quick answers to common questions about applying to Termez University of Economics and Service. |
+| `faqPageTitle` | Frequently Asked Questions |
+| `faqQ1` | When are applications accepted? |
+| `faqQ2` | What do I need to bring? |
+| `faqQ3` | Do you have a license? |
+| `faqQ4` | Are your diplomas recognized throughout Uzbekistan? |
+| `faqQ5` | What documents are required for admission to the master's program? |
+
+### `FAQ_ITEMS`
+
+_Source: `src/locales/faqDefaults.ts`_
+
+```json
+[
+  {
+    "id": "application-hours",
+    "questionKey": "faqQ1",
+    "answerKey": "faqA1",
+    "answerType": "text"
+  },
+  {
+    "id": "what-to-bring",
+    "questionKey": "faqQ2",
+    "answerType": "link-regulations"
+  },
+  {
+    "id": "license",
+    "questionKey": "faqQ3",
+    "answerType": "link-accreditation"
+  },
+  {
+    "id": "diploma-recognition",
+    "questionKey": "faqQ4",
+    "answerKey": "faqA4",
+    "answerType": "text"
+  },
+  {
+    "id": "masters-documents",
+    "questionKey": "faqQ5",
+    "answerKey": "faqA5",
+    "answerType": "text"
+  }
+]
+```
+
+### `FAQ_LINK_PATHS`
+
+_Source: `src/locales/faqDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `accreditationAndLicense` | /about/accreditation-and-license |
+| `regulationsAndRequirements` | /admissions/regulations-and-requirements |
+
+---
+
+## `financialStatementsDefaults.ts` {#defaults-financialStatementsDefaultsts}
+
+### `FINANCIAL_STATEMENTS_DEFAULTS`
+
+_Source: `src/locales/financialStatementsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `financialStatementsActualVsTargetTitle` | 2024 Actual vs. 2025 Target |
+| `financialStatementsCorporateProfileTitle` | Corporate Profile |
+| `financialStatementsEurNetLabel` | Net result (2024) |
+| `financialStatementsEurNetNote` | 2025 target: €1,150,000 |
+| `financialStatementsEurNetValue` | €822,979 |
+| `financialStatementsEurTableSource` | Source: TUES Strategic Outlook / Analysis & Forecast, 2025, pp.42–43. "2025 (F)" denotes forecasted figures, not actuals. |
+| `financialStatementsEurTrajectoryTitle` | Turnover Growth Trajectory, 2022–2025 (Forecast) |
+| `financialStatementsEurTurnoverLabel` | Annual turnover (2024 actual) |
+| `financialStatementsEurTurnoverNote` | 2025 target: €29,400,000 (+25%) |
+| `financialStatementsEurTurnoverValue` | €23,513,684 |
+| `financialStatementsHeroAssetsLabel` | Total assets (2025) |
+| `financialStatementsHeroAssetsNote` | +32.6% growth |
+| `financialStatementsHeroAssetsValue` | $4.3M |
+| `financialStatementsHeroDisclaimer` | Figures above are drawn from the university's USD-denominated annual report. A parallel EUR-denominated report with 2025 forecasts appears later in this document (see "Strategic Outlook — EUR Report"). |
+| `financialStatementsHeroProfitLabel` | Net profit (2025) |
+| `financialStatementsHeroProfitNote` | Record performance |
+| `financialStatementsHeroProfitValue` | $1.3M |
+| `financialStatementsHeroTurnoverLabel` | Total turnover (2025) |
+| `financialStatementsHeroTurnoverNote` | +29.7% growth |
+| `financialStatementsHeroTurnoverValue` | $32.9M |
+| `financialStatementsHumanCapitalJobs` | New jobs projected: +100 |
+| `financialStatementsHumanCapitalP1` | TUES remains committed to regional development, projecting to surpass 500 permanent employees by the end of 2025 — representing more than 100 new jobs created relative to the 2024 actual headcount of 404. |
+| `financialStatementsHumanCapitalTarget` | Target staff by end of 2025: 500+ |
+| `financialStatementsHumanCapitalTitle` | Human Capital Impact |
+| `financialStatementsInstitution` | TERMEZ UNIVERSITY OF ECONOMICS AND SERVICE |
+| `financialStatementsKeyHighlight1` | Turnover has grown more than tenfold since 2022, from $3.0M to $32.9M. |
+| `financialStatementsKeyHighlight2` | Net profit has grown nearly 100x over the same period, from $14K to $1.3M. |
+| `financialStatementsKeyHighlight3` | Total assets stand at $4.3M, up 32.6% year-over-year. |
+| `financialStatementsKeyHighlight4` | Equity nearly doubled between 2024 and 2025, from $1.49M to $2.75M. |
+| `financialStatementsKeyHighlightsTitle` | Key Highlights |
+| `financialStatementsNote1` | Figures in Section 2 are actual, audited results reported in US dollars for fiscal years 2022–2025. |
+| `financialStatementsNote2` | Figures in Section 3 combine actual 2024 results with 2025 targets/forecasts, reported in euros. |
+| `financialStatementsNote3` | Because the two reports use different currencies and, in the case of 2025, different bases (actual vs. forecast), totals should not be added across sections. |
+| `financialStatementsNote4` | All figures are drawn directly from TUES's 2025 Annual Report (pages 41–43). |
+| `financialStatementsPageTitle` | Financial Statements |
+| `financialStatementsProfileFounded` | Founded |
+| `financialStatementsProfileFoundedValue` | 13 September 2022 |
+| `financialStatementsProfileLocation` | Location |
+| `financialStatementsProfileLocationValue` | Termez, Uzbekistan |
+| `financialStatementsProfileRector` | Rector |
+| `financialStatementsProfileRectorValue` | Absamatov Anvar Ergashevich |
+| `financialStatementsProfileTaxId` | Tax ID (INN) |
+| `financialStatementsProfileTaxIdValue` | 309 861 576 |
+| `financialStatementsRowAnnualTurnover` | Annual Turnover |
+| `financialStatementsRowEmployees` | Employees |
+| `financialStatementsRowEquity` | Equity |
+| `financialStatementsRowEquityCapital` | Equity Capital |
+| `financialStatementsRowNetProfit` | Net Profit |
+| `financialStatementsRowNetResult` | Net Result |
+| `financialStatementsRowStaffActual` | Staff (Actual) |
+| `financialStatementsRowTotalAssets` | Total Assets |
+| `financialStatementsRowTurnover` | Turnover |
+| `financialStatementsSection1P1` | In 2025, Termez University of Economics and Service (TUES) reported strong, sustained financial growth. Annual turnover reached $32.9 million, a 29.7% increase over 2024, while net profit climbed to a record $1.3 million and total assets grew 32.6% to $4.3 million. |
+| `financialStatementsSection1P2` | These results mark a shift from the university's earlier rapid-growth phase toward a more sustainable, mature financial footing. The consistent turnover and profit growth across four consecutive years demonstrate an increasing capacity to manage substantial funds — a key factor supporting the long-term viability of the proposed BMZ/developPP partnership commitments. |
+| `financialStatementsSection1Title` | 1. Executive Summary |
+| `financialStatementsSection2Intro` | The table below summarizes TUES's core financial indicators from 2022 through 2025, as reported in the university's USD-denominated annual results. |
+| `financialStatementsSection2Title` | 2. Financial Performance (USD) |
+| `financialStatementsSection3Intro` | A companion report presents TUES's results in euros, combining 2024 actuals with 2025 targets. Figures in this section are drawn from that EUR-denominated report and should not be combined directly with the USD figures above, as they reflect different currencies and, in places, forecasted rather than actual results. |
+| `financialStatementsSection3Title` | 3. Strategic Outlook — EUR Report |
+| `financialStatementsSection4Title` | 4. Notes on This Summary |
+| `financialStatementsStaffActualValue` | 404  (Target 2025: 505) |
+| `financialStatementsStrategicSummaryP1` | The 2025 results highlight TUES's transition from a rapid growth phase to sustainable maturity. With a 29.7% increase in annual turnover and a solid net profit margin, the university has established a strong economic foundation. These figures verify TUES's capacity to manage substantial funds, supporting the successful implementation and long-term viability of the proposed BMZ/developPP project commitments. |
+| `financialStatementsStrategicSummaryTitle` | Strategic Financial Summary |
+| `financialStatementsTableCol2022` | 2022 |
+| `financialStatementsTableCol2023` | 2023 |
+| `financialStatementsTableCol2024` | 2024 |
+| `financialStatementsTableCol2024Actual` | 2024 (Actual) |
+| `financialStatementsTableCol2025` | 2025 |
+| `financialStatementsTableCol2025F` | 2025 (F) |
+| `financialStatementsTableColDetail` | Detail |
+| `financialStatementsTableColField` | Field |
+| `financialStatementsTableColIndicator` | Indicator |
+| `financialStatementsTableColYear` | Year |
+| `financialStatementsTagline` | Annual Results & Strategic Outlook — 2025 |
+| `financialStatementsTurnoverGrowthTitle` | Turnover Growth, 2022–2025 |
+| `financialStatementsUsdTableSource` | Source: TUES Financial Report, "Financial Performance Table (USD)", 2025 Annual Results, p.41. |
+
+---
+
+## `fineAppliedArtsClubDefaults.ts` {#defaults-fineAppliedArtsClubDefaultsts}
+
+### `FINE_APPLIED_ARTS_CLUB_DEFAULTS`
+
+_Source: `src/locales/fineAppliedArtsClubDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `fineAppliedArtsClubHeroSrc` | /images/community-clubs/fine-and-applied-arts-club.png |
+| `fineAppliedArtsClubPageBody` | Organizing meaningful leisure activities for youth, guiding them toward professions, and shaping their aesthetic taste are among the top priorities of the educational process. The “Fine and applied arts” club, established at the Termez University of Economics and Service, is a creative haven that fosters not only artistic skills but also patience, taste, and industriousness in students.<br><br>One of the most important directions of the club’s activities is painting. Here, students master practical skills alongside the theoretical foundations of fine arts. They are taught step-by-step the harmony of colors, composition building, the laws of light and shadow, and the secrets of portrait and landscape painting. Young creators learn to embody the world of their imagination using simple paper and paint. Every painting is not just an image, but an expression of the young soul’s inner feelings, dreams, and outlook on life. During the lessons, the club leader, Madina Jurayeva, encourages each student to think independently and find their own style, taking into account their individual abilities.<br><br>“The club has been operating since 2024. To date, more than 200 graduates have completed the course and been awarded special certificates. The club’s activities harmonize national traditions with modern trends. In particular, straw art lessons cultivate patience and refined taste in students. Ordinary pieces of straw turn into elegant landscapes, national patterns, or decorative compositions under skillful hands. This process educates youth in a spirit of respect for the rich heritage of applied arts. Additionally, one of the modern directions—resin art—is also included in the club’s program. Students learn to create various decorative items, souvenirs, and ornaments using transparent resin. Products created with a blend of colors, dried flowers, glittery elements, and various shapes are bright examples of modern taste and a creative approach,” says Madina Jurayeva.<br><br>The club also functions as a small production workshop. Here, students master the secrets of making diadems, various jewelry, bracelets, earrings, and other decorative accessories. Every item is created through a meticulously planned process, from the initial design to the finished product. These activities, which are especially interesting for female students, develop entrepreneurial skills along with shaping aesthetic taste. In fact, some graduates manage commercial pages on social media, selling their handmade items and earning their first income. Such results clearly demonstrate both the spiritual and practical significance of the club. The creative works prepared by the graduates deserve special attention, as they blend national spirit, modern design, and personal style.<br><br>“Our main goal in attending the club is not just making objects, but finding mental relaxation and increasing our self-confidence. Here, we learn not only art but also life skills. Working in a team, respecting each other’s opinions, positive thinking, completing every task with high taste, feeling responsibility, and waiting for the result with patience—all of these are formed during the creative process,” says club member Jasmina Begmatova.<br><br>The heart of every student who connects with art becomes refined, their taste elevated, and their thinking broadened. The “Fine and applied arts” club operates effectively in nurturing such a well-rounded generation. In conclusion, this club is not just a set of lessons; it is a true school of creativity where talents mature, dreams take flight, and the path to success opens through hard work. |
+| `fineAppliedArtsClubPageTitle` | Fine and applied arts club |
+
+---
+
+## `healthSupportDefaults.ts` {#defaults-healthSupportDefaultsts}
+
+### `HEALTH_SUPPORT_PAGE_DEFAULTS`
+
+_Source: `src/locales/healthSupportDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `healthSupportImage1Alt` | A medical professional in maroon scrubs taking a patient's blood pressure at the TUES Medical Hub |
+| `healthSupportImage1Src` | /images/student-life/health-support-medical-care.png |
+| `healthSupportImage2Alt` | A medical professional using diagnostic equipment with a patient at the TISU Med Hub |
+| `healthSupportImage2Src` | /images/student-life/health-support-diagnostics.png |
+| `healthSupportImage3Alt` | A medical professional performing a clinical examination on a patient at the TUES Medical Hub |
+| `healthSupportImage3Src` | /images/student-life/health-support-examination.png |
+| `healthSupportInclusiveClosing` | These measures reflect a broader view of wellbeing — one that includes physical accessibility, dignity, and equal participation, not just medical treatment. |
+| `healthSupportInclusiveHeading` | Inclusive Access for Every Student |
+| `healthSupportInclusiveIntro` | TUES is committed to making campus life accessible to everyone. A range of accommodations and support services help students with disabilities participate fully in academic and campus life, including: |
+| `healthSupportInclusiveList` | Ramps, adapted sanitary facilities, and designated accessible entry points<br>Mapped accessible routes and spaces around campus<br>Sign language support for students with hearing impairments<br>Assistive computer technology for students with visual impairments<br>Individually tailored academic support |
+| `healthSupportMentalClosing` | These programs are designed to ease the transition into university life, reduce everyday stress, and support a healthier, more balanced campus environment for everyone. |
+| `healthSupportMentalHeading` | Mental Health & Emotional Wellbeing |
+| `healthSupportMentalIntro` | The Psychological Support Center offers ongoing programs to help students, teachers, and staff build resilience and manage day-to-day pressures. This support is open to the whole campus community, not just students. |
+| `healthSupportMentalList` | Stress management and healthy thinking habits<br>Family and social wellbeing<br>Personal development and adjusting to university life |
+| `healthSupportMentalListLabel` | Regular sessions cover topics such as: |
+| `healthSupportPageIntro` | Your health and wellbeing matter to us. TUES provides an integrated network of on-campus medical, psychological, and inclusive support services — so you can focus on your studies knowing help is close by, whenever you need it. |
+| `healthSupportPageSubtitle` | Termiz University of Economics and Service (TUES) |
+| `healthSupportPageTitle` | Health, Wellbeing & Support Services |
+| `healthSupportPhysicalClosing` | Because the Medical Hub operates permanently on campus, urgent and everyday health needs can be addressed quickly — without interrupting your studies or work. |
+| `healthSupportPhysicalHeading` | Medical Care On Campus |
+| `healthSupportPhysicalIntro` | The TUES Medical Hub is our on-campus healthcare facility, open 24/7 throughout the academic year. It's the first place to turn for anything from a routine check-up to urgent care. |
+| `healthSupportPhysicalList` | General medical consultations and health assessments<br>Treatment for minor injuries and illnesses, plus first aid<br>Basic diagnostics and preventive health checks<br>Referrals to hospitals and specialist clinics when needed |
+| `healthSupportPhysicalListLabel` | What you can access at the Medical Hub: |
+| `healthSupportReproductiveBody` | Reproductive health is treated as a normal, important part of overall wellbeing. Alongside routine consultations at the Medical Hub, the Psychological Support Center runs regular seminars and round-table sessions covering reproductive health and healthy lifestyle habits.<br><br>If you need more personalised guidance, staff can connect you with further consultation or specialist referral pathways. |
+| `healthSupportReproductiveHeading` | Reproductive & Sexual Health |
+| `healthSupportStat1Label` | Medical Hub open every day, all year |
+| `healthSupportStat1Value` | 24/7 |
+| `healthSupportStat2Label` | student visits in the last reporting year |
+| `healthSupportStat2Value` | 11,000+ |
+| `healthSupportSummaryClosing` | Together, these services form a single, connected support system — helping every member of the TUES community stay healthy, supported, and able to thrive, both in and out of the classroom. |
+| `healthSupportSummaryHeading` | Everything In One Place |
+| `healthSupportSummaryIntro` | In short, TUES brings together: |
+| `healthSupportSummaryList` | Immediate and routine physical healthcare<br>Preventive care and health education<br>Reproductive health awareness and guidance<br>Mental health and psychosocial support for students and staff<br>Referral coordination for advanced medical needs<br>Accessibility and accommodation for students with disabilities |
+
+---
+
+## `help247Defaults.ts` {#defaults-help247Defaultsts}
+
+### `HELP_247_PAGE_DEFAULTS`
+
+_Source: `src/locales/help247Defaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `help247AcademicItems` | Information about courses, schedules, and assessments<br>Guidance on online learning platforms<br>Exam and registration assistance |
+| `help247AcademicTitle` | Academic Support |
+| `help247AdministrativeItems` | Admissions and enrollment inquiries<br>Documentation requests<br>Tuition and payment guidance<br>Policy and procedure information |
+| `help247AdministrativeTitle` | Administrative Assistance |
+| `help247CareerItems` | Career Centre inquiries<br>Internship and job portal support<br>Event information<br>Student activities guidance |
+| `help247CareerTitle` | Career and Student Services |
+| `help247PageIntro` | The 24/7 Help Centre at Termez University of Economics and Service provides continuous support to students, staff, and prospective applicants by ensuring that assistance is available anytime, from any location. The Help Centre serves as a central digital support hub designed to address academic, technical, administrative, and career-related inquiries efficiently. |
+| `help247PageTitle` | 24/7 Help Centre |
+| `help247PurposeBody` | The purpose of the 24/7 Help Centre is to deliver timely, accessible, and user-friendly support that enhances the student experience, improves service delivery, and ensures uninterrupted access to university resources and information. |
+| `help247PurposeHeading` | Purpose |
+| `help247ServicesHeading` | Services Provided |
+| `help247TechnicalItems` | Help with university systems and portals<br>Login and account recovery<br>Learning platform troubleshooting<br>IT service requests |
+| `help247TechnicalTitle` | Technical Support |
+
+---
+
+## `howToApplyDefaults.ts` {#defaults-howToApplyDefaultsts}
+
+### `HOW_TO_APPLY_PAGE_DEFAULTS`
+
+_Source: `src/locales/howToApplyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `howToApplyContactHeading` | Get in touch |
+| `howToApplyContactIntro` | Send your application or reach out with any questions. |
+| `howToApplyEmailLabel` | Email |
+| `howToApplyPageIntro` | Follow the steps below to apply for a position at Termez University of Economics and Service. |
+| `howToApplyPageTitle` | How to Apply |
+| `howToApplyPhoneLabel` | Phone |
+| `howToApplyStep1Body` | Send us your most recent Curriculum Vitae (PDF format preferred). |
+| `howToApplyStep1Title` | Submit your CV |
+| `howToApplyStep2Body` | If you are a good candidate, we will invite you for an initial interview. |
+| `howToApplyStep2Title` | Interview invitation |
+| `howToApplyStep3Body` | Additional interview rounds depend on the role and are tailored accordingly. |
+| `howToApplyStep3Title` | Further interviews |
+
+### `HOW_TO_APPLY_CONTACT`
+
+_Source: `src/locales/howToApplyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `email` | university@tues.uz |
+| `phones` | {"display":"+998 90 074 74 74","tel":"+998900747474"}<br>{"display":"+998 95 412 07 07","tel":"+998954120707"} |
+
+### `HOW_TO_APPLY_STEPS`
+
+_Source: `src/locales/howToApplyDefaults.ts`_
+
+```json
+[
+  {
+    "titleKey": "howToApplyStep1Title",
+    "bodyKey": "howToApplyStep1Body"
+  },
+  {
+    "titleKey": "howToApplyStep2Title",
+    "bodyKey": "howToApplyStep2Body"
+  },
+  {
+    "titleKey": "howToApplyStep3Title",
+    "bodyKey": "howToApplyStep3Body"
+  }
+]
+```
+
+---
+
+## `informationTransferEducationDefaults.ts` {#defaults-informationTransferEducationDefaultsts}
+
+### `INFORMATION_TRANSFER_EDUCATION_PAGE_DEFAULTS`
+
+_Source: `src/locales/informationTransferEducationDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `informationTransferCabinet578HeroAlt` | Illustration of a laptop, books, and official documents on a blue background — thematic graphic for education regulations. |
+| `informationTransferCabinet578LoadError` | The document could not be loaded. Please try again later. |
+| `informationTransferCabinet578Loading` | Loading document… |
+| `informationTransferCabinet578NavNext` | Next section |
+| `informationTransferCabinet578NavPrevious` | Previous section |
+| `informationTransferCabinet578OnThisPage` | On this page |
+| `informationTransferCabinet578PageIndicator` | Page {{current}} of {{total}} |
+| `informationTransferCabinet578PageNavAria` | Previous and next section links |
+| `informationTransferCabinet578PageTitle` | Cabinet of Ministers resolution No. 578 — regulatory acts on admission to higher education (full text, Uzbek) |
+| `informationTransferCabinet578PaginationAria` | Document pages |
+| `informationTransferCabinet578TabApp1` | 1. Bachelor admission |
+| `informationTransferCabinet578TabApp2` | 2. Master’s admission |
+| `informationTransferCabinet578TabApp3` | 3. Transfer & expulsion |
+| `informationTransferCabinet578TabApp4` | 4. Academic mobility |
+| `informationTransferCabinet578TabApp5` | 5. Government amendments |
+| `informationTransferCabinet578TabApp6` | 6. Repealed decisions |
+| `informationTransferCabinet578TabResolution` | Main resolution |
+| `informationTransferEducationCard1Title` | Resolution of the Cabinet of Ministers of the Republic of Uzbekistan |
+| `informationTransferEducationPageIntro` | Official references on transferring studies at Termez University of Economics and Service. Select a topic below. |
+| `informationTransferEducationPageTitle` | Information about transfer of education |
+
+### `CABINET_578_APPENDIX_SPLIT`
+
+_Source: `src/locales/informationTransferEducationDefaults.ts`_
+
+_No strings._
+
+### `INFORMATION_TRANSFER_EDUCATION_CARD_KEYS`
+
+_Source: `src/locales/informationTransferEducationDefaults.ts`_
+
+```json
+[
+  "informationTransferEducationCard1Title"
+]
+```
+
+### `INFORMATION_TRANSFER_EDUCATION_CARD_HREFS`
+
+_Source: `src/locales/informationTransferEducationDefaults.ts`_
+
+```json
+[
+  "/admission-2025/information-transfer-of-education/cabinet-resolution-578"
+]
+```
+
+### `INFORMATION_TRANSFER_EDUCATION_CARD_IMAGES`
+
+_Source: `src/locales/informationTransferEducationDefaults.ts`_
+
+```json
+[
+  "/images/admission-2025/information-transfer-cabinet-578.png"
+]
+```
+
+---
+
+## `interfacultyStudentTheatreStudioContestDefaults.ts` {#defaults-interfacultyStudentTheatreStudioContestDefaultsts}
+
+### `INTERFACULTY_STUDENT_THEATRE_STUDIO_CONTEST_DEFAULTS`
+
+_Source: `src/locales/interfacultyStudentTheatreStudioContestDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `interfacultyTheatreStudioHeroSrc` | /images/community-clubs/interfaculty-student-theatre-studio-contest.png |
+| `interfacultyTheatreStudioPageIntro` | Termez University of Economics and Service organized an interfaculty “Student Theatre Studio” contest aimed at further developing students’ spiritual and educational activity, promoting stage culture, and encouraging artistic creativity.<br><br>Teams from all university faculties took an active part in the event, presenting performances based on the masterpieces of Uzbek literature, modern plays, and socially themed productions. Each performance stood out for its originality, artistic expression, and the students’ creative approach. |
+| `interfacultyTheatreStudioPageOutro` | The event served not only as a platform to showcase students’ artistic potential but also contributed to the development of their stage culture, teamwork, and creative skills.<br><br>Termez University of Economics and Service continues to support the cultural and spiritual growth of its students alongside their academic and intellectual achievements. |
+| `interfacultyTheatreStudioPageTitle` | “Student theatre studio” contest held at TUES |
+| `interfacultyTheatreStudioResultsLead` | According to the results of the contest: |
+| `interfacultyTheatreStudioResultsList` | 1st place — Faculty of Pedagogy and Social-Humanitarian Sciences<br>2nd place — Faculty of Medicine<br>3rd place — Faculty of Economics and Information Technologies |
+
+---
+
+## `internationalConferencesDefaults.ts` {#defaults-internationalConferencesDefaultsts}
+
+### `INTERNATIONAL_CONFERENCES_PAGE_DEFAULTS`
+
+_Source: `src/locales/internationalConferencesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `internationalConferencesCard1BreadcrumbLabel` | International scientific conference in TUES |
+| `internationalConferencesCard1DetailBody` | On April 25–26, Termez University of Economics and Service hosted an international scientific and practical conference on “Actual problems of education and upbringing in the context of digital transformation.”<br><br>In the morning, a solemn welcoming ceremony was held for the participants. The faculty of our university, as well as representatives of other leading higher educational institutions of the republic, warmly welcomed guests from Tajikistan, Kenya, South Africa and Russia.<br><br>The international scientific conference was attended by renowned scientists: Samuel Nyabere from the Republic of Kenya, Khan Adhel from South Africa, as well as professors from Termez State University, Bukhara State University, Tajik National University and Adygea State University in the Russian Federation.<br><br>Issues related to the modernization of the higher education system were discussed at the event. The participants emphasized that it is necessary to take into account the needs of the social sphere and various sectors of the economy.<br><br>It was proposed to ensure close integration of science, education and production in order to train highly qualified personnel who will be competitive in the labor market. During the discussion, problems and ways to solve them within the framework of an effective organization of scientific and innovative activities were considered.<br><br>Special attention was paid to the introduction of advanced pedagogical experience and innovative solutions. The participants shared the results of their research and discussions, and discussed scientific and practical achievements in this field.<br><br>In addition, such important issues as child rearing in the context of globalization and the prospects for the development of education became the focus of attention. Topical issues of environmental protection, public health and healthcare, as well as the improvement of the digital economy and information technology were discussed. The socio-philosophical aspects of the formation of the information society were also considered. |
+| `internationalConferencesCard1HeroAlt` | Participants at the international scientific and practical conference at Termez University of Economics and Service |
+| `internationalConferencesCard1PageTitle` | International scientific and practical conference: “Actual problems of education and upbringing in the context of digital transformation” |
+| `internationalConferencesCard1Title` | International scientific conference in TUES |
+| `internationalConferencesCard2BreadcrumbLabel` | Tourism sector conference — international experience (May 2025) |
+| `internationalConferencesCard2DetailBody` | On May 17–18, 2025, Termez University of Economics and Service hosted an international scientific and practical conference titled “International experience: prospects for the development of the tourism sector in the context of education modernization,” held in cooperation with the Ministry of Higher Education, Science and Innovation.<br><br>The conference was organized to modernize contemporary educational processes, make effective use of global experience in the tourism sector, and strengthen integration between science and practice.<br><br>Representatives of prestigious higher education institutions and research centers took part in the event, including:<br><br>Western Caspian University (Azerbaijan),<br><br>the Research Center “Scientific foundations and problems of economic development of Uzbekistan” under Tashkent State University of Economics,<br><br>Termez State University,<br><br>Urgench State University,<br><br>Denau Institute of Entrepreneurship and Pedagogy,<br><br>Alfraganus University.<br><br>Professors, researchers, and specialists from these institutions delivered presentations on topics such as modernization of the education system, innovative approaches to tourism development, the role of digital technologies, sustainable tourism development, and international cooperation.<br><br>Discussions covered tourism development in the context of education modernization, training competitive professionals for the tourism industry, accounting and statistics in the era of digital transformation, modern trends in the service sector, and opportunities for academic exchange and joint research projects.<br><br>The event served both as a platform for sharing international experience and as an important step toward implementing innovative projects in education and tourism.<br><br>At the conclusion of the conference, participants’ scientific articles were expected to be published in a collection, and a memorandum of cooperation was planned to be signed to further strengthen scientific and practical cooperation in education and tourism. |
+| `internationalConferencesCard2HeroAlt` | Opening session of the international scientific and practical conference on tourism and education modernization at Termez University of Economics and Service |
+| `internationalConferencesCard2PageTitle` | International experience: prospects for the development of the tourism sector in the context of education modernization |
+| `internationalConferencesCard2Title` | International scientific and practical conference: Cooperation and experience exchange in the direction of modernizing the tourism sector |
+| `internationalConferencesCard3BreadcrumbLabel` | Preventive medicine conference at TUES |
+| `internationalConferencesCard3DetailBody` | A two-day national scientific-practical conference titled “Current issues in preventive medicine: from disease prevention to high-tech treatment” was held at Termez University of Economics and Service.<br><br>From early in the morning, professors, lecturers, and students of the university’s Faculty of Medicine warmly welcomed guests attending the conference.<br><br>The conference brought together representatives of the Ministry of Health, medical professionals from all regions of Uzbekistan, professors, educators, and young research scientists. Professors from Avicenna State Medical University and the Tajik Medical and Social Institute of Tajikistan also took part.<br><br>The opening ceremony was held at Termez University of Economics and Service. Speakers included the university rector A. Sattarov; O. Ismoilov, Head of the Science, Education, and Innovation Department of the Ministry of Health; F. Shukurov, Head of the Department of Normal and Pathological Physiology at the Tajik Medical and Social Institute and Vice President of the Association of Physiologists of the CIS countries; and Rahmon Muhammadiyev, Hero of Uzbekistan, Honored Healthcare Worker, Head of the Ophthalmology Department at the Termez Branch of Tashkent Medical Academy. They addressed the significance of the conference, modern approaches in medicine, and current issues in preventive medicine.<br><br>Presentations focused on preventing widespread diseases globally and in Uzbekistan, early diagnostics, and effective treatment using advanced technologies.<br><br>Section meetings covered topics such as “Comparative Characteristics Between Avicenna’s Health Levels and Modern Classifications of the Body's Adaptive Capabilities”, “The Use of Xenotransplantation in Ophthalmic Surgery”, and “Improving the Treatment of Chronic Giardiasis.” |
+| `internationalConferencesCard3HeroAlt` | Faculty and guests at the opening of the national scientific-practical conference on preventive medicine at Termez University of Economics and Service |
+| `internationalConferencesCard3PageTitle` | Current issues in preventive medicine: from disease prevention to high-tech treatment |
+| `internationalConferencesCard3Title` | The opening of a scientific and practical conference took place at the TUES |
+| `internationalConferencesCard4BreadcrumbLabel` | Linguistics & language education (international conference) |
+| `internationalConferencesCard4DetailBody` | At Termez University of Economics and Service, a scientific-practical conference titled “Innovations in linguistics and language education: global trends and local perspectives” opened.<br><br>The conference focused on current developments in linguistics, integrating modern technologies into teaching, and adapting international experience to local contexts. Representatives of higher education institutions, research centers, foreign universities, and experienced specialists took part.<br><br>Distinguished international guests included:<br><br>Dr. Ahmad Bukhori Muslim, Universitas Pendidikan Indonesia<br><br>Amirsaid Sadikov, British Council Uzbekistan<br><br>Assoc. Prof. Aysel Khalilova, Azerbaijan State University of Economics<br><br>Prof. Dr. Sevtap Kadıoğlu, Istanbul University<br><br>Prof. Eri Kurniawan, Universitas Pendidikan Indonesia<br><br>Elmira Ismailova, Azerbaijan University<br><br>The conference opened with a welcoming speech by the university founder, J. Pardayev, who stressed the importance of innovation in education, stronger integration of science and practice, and adapting foreign experience to local conditions.<br><br>Vice-Rector for Research and Innovation S. Eshkarayev then addressed participants on the main goals and objectives of the event.<br><br>Among the first international speakers, Dr. Ahmad Bukhori Muslim (Universitas Pendidikan Indonesia) presented on “Innovations in Language Education: The Indonesian Experience.” |
+| `internationalConferencesCard4HeroAlt` | Participants at the scientific-practical conference on linguistics and language education at Termez University of Economics and Service |
+| `internationalConferencesCard4PageTitle` | Innovations in linguistics and language education: global trends and local perspectives |
+| `internationalConferencesCard4Title` | International conference at TUES |
+| `internationalConferencesCard5BreadcrumbLabel` | Global innovations in language education |
+| `internationalConferencesCard5DetailBody` | At an international scientific-practical conference, participants discussed current issues in language teaching. The event brought together foreign and local experts who shared their experiences.<br><br>Amirsaid Sadikov, Client Relations Manager of the British Council in Uzbekistan, delivered a detailed presentation on the latest updates in IELTS examinations, changes in the assessment system, and new approaches to the international certification process.<br><br>Professor Jennifer Johnston from Missouri State University discussed global trends in language education, innovative teaching methods, and ways to enhance learner motivation.<br><br>Professor Sevtap Kadıoğlu from Istanbul University spoke about language education at the Faculty of Literature of Istanbul University.<br><br>Associate Professor Aysel Khalilova of Azerbaijan State University of Economics and Elmira Ismaylova, Head of the International Relations Department at Azerbaijan University, emphasized the importance of language policy and education quality in the context of globalization. They outlined modern models of language assessment and approaches aligned with international standards.<br><br>Shinji Kamiyama, Director of Kamiyama Gakuin Japanese Language School, analyzed ways to develop independent thinking and learning responsibility through self-directed learning practices.<br><br>Santosh Kumari, a representative of the Ministry of Preschool and School Education of Uzbekistan, delivered a presentation titled “Revolution in language learning: the role of artificial intelligence in teaching English to foreign learners.” |
+| `internationalConferencesCard5HeroAlt` | Audience at the international scientific-practical conference on language education at Termez University of Economics and Service |
+| `internationalConferencesCard5PageTitle` | Global innovations and experiences in language education |
+| `internationalConferencesCard5Title` | Global innovations and experiences in language education under discussion |
+| `internationalConferencesCard6BreadcrumbLabel` | Linguistics & literary studies (international forum) |
+| `internationalConferencesCard6DetailBody` | Termez University of Economics and Service, in cooperation with the Ministry of Higher Education, Science and Innovation, hosted an international scientific and practical conference titled “Current issues in linguistics and literary studies.”<br><br>The conference aimed to promote research in linguistics and literary studies, explore international experience, and strengthen academic cooperation.<br><br>Scholars, professors, lecturers, and young researchers from Uzbekistan, Russia, Belarus, Tajikistan, and other countries took part, including:<br><br>Igor Leonovich Kopylov — Director of the Yakub Kolas Institute of Linguistics, Center for Belarusian Culture, Language and Literature Studies, National Academy of Sciences of Belarus;<br><br>Ivan Vasilievich Saverchenko — Director of the Yanka Kupala Institute of Literary Studies;<br><br>Kristina Grigoryevna Golubeva — Director at the N.A. Dobrolyubov Nizhny Novgorod State Linguistic University;<br><br>Poyon Uralovich Bakirov — Doctor of Philological Sciences, Professor at Termez State University;<br><br>Irina Vladimirovna Suljina — Coordinator of Educational Programs at the Representative Office of Rossotrudnichestvo under the Embassy of the Russian Federation;<br><br>Eraj Begijonovich Boyev — Candidate of Historical Sciences, Director of the Scientific and Educational Center for Oriental Studies, N.A. Dobrolyubov Nizhny Novgorod State Linguistic University;<br><br>Irina Vladimirovna Yelintseva — Candidate of Philological Sciences, Head of the Department of Belarusian–Russian Linguistic Relations, Yakub Kolas Institute of Linguistics;<br><br>Galina Borisovna Yesenova — Candidate of Philological Sciences, Leading Specialist of the Scientific Department, B.B. Gorodovikov Kalmyk State University;<br><br>Khusraw Jamshidovich Shambezoda — Doctor of Philological Sciences, Professor at the Department of Theoretical and Applied Linguistics, Russian–Tajik (Slavonic) University;<br><br>Azim Sodiqovich Aminov — Candidate of Philological Sciences, Associate Professor at the Russian–Tajik (Slavonic) University.<br><br>Professors and lecturers from Kokand State University and Yodju Technical Institute also presented their research.<br><br>The forum offered a platform for scholarly exchange, new research directions, and stronger cooperation across countries.<br><br>Reports were presented in areas including:<br><br>The Modern Russian Language: Current State and Development Trends;<br><br>Issues of Comparative Studies between Russian and Other Languages;<br><br>Theoretical and Practical Aspects of Teaching Russian in Schools and Universities;<br><br>Topical Issues in Communicative Linguistics;<br><br>Translation Theory: Problems and Solutions;<br><br>Theory and History of Literary Studies;<br><br>Interliterary Relations among Nations;<br><br>World Classical Literature and Its Contemporary Interpretations.<br><br>Participants exchanged experience, discussed joint research projects, and explored opportunities for future publications and collaboration. |
+| `internationalConferencesCard6HeroAlt` | Plenary hall during the international scientific and practical conference on linguistics and literary studies at Termez University of Economics and Service |
+| `internationalConferencesCard6PageTitle` | Current issues in linguistics and literary studies |
+| `internationalConferencesCard6Title` | International scientific and practical conference at TUES |
+| `internationalConferencesCard7BreadcrumbLabel` | Green transformation congress (SEPDER & TUES) |
+| `internationalConferencesCard7DetailBody` | Termez University of Economics and Service, in cooperation with the Turkish Association for Social and Economic Perspectives (SEPDER), hosted an international congress titled “Sustainability-oriented green transformation: cross-sectoral approaches.” The scientific forum examined social policy, sustainable development, green economy, digital transformation, innovative education, and artificial intelligence.<br><br>Renowned scholars, politicians, experts, and specialists from Uzbekistan and abroad took part. During the opening ceremony, Vice-Rector for Science and Innovations S. Eshkarayev and Vice-Rector for International Cooperation Sh. Otamurodov delivered welcome speeches on the goals and significance of the event.<br><br>Notable guests included:<br><br>Abdullah Selim Dogan, Chairman of the Organizing Committee, emphasized the importance of the meeting, noting that green transformation and sustainable development are crucial for the economy, society, and the environment.<br><br>Osman Akgul, Chairman of SEPDER, described the congress as a unique platform for exchanging views and developing cross-sectoral approaches. He stressed that science, technology, and innovative education play an essential role in ensuring global sustainability.<br><br>Jeren Turkman of Sakarya University analyzed sectoral approaches to the green economy and sustainable development. She also highlighted the importance of stronger scientific cooperation between Turkey and Uzbekistan, including experience exchange and joint project development.<br><br>Main focus areas of the congress:<br><br>Sustainable development and green economy — Participants explored links between sustainable economic growth and environmental stability, emphasizing green technologies and efficient resource management.<br><br>Digital transformation — Discussions covered how digital technologies shape the economy and support sustainable development, including artificial intelligence and digital infrastructure.<br><br>Innovative education — The congress addressed innovative education systems and equipping youth with modern knowledge, including integrating new technologies into teaching and learning.<br><br>Social and environmental policy — Sessions examined the role of public policy in social and environmental challenges and the development of sustainability-oriented strategies.<br><br>The congress organized by Termez University of Economics and Service and SEPDER underscored the value of cross-sectoral approaches and scientific cooperation. Such events advance knowledge exchange and support sustainable development and green transformation worldwide. |
+| `internationalConferencesCard7HeroAlt` | Participants at the II International Social Policies Congress hosted by Termez University of Economics and Service and SEPDER |
+| `internationalConferencesCard7PageTitle` | Sustainability-oriented green transformation: cross-sectoral approaches |
+| `internationalConferencesCard7Title` | International congress held at TUES |
+| `internationalConferencesCard8BreadcrumbLabel` | Medical Olympiad “Termez–2026” |
+| `internationalConferencesCard8DetailBody` | The opening ceremony of the 1st International Medical Olympiad “Termez–2026” was held at Termez University of Economics and Service.<br><br>Teams from international universities in Tajikistan, Kyrgyzstan, and other countries are taking part in the Olympiad. The event has brought together more than 100 talented students and representatives from more than 10 foreign and over 50 national higher education institutions, who will demonstrate their knowledge and academic potential across disciplines.<br><br>The ceremony was officially opened by Rector of Termez University of Economics and Service A. Absamatov. The event was also attended by A. Ibragimov, Director of the Institute of General and Inorganic Chemistry of the Academy of Sciences of the Republic of Uzbekistan, member of the International Union of Pure and Applied Chemistry (IUPAC), Doctor of Chemical Sciences and Professor; A. Knesheva, Assistant of the Department of Pathological Anatomy at the I. K. Akhunbaev Kyrgyz State Medical Academy; and M. Yusupov, Associate Professor of the Department of Physiology at Samarkand State Medical University, who delivered speeches on the importance of the international Olympiad.<br><br>It was emphasized that the Olympiad is not only a test of students’ knowledge but also an opportunity for scientific exchange, broader academic cooperation, and new connections among young scientists and researchers.<br><br>Within the 1st International Medical Olympiad “Termez–2026”, participants will compete in theoretical and practical stages in the designated subjects to achieve the strongest results. |
+| `internationalConferencesCard8HeroAlt` | Participants and organizers at the opening ceremony of the 1st International Medical Olympiad Termez–2026 at Termez University of Economics and Service |
+| `internationalConferencesCard8PageTitle` | The 1st International Medical Olympiad “Termez–2026” |
+| `internationalConferencesCard8Title` | The 1st International Medical Olympiad “Termez–2026” |
+| `internationalConferencesPageIntro` | Overview of international scientific and practical events held at Termez University of Economics and Service. Titles below reflect past and announced activities in this area. |
+| `internationalConferencesPageTitle` | International conferences |
+
+### `INTERNATIONAL_CONFERENCES_CARD_KEYS`
+
+_Source: `src/locales/internationalConferencesDefaults.ts`_
+
+```json
+[
+  "internationalConferencesCard1Title",
+  "internationalConferencesCard2Title",
+  "internationalConferencesCard3Title",
+  "internationalConferencesCard4Title",
+  "internationalConferencesCard5Title",
+  "internationalConferencesCard6Title",
+  "internationalConferencesCard7Title",
+  "internationalConferencesCard8Title"
+]
+```
+
+---
+
+## `internationalCooperationRoleDefaults.ts` {#defaults-internationalCooperationRoleDefaultsts}
+
+### `INTERNATIONAL_COOPERATION_ROLE_DEFAULTS`
+
+_Source: `src/locales/internationalCooperationRoleDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `intlRelRoleHeadHeroAlt` | Portrait of Mokhirukh Muzaffarovna Khoshimkhojaeva, Head of the Department of International Cooperation |
+| `intlRelRoleHeadPersonName` | Mokhirukh Muzaffarovna Khoshimkhojaeva |
+| `intlRelRoleHeadResponsibilities` | Ensuring the implementation of the laws of the Republic of Uzbekistan, decrees and resolutions of the President, decisions of the Oliy Majlis, the Cabinet of Ministers, and the Ministry of Higher Education, Science and Innovation in the field of education and personnel training.<br><br>Conscientious and responsible performance of official duties; compliance with labor discipline, occupational safety regulations, technical safety standards, industrial sanitation rules, the University Charter, Internal Regulations, Code of Ethics, decisions of the Academic Council, employer orders, and other regulatory legal acts within the education system.<br><br>Planning, organizing, and coordinating the university's international cooperation activities and ensuring their effectiveness.<br><br>Establishing and developing partnerships with foreign higher education institutions, research centers, international organizations, foundations, and diplomatic missions.<br><br>Preparing proposals for joint educational programs, dual-degree programs, joint departments, research centers, and projects, and ensuring their implementation.<br><br>Organizing and coordinating the attraction of foreign investments, grants, and technical assistance funds.<br><br>Developing proposals to improve educational content in accordance with international standards and ensuring their implementation.<br><br>Studying advanced international educational and research practices and introducing them into the academic and research processes.<br><br>Participating in the organization of international scientific conferences, symposia, and seminars and ensuring the university's international scientific engagement.<br><br>Organizing the preparation, implementation, and monitoring of projects funded by international financial institutions and donor organizations.<br><br>Reviewing, coordinating, and submitting projects prepared within the framework of European Union and other international programs.<br><br>Systematically collecting and disseminating information on international grants and providing methodological support to faculties and departments in project preparation.<br><br>Organizing overseas study, internships, and professional development opportunities for faculty, staff, and students.<br><br>Coordinating the admission and education of foreign students and accounting for related financial inflows.<br><br>Preparing and submitting reports related to foreign citizens in accordance with established procedures.<br><br>Reviewing and coordinating documentation for university representatives traveling abroad.<br><br>Developing programs for visits of foreign delegations and organizing meetings and negotiations.<br><br>Conducting legal and substantive analysis of contracts, memoranda, and agreements with foreign partners.<br><br>Ensuring coordination of international cooperation documents with relevant ministries and authorities.<br><br>Analyzing and improving educational programs, curricula, course syllabi, and assessment systems in accordance with international accreditation requirements.<br><br>Establishing official cooperation with accreditation bodies (ministries, agencies, national and international accreditation organizations).<br><br>Organizing the preparation of reports, analytical materials, and supporting evidence required for accreditation.<br><br>Conducting internal monitoring of compliance with accreditation requirements across university departments and faculties.<br><br>Submitting analytical information and recommendations to university leadership regarding accreditation results.<br><br>Organizing seminars and training sessions for staff involved in accreditation processes.<br><br>Establishing and continuously updating the accreditation documentation database.<br><br>Studying and implementing international best practices in accreditation.<br><br>Ensuring the university's participation in international rankings and preparing relevant data for submission.<br><br>Implementing measures to strengthen the university's international image and reputation.<br><br>Preparing monthly, quarterly, semi-annual, and annual reports on international cooperation activities.<br><br>Maintaining and updating information on international activities on the university's website and information resources.<br><br>Planning, supervising, and improving the activities of the International Relations Department.<br><br>Defining the duties of department staff and assuming responsibility for their performance.<br><br>Formulating specific proposals to enhance institutional efficiency and address emerging challenges in university operations and development. |
+| `intlRelRoleHeadResponsibilitiesHeading` | Job responsibilities: |
+| `intlRelRoleHeadRoleLabel` | Head of the Department of international cooperation of the University |
+| `intlRelRoleLeadHeroAlt` | Portrait of Asqarov Abror Sobirovich, Lead specialist of the university's international cooperation department |
+| `intlRelRoleLeadPersonName` | Asqarov Abror Sobirovich |
+| `intlRelRoleLeadResponsibilities` | · Establishing and developing sustainable and effective cooperation with foreign higher education institutions, research centers, and organizations.<br>· Developing and implementing strategies to enhance the university's reputation on the international stage.<br>· Organizing and implementing joint scientific research, grants, academic projects, and educational programs involving faculty and students.<br>· Inviting professors from foreign universities to deliver lectures, conduct seminars, and training sessions at the university.<br>· Organizing international-level courses and masterclasses with the participation of foreign experts.<br>· Developing and implementing student exchange programs, short-term courses, and joint degree programs.<br>· Attracting international students to the university and assisting them with visa, accommodation, and adaptation issues.<br>· Coordinating activities to ensure compliance of faculties, academic programs, and laboratories with international accreditation standards.<br>· Collecting and analyzing the necessary data and implementing best practices to improve the university's position in international rankings.<br>· Organizing international conferences, seminars, webinars, and symposiums in collaboration with foreign partners.<br>· Regularly providing information about international grants, scholarships, and study opportunities.<br>· Organizing and overseeing professional development courses abroad for faculty members and department staff. |
+| `intlRelRoleLeadResponsibilitiesHeading` | Areas of responsibility |
+| `intlRelRoleLeadRoleLabel` | Lead specialist of the university's international cooperation department |
+| `intlRelRoleViceRectorHeroAlt` | Portrait of Shavkat Nusratillayevich Otamurodov, Vice-rector for international cooperation |
+| `intlRelRoleViceRectorPersonName` | Shavkat Nusratillayevich Otamurodov |
+| `intlRelRoleViceRectorResponsibilities` | · Organizing the university's international cooperation activities and ensuring the training of qualified personnel in accordance with international educational standards.<br>· Establishing academic, scientific, and practical collaboration with foreign higher education institutions; preparing proposals for joint faculties and departments.<br>· Studying development trends in foreign educational systems and assisting in the implementation of advanced methods and technologies.<br>· Organizing the effective use of distance learning, innovative pedagogical approaches, and ICT (Information and Communications Technology).<br>· Facilitating faculty development and student exchange programs at foreign universities, and preparing talented youth for foreign grants and scholarships.<br>· Managing and supervising activities of visiting educators from foreign higher education institutions.<br>· Organizing conferences and seminars with partner foreign educational institutions.<br>· Overseeing the ongoing enrichment of the library collection with foreign educational-methodological and scientific literature.<br>· Conducting internal institutional licensing and preparing for external accreditation under agreements of international cooperation.<br>· Analyzing the annual activities of faculties, departments, and divisions in the area of international cooperation, drawing conclusions, and implementing measures for improvement.<br>· Possessing comprehensive knowledge of Uzbek legislation and internal regulatory documents concerning international cooperation, and ensuring their implementation. |
+| `intlRelRoleViceRectorResponsibilitiesHeading` | Areas of responsibility |
+| `intlRelRoleViceRectorRoleLabel` | Vice-rector for international cooperation |
+
+### `INTERNATIONAL_COOPERATION_ROLE_SLUGS`
+
+_Source: `src/locales/internationalCooperationRoleDefaults.ts`_
+
+```json
+[
+  "vice-rector-international-cooperation",
+  "head-department-international-cooperation",
+  "lead-specialist-international-cooperation"
+]
+```
+
+---
+
+## `internationalGrantsDefaults.ts` {#defaults-internationalGrantsDefaultsts}
+
+### `INTERNATIONAL_GRANTS_PAGE_DEFAULTS`
+
+_Source: `src/locales/internationalGrantsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `internationalGrantJapanApplicationPeriod` | Application period: from June 1 to June 30, 2025. |
+| `internationalGrantJapanBenefitsHeading` | Program benefits include: |
+| `internationalGrantJapanBenefitsItems` | – A monthly stipend of $1,432<br>– Round-trip airfare<br>– A settlement allowance of $781<br>– Health insurance coverage |
+| `internationalGrantJapanBreadcrumbLabel` | Matsumae Foundation — research grant in Japan |
+| `internationalGrantJapanHeroAlt` | Traditional Japanese castle with cherry blossoms, representing research opportunities in Japan |
+| `internationalGrantJapanPageTitle` | Matsumae International Foundation: A fully funded research opportunity in Japan in any field of study! |
+| `internationalGrantJapanParagraph1` | The program is open to candidates who hold a PhD degree and have a sufficient command of the English language. |
+| `internationalGrantJapanParagraph2` | The program allows researchers to conduct studies in Japan for a period of 3 to 6 months. |
+| `internationalGrantMextApplicationDeadline` | Application deadline: January 30, 2026. |
+| `internationalGrantMextApplicationInstructions` | Applicants must complete the designated application form and independently submit all required documents to the Embassy of Japan in Uzbekistan. |
+| `internationalGrantMextBreadcrumbLabel` | MEXT Japan — 2026 announcement |
+| `internationalGrantMextEmbassyIntro` | Applicants wishing to participate in the selection process are required to review the application procedures and detailed information about the programs on the official website of the Embassy of Japan in Uzbekistan: |
+| `internationalGrantMextForMoreInfoLabel` | For more information: |
+| `internationalGrantMextHeroAlt` | Japanese temple architecture with cherry blossoms — MEXT grant programs for Japanese language and culture |
+| `internationalGrantMextLead` | The Ministry of Education, Culture, Sports, Science and Technology of Japan (MEXT) announces the following academic programs for study and professional development at Japanese higher education institutions in 2026: |
+| `internationalGrantMextNote` | Note: strict adherence to the specified deadline is required when submitting documents. |
+| `internationalGrantMextPageTitle` | Japan (MEXT): Academic programs for study and professional development at Japanese universities — 2026 announcement |
+| `internationalGrantMextProgram1` | “Japanese language and culture” — for university students; |
+| `internationalGrantMextProgram2` | “Training program for primary and secondary school and lyceum teachers.” |
+| `internationalGrantsCard1Title` | Research grant in Japan in any field of study |
+| `internationalGrantsCard2Title` | 10-month fully funded professional development opportunity in the USA! |
+| `internationalGrantsCard3Title` | ANNOUNCEMENT! |
+| `internationalGrantsPageIntro` | Explore funding and professional development opportunities linked to international cooperation at Termez University of Economics and Service. Select a topic below for highlights. |
+| `internationalGrantsPageTitle` | International grants |
+| `internationalGrantUsaApplicationDeadline` | Application deadline: July 4, 2025 |
+| `internationalGrantUsaBenefitsHeading` | Program benefits include: |
+| `internationalGrantUsaBenefitsItems` | – Coverage of university admission test fees<br>– Assistance in obtaining a J-1 visa<br>– Economy-class round-trip airfare to and from the U.S.<br>– Health insurance<br>– Monthly stipend<br>– Professional development allowance<br>– Tuition and other university-related fees covered |
+| `internationalGrantUsaBreadcrumbLabel` | Humphrey Fellowship — USA |
+| `internationalGrantUsaHeroAlt` | Hubert H. Humphrey Fellowship Program group at the U.S. Capitol, Fulbright Exchange Program sponsored by the U.S. Department of State |
+| `internationalGrantUsaPageTitle` | Humphrey Fellowship Program: A 10-month professional development opportunity in the United States — all expenses covered! |
+| `internationalGrantUsaParagraphEligibility` | Eligible applicants must have at least a bachelor's degree, a minimum of 5 years of work experience, and proficiency in English. |
+
+### `INTERNATIONAL_GRANTS_CARD_KEYS`
+
+_Source: `src/locales/internationalGrantsDefaults.ts`_
+
+```json
+[
+  "internationalGrantsCard1Title",
+  "internationalGrantsCard2Title",
+  "internationalGrantsCard3Title"
+]
+```
+
+### `INTERNATIONAL_GRANTS_CARD_HREFS`
+
+_Source: `src/locales/internationalGrantsDefaults.ts`_
+
+```json
+[
+  "/internationalization/international-grants/japan-matsumae-foundation",
+  "/internationalization/international-grants/hubert-h-humphrey-fellowship",
+  "/internationalization/international-grants/mext-japan-2026"
+]
+```
+
+### `INTERNATIONAL_GRANTS_CARD_IMAGES`
+
+_Source: `src/locales/internationalGrantsDefaults.ts`_
+
+```json
+[
+  "/images/internationalization/grant-japan-matsumae.png",
+  "/images/internationalization/grant-usa-humphrey-fellowship.png",
+  "/images/internationalization/grant-mext-japan-2026.png"
+]
+```
+
+---
+
+## `internationalSupportCenterDefaults.ts` {#defaults-internationalSupportCenterDefaultsts}
+
+### `INTERNATIONAL_SUPPORT_CENTER_PAGE_DEFAULTS`
+
+_Source: `src/locales/internationalSupportCenterDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `internationalSupportCenterCard1BreadcrumbLabel` | About |
+| `internationalSupportCenterCard1DetailBody` | ## About the International Support Center<br><br>The International Support Center (ISC) at Termez University of Economics and Service provides comprehensive assistance to international students, researchers, and visiting faculty members. Our mission is to ensure that international students feel welcomed, supported, and well integrated into academic and social life at the university. The center offers guidance on immigration procedures, academic adaptation, language support, and cultural integration.<br><br>## Immigration and Visa Support<br><br>The International Support Center assists international students with immigration and visa-related procedures, including:<br><br>•    Visa application and extension guidance<br>•    Registration with local migration authorities<br>•    Residence permit support<br>•    Invitation letters for international students and scholars<br>•    Consultation on legal requirements for studying in Uzbekistan<br><br>## Responsible Officer for Immigration Support<br><br>Askarov Abror<br>Lead specialist of the university's international cooperation department<br>Email: international@tues.uz<br>Tel: +998 412 07 07<br>Office hours: Monday–Friday, 08:00–17:00<br><br>## Arrival and Orientation Support<br><br>To help new students adapt to university life, the center organizes orientation activities such as:<br><br>•    International student orientation sessions<br>•    Campus introduction and academic guidance<br>•    Assistance with accommodation and registration<br>•    Information sessions about living in Uzbekistan<br><br>## Language Support Programs<br><br>International students can improve their language skills through special courses offered by the university:<br><br>•    Uzbek language courses<br>•    Russian language courses<br>•    English language improvement programs<br>•    Academic writing and communication workshops<br><br>Language support resources are available here:<br><br>https://tues.uz/resource/view/166<br><br>## Academic Support<br><br>The center provides academic guidance to help international students succeed in their studies:<br><br>•    Academic advising and consultation<br>•    Assistance with course selection<br>•    Support in communication with faculty members<br>•    Information on academic regulations and policies<br><br>## Cultural and Social Integration<br><br>To promote intercultural understanding and student engagement, the center organizes various events:<br><br>•    Cultural exchange events<br>•    International student meetings<br>•    Participation in university festivals and celebrations<br>•    Networking events with local and international students<br><br>## Student Support and Counseling<br><br>The International Support Center offers general guidance and support for students who may face challenges during their studies.<br><br>•    Adjustment to a new academic environment<br>•    Social integration<br>•    Student welfare guidance<br>•    Referral to relevant university services when necessary<br><br>## Contact Information<br><br>International Support Center<br>Termez University of Economics and Service<br><br>Email: international@tues.uz<br>Phone: +998 55 452 77 77<br><br>Office Hours:<br>Monday – Friday<br>08:00 – 17:00 |
+| `internationalSupportCenterCard1HeroAlt` | Globe with headset icon representing international support and assistance services. |
+| `internationalSupportCenterCard1PageTitle` | About the International Support Center |
+| `internationalSupportCenterCard1Title` | International Support Center |
+| `internationalSupportCenterPageIntro` | Services and entry points for international students, partners, and visitors at Termez University of Economics and Service. Select a topic below. |
+| `internationalSupportCenterPageTitle` | International Support Center |
+
+### `INTERNATIONAL_SUPPORT_CENTER_CARD_KEYS`
+
+_Source: `src/locales/internationalSupportCenterDefaults.ts`_
+
+```json
+[
+  "internationalSupportCenterCard1Title"
+]
+```
+
+### `INTERNATIONAL_SUPPORT_CENTER_CARD_HREFS`
+
+_Source: `src/locales/internationalSupportCenterDefaults.ts`_
+
+```json
+[
+  "/internationalization/international-support-center/about"
+]
+```
+
+### `INTERNATIONAL_SUPPORT_CENTER_CARD_IMAGES`
+
+_Source: `src/locales/internationalSupportCenterDefaults.ts`_
+
+```json
+[
+  "/images/internationalization/international-support-center/isc-globe-headset.png"
+]
+```
+
+---
+
+## `leaderGirlsClubDefaults.ts` {#defaults-leaderGirlsClubDefaultsts}
+
+### `LEADER_GIRLS_CLUB_DEFAULTS`
+
+_Source: `src/locales/leaderGirlsClubDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `leaderGirlsClubHeroSrc` | /images/community-clubs/leader-girls-club.png |
+| `leaderGirlsClubIntro` | Today, strengthening the role and status of women in society and unlocking their potential has become one of the priority directions of our country’s state policy. The Strategy for Achieving Gender Equality in the Republic of Uzbekistan until 2030, approved by the Resolution of the Senate of the Oliy Majlis of the Republic of Uzbekistan dated February 10, 2024, has elevated reforms in this area to a new stage. Based on these very goals, the “Leader girls club” was established at Termez University of Economics and Service as a community-based organization, operating as a unique platform that brings together the most active, talented, and initiative-driven female students of the university. |
+| `leaderGirlsClubOutro` | The “Leader girls club” at Termez University of Economics and Service, with its 110 members today, continues to operate as a vital platform for nurturing young, talented, and initiative-driven women who are building the future of our country. The club serves not only to enhance the academic and professional potential of female students but also to prepare them for responsible positions in various branches of public administration. It can be said with confidence that the young women nurtured in this club will make a worthy contribution to the development of our country in the future. |
+| `leaderGirlsClubPageTitle` | Leader girls club |
+| `leaderGirlsClubS1Body` | The primary goal of the “Leader girls club” is to transform active, initiative-driven female students with modern knowledge into true leaders, attract them to public civil service, and nurture them in the spirit of patriotism. The club unites young women aged 18 to 30 who possess leadership and public speaking skills, regardless of nationality or race.<br><br>The club carries out a number of important tasks. First, systematic work is conducted to identify talented young women and properly channel their abilities. Second, comprehensive training of club members is provided in specific areas — including Zulfiya Prize laureates, science olympiad winners, research and innovation projects, and IT technologies. Third, the club is designed to facilitate young women’s mastery of modern professions, their involvement in small business and entrepreneurship, and the realization of their intellectual and creative potential. |
+| `leaderGirlsClubS1Title` | Goals and objectives of the club |
+| `leaderGirlsClubS2Body` | The club’s membership is approved by the Rector’s order based on the recommendation of the Chairperson of the University Women’s Advisory Council. The club’s ongoing activities are managed by the sardor (leader). The sardor is elected by club members upon the recommendation of the Women’s Advisory Council Chairperson. The general meeting of the club is held on the first day of each month at the sardor’s initiative. The quarterly event plan is submitted for approval to the chairperson of the territorial youth union. |
+| `leaderGirlsClubS2Title` | Organizational structure and governance |
+| `leaderGirlsClubS3Body` | The talents and abilities of female students wishing to join the club are identified through a structured process. Each year, from the beginning of the new academic year, the abilities of first-year female students are assessed by November based on information provided by their secondary schools or citizens’ self-governance bodies at their place of residence. The talents and abilities of upper-year female students are identified annually by July 1, based on the results of various competitions, science olympiads, and feedback from professors and group mentors. |
+| `leaderGirlsClubS3Title` | Identification of talented female students |
+| `leaderGirlsClubS4Body` | A number of important initiatives are being implemented to help club members realize their talents and abilities. Peer-to-peer circles and discussion meetings are organized through the “Qizlarjon” club. Additionally, annual competitions such as “Most talented female student,” “Initiative female student,” “Leader female student,” and “Best innovative idea and project author” are held each year. These competitions serve to develop leadership qualities in female students and prepare them for leadership positions in the future.<br><br>Club members actively participate in educational seminars, trainings, forums, and roundtable discussions with women leaders from the regions. High-achieving club members are assigned to women leaders in ministries, regional administrations, and agencies, which provides them with invaluable practical experience. |
+| `leaderGirlsClubS4Title` | Areas of practical activity |
+| `leaderGirlsClubS5Body` | The “Leader girls club” carries out its activities based on the Constitution of the Republic of Uzbekistan, the Law “On state youth policy,” and other legislative acts. The club plays an important role in promoting gender equality at the university and increasing young women’s participation in democratic state-building reforms. Through this platform, the aim is to expand the ranks of young women with high moral values, independent thinking, broad worldview, and deep knowledge. |
+| `leaderGirlsClubS5Title` | Gender equality and state policy |
+
+---
+
+## `leadershipCouncilsDefaults.ts` {#defaults-leadershipCouncilsDefaultsts}
+
+### `LEADERSHIP_COUNCILS_I18N_DEFAULTS`
+
+_Source: `src/locales/leadershipCouncilsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `leadershipCouncilsCard1Title` | Women's Affairs Advisory Committee at the University of Economics and Services in Termez |
+| `leadershipCouncilsCard2Title` | Termez University of Economics and Service Student Council |
+| `leadershipCouncilsCard3Title` | A new scientific council has been established at the Termez University of Economics and Service |
+| `leadershipCouncilsCardReadMore` | Read more |
+| `leadershipCouncilsIntro` | The university hosts advisory councils and representative bodies that support governance, student voice, and scientific development. The following are key groups in the leadership and council structure at Termez University of Economics and Service. |
+
+### `LEADERSHIP_COUNCILS_CARD_KEYS`
+
+_Source: `src/locales/leadershipCouncilsDefaults.ts`_
+
+```json
+[
+  "leadershipCouncilsCard1Title"
+]
+```
+
+### `LEADERSHIP_COUNCIL_CARD_TO`
+
+_Source: `src/locales/leadershipCouncilsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `leadershipCouncilsCard1Title` | /about/womens-affairs-advisory-committee |
+
+### `LEADERSHIP_COUNCIL_CARD_IMAGE`
+
+_Source: `src/locales/leadershipCouncilsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `leadershipCouncilsCard1Title` | /images/about/womens-affairs-advisory-committee-hero.png |
+
+---
+
+## `minoritySupportCenterDefaults.ts` {#defaults-minoritySupportCenterDefaultsts}
+
+### `MINORITY_SUPPORT_CENTER_DEFAULTS`
+
+_Source: `src/locales/minoritySupportCenterDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `minoritySupportCenterApproachBody` | Every student deserves respect and to be valued. Recognizing the university's cultural diversity, TUES treats building a fair, equal-opportunity learning environment for all students as a top priority. |
+| `minoritySupportCenterApproachHeading` | Our Approach |
+| `minoritySupportCenterEvaluationBody` | The Center's effectiveness is continuously monitored and evaluated. Based on feedback from students and stakeholders, service quality is regularly improved and adapted to current needs. |
+| `minoritySupportCenterEvaluationHeading` | Evaluation & Continuous Improvement |
+| `minoritySupportCenterImage1Alt` | Staff and students in a meeting at the Social Protection Center with a presenter at a whiteboard |
+| `minoritySupportCenterImage1Src` | /images/student-life/social-protection-meeting.png |
+| `minoritySupportCenterImage2Alt` | Students and staff gathered in a welcoming community session with balloons at the Social Protection Center |
+| `minoritySupportCenterImage2Src` | /images/student-life/social-protection-community.png |
+| `minoritySupportCenterImplementationBody` | To bring this concept to life, dedicated social protection centers have been established at the university. Staff working in these centers are required to be qualified in counseling and advocacy, ensuring effective operation. |
+| `minoritySupportCenterImplementationHeading` | Implementation |
+| `minoritySupportCenterPageIntro` | Students in need of social protection are never alone at TUES. The Social Protection Center works to give every student — regardless of background, social status, or any other circumstance — equal opportunity and comprehensive support. Its work is grounded in the principles of inclusion, social justice, and equality. |
+| `minoritySupportCenterPageSubtitle` | Termiz University of Economics and Service (TUES) |
+| `minoritySupportCenterPageTitle` | Social Protection Center |
+| `minoritySupportCenterPartnershipsBody` | To achieve its goals, the Center works closely with university faculties, teachers, students, and various external organizations. This collaboration expands opportunities to support students more effectively. |
+| `minoritySupportCenterPartnershipsHeading` | Partnerships & Collaboration |
+| `minoritySupportCenterService1Body` | Experienced specialists provide confidential counseling on psychological, emotional, and social issues — supporting your wellbeing and academic success. |
+| `minoritySupportCenterService1Title` | Counseling and psychological support |
+| `minoritySupportCenterService2Body` | Activities that promote understanding, acceptance, and respect for people from different cultures are organized. The Center also works to protect students' rights and needs. |
+| `minoritySupportCenterService2Title` | Information and advocacy |
+| `minoritySupportCenterService3Body` | Trainings, seminars, and skill-building sessions are held on topics such as inclusive leadership, cultural sensitivity, combating stereotypes, and allyship — helping students unlock their potential. |
+| `minoritySupportCenterService3Title` | Programs and trainings |
+| `minoritySupportCenterService4Body` | Books, articles, documentaries, and online materials covering social equality, justice, and human rights are made available to students. |
+| `minoritySupportCenterService4Title` | Resource center |
+| `minoritySupportCenterService5Body` | Events and groups that strengthen community connection are organized — helping students build relationships, share experiences, and support one another. |
+| `minoritySupportCenterService5Title` | Community engagement |
+| `minoritySupportCenterServicesHeading` | Services Offered |
+| `minoritySupportCenterWhatWeDo1Body` | Students in need of social protection can receive confidential, trustworthy counseling about their personal needs, challenges, and experiences in a safe environment. |
+| `minoritySupportCenterWhatWeDo1Title` | Supporting students |
+| `minoritySupportCenterWhatWeDo2Body` | An open, tolerant environment is fostered where students from different cultures and social backgrounds develop mutual respect and understanding. |
+| `minoritySupportCenterWhatWeDo2Title` | Building an inclusive community |
+| `minoritySupportCenterWhatWeDo3Body` | Programs and initiatives that raise cultural awareness and address student concerns are carried out. |
+| `minoritySupportCenterWhatWeDo3Title` | Promoting social integration |
+| `minoritySupportCenterWhatWeDo4Body` | Strategies tailored to students' needs are developed together with university leadership, faculty, and other stakeholders. |
+| `minoritySupportCenterWhatWeDo4Title` | Collaborative support |
+| `minoritySupportCenterWhatWeDo5Body` | Mentoring and programs focused on personal and academic growth provide ongoing support for these students. |
+| `minoritySupportCenterWhatWeDo5Title` | Development opportunities |
+| `minoritySupportCenterWhatWeDoHeading` | What the Center Does |
+
+---
+
+## `mushoiraClubHonoredDefaults.ts` {#defaults-mushoiraClubHonoredDefaultsts}
+
+### `MUSHOIRA_CLUB_HONORED_DEFAULTS`
+
+_Source: `src/locales/mushoiraClubHonoredDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `mushoiraClubHonoredHeroSrc` | /images/community-clubs/mushoira-club-honored.png |
+| `mushoiraClubHonoredPageBody` | Tursunoy Abdullaeva, a third-year student majoring in Philology and Language Teaching (Uzbek language) at the Termez University of Economics and Service, was awarded the “Young Researcher” badge by the “Scientific Academy” research center.<br><br>Tursunoy is an active member of the university’s “Mushoira” poetry club. She has published seven collections of poetry. This recognition is a well-deserved acknowledgment of the young poet’s creativity and initiative.<br><br>At the ceremony held on this occasion, poet Karamatulloh Karimov, a member of the Writers’ Union of Uzbekistan, took part, shared warm remarks about Tursunoy’s work, and presented her with the badge and a letter of appreciation in a festive atmosphere. |
+| `mushoiraClubHonoredPageTitle` | Member of the “Mushoira” club honored |
+
+---
+
+## `newScientificCouncilDefaults.ts` {#defaults-newScientificCouncilDefaultsts}
+
+### `NEW_SCIENTIFIC_COUNCIL_PAGE_DEFAULTS`
+
+_Source: `src/locales/newScientificCouncilDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `newScientificCouncilPageBody` | At the suggestion of the Ministry of Higher Education, Science and Innovation of the Republic of Uzbekistan, and in accordance with the decision of the Presidium of the Supreme Attestation Commission of 24 September 2025, a scientific council has been established at Termez University of Economics and Service.<br><br>The new council will function as a council for organising the defence of dissertations in the specialisation of “Comparative Literary Studies, Comparative Linguistics and Translation Studies”, and as a council granting the Doctor of Philosophy (PhD) academic degree in the philological sciences.<br><br>This decision further strengthens the university's standing in the country's scientific and research landscape, opening new doors of opportunity for young scholars and researchers. At the same time, it will support modern research in the field of philology, attract talented young people to academia, and enhance overall scientific potential.<br><br>The establishment of the new scientific council also creates significant scientific opportunities for the youth of Surxondaryo, opening up ways to make effective use of practical experience. |
+| `newScientificCouncilPageTitle` | A new scientific council has been established at the Termez University of Economics and Service |
+
+---
+
+## `officialDocumentsDefaults.ts` {#defaults-officialDocumentsDefaultsts}
+
+### `OFFICIAL_DOCUMENTS_PAGE_DEFAULTS`
+
+_Source: `src/locales/officialDocumentsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `officialDocAcademicFreedomDescription` | University policy on academic freedom, independence of teaching and research, and the rights of faculty and students. |
+| `officialDocAcademicFreedomTitle` | Academic Freedom Policy |
+| `officialDocAnnualReport2025Description` | Overview of university activities, achievements, and financial performance for the 2025 reporting year. |
+| `officialDocAnnualReport2025Title` | Annual Report 2025 |
+| `officialDocAntiBriberyDescription` | Standards and procedures for preventing bribery and corruption across university operations and partnerships. |
+| `officialDocAntiBriberyTitle` | Anti Bribery Corruption Policy |
+| `officialDocumentsDownloadCta` | Download |
+| `officialDocumentsPageIntro` | Browse official university policies and reports. Open a document card to view available downloads. |
+| `officialDocumentsPdfBadge` | PDF |
+| `officialDocumentsPdfDownloadHint` | Full policy document |
+
+---
+
+## `organizationalStructureDefaults.ts` {#defaults-organizationalStructureDefaultsts}
+
+### `ORGANIZATIONAL_STRUCTURE_I18N_DEFAULTS`
+
+_Source: `src/locales/organizationalStructureDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `organizationalStructureAuxiliaryLabel` | Oversight & services |
+| `organizationalStructureCaption` | Approved organizational scheme. For the latest line-up of offices or titles, please contact the university chancellery. |
+| `organizationalStructureFacultiesLabel` | Faculties & departments |
+| `organizationalStructureIntro` | The diagram below follows the approved organizational structure of Termez University of Economics and Service. It shows how leadership, pro-rectorates, faculties, departments, and support units relate to one another.<br><br>On smaller screens, scroll horizontally if needed to see every column. For the latest titles or unit names, please contact the university chancellery. |
+| `organizationalStructureProRectorsLabel` | Pro-rectors & administration |
+
+### `ORG_CHART_NODE_DEFAULTS`
+
+_Source: `src/locales/organizationalStructureDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `orgChart.academic-methodical` | Academic and Methodological Department |
+| `orgChart.accounting-audit` | Department of Accounting and Audit |
+| `orgChart.admissions-office` | University Admissions Office |
+| `orgChart.advisor` | Advisor to the rector |
+| `orgChart.anti-corruption` | Department for Managing Anti-Corruption Compliance and Monitoring System |
+| `orgChart.assistant-rector` | Assistant to the Rector |
+| `orgChart.digital-edtech` | Digital Educational Technologies |
+| `orgChart.establisher` | Founder |
+| `orgChart.foreign-language-center` | Foreign Language Teaching Center |
+| `orgChart.hr-dept` | Human Resources Department |
+| `orgChart.info-resource-center` | Information Resource Center |
+| `orgChart.intl-relations` | International Relations Department |
+| `orgChart.legal-dept` | Legal Department |
+| `orgChart.marketing-dept` | Department of Marketing |
+| `orgChart.masters-dept` | Master's Degree Department |
+| `orgChart.press-dept` | Press department |
+| `orgChart.public-council` | Public council |
+| `orgChart.quality-accreditation` | Department of Quality Control and Accreditation |
+| `orgChart.rector` | Rector |
+| `orgChart.research-innovation` | Research and Innovation Department |
+| `orgChart.secretariat-archive` | Secretariat and Archive Department |
+| `orgChart.strategic-development` | Department of Strategic Development |
+| `orgChart.student-affairs` | Student Affairs Department |
+| `orgChart.technical-services` | Technical Services and Maintenance Department |
+| `orgChart.university-council` | University council |
+| `orgChart.vice-dean-academic` | Vice Dean for Academic Affairs |
+| `orgChart.vice-dean-youth` | Vice Dean for Spiritual and Youth Affairs |
+| `orgChart.vice-rector-academic` | Vice Rector for Academic Affairs |
+| `orgChart.vice-rector-international` | Vice Rector for International Relations |
+| `orgChart.vice-rector-research` | Vice Rector for Research and Innovation |
+| `orgChart.vice-rector-youth` | First Vice-Rector for Youth Affairs and Spiritual-Educational Work |
+| `orgChart.youth-dept` | Department of Spiritual and Moral Development in Youth Work |
+
+---
+
+## `presidentOrderAdmissionParametersDefaults.ts` {#defaults-presidentOrderAdmissionParametersDefaultsts}
+
+### `PRESIDENT_ORDER_ADMISSION_PARAMS_DEFAULTS`
+
+_Source: `src/locales/presidentOrderAdmissionParametersDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `presidentOrderAdmissionParamsHeroAlt` | Students taking an examination in a formal hall — focused academic setting. |
+| `presidentOrderAdmissionParamsLocaleNote` | The official document below is provided in Uzbek. |
+| `presidentOrderAdmissionParamsPageTitle` | On the parameters of the state order for admission to study at state higher educational institutions for the 2024/2025 academic year |
+
+---
+
+## `privacyPolicyDefaults.ts` {#defaults-privacyPolicyDefaultsts}
+
+### `PRIVACY_POLICY_DEFAULTS`
+
+_Source: `src/locales/privacyPolicyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `privacyPolicyIntro1` | Termez University of Economics and Service (hereinafter – the University) respects the privacy of its users' personal data and processes and protects it in accordance with the Law of the Republic of Uzbekistan "On Personal Data," the Law "On Informatization," and other applicable legal and regulatory acts. |
+| `privacyPolicyIntro2` | This Privacy Policy sets out the procedure for collecting, processing, storing, and protecting personal data when using the official website on the TUES.UZ domain and other electronic information resources administered by the University. |
+| `privacyPolicyLastUpdated` | Last updated: July 30, 2026 |
+| `privacyPolicyPageTitle` | Privacy Policy |
+| `privacyPolicySection1AutoBullet1` | IP address; |
+| `privacyPolicySection1AutoBullet2` | technical information about browser type, operating system, and device; |
+| `privacyPolicySection1AutoBullet3` | statistical data obtained through cookies. |
+| `privacyPolicySection1AutoTitle` | Automatically collected from the website: |
+| `privacyPolicySection1InquiryBullet1` | the content of the inquiry or application and the contact details provided. |
+| `privacyPolicySection1InquiryTitle` | Through submitting an inquiry or application: |
+| `privacyPolicySection1Intro` | The University may collect the following information: |
+| `privacyPolicySection1NewsletterBullet1` | email address. |
+| `privacyPolicySection1NewsletterTitle` | Through subscribing to email newsletters: |
+| `privacyPolicySection1P2` | The University may also collect other information voluntarily provided by the user while using the University's electronic services. |
+| `privacyPolicySection1P3` | Passport details and PINFL are requested only where precise identification of the user is required (registration and processing of related documents) and are not used for any other purpose. |
+| `privacyPolicySection1RegistrationBullet1` | last name, first name, and patronymic; |
+| `privacyPolicySection1RegistrationBullet2` | citizenship; |
+| `privacyPolicySection1RegistrationBullet3` | phone number; |
+| `privacyPolicySection1RegistrationBullet4` | passport details (series and number); |
+| `privacyPolicySection1RegistrationBullet5` | PINFL (Personal Identification Number of an Individual). |
+| `privacyPolicySection1RegistrationTitle` | Through the registration form: |
+| `privacyPolicySection1Title` | 1. What information do we collect? |
+| `privacyPolicySection2Bullet1` | responding to user inquiries; |
+| `privacyPolicySection2Bullet2` | providing the University's electronic services; |
+| `privacyPolicySection2Bullet3` | registering students, applicants, and other users, and serving them; |
+| `privacyPolicySection2Bullet4` | precisely identifying the user based on passport details and PINFL; |
+| `privacyPolicySection2Bullet5` | organizing the educational process; |
+| `privacyPolicySection2Bullet6` | informing about University news and announcements by email (as part of the newsletter subscription service); |
+| `privacyPolicySection2Bullet7` | analyzing and improving the performance of the website; |
+| `privacyPolicySection2Bullet8` | ensuring information security; |
+| `privacyPolicySection2Bullet9` | complying with applicable legal requirements. |
+| `privacyPolicySection2Intro` | Collected personal data is used for the following purposes: |
+| `privacyPolicySection2P2` | The University does not use personal data for purposes inconsistent with those for which it was collected. |
+| `privacyPolicySection2Title` | 2. Purpose of using the data |
+| `privacyPolicySection3P1` | The University's website may use cookies to provide convenient service to users, ensure the correct operation of the website's functions, and carry out statistical analysis. |
+| `privacyPolicySection3P2` | Users may restrict or disable cookies through their browser settings. |
+| `privacyPolicySection3Title` | 3. Cookies |
+| `privacyPolicySection4P1` | The University applies the necessary organizational and technical security measures to prevent the loss, unlawful use, unauthorized access, alteration, or disclosure of personal data. |
+| `privacyPolicySection4P2` | Passport details and PINFL, as identifying information, are accessible only to authorized staff and are stored under additional security controls. |
+| `privacyPolicySection4P3` | Personal data may be disclosed to third parties only in cases provided for by law or with the consent of the user. |
+| `privacyPolicySection4P4` | The University does not sell users' personal data and does not provide it to third parties for advertising purposes. |
+| `privacyPolicySection4Title` | 4. Protection of personal data |
+| `privacyPolicySection5P1` | Personal data is retained for as long as necessary to achieve the purpose of its processing, or for the periods established by the legislation of the Republic of Uzbekistan. |
+| `privacyPolicySection5P2` | Data collected during registration is retained for the duration of the user's status in relation to the University (student status, subscriber status, etc.) and thereafter for the archival periods established by law. Users may unsubscribe from newsletters at any time, upon which their email address is removed from the subscriber list. |
+| `privacyPolicySection5Title` | 5. Data retention |
+| `privacyPolicySection6Bullet1` | obtain information about their own personal data; |
+| `privacyPolicySection6Bullet2` | request the correction of inaccurate or incomplete data; |
+| `privacyPolicySection6Bullet3` | request the deletion of data or the restriction of its processing, in cases provided for by law; |
+| `privacyPolicySection6Bullet4` | submit inquiries regarding the processing of their personal data. |
+| `privacyPolicySection6Intro` | In accordance with applicable law, the user has the right to: |
+| `privacyPolicySection6Title` | 6. User rights |
+| `privacyPolicySection7P1` | The University reserves the right to amend and supplement this Privacy Policy. The updated version takes effect from the date it is published on the official website. |
+| `privacyPolicySection7Title` | 7. Amendments to the Privacy Policy |
+| `privacyPolicySection8Email` | info@tisu.uz |
+| `privacyPolicySection8EmailLabel` | E-mail: |
+| `privacyPolicySection8P1` | For questions regarding this Privacy Policy or the processing of personal data, you may contact the University's official email address. |
+| `privacyPolicySection8Title` | 8. Contact |
+
+### `PRIVACY_POLICY_SECTIONS`
+
+_Source: `src/locales/privacyPolicyDefaults.ts`_
+
+```json
+[
+  {
+    "titleKey": "privacyPolicySection1Title",
+    "paragraphKeys": [
+      "privacyPolicySection1Intro",
+      "privacyPolicySection1P2",
+      "privacyPolicySection1P3"
+    ],
+    "subsections": [
+      {
+        "titleKey": "privacyPolicySection1RegistrationTitle",
+        "bulletKeys": [
+          "privacyPolicySection1RegistrationBullet1",
+          "privacyPolicySection1RegistrationBullet2",
+          "privacyPolicySection1RegistrationBullet3",
+          "privacyPolicySection1RegistrationBullet4",
+          "privacyPolicySection1RegistrationBullet5"
+        ]
+      },
+      {
+        "titleKey": "privacyPolicySection1NewsletterTitle",
+        "bulletKeys": [
+          "privacyPolicySection1NewsletterBullet1"
+        ]
+      },
+      {
+        "titleKey": "privacyPolicySection1InquiryTitle",
+        "bulletKeys": [
+          "privacyPolicySection1InquiryBullet1"
+        ]
+      },
+      {
+        "titleKey": "privacyPolicySection1AutoTitle",
+        "bulletKeys": [
+          "privacyPolicySection1AutoBullet1",
+          "privacyPolicySection1AutoBullet2",
+          "privacyPolicySection1AutoBullet3"
+        ]
+      }
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection2Title",
+    "paragraphKeys": [
+      "privacyPolicySection2P2"
+    ],
+    "bulletIntroKey": "privacyPolicySection2Intro",
+    "bulletKeys": [
+      "privacyPolicySection2Bullet1",
+      "privacyPolicySection2Bullet2",
+      "privacyPolicySection2Bullet3",
+      "privacyPolicySection2Bullet4",
+      "privacyPolicySection2Bullet5",
+      "privacyPolicySection2Bullet6",
+      "privacyPolicySection2Bullet7",
+      "privacyPolicySection2Bullet8",
+      "privacyPolicySection2Bullet9"
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection3Title",
+    "paragraphKeys": [
+      "privacyPolicySection3P1",
+      "privacyPolicySection3P2"
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection4Title",
+    "paragraphKeys": [
+      "privacyPolicySection4P1",
+      "privacyPolicySection4P2",
+      "privacyPolicySection4P3",
+      "privacyPolicySection4P4"
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection5Title",
+    "paragraphKeys": [
+      "privacyPolicySection5P1",
+      "privacyPolicySection5P2"
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection6Title",
+    "bulletIntroKey": "privacyPolicySection6Intro",
+    "bulletKeys": [
+      "privacyPolicySection6Bullet1",
+      "privacyPolicySection6Bullet2",
+      "privacyPolicySection6Bullet3",
+      "privacyPolicySection6Bullet4"
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection7Title",
+    "paragraphKeys": [
+      "privacyPolicySection7P1"
+    ]
+  },
+  {
+    "titleKey": "privacyPolicySection8Title",
+    "paragraphKeys": [
+      "privacyPolicySection8P1"
+    ]
+  }
+]
+```
+
+---
+
+## `professionalDevelopmentChoirDefaults.ts` {#defaults-professionalDevelopmentChoirDefaultsts}
+
+### `PROFESSIONAL_DEVELOPMENT_CHOIR_PAGE_DEFAULTS`
+
+_Source: `src/locales/professionalDevelopmentChoirDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `professionalDevelopmentChoirCard1BreadcrumbLabel` | Exchange of experience and strong cooperation |
+| `professionalDevelopmentChoirCard1DetailBody` | Important agreements on future cooperation were reached during the visit of the delegation headed by Jamshid Pardaev, founder of Termez University of Economics and Service, to Istanbul Medipol University in Turkey.<br><br>During the meeting with the management of Istanbul Medipol University clinic, issues of developing cooperation between the two universities in the fields of education, research, and medicine were discussed.<br><br>The parties discussed the prospects for the exchange of experience between universities and agreements aimed at the joint implementation of new projects and programs. In the future, it is planned to create new opportunities for student exchange, scientific research, and medical innovation.<br><br>These agreements are of great importance, especially in the field of medical education and clinical research, which further strengthens the scientific potential of both universities.<br><br>At the end of the meeting, the management of Termez University of Economics and Service presented the heads of Istanbul Medipol University clinic with memorable gifts that embody our culture. These gifts were presented as a sign of respect and cooperation between the two sides. |
+| `professionalDevelopmentChoirCard1HeroAlt` | Delegation from Termez University of Economics and Service with Istanbul Medipol University representatives after a cooperation meeting; Turkish flag on the conference table. |
+| `professionalDevelopmentChoirCard1PageTitle` | Exchange of experience and strong cooperation |
+| `professionalDevelopmentChoirCard1Title` | Exchange of experience and strong cooperation |
+| `professionalDevelopmentChoirCard2BreadcrumbLabel` | Istanbul Medipol clinic |
+| `professionalDevelopmentChoirCard2DetailBody` | A delegation led by Jamshid Pardaev, founder of Termez University of Economics and Service, visited Istanbul Medipol University in Turkey. The representatives of the delegation were able to get acquainted with the educational and medical infrastructure of this university.<br><br>Special attention was paid to the conditions provided at the university clinic, as well as the modern medical equipment used in its work. Istanbul Medipol University hospital not only provides high-quality medical services, but also stands out for its advanced educational and research capabilities.<br><br>This visit of the delegation from Termez will make a significant contribution to the development of cooperation and exchange of experience between the two universities. |
+| `professionalDevelopmentChoirCard2HeroAlt` | Delegation from Termez University of Economics and Service touring a corridor at Istanbul Medipol University with a staff member explaining the clinical facilities. |
+| `professionalDevelopmentChoirCard2PageTitle` | Istanbul University Medipol clinic: conditions and opportunities |
+| `professionalDevelopmentChoirCard2Title` | Istanbul University Medipol clinic: conditions and opportunities |
+| `professionalDevelopmentChoirCard3BreadcrumbLabel` | Medipol laboratory |
+| `professionalDevelopmentChoirCard3DetailBody` | A group of students from the Faculty of Medicine visited the modern scientific laboratory of Medipol University, one of the prestigious higher education institutions in Istanbul. The purpose of this visit was to expand practical training, strengthen students' knowledge and skills in science, and introduce them to advanced laboratory equipment.<br><br>During the visit, students had the opportunity to get acquainted with the latest research projects in the fields of biomedicine, pharmacy, and engineering. The laboratory staff conducted a fascinating tour for them, explaining in detail the activities of each department, the principles of operation of modern equipment, and the experiments carried out.<br><br>The students were particularly impressed by complex processes such as genetic analysis, biomaterial testing, and work with cell cultures. They were able to observe this work directly and receive professional commentary from experts. |
+| `professionalDevelopmentChoirCard3HeroAlt` | Medical students and staff in lab coats during a guided tour of a Medipol University research laboratory in Istanbul. |
+| `professionalDevelopmentChoirCard3PageTitle` | In the Medipol laboratory |
+| `professionalDevelopmentChoirCard3Title` | In the Medipol laboratory |
+| `professionalDevelopmentChoirCard4BreadcrumbLabel` | Physiotherapy at Medipol |
+| `professionalDevelopmentChoirCard4DetailBody` | Students from the TUES Faculty of Medicine completed an internship in the physiotherapy department at the Medipol clinic. An experienced physiotherapy nurse introduced them to the daily work and practical exercises that take place in the department.<br><br>During the internship, students learned about the main areas of work of the physiotherapy department, as well as modern equipment and instructions for its use. In particular, they became acquainted with electrotherapy, used to treat problems of the nervous and muscular systems, ultrasound therapy, and a set of special physical exercises aimed at restoring and strengthening movement during rehabilitation. |
+| `professionalDevelopmentChoirCard4HeroAlt` | Medical students and an instructor in the corridor of the physiotherapy department during clinical orientation at Medipol clinic. |
+| `professionalDevelopmentChoirCard4PageTitle` | Practice in the physiotherapy department |
+| `professionalDevelopmentChoirCard4Title` | Practice in the physiotherapy department |
+| `professionalDevelopmentChoirCard5BreadcrumbLabel` | Historic sites in Turkey |
+| `professionalDevelopmentChoirCard5DetailBody` | Students of Termez University of Economics and Service, as part of the educational and cultural exchange program currently taking place in Turkey, are not only participating in academic activities but are also visiting historical and tourist attractions in Istanbul, getting closely acquainted with the rich cultural heritage of the Turkish people.<br><br>In particular, our students and professors had the opportunity to visit Hagia Sophia, Topkapı Palace, and take a walk along the Bosphorus. These historic sites have expanded their knowledge and enriched their cultural outlook.<br><br>According to the students, these visits are leaving unforgettable impressions. They are making new friends and gaining a deeper understanding of Turkish culture and traditions. |
+| `professionalDevelopmentChoirCard5HeroAlt` | TUES students and faculty posing with small university flags in front of Hagia Sophia in Istanbul. |
+| `professionalDevelopmentChoirCard5PageTitle` | TUES students visiting historic sites in Turkey |
+| `professionalDevelopmentChoirCard5Title` | TUES students visiting historic sites in Turkey |
+| `professionalDevelopmentChoirCard6BreadcrumbLabel` | Internship in Indonesia |
+| `professionalDevelopmentChoirCard6DetailBody` | Talented students from Termez University of Economics and Service have departed for Indonesia to take part in an international internship program. As part of the student delegation, they will undergo training at the prestigious Universitas Pendidikan Indonesia (UPI) located in Bandung.<br><br>The students selected for this internship underwent intensive English language preparation at the university's language center.<br><br>Founded in 1954, Universitas Pendidikan Indonesia offers modern educational programs not only in pedagogy but also in information technology, foreign languages, economics, social sciences, and natural sciences. Today, UPI is recognized as one of the leading higher education institutions in Indonesia.<br><br>During the visit, TUES students will participate in joint seminars and practical workshops with UPI students, gain insights into the Indonesian education system, and actively engage in cultural exchange programs. |
+| `professionalDevelopmentChoirCard6HeroAlt` | TUES students and faculty at an airport terminal before departing for an international internship in Indonesia. |
+| `professionalDevelopmentChoirCard6PageTitle` | TUES students depart for international internship in Indonesia |
+| `professionalDevelopmentChoirCard6Title` | TUES students depart for international internship in Indonesia |
+| `professionalDevelopmentChoirCard7BreadcrumbLabel` | Summer program in Indonesia |
+| `professionalDevelopmentChoirCard7DetailBody` | Within the framework of the summer education program organized at the Indonesian University of Education (Universitas Pendidikan Indonesia), students from Termez University of Economics and Service are actively participating in productive and meaningful educational sessions. During the program, students became closely acquainted with the Indonesian education system, academic curricula, and the advanced teaching plans implemented at the university.<br><br>The summer program serves not only as an academic exchange but also strengthens cultural collaboration. After the lessons, students from both universities engaged in mutual discussions, exchanged ideas, and established friendly relations.<br><br>The cultural excursions organized as part of the program also left a strong impression. In particular, the students visited the famous Gedung Sate museum in Bandung. At the museum, they learned about Indonesian architecture, history, and the stages of development of West Java province. |
+| `professionalDevelopmentChoirCard7HeroAlt` | TUES and Indonesian host-university students in a classroom during an interactive summer session at Universitas Pendidikan Indonesia. |
+| `professionalDevelopmentChoirCard7PageTitle` | TUES students participate in summer education program in Indonesia |
+| `professionalDevelopmentChoirCard7Title` | TUES students participate in summer education program in Indonesia |
+| `professionalDevelopmentChoirCard8BreadcrumbLabel` | Medical internship at UPI |
+| `professionalDevelopmentChoirCard8DetailBody` | Medical students from Termez University of Economics and Service are participating in a student exchange program at the Indonesian University of Education (Universitas Pendidikan Indonesia) as part of international cooperation, with the goal of strengthening their knowledge and skills and expanding their professional experience.<br><br>This exchange program includes an eight-week internship during which students not only gain deep professional experience in their field but also have the opportunity to learn about the academic process, scientific approaches, and modern pedagogical methods of the host university.<br><br>During the program, students take part in training sessions conducted by leading professors in Indonesia, actively participate in laboratory practicals, and showcase their knowledge through various international projects. |
+| `professionalDevelopmentChoirCard8HeroAlt` | TUES medical students with hosts at a World Diabetes Day community outreach event with Universitas Pendidikan Indonesia at Mitra Medika Tambakan clinic, Indonesia. |
+| `professionalDevelopmentChoirCard8PageTitle` | Medical students undergoing internship at Indonesian University of Education |
+| `professionalDevelopmentChoirCard8Title` | Medical students undergoing internship at Indonesian University of Education |
+| `professionalDevelopmentChoirPageIntro` | Snapshots of international cooperation, clinical placements, and student mobility — including exchanges with partner institutions, laboratory and departmental practice, and study visits abroad. |
+| `professionalDevelopmentChoirPageTitle` | Professional development and education in the choir |
+
+### `PROFESSIONAL_DEVELOPMENT_CHOIR_CARD_KEYS`
+
+_Source: `src/locales/professionalDevelopmentChoirDefaults.ts`_
+
+```json
+[
+  "professionalDevelopmentChoirCard1Title",
+  "professionalDevelopmentChoirCard2Title",
+  "professionalDevelopmentChoirCard3Title",
+  "professionalDevelopmentChoirCard4Title",
+  "professionalDevelopmentChoirCard5Title",
+  "professionalDevelopmentChoirCard6Title",
+  "professionalDevelopmentChoirCard7Title",
+  "professionalDevelopmentChoirCard8Title"
+]
+```
+
+---
+
+## `qalqonShieldsDefaults.ts` {#defaults-qalqonShieldsDefaultsts}
+
+### `QALQON_SHIELDS_DEFAULTS`
+
+_Source: `src/locales/qalqonShieldsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `qalqonShieldsHeroSrc` | /images/community-clubs/qalqon-shields.png |
+| `qalqonShieldsPageBody` | At Termez University of Economics and Service, the public group “Qalqon” operates with the aim of assisting in the prevention of crime and offenses among students, as well as fostering youth in the spirit of military patriotism. This group was established based on Joint Resolution No. 30 dated August 28, 2023, of the Ministries of Higher Education, Science and Innovation, Defense, Internal Affairs, Youth Policy and Sports, and the National Guard of the Republic of Uzbekistan.<br><br>It is worth noting that a large number of students expressed their desire to join the group. To become a member, candidates undergo a multi-stage selection process, including interviews, physical fitness assessments, and psychological tests. In particular, for the 2025–2026 academic year, nearly 500 students applied to join the “Qalqon” public group, and based on the results of the selection process, 55 students who scored the highest points were accepted.<br><br>Members of the public group have been provided with the necessary conditions, including special uniforms and communication equipment to distinguish them during duty. In order to maintain public order at the university, they organize patrols and duty shifts during their free time from classes, providing close assistance.<br><br>In addition, group members actively support compliance with the university’s internal regulations and the “Code of ethics.” Their contribution to maintaining and monitoring public order during various university events deserves special recognition.<br><br>— Members of our group are carrying out effective and systematic work on the university campus to prevent offenses and crime among students, as well as to eliminate purposeless nighttime wandering. In this regard, cooperation has been established with law enforcement agencies, and night raids operations are regularly conducted together with prevention inspectors, — said Botir O‘roqov, commander of the “Qalqon” public group.<br><br>— In order to prevent possible crimes and offenses during nighttime hours, approximately 105 night raids were organized with the participation of members of the “Qalqon” public group, deputy deans for youth affairs, prevention inspectors, National Guard officers, and group mentors. During these raids, nearly 600 students wandering aimlessly at night were identified. Parents of 110 students prone to crime and offenses were invited and preventive discussions were held with them. In addition, to prevent students from carrying cold weapons, 40 inspection activities were conducted, — said Sherzod Allayorov, prevention inspector of TUES.<br><br>Today, the “Qalqon” public group is becoming not only a pillar of peace and security at our university, but also a symbol of student unity. It goes beyond merely monitoring and protecting the university territory, serving as an example of resilience and dedication for young people. |
+| `qalqonShieldsPageTitle` | “The shields” of our university |
+
+---
+
+## `qizlarjonCharityEventDefaults.ts` {#defaults-qizlarjonCharityEventDefaultsts}
+
+### `QIZLARJON_CHARITY_EVENT_DEFAULTS`
+
+_Source: `src/locales/qizlarjonCharityEventDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `qizlarjonCharityHeroSrc` | /images/community-clubs/qizlarjon-charity.png |
+| `qizlarjonCharityPageBody` | Members of the “Qizlarjon” Club, operating under the Termez University of Economics and Service, organized a charity event during which food products were distributed to low-income families living in the “Yulduz” neighborhood.<br><br>The purpose of the charity event was to support citizens in need and from low-income backgrounds, as well as to strengthen the values of compassion and humanity in society.<br><br>— “When the heads of each household expressed their gratitude to the students, a smile appeared on their faces and a sense of satisfaction filled their hearts. Indeed, such events help instill a sense of social responsibility in students and nurture them in the spirit of humanism,” — said Maqsuda Norbosheva, head of the club and Chairwoman of the University’s Women’s Council. |
+| `qizlarjonCharityPageTitle` | Charity event held by the “Qizlarjon” club |
+
+---
+
+## `qizlarjonClubDefaults.ts` {#defaults-qizlarjonClubDefaultsts}
+
+### `QIZLARJON_CLUB_DEFAULTS`
+
+_Source: `src/locales/qizlarjonClubDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `qizlarjonClubHeroSrc` | /images/community-clubs/qizlarjon-club.png |
+| `qizlarjonClubIntro` | In the ongoing process of building the New Uzbekistan, the empowerment of youth—particularly female students—has emerged as one of the central pillars of state policy. Strengthening the intellectual capacity of young women, enhancing their socio-political participation, and fostering spiritually and morally mature individuals are now strategic national priorities. Numerous presidential decrees and governmental resolutions aimed at protecting women’s rights, expanding their educational opportunities, and reinforcing their role in society have significantly accelerated these efforts.<br><br>In line with these national priorities, the Women’s Council of Termez University of Economics and Service established the “Qizlarjon” Club as a dynamic platform dedicated to supporting the holistic development of female students. The club was founded with the objective of organizing meaningful extracurricular activities, nurturing leadership qualities, and promoting personal and professional growth.<br><br>Currently, the club brings together more than 200 female students aged between 16 and 30. Through systematic and well-structured initiatives, the club aims to increase students’ social engagement, strengthen their professional competencies, and reinforce their moral and ethical foundations.<br><br>The overarching mission of the “Qizlarjon” Club is to cultivate active and responsible members of society who are capable of independent thinking, loyal to national traditions and values, and equipped with contemporary knowledge and practical skills necessary for success in modern society.<br><br>The club operates under a comprehensive annual action plan that includes educational seminars, roundtable discussions, master classes, creative competitions, and interactive meetings with professionals. |
+| `qizlarjonClubOutro` | The “Qizlarjon” Club at Termez University of Economics and Service represents a comprehensive and forward-thinking initiative aimed at empowering female students. By integrating moral education, professional development, digital literacy, entrepreneurship, cultural identity, and social responsibility, the club creates a supportive environment for young women to thrive. Through collective efforts, the “Qizlarjon” Club continues to contribute meaningfully to the development of confident, competent, and socially responsible young women who are prepared to shape the future of the New Uzbekistan. |
+| `qizlarjonClubPageTitle` | The “Qizlarjon” Club |
+| `qizlarjonClubS1Body` | One of the fundamental directions of the club’s activities is the organization of regular roundtable discussions devoted to moral and ethical upbringing. These discussions address culturally and socially significant themes such as “A girl’s happiness lies in her graceful conduct” and “The image of the Uzbek girl.”<br><br>Distinguished mothers, exemplary families, experienced psychologists, and respected women from the community are invited to share their knowledge and life experiences. These sessions combine theoretical perspectives with practical wisdom drawn from real-life experiences.<br><br>Such interactive discussions contribute to cultivating values such as respect for family, modesty, patience, responsibility, and emotional intelligence. Importantly, they create an open dialogue environment where students can express their concerns, seek advice, and strengthen their understanding of social roles and responsibilities. |
+| `qizlarjonClubS1Title` | Roundtables and moral-ethical education |
+| `qizlarjonClubS2Body` | In the context of rapid digitalization, promoting safe and responsible internet usage has become an essential educational priority. Recognizing this need, the “Qizlarjon” Club actively organizes seminars and awareness campaigns on digital literacy and cybersecurity. These events involve cooperation with law enforcement agencies, prosecutors’ offices, youth commissions, and religious representatives. Topics covered include cybercrime prevention, online fraud awareness, digital reputation management, data protection, and ethical behavior on social media platforms. By strengthening information literacy, the club equips students with the necessary skills to navigate the digital world safely and responsibly, minimizing risks and enhancing their critical thinking abilities. |
+| `qizlarjonClubS2Title` | Internet safety and information literacy |
+| `qizlarjonClubS3Body` | Under the theme “The exemplary life path of enlightened women,” the club organizes meetings with accomplished female professors and academic leaders of the university. These interactions serve as motivational platforms where experienced scholars share their academic journeys, professional challenges, and achievements. Hearing real-life success stories allows female students to visualize their own potential paths in science, research, education, and leadership. These meetings foster self-confidence, ambition, and a belief that academic and professional excellence is achievable through dedication and perseverance. Such role-model-based mentorship significantly contributes to the development of leadership skills and long-term career planning among young women. |
+| `qizlarjonClubS3Title` | Inspirational women leaders and academic motivation |
+| `qizlarjonClubS4BodyBottom` | These initiatives not only enhance cultural awareness but also encourage creativity, teamwork, and appreciation of national identity. By integrating tradition with modern perspectives, the club ensures that cultural values remain relevant in contemporary society. |
+| `qizlarjonClubS4BodyTop` | Preserving and promoting national traditions is another essential dimension of the club’s activities. Through creative contests and cultural exhibitions, the club strengthens students’ connection to their cultural heritage. |
+| `qizlarjonClubS4List` | National dress exhibitions<br>Traditional cooking competitions<br>Handicraft and embroidery showcases<br>Cultural heritage presentations |
+| `qizlarjonClubS4ListLabel` | Events include: |
+| `qizlarjonClubS4Title` | Promotion of national values and cultural identity |
+| `qizlarjonClubS5Body` | Social responsibility remains a central principle of the “Qizlarjon” Club. Special attention is given to students from socially vulnerable families. The club facilitates free vocational training programs in areas such as cooking, sewing, entrepreneurship basics, and foreign language acquisition. A distinctive feature of this initiative is the “peer-to-peer” learning model, where skilled students voluntarily mentor and teach their fellow peers. This approach strengthens solidarity, mutual support, and collaborative learning while fostering a spirit of empathy and social cohesion. |
+| `qizlarjonClubS5Title` | Support for socially vulnerable girls |
+| `qizlarjonClubS6BodyBottom` | By providing practical insights and real business case studies, these master classes inspire young women to pursue independent economic activities and contribute to sustainable development. |
+| `qizlarjonClubS6BodyTop` | Recognizing the growing role of women in the modern economy, the club actively promotes entrepreneurial education. Under the slogan “Start your own business,” master classes titled “Entrepreneurial Girl” are conducted with the participation of successful businesswomen. |
+| `qizlarjonClubS6List` | Business plan development<br>Financial literacy<br>Marketing strategies<br>Customer communication<br>Personal branding |
+| `qizlarjonClubS6ListLabel` | These sessions focus on: |
+| `qizlarjonClubS6Title` | Encouraging female entrepreneurship |
+| `qizlarjonClubS7Body` | The club actively participates in national and international awareness days, including: |
+| `qizlarjonClubS7Follow` | During these events, outstanding female students are recognized and awarded, reinforcing motivation and promoting excellence. |
+| `qizlarjonClubS7List` | October 11 – International Day of the Girl Child<br>Birth anniversary of poet Zulfiya<br>March 8 – International Women’s Day |
+| `qizlarjonClubS7Title` | Commemorative and international events |
+| `qizlarjonClubS8Body` | The club strongly advocates for healthy living and physical well-being. Social media campaigns under the slogan “I choose a healthy lifestyle” encourage participation in sports and wellness activities.<br><br>Meetings with medical professionals, including narcologists under the theme “Drugs lead to destruction,” provide students with scientifically grounded information about the dangers of substance abuse and the importance of mental and physical health.<br><br>Additionally, sports weeks titled “Sport is the source of health” involve competitions, fitness sessions, and team-building activities that strengthen both physical and emotional resilience. |
+| `qizlarjonClubS8Title` | Promotion of a healthy lifestyle |
+
+---
+
+## `regulationDocumentsDefaults.ts` {#defaults-regulationDocumentsDefaultsts}
+
+### `REGULATION_DOCUMENTS_I18N_DEFAULTS`
+
+_Source: `src/locales/regulationDocumentsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `regulationDocsDocxBadge` | Microsoft Word (.docx) |
+| `regulationDocsDownloadCta` | Download |
+| `regulationDocsDownloadLead` | Each link opens the file in a new tab. Use your browser’s save option if you want to keep a copy on your device. |
+| `regulationDocsDownloadTitle` | Download regulation |
+| `regulationDocsIntro` | ## University Charter & Regulations – Termiz University of Economics and Service (TISU)<br><br>This charter defines the legal status, organizational structure, and operational policies of Termiz University of Economics and Service (TISU), a private (non-state) higher education institution operating in full compliance with the Constitution, the Civil Code, and the "Education Law" of the Republic of Uzbekistan.<br><br>## 1. General Information<br><br>Full Name: Termiz University of Economics and Service (abbreviated as TISU).<br>Legal Status: Private / Non-state higher education institution.<br>Founder: Mr. Usmanov Chorshanbi Bozorovich (holds 100% of the founding share).<br>Authorized Capital: 30,653,113,090 UZS.<br>Official Website: tisu.uz<br>Contact Email: university@tues.uz<br>Location: Termiz city, Uzbekistan (multiple campus addresses).<br>Instruction Languages: Uzbek, Russian, English, and other foreign languages.<br>Study Modes: Full-time, with alternative forms permitted.<br><br>## 2. Core Mission and Objectives<br><br>TISU is dedicated to training highly qualified, modern, and competitive specialists who are patriotic, legally conscious, and professionally skilled. The university prioritizes the following:<br><br>- Aligning academic programs with the demands of the labor market in finance, economics, IT, tourism, business, pedagogy, medicine, and other high-demand fields.<br>- Integrating advanced international experience, modern pedagogical methods, and information technologies into the learning process.<br>- Strengthening the integration of science, education, and production through active research and development.<br>- Providing continuing education through professional retraining and advanced training courses.<br><br>## 3. Educational Framework<br><br>The university offers higher education in two main academic stages:<br><br>Bachelor's Degree (Undergraduate): A foundational program with a standard duration of 4 years (some directions may be 3, 5, or 6 years as regulated). Graduates receive a "Bachelor" diploma.<br>Master's Degree (Graduate): An advanced specialization program building on the Bachelor's degree, with a duration of at least 2 years. Graduates receive a "Master" diploma.<br><br>Educational delivery is based on state educational standards, modern IT tools, a modular system, and a continuous rating-based assessment system. A standard academic hour is 45 minutes.<br><br>## 4. Governance Structure<br><br>TISU operates on a balanced management system combining executive leadership and collegial oversight:<br><br>Highest Governing Body: The General Meeting of Founders. This body makes ultimate decisions on amending the charter, appointing the Rector, approving annual reports, restructuring, and liquidation.<br>Executive Director: The Rector, appointed by the Founders, manages the university's daily operations. The Rector acts as the legal representative, signs contracts, issues binding orders, approves the staff schedule, and manages the educational process. In the Rector's absence, a pro-rector assumes duties.<br>Advisory Bodies:<br>The University Council (chaired by the Rector, includes faculty, deans, and student representatives) reviews strategic academic and administrative issues.<br>The Board of Trustees (composed of local authorities, business leaders, and community figures) provides public oversight and support.<br><br>## 5. Student Rights, Obligations, and Dismissal<br><br>Students are entitled to quality education, free access to library resources, academic consultations, and participation in research and competitions.<br><br>However, the university reserves the right to dismiss a student from its ranks for the following reasons:<br><br>- Voluntary withdrawal (at the student's own request).<br>- Transferring to another educational institution.<br>- Non-payment of the contract tuition fee within the established deadlines.<br>- Unexcused absence from classes exceeding 74 academic hours per semester.<br>- Severe or repeated violations of internal discipline and the Code of Ethics.<br>- Submission of forged or fraudulent documents during admission or transfer.<br>- A court ruling resulting in imprisonment.<br>- Failure to reapply for academic continuation after being held back in a course.<br><br>## 6. Financial and Economic Operations<br><br>TISU operates on a self-financing (cost-accounting) basis. Funding is derived from the following sources:<br><br>- Tuition fees from Bachelor's and Master's students on a contract basis.<br>- Government grants and international research grants.<br>- Income from paid courses, consulting, and other educational services.<br>- Commercialization of scientific and innovative developments.<br>- Rental income from university property (under legally approved terms).<br>- Voluntary charitable contributions and targeted donations from individuals and legal entities.<br><br>Note: Faculty and staff members who achieve exceptional results in teaching and service may receive a bonus of up to 50% of their base salary, at the discretion of the Rector.<br><br>## 7. Permitted Auxiliary Activities<br><br>Beyond its core educational and scientific mission, the university is legally permitted to engage in diversified commercial activities, including:<br><br>- Construction and design of residential buildings, hotels, dormitories, and asphalt production.<br>- Transport, logistics, and automotive servicing.<br>- Hospitality (restaurants, cafes, canteens), wholesale and retail trade.<br>- IT and software development, internet provider services.<br>- Agriculture (livestock, poultry, greenhouses, fruit and vegetable cultivation).<br>- Medical services (clinics, dental care, laboratories, pharmacies – strictly with special licenses).<br>- Consulting, marketing, audit, and legal advisory services.<br><br>## 8. International Cooperation<br><br>TISU actively promotes international collaboration and is authorized to:<br><br>- Establish joint educational programs and academic exchange agreements with foreign partners.<br>- Attract foreign professors, experts, and researchers for teaching and scientific projects.<br>- Participate in international rankings, institutional assessments, and accreditation processes.<br>- Sign cooperation memorandums and open representative offices abroad.<br><br>## 9. Amendments and Dissolution<br><br>Any amendments or additions to this Charter must be approved by the General Meeting of Founders and undergo official state registration.<br><br>Major transactions (exceeding 15% of the university's net asset value) require explicit approval from the Founders.<br><br>The university may be reorganized or liquidated according to the established legal procedures, based on a decision by the General Meeting of Founders. |
+
+---
+
+## `regulationsAndRequirementsDefaults.ts` {#defaults-regulationsAndRequirementsDefaultsts}
+
+### `REGULATIONS_AND_REQUIREMENTS_I18N_DEFAULTS`
+
+_Source: `src/locales/regulationsAndRequirementsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `regulationsAndRequirementsIntro` | Key requirements, documents, and study modes for applicants to Termez University of Economics and Service. |
+| `regulationsFaqA1Item1Label` | Secondary education |
+| `regulationsFaqA1Item1Text` | — a high school diploma or a diploma from an academic lyceum/vocational college. |
+| `regulationsFaqA1Item2Label` | Entrance exams |
+| `regulationsFaqA1Item2Text` | — passing the exams or successfully passing an interview. |
+| `regulationsFaqA1Item3` | Gather the required documents and submit them by the specified deadline. |
+| `regulationsFaqA3Item1` | Application letter addressed to the Rector; |
+| `regulationsFaqA3Item2` | Passport or ID card (original and copy); |
+| `regulationsFaqA3Item3` | Transcript or diploma (with an appendix); |
+| `regulationsFaqA3Item4` | 2 photos, 3.5 × 4.5 cm. |
+| `regulationsFaqA4Item1Label` | Full-time |
+| `regulationsFaqA4Item1Text` | — you attend classes at the university every day. |
+| `regulationsFaqA4Item2Label` | Master's Degree |
+| `regulationsFaqA4Item2Text` | — a 2-year, in-depth specialization for graduates of a bachelor's program. |
+| `regulationsFaqColExplanation` | Explanation |
+| `regulationsFaqColRequirement` | Requirement |
+| `regulationsFaqContactLabel` | Contact: |
+| `regulationsFaqEmailLabel` | Email: |
+| `regulationsFaqQ1` | What do you need to get into higher education? |
+| `regulationsFaqQ2` | Basic Requirements |
+| `regulationsFaqQ3` | List of documents (to be submitted to the admissions office) |
+| `regulationsFaqQ4` | Modes of Study |
+| `regulationsFaqQ5` | Where can additional information be obtained? |
+| `regulationsFaqRow1Explanation` | School graduation certificate (electronic) or lyceum/college diploma (original and transcript). |
+| `regulationsFaqRow1Requirement` | Information document |
+| `regulationsFaqRow2Explanation` | Internal exams or an interview |
+| `regulationsFaqRow2Requirement` | Entrance Examinations |
+
+### `REGULATIONS_AND_REQUIREMENTS_FAQ`
+
+_Source: `src/locales/regulationsAndRequirementsDefaults.ts`_
+
+```json
+[
+  {
+    "id": "what-you-need",
+    "questionKey": "regulationsFaqQ1"
+  },
+  {
+    "id": "basic-requirements",
+    "questionKey": "regulationsFaqQ2"
+  },
+  {
+    "id": "documents-list",
+    "questionKey": "regulationsFaqQ3"
+  },
+  {
+    "id": "modes-of-study",
+    "questionKey": "regulationsFaqQ4"
+  },
+  {
+    "id": "additional-information",
+    "questionKey": "regulationsFaqQ5"
+  }
+]
+```
+
+---
+
+## `regulationSecondaryEducationDefaults.ts` {#defaults-regulationSecondaryEducationDefaultsts}
+
+### `REGULATION_SECONDARY_EDUCATION_PAGE_DEFAULTS`
+
+_Source: `src/locales/regulationSecondaryEducationDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `regulationSecondaryEducationBody` | ## RESOLUTION OF THE CABINET OF MINISTERS OF THE REPUBLIC OF UZBEKISTAN<br><br>ON THE APPROVAL OF THE REGULATION ON THE PROCEDURE FOR OBTAINING A SECOND AND SUBSEQUENT HIGHER EDUCATION IN HIGHER EDUCATIONAL INSTITUTIONS OF THE REPUBLIC OF UZBEKISTAN<br><br>In order to create conditions for citizens to receive a second and subsequent higher education on the job in accordance with the Law of the Republic of Uzbekistan "On Education", Decree of the President of the Republic of Uzbekistan "On measures for the comprehensive systematization of the national regulatory framework" No. PF-6218 dated April 30, 2021, the Cabinet of Ministers decides:<br><br>1. The regulation on the procedure for obtaining a second and subsequent higher education in higher educational institutions of the Republic of Uzbekistan, providing for the following, to be approved in accordance with the annex and put into effect from May 1, 2022:<br><br>organization of second and additional higher education based on the nature of undergraduate courses in higher educational institutions within the framework of existing undergraduate courses and forms of education in higher educational institutions;<br><br>setting admission parameters for the second and subsequent higher education, registration through a special electronic system within the established deadlines for admission;<br><br>organization of the educational process in the second and subsequent higher educational institutions, including the establishment of the duration of study one year less than the period established for the relevant areas of bachelor's training;<br><br>development and approval of curricula and scientific programs of undergraduate courses of the second and subsequent higher educational institutions based on the needs of personnel customers in case of coordination between basic higher educational institutions and similar higher educational institutions.<br><br>2. The Ministry of Higher and Secondary Specialized Education of the Republic of Uzbekistan, together with the relevant ministries and departments, within a month, bring the legal documents adopted by them into line with this resolution.<br><br>3. To impose control over the implementation of this resolution on the Deputy Prime Minister of the Republic of Uzbekistan for social development B.A. Musaev and Minister of Higher and Secondary Specialized Education of the Republic of Uzbekistan A.Kh. Tashkulov.<br><br>Prime Minister of the Republic of Uzbekistan A. ARIPOV<br><br>city of Tashkent,<br>September 24, 2021<br>No. 606<br><br>## APPENDIX<br><br>to the Resolution of the Cabinet of Ministers No. 606 of September 24, 2021<br><br>## REGULATIONS<br><br>on the procedure for obtaining a second and subsequent higher education in higher educational institutions of the Republic of Uzbekistan<br><br>### Chapter 1. General Provisions<br><br>1. This Regulation determines the procedure for organizing the second and subsequent higher education in higher educational institutions in the areas of bachelor's degree.<br><br>This Regulation does not apply to higher military educational institutions of the Republic of Uzbekistan.<br><br>2. In accordance with Article 11 of the Law of the Republic of Uzbekistan "On Education", citizens have the right to receive a second and subsequent higher education on the basis of a contract.<br><br>3. Persons with a bachelor's degree (specialist's diploma) who have higher education can receive a second and subsequent higher education in the areas of bachelor's degree.<br><br>4. The second and subsequent higher education by higher educational institutions is organized with the available facilities, material and technical base, the composition of the teaching staff and the features of undergraduate courses, in the parameters of admission a year ago in a particular higher educational institution.<br><br>### Chapter 2. Organization of admission to the second and subsequent higher education<br><br>5. The parameters of admission to the second and subsequent higher educational institutions are determined by the council of the higher educational institution, taking into account the scientific and pedagogical potential and the material and technical base of the higher educational institution.<br><br>6. The admission committees created in higher educational institutions (hereinafter referred to as the admission committees) are entrusted with the task of enrolling in the second and subsequent higher educational institutions.<br><br>7. Applicants for admission to the second and subsequent higher educational institutions are registered annually from July 10 to August 10 (also on this day) through a special electronic system developed by the Ministry of Higher and Secondary Specialized Education of the Republic of Uzbekistan.<br><br>8. When registering, applicants enter their personal data into a special electronic system and upload the following documents:<br><br>a copy of a document on higher education (or an extract from a diploma — for those who graduated from higher educational institutions of the Republic of Uzbekistan on the basis of a state grant);<br><br>a copy of the appendix of the document on higher education is attached.<br><br>At the same time, diplomas of educational institutions of foreign states issued after January 1, 1992 are subject to nostrification in the prescribed manner.<br><br>9. The procedure for admission to the second and subsequent higher educational institutions (the form of entrance examinations, assessment criteria, terms for attestation) is determined by the council of the higher educational institution based on the nature of the higher educational institution and is published on the official website of the higher educational institution by July 1 of each year.<br><br>10. The results of admission to the second and subsequent higher educational institutions are announced annually by August 30 by higher educational institutions.<br><br>11. An agreement is concluded between the persons recommended for study in the second and further education and the higher education institution.<br><br>Contracts are drawn up in 3 copies for legal entities and in 2 copies for individuals.<br><br>The terms of the contract, the procedure for their implementation and the obligations of the parties are implemented in accordance with the law.<br><br>12. Based on the specifics of obtaining higher education in higher education institutions, the amount of the payment agreement for the second and subsequent higher education is determined by the council of the higher education institution based on the amount of expenses associated with the education of one student.<br><br>13. The admission of students is formalized by the order of the rector of the higher educational institution after making the payment specified in the contract.<br><br>### Chapter 3. Organization of the educational process in the second and subsequent higher education<br><br>14. Education in the second and subsequent higher educational institutions begins from the 2nd year, regardless of the difference in subjects in the curriculum.<br><br>At the same time, the duration of study in the second and subsequent higher educational institutions is determined one year less than the period established for the corresponding undergraduate courses.<br><br>15. Educational and scientific programs of undergraduate courses of the second and subsequent higher educational institutions are developed separately by basic higher educational institutions in agreement with similar higher educational institutions, based on the needs of personnel customers, in accordance with curricula and programs approved for full-time education<br><br>16. Transfer, restoration and suspension of studies of students in the second and subsequent higher educational institutions is carried out on the basis of the regulation on the procedure for the transfer, restoration and suspension of studies of students of higher educational institutions, approved by the Resolution of the Cabinet of Ministers of the Republic of Uzbekistan dated June 20, 2017 No. 393.<br><br>17. Persons who have studied in the second and subsequent higher education, based on the results of state certification, are issued a state-recognized document (diploma and its supplement).<br><br>### Chapter 4. Final Provisions<br><br>18. Disputes arising in connection with the application of this Regulation are resolved in the manner prescribed by law.<br><br>19. Persons guilty of violating the requirements of this Regulation are liable in accordance with the procedure established by law.<br><br>(National Legislative Information Base, 09/24/2021, No. 21.09.606/0911) |
+| `regulationSecondaryEducationHeroAlt` | Formal signing of documents: hands with a pen over papers on a desk, representing official regulations and agreements. |
+| `regulationSecondaryEducationPageTitle` | Regulation on secondary education |
+
+---
+
+## `researchPositionsDefaults.ts` {#defaults-researchPositionsDefaultsts}
+
+### `RESEARCH_POSITIONS_PAGE_DEFAULTS`
+
+_Source: `src/locales/researchPositionsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `researchPositionsEmptyImageAlt` | Empty folder with documents |
+| `researchPositionsEmptyImageSrc` | /images/vacancies/research-positions-empty.png?v=1 |
+| `researchPositionsEmptyMessage` | No available positions at this time. |
+| `researchPositionsPageTitle` | Research Positions |
+
+---
+
+## `researchPublicationsDefaults.ts` {#defaults-researchPublicationsDefaultsts}
+
+### `RESEARCH_PUBLICATIONS_I18N_DEFAULTS`
+
+_Source: `src/locales/researchPublicationsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `researchPublicationsIntro` | A total of 1,276 scientific articles have been published in the Scopus and WoS databases, of which 1,274 are unique publications across the identified topic areas. An analysis by years shows a sharp upward trend in publication activity. In particular, 6 articles were published in 2023, rising to 29 in 2024. The most significant growth was observed in 2025, with 607 published articles. In the current year, 2026, 630 articles have already been recorded, and this figure is expected to rise further by year-end. The first 2 publications for 2027 have also already been recorded.<br><br>The distribution by scientific fields is as follows: |
+| `researchPubsColField` | Field of Science |
+| `researchPubsColNo` | No. |
+| `researchPubsColNumber` | Number |
+
+---
+
+## `secondaryEducationRequirementsDefaults.ts` {#defaults-secondaryEducationRequirementsDefaultsts}
+
+### `SECONDARY_EDUCATION_REQUIREMENTS_I18N_DEFAULTS`
+
+_Source: `src/locales/secondaryEducationRequirementsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `secondaryEdFaqA1` | Applicants must be graduates of a general secondary school (11-year certificate), an academic lyceum, or a vocational college. The document must be issued in accordance with the legislation of the Republic of Uzbekistan. |
+| `secondaryEdFaqA2` | Submit the original or a certified copy of your certificate of general secondary education, academic lyceum diploma, or vocational college diploma, together with your passport or ID card and other documents requested during the admission campaign. |
+| `secondaryEdFaqA3` | Yes. Foreign certificates and diplomas must be recognized (nostrified) or equated in the manner established by the legislation of the Republic of Uzbekistan before or during the admission process, as required by the admission regulations. |
+| `secondaryEdFaqA4` | Yes. Holders of a vocational college diploma may apply for undergraduate (bachelor's) programmes in the fields of study opened for admission, subject to the requirements of the current admission rules. |
+| `secondaryEdFaqA5` | Applicants must meet the age requirements set in the official admission regulations for the relevant academic year. Check the current admission announcement for the exact date and age limit. |
+| `secondaryEdFaqA6After` | for the full text. |
+| `secondaryEdFaqA6Before` | The Cabinet of Ministers resolution on the procedure for obtaining a second and subsequent higher education and related admission rules are published on the Admission 2025 section of this website. See |
+| `secondaryEdFaqA6Link` | Regulation on secondary education |
+| `secondaryEdFaqQ1` | What secondary education qualifications are accepted for admission to TUES? |
+| `secondaryEdFaqQ2` | What documents confirm completion of secondary education? |
+| `secondaryEdFaqQ3` | Can I apply with a secondary education certificate obtained abroad? |
+| `secondaryEdFaqQ4` | Can graduates of vocational colleges apply for a bachelor's degree? |
+| `secondaryEdFaqQ5` | Is there a minimum age for applicants? |
+| `secondaryEdFaqQ6` | Where can I read the official regulation on secondary education? |
+| `secondaryEducationRequirementsIntro` | Frequently asked questions about secondary education documents and requirements for applicants to Termez University of Economics and Service. |
+
+### `SECONDARY_EDUCATION_REQUIREMENTS_FAQ`
+
+_Source: `src/locales/secondaryEducationRequirementsDefaults.ts`_
+
+```json
+[
+  {
+    "id": "accepted-qualifications",
+    "questionKey": "secondaryEdFaqQ1",
+    "answerKey": "secondaryEdFaqA1"
+  },
+  {
+    "id": "required-documents",
+    "questionKey": "secondaryEdFaqQ2",
+    "answerKey": "secondaryEdFaqA2"
+  },
+  {
+    "id": "foreign-certificates",
+    "questionKey": "secondaryEdFaqQ3",
+    "answerKey": "secondaryEdFaqA3"
+  },
+  {
+    "id": "vocational-college",
+    "questionKey": "secondaryEdFaqQ4",
+    "answerKey": "secondaryEdFaqA4"
+  },
+  {
+    "id": "age-requirement",
+    "questionKey": "secondaryEdFaqQ5",
+    "answerKey": "secondaryEdFaqA5"
+  },
+  {
+    "id": "official-regulation",
+    "questionKey": "secondaryEdFaqQ6",
+    "answerType": "link-regulation"
+  }
+]
+```
+
+---
+
+## `socialLifeDefaults.ts` {#defaults-socialLifeDefaultsts}
+
+### `SOCIAL_LIFE_DEFAULTS`
+
+_Source: `src/locales/socialLifeDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `socialLifeHeroSrc` | /images/student-life/social-life.png |
+| `socialLifeIntro` | At the Termez University of Economics and Service, extensive efforts are being made by the Youth Union to organize meaningful student life and to unlock their intellectual, cultural, and creative potential. In collaboration with the university’s clubs under the Youth Union and various faculties, a wide range of events, competitions, entertainment programs, and projects are regularly organized.<br><br>To further strengthen students’ knowledge and thinking skills, and to develop their critical thinking and teamwork abilities, the “Zakovat” intellectual league has been established. Additionally, the “Mushoira” club, aimed at fostering interest in literature and promoting a culture of reading, and the “KVN” club, known for its humor and creative performances, are gaining significant popularity among students.<br><br>Moreover, various competitions related to art, painting, and handicrafts, as well as science contests based on innovative academic projects, masterclasses in different fields, and engaging excursions are continuously held. These activities, which nurture students’ initiative and creativity, play an important role in shaping them into well-rounded and mature individuals. |
+| `socialLifePageTitle` | Social Life |
+| `socialLifeTypesHeading` | Types of organized events |
+| `socialLifeTypesLead` | Types of organized events include: |
+| `socialLifeTypesList` | Social events — Teacher’s Day, Comedy show, International Women’s Day, Navruz day<br>Intellectual events — “Zakovat” club, “Mushoira” club, Mutolaa clubs<br>Sports events — Football, volleyball, chess cup<br>Skill development activities — Friday talks, “Zakovat” club, Debate club, IT club<br>Foreign language clubs — English, Korean, Turkish<br>Student council activities — Talent show, New Year’s ball, Drama club, Students’ theater studio, Art Club |
+
+---
+
+## `socialRoomsDefaults.ts` {#defaults-socialRoomsDefaultsts}
+
+### `SOCIAL_ROOMS_DEFAULTS`
+
+_Source: `src/locales/socialRoomsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `socialRoomsHeroSrc` | /images/student-life/social-rooms.png |
+| `socialRoomsPageBody` | Termez University of Economics and Service maintains permanent social rooms as an integral component of its campus infrastructure, designed to support student engagement, interdisciplinary interaction, and inclusive community development. These spaces are not temporary or event-based facilities, but established and continuously functioning areas embedded within the university’s academic and student service environment. Their operation forms part of the institution’s long-term commitment to enhancing the overall quality of the student experience.<br><br>The social rooms are strategically located within academic buildings and student support zones to ensure accessibility for all faculties and programmes. They are equipped with appropriate seating arrangements, informal meeting areas, and reliable connectivity, creating an environment that supports both academic collaboration and social interaction. Their design encourages a sense of belonging and community cohesion, enabling students to interact beyond formal classroom settings and to strengthen peer networks across disciplines.<br><br>These facilities consistently serve as platforms for collaborative learning. Students utilise the social rooms for group discussions, project coordination, peer mentoring, and independent study sessions. The availability of shared workspaces and digital access supports knowledge exchange and interdisciplinary dialogue. By providing such environments, the university fosters teamwork competencies, communication skills, and cooperative problem-solving capacities that are essential for academic achievement and graduate employability.<br><br>In addition to academic collaboration, the social rooms contribute to personal and professional development. They are regularly used for student-led initiatives, thematic discussions, workshops, and informal meetings with faculty members or invited practitioners. This sustained utilisation ensures that students have ongoing opportunities to engage in intellectual dialogue, leadership activities, and community-oriented events throughout the academic year.<br><br>The university also utilises these spaces to promote inclusivity and cultural engagement. Social rooms serve as venues for cultural exhibitions, student association activities, and awareness events reflecting the diversity of the university community. By supporting such initiatives on a continuous basis, the institution reinforces values of mutual respect, intercultural understanding, and equal participation.<br><br>Recognising the importance of student well-being, the social rooms provide a balanced environment that allows students to relax, interact informally, and manage academic demands effectively. The availability of comfortable seating and open social areas contributes to a supportive campus atmosphere that enhances student satisfaction and retention.<br><br>Through their permanent operation, multifunctional use, and inclusive design, the social rooms at Termez University of Economics and Service represent an enduring institutional commitment to community building, collaborative learning, and holistic student development. They form a stable and structured component of the university’s facilities, contributing consistently to a high-quality and internationally benchmarked campus experience. |
+| `socialRoomsPageTitle` | Social Rooms |
+
+---
+
+## `sportFacilitiesDefaults.ts` {#defaults-sportFacilitiesDefaultsts}
+
+### `SPORT_FACILITIES_DEFAULTS`
+
+_Source: `src/locales/sportFacilitiesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `sportFacilitiesHeroAlt` | Front of the campus sports complex with a large glass entrance, steps, lawns, and trees. |
+| `sportFacilitiesHeroSrc` | /images/student-life/sport-facilities.png |
+| `sportFacilitiesPageBody` | Termiz University of Economics and Service (TUES) provides a structured and fully operational portfolio of on-campus sports facilities designed to support student wellbeing, physical development, and active campus engagement. All primary sports infrastructure is located within the main campus, ensuring direct accessibility and compliance with international higher education facilities standards.<br><br>The university maintains a fully equipped indoor fitness gym, an indoor multi-purpose sports court, outdoor sports courts, and a large outdoor sports field. These facilities collectively support academic physical education programmes, structured sports training, and recreational use. The indoor fitness gym includes modern cardiovascular and strength-training equipment, while the indoor sports court accommodates basketball, volleyball, and other competitive indoor sports. Outdoor courts and fields are used for football, athletics training, tennis, and seasonal tournaments.<br><br>The annual utilisation rate of sports facilities demonstrates strong student engagement. In the most recent academic year, more than 4,500 individual students accessed sports infrastructure at least once during the year, while approximately 2,800 students participated in regular weekly physical activities or organised sports sessions. Cumulatively, facility usage exceeded 35,000 student visits annually, reflecting sustained operational activity and effective scheduling capacity.<br><br>The university supports a structured system of student sports clubs. Currently, more than 12 officially registered sports clubs operate under the university’s student affairs framework, including football, volleyball, basketball, athletics, chess, table tennis, and fitness training groups. Each club maintains a defined membership structure and regular training schedule supervised by qualified instructors or coaches. The presence of multiple organised sports clubs strengthens student participation beyond compulsory curriculum-based physical education.<br><br>TUES actively participates in inter-university competitions at regional and national levels. During the latest academic year, university teams participated in more than 15 inter-university tournaments, including regional championships and student sports festivals. Several teams achieved podium placements in football and volleyball competitions, demonstrating competitive engagement beyond campus boundaries. Hosting of selected inter-faculty tournaments and regional student sports events further reflects the university’s integration into broader academic sports networks.<br><br>All sports facilities operate under a structured safety and maintenance regime. Facilities are supervised during scheduled activities, and access is regulated through designated entry control procedures. Routine technical inspections are conducted to ensure the operational safety of gym equipment, indoor courts, and outdoor fields. Maintenance protocols include periodic equipment servicing, surface inspections, lighting checks, and seasonal field preparation. Health and safety guidelines are visibly displayed within facilities, and first aid kits are available in all primary sports areas. In case of injury or emergency, direct coordination exists with the university’s on-campus Medical Hub, ensuring rapid medical response.<br><br>The combination of diversified sports infrastructure, measurable annual utilisation, structured club activity, competitive inter-university participation, and a formalised safety and maintenance system demonstrates a mature and fully operational campus sports ecosystem. This integrated approach reinforces the university’s commitment to student wellbeing, structured extracurricular engagement, and institutional risk management. |
+| `sportFacilitiesPageTitle` | Sport Facilities |
+
+---
+
+## `studentAcademicSupportDefaults.ts` {#defaults-studentAcademicSupportDefaultsts}
+
+### `STUDENT_ACADEMIC_SUPPORT_PAGE_DEFAULTS`
+
+_Source: `src/locales/studentAcademicSupportDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studentAcademicSupportPageIntro` | At Termez University of Economics and Service, the resources below bring together academic guidance, official student policies, and student union governance. Use the cards to explore each topic. |
+
+### `STUDENT_ACADEMIC_SUPPORT_CARDS`
+
+_Source: `src/locales/studentAcademicSupportDefaults.ts`_
+
+```json
+[
+  {
+    "title": "Student Academic Support",
+    "imageSrc": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=533&fit=crop&q=80",
+    "to": "/student-life/student-academic-support/support-services"
+  },
+  {
+    "title": "Student Handbook",
+    "imageSrc": "https://images.unsplash.com/photo-1456513080510-7bf3a720b63f?w=800&h=533&fit=crop&q=80",
+    "to": "/student-life/student-academic-support/student-handbook"
+  },
+  {
+    "title": "Student Union Regulation",
+    "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=533&fit=crop&q=80",
+    "to": "/student-life/student-academic-support/student-union-regulation"
+  }
+]
+```
+
+---
+
+## `studentCouncilDefaults.ts` {#defaults-studentCouncilDefaultsts}
+
+### `STUDENT_COUNCIL_PAGE_DEFAULTS`
+
+_Source: `src/locales/studentCouncilDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studentCouncilClosing` | The establishment of the Student Council at the Termez University of Economics and Service and the adoption of its Charter is a significant step in creating a modern, democratic, and student-centred educational environment. The Council's well-thought-out structure, broad remit, democratic decision-making mechanism, and multifaceted collaborative relationships make it not just an official body, but a tool for qualitatively transforming student life. |
+| `studentCouncilCollaborationBody` | The Council is not a closed system — it operates in partnership with the Uzbekistan Youth Union, the university trade union, faculty deanships, student councils of other higher education institutions, local authorities, and non-governmental non-profit organisations. This extensive cooperation significantly expands the Council's capabilities.<br><br>A clear funding structure is also in place: the Council's activities are supported by the university budget, sponsorship and charitable funds, grant projects, and other sources not prohibited by law. A strict accountability for every penny is stipulated, ensuring the principles of transparency and responsibility are put into practice.<br><br>The Council submits a quarterly report on its activities to the university's management, and the Chair publishes the annual report at the General Student Assembly. Additionally, information regarding the Council's activities is made public via the university's official website and social media. This multi-tiered accountability system serves to ensure the transparency of the Council's activities and the trust of the student body. |
+| `studentCouncilCollaborationTitle` | Collaboration and Funding |
+| `studentCouncilDecisionMakingBody` | The Council's decision-making procedure is developed on the basis of democratic principles. Meetings are held at least once a month and are quorate with the attendance of at least two-thirds of the members.<br><br>Decisions are made by a simple majority vote, and in the event of a tie, the chair's vote is decisive. This procedure guarantees the transparency and fairness of the decision-making process.<br><br>A key aspect is that the Council's decisions are advisory for all students at the university. However, decisions reached in agreement with the university administration are binding.<br><br>This approach serves to enhance the Council's effectiveness whilst preserving its independence. |
+| `studentCouncilDecisionMakingTitle` | Decision-making Mechanism |
+| `studentCouncilMembershipBody` | The Council's membership is composed of active students with satisfactory academic standing and no disciplinary sanctions.<br><br>However, membership is not guaranteed indefinitely — a member who is absent from three consecutive meetings without a valid reason, acts in contravention of the Council's decisions, or breaches the university's internal regulations may be removed from the Council.<br><br>This procedure is designed to increase the accountability of Council members and to maintain a high standard of performance.<br><br>Council members have rights such as voting, standing for election, proposing motions, and participating in meetings with the university's leadership.<br><br>On the other hand, they also undertake obligations such as complying with the Charter, regularly attending meetings, and upholding the university's reputation. |
+| `studentCouncilMembershipTitle` | Membership: Rights and Responsibilities |
+| `studentCouncilOrganisationalStructureBody` | The Council's organisational structure is built on a clear hierarchy.<br><br>The Council is composed of a chair, two vice-chairs, a secretary, committee heads, faculty representatives, and ordinary members. The chair is elected from among the students for a one-year term, which ensures a turnover of power and the continuous influx of new ideas.<br><br>Six permanent committees operate under the Council: Education Quality and Scientific Activities, Cultural and Educational Affairs, Sport and Healthy Lifestyle, Social Issues and Volunteering, Information and Public Relations, and Discipline and Control. Each committee has its own area of focus, which serves to cover all aspects of student life. Furthermore, it is envisaged that a separate student council will be established in each faculty, and the chairs of the faculty councils are automatically considered members of the university Student Council. This vertical communication system ensures that decisions are communicated promptly to the lower level. |
+| `studentCouncilOrganisationalStructureTitle` | Organisational Structure |
+| `studentCouncilPageIntro` | Today, the formation of a student self-governance system in higher education institutions is an integral part of building a democratic society.<br><br>The Student Council is a body of student self-governance, whose main task is to protect the interests of young people, increase their social activity and ensure their active participation in the educational process. Although the Council does not have legal entity status, it operates on the principles of independence, transparency, democracy, and legality. This indicates that elements of civil society are being practically implemented at the university.<br><br>The Council conducts its activities in accordance with the Constitution of the Republic of Uzbekistan, the Laws “On Education” and “On State Youth Policy”, as well as the University's Charter, Internal Regulations, and Code of Ethics. This legal foundation ensures the legality and effectiveness of the Council's decisions.<br><br>According to the Charter, the scope of the Council's responsibilities is extremely broad. In addition to protecting students' rights and establishing effective communication with the university administration, the Council develops proposals to improve the quality of education, organising academic, cultural, sporting and social events, and strengthening discipline and moral education. It is particularly noteworthy that assisting students from low-income and socially vulnerable backgrounds is also established as one of the Council's priority tasks. This demonstrates that the Council has not only an administrative but also a social significance.<br><br>Furthermore, organising volunteer activities and developing students' leadership, organisational, and communication skills are also noted as a separate task.<br><br>These areas confirm that the modern education system is aimed at developing not only academic knowledge but also life skills in its students. |
+| `studentCouncilPageTitle` | Termez University of Economics and Service Student Council |
+
+---
+
+## `studentHandbookPageDefaults.ts` {#defaults-studentHandbookPageDefaultsts}
+
+### `STUDENT_HANDBOOK_PAGE_DEFAULTS`
+
+_Source: `src/locales/studentHandbookPageDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studentHandbookPageIntro` | Download the official student handbook for your language of study. Each PDF contains academic policies, student rights and responsibilities, and practical guidance for life at Termez University of Economics and Service. |
+| `studentHandbookPageTitle` | Student Handbook |
+
+### `STUDENT_HANDBOOK_DOWNLOAD_CARDS`
+
+_Source: `src/locales/studentHandbookPageDefaults.ts`_
+
+```json
+[
+  {
+    "title": "Student Handbook (English)",
+    "description": "Complete handbook for international and English-medium programmes.",
+    "fileHref": "/documents/tues-student-handbook-en.pdf",
+    "imageSrc": "https://images.unsplash.com/photo-1456513080510-7bf3a720b63f?w=800&h=533&fit=crop&q=80"
+  },
+  {
+    "title": "Student Handbook (Uzbek)",
+    "description": "Official handbook in Uzbek for native-language reference.",
+    "fileHref": "/documents/tues-student-handbook-uz.pdf",
+    "imageSrc": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=533&fit=crop&q=80"
+  }
+]
+```
+
+---
+
+## `studentOpinionDefaults.ts` {#defaults-studentOpinionDefaultsts}
+
+### `STUDENT_OPINION_DEFAULTS`
+
+_Source: `src/locales/studentOpinionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studentOpinionContactHeading` | Contact us |
+| `studentOpinionIntro` | Share feedback or reach the university using the contact details below. |
+| `studentOpinionLabelAddress` | Address |
+| `studentOpinionLabelEmail` | E-mail |
+| `studentOpinionLabelPhone` | Phone number |
+| `studentOpinionPageTitle` | Student opinion |
+| `studentOpinionValueAddress` | Termez, Farovon street 4-b |
+| `studentOpinionValueEmail` | university@tues.uz |
+| `studentOpinionValuePhoneDisplay` | 55 452 77 77 |
+| `studentOpinionValuePhoneTel` | +998554527777 |
+
+---
+
+## `studentTheaterStudioContestDefaults.ts` {#defaults-studentTheaterStudioContestDefaultsts}
+
+### `STUDENT_THEATER_STUDIO_CONTEST_DEFAULTS`
+
+_Source: `src/locales/studentTheaterStudioContestDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studentTheaterContestHeroSrc` | /images/community-clubs/student-theater-studio-contest.png |
+| `studentTheaterContestPageBody` | Students of the Termez University of Economics and Service have achieved another victory. The university’s team, “Talented students,” performed honorably at the republican stage of the “Student theater studios” festival and received high recognition.<br><br>The university's student theater studio was awarded in the nomination “Best student theater studio leader.”<br><br>In this regard, a ceremonial award ceremony was held at the university. The event was attended by the university administration, faculty members, and students.<br><br>Shakhlo Qurbonova, a methodologist of the department for youth affairs, spirituality, and enlightenment, was awarded a cash prize for winning in this category.<br><br>During the ceremony, the members of the winning team were presented with honorary certificates and commemorative gifts. |
+| `studentTheaterContestPageTitle` | Participants of the student theater studio contest were solemnly awarded! |
+
+---
+
+## `studentUnionRegulationPageDefaults.ts` {#defaults-studentUnionRegulationPageDefaultsts}
+
+### `STUDENT_UNION_REGULATION_PAGE_DEFAULTS`
+
+_Source: `src/locales/studentUnionRegulationPageDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studentUnionRegulationPageIntro` | Download the governing documents for the student union at Termez University of Economics and Service. Files are provided in PDF format for offline reading and printing. |
+| `studentUnionRegulationPageTitle` | Student Union Regulation |
+
+### `STUDENT_UNION_REGULATION_DOWNLOAD_CARDS`
+
+_Source: `src/locales/studentUnionRegulationPageDefaults.ts`_
+
+```json
+[
+  {
+    "title": "Student Union Regulations",
+    "description": "Statutes, membership rules, and governance of the student union.",
+    "fileHref": "/documents/tues-student-union-regulations.pdf",
+    "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=533&fit=crop&q=80"
+  },
+  {
+    "title": "Electoral code & standing orders",
+    "description": "Rules for student union elections and plenary procedures.",
+    "fileHref": "/documents/tues-student-union-electoral-code.pdf",
+    "imageSrc": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&h=533&fit=crop&q=80"
+  }
+]
+```
+
+---
+
+## `studyProgramApplyDefaults.ts` {#defaults-studyProgramApplyDefaultsts}
+
+### `STUDY_PROGRAM_APPLY_PAGE_DEFAULTS`
+
+_Source: `src/locales/studyProgramApplyDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studyProgramApplyCaptchaError` | The verification code does not match. |
+| `studyProgramApplyCitizenship` | Citizenship |
+| `studyProgramApplyCitizenshipOptionAf` | Afghanistan |
+| `studyProgramApplyCitizenshipOptionKg` | Kyrgyzstan |
+| `studyProgramApplyCitizenshipOptionKz` | Kazakhstan |
+| `studyProgramApplyCitizenshipOptionOther` | Other |
+| `studyProgramApplyCitizenshipOptionRu` | Russia |
+| `studyProgramApplyCitizenshipOptionTj` | Tajikistan |
+| `studyProgramApplyCitizenshipOptionUz` | Uzbekistan |
+| `studyProgramApplyCitizenshipPlaceholder` | Choose the citizenship |
+| `studyProgramApplyCourse` | Course of Study |
+| `studyProgramApplyCourseEmpty` | No programs available. |
+| `studyProgramApplyCourseLoading` | Loading programs… |
+| `studyProgramApplyCoursePlaceholder` | Choose the course of study |
+| `studyProgramApplyFullName` | Full Name |
+| `studyProgramApplyJshshir` | JSHSHIR |
+| `studyProgramApplyPageIntro` | Fill in the form below to apply for admission to Termez University of Economics and Service. |
+| `studyProgramApplyPageTitle` | Application form |
+| `studyProgramApplyPassport` | Passport |
+| `studyProgramApplyPhone` | Phone Number |
+| `studyProgramApplyRefreshCaptcha` | Refresh verification code |
+| `studyProgramApplyRequired` | This field is required. |
+| `studyProgramApplySend` | Send |
+| `studyProgramApplyStudyType` | The form of education |
+| `studyProgramApplyStudyTypeCorrespondence` | Correspondence |
+| `studyProgramApplyStudyTypeFullTime` | Full-time |
+| `studyProgramApplyStudyTypePlaceholder` | Choose the study type |
+| `studyProgramApplySuccessDescription` | Your application has been received. The admissions office will contact you shortly. |
+| `studyProgramApplySuccessTitle` | Application sent |
+| `studyProgramApplyVerifyCode` | Verify Code |
+
+### `STUDY_PROGRAM_APPLY_CITIZENSHIP_OPTIONS`
+
+_Source: `src/locales/studyProgramApplyDefaults.ts`_
+
+```json
+[
+  {
+    "value": "uz",
+    "labelKey": "studyProgramApplyCitizenshipOptionUz"
+  },
+  {
+    "value": "kz",
+    "labelKey": "studyProgramApplyCitizenshipOptionKz"
+  },
+  {
+    "value": "tj",
+    "labelKey": "studyProgramApplyCitizenshipOptionTj"
+  },
+  {
+    "value": "kg",
+    "labelKey": "studyProgramApplyCitizenshipOptionKg"
+  },
+  {
+    "value": "af",
+    "labelKey": "studyProgramApplyCitizenshipOptionAf"
+  },
+  {
+    "value": "ru",
+    "labelKey": "studyProgramApplyCitizenshipOptionRu"
+  },
+  {
+    "value": "other",
+    "labelKey": "studyProgramApplyCitizenshipOptionOther"
+  }
+]
+```
+
+### `STUDY_PROGRAM_APPLY_STUDY_TYPES`
+
+_Source: `src/locales/studyProgramApplyDefaults.ts`_
+
+```json
+[
+  {
+    "value": "full-time",
+    "labelKey": "studyProgramApplyStudyTypeFullTime"
+  },
+  {
+    "value": "correspondence",
+    "labelKey": "studyProgramApplyStudyTypeCorrespondence"
+  }
+]
+```
+
+---
+
+## `studyProgramsDefaults.ts` {#defaults-studyProgramsDefaultsts}
+
+### `STUDY_PROGRAMS_I18N_DEFAULTS`
+
+_Source: `src/locales/studyProgramsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `studyProgramsApplicationDeadlineLabel` | Application deadline |
+| `studyProgramsApplyCta` | Apply |
+| `studyProgramsBackLabel` | Back to study programs |
+| `studyProgramsCardsHint` | Select a program to view its full course list. |
+| `studyProgramsCodeLabel` | Code |
+| `studyProgramsContentsLabel` | Contents |
+| `studyProgramsCourseNameLabel` | Course |
+| `studyProgramsCoursesTitle` | Courses |
+| `studyProgramsCreditsLabel` | Credits |
+| `studyProgramsDegreeLevelLabel` | Degree |
+| `studyProgramsDurationLabel` | Duration |
+| `studyProgramsEarliestStartDateLabel` | Earliest start date |
+| `studyProgramsQualificationLabel` | Qualification |
+| `studyProgramsRequestInfo` | Request info |
+| `studyProgramsSectionsCourses` | {{sections}} sections · {{courses}} courses |
+| `studyProgramsSidebarSectionsLabel` | Curriculum sections |
+| `studyProgramsTuitionLabel` | Tuition fee |
+| `studyProgramsViewCoursesCta` | View courses |
+
+---
+
+## `termsOfUseDefaults.ts` {#defaults-termsOfUseDefaultsts}
+
+### `TERMS_OF_USE_DEFAULTS`
+
+_Source: `src/locales/termsOfUseDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `termsOfUseIntro1` | These Terms of Use govern the use of the official website of Termez University of Economics and Service (hereinafter – the University). |
+| `termsOfUseIntro2` | By using the website, the user confirms that they have read these terms and agree to comply with them. |
+| `termsOfUseLastUpdated` | Last updated: July 30, 2026 |
+| `termsOfUsePageTitle` | Terms of Use |
+| `termsOfUseSection1P1` | The University provides access to the information, electronic services, and other materials placed on this website in accordance with applicable law and these Terms of Use. |
+| `termsOfUseSection1P2` | Information placed on the University's website is published for informational and educational purposes. |
+| `termsOfUseSection1Title` | 1. General provisions |
+| `termsOfUseSection2P1` | The texts, images, logos, graphic materials, videos, software code, databases, and other materials placed on the website are protected by the intellectual property legislation of the Republic of Uzbekistan. |
+| `termsOfUseSection2P2` | Copying, reproducing, distributing, modifying, republishing on the internet, or using these materials for commercial purposes without the prior written consent of the University is not permitted, except in cases provided for by law. Further details on this matter are provided in the "Copyright" document. |
+| `termsOfUseSection2Title` | 2. Intellectual property rights |
+| `termsOfUseSection3Bullet1` | comply with applicable legal requirements; |
+| `termsOfUseSection3Bullet2` | not infringe on the rights and legitimate interests of other persons; |
+| `termsOfUseSection3Bullet3` | not post malicious software, viruses, or unlawful content; |
+| `termsOfUseSection3Bullet4` | not unlawfully interfere with the operation of the website. |
+| `termsOfUseSection3Intro` | When using the website, the user is required to: |
+| `termsOfUseSection3Title` | 3. User obligations |
+| `termsOfUseSection4Bullet1` | update, modify, or remove content on the website; |
+| `termsOfUseSection4Bullet2` | temporarily restrict or suspend the operation of the website for technical maintenance purposes; |
+| `termsOfUseSection4Bullet3` | restrict access to certain services for users who act in violation of these Terms of Use. |
+| `termsOfUseSection4Intro` | The University reserves the right to: |
+| `termsOfUseSection4Title` | 4. University's rights |
+| `termsOfUseSection5P1` | The University takes the necessary measures to ensure the relevance and reliability of the information placed on the website. |
+| `termsOfUseSection5P2` | At the same time, unless otherwise provided by law, the University is not liable for any direct or indirect damages that may arise from the use of information on the website. |
+| `termsOfUseSection5P3` | The University is not responsible for the content of third-party websites linked from this website. |
+| `termsOfUseSection5Title` | 5. Limitation of liability |
+| `termsOfUseSection6P1` | The website may contain links to third-party internet resources. |
+| `termsOfUseSection6P2` | The presence of such links does not imply the University's endorsement of the activities or content of those resources. |
+| `termsOfUseSection6Title` | 6. External links |
+| `termsOfUseSection7P1` | The procedure for collecting and processing users' personal data is governed by the "Privacy Policy" document. |
+| `termsOfUseSection7Title` | 7. Privacy |
+| `termsOfUseSection8P1` | The University reserves the right to amend and supplement these Terms of Use at any time. |
+| `termsOfUseSection8P2` | The updated version takes effect from the date it is published on the official website. |
+| `termsOfUseSection8Title` | 8. Amendments to the Terms of Use |
+| `termsOfUseSection9Email` | info@tisu.uz |
+| `termsOfUseSection9EmailLabel` | E-mail: |
+| `termsOfUseSection9P1` | For questions or suggestions regarding these Terms of Use, you may contact the University's official email address. |
+| `termsOfUseSection9Title` | 9. Contact |
+
+### `TERMS_OF_USE_SECTIONS`
+
+_Source: `src/locales/termsOfUseDefaults.ts`_
+
+```json
+[
+  {
+    "titleKey": "termsOfUseSection1Title",
+    "paragraphKeys": [
+      "termsOfUseSection1P1",
+      "termsOfUseSection1P2"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection2Title",
+    "paragraphKeys": [
+      "termsOfUseSection2P1",
+      "termsOfUseSection2P2"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection3Title",
+    "paragraphKeys": [
+      "termsOfUseSection3Intro"
+    ],
+    "bulletKeys": [
+      "termsOfUseSection3Bullet1",
+      "termsOfUseSection3Bullet2",
+      "termsOfUseSection3Bullet3",
+      "termsOfUseSection3Bullet4"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection4Title",
+    "paragraphKeys": [
+      "termsOfUseSection4Intro"
+    ],
+    "bulletKeys": [
+      "termsOfUseSection4Bullet1",
+      "termsOfUseSection4Bullet2",
+      "termsOfUseSection4Bullet3"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection5Title",
+    "paragraphKeys": [
+      "termsOfUseSection5P1",
+      "termsOfUseSection5P2",
+      "termsOfUseSection5P3"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection6Title",
+    "paragraphKeys": [
+      "termsOfUseSection6P1",
+      "termsOfUseSection6P2"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection7Title",
+    "paragraphKeys": [
+      "termsOfUseSection7P1"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection8Title",
+    "paragraphKeys": [
+      "termsOfUseSection8P1",
+      "termsOfUseSection8P2"
+    ]
+  },
+  {
+    "titleKey": "termsOfUseSection9Title",
+    "paragraphKeys": [
+      "termsOfUseSection9P1"
+    ]
+  }
+]
+```
+
+---
+
+## `transferOfStudiesDefaults.ts` {#defaults-transferOfStudiesDefaultsts}
+
+### `TRANSFER_OF_STUDIES_PAGE_DEFAULTS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `transferOfStudiesColApplicationPeriod` | Application Period |
+| `transferOfStudiesColApprovalAuthority` | Approval Authority |
+| `transferOfStudiesColDecisionPeriod` | Decision Period |
+| `transferOfStudiesColDetails` | Details |
+| `transferOfStudiesColRequirement` | Requirement |
+| `transferOfStudiesColRequiresExam` | Requires Exam? |
+| `transferOfStudiesColSemester` | Semester |
+| `transferOfStudiesColSituation` | Your Situation |
+| `transferOfStudiesColTransferType` | Type of Transfer |
+| `transferOfStudiesCondition1Details` | You can transfer to the same or a related field of study. If no such program exists in your desired area, you may transfer to a different field. |
+| `transferOfStudiesCondition1Requirement` | Program Compatibility |
+| `transferOfStudiesCondition2Details` | You must have a GPA of 2.4 or higher (in credit-based systems) or no more than 4 subject differences (in traditional grading systems). |
+| `transferOfStudiesCondition2Requirement` | Academic Standing |
+| `transferOfStudiesCondition3Details` | Transfers are only possible if there are available places, especially for state grant positions. |
+| `transferOfStudiesCondition3Requirement` | Available Slots |
+| `transferOfStudiesCondition4Details` | If your original place was state-funded, you may only transfer to another state-funded slot if one is available. |
+| `transferOfStudiesCondition4Requirement` | Fee Status |
+| `transferOfStudiesDocument1` | Application form (submitted online) |
+| `transferOfStudiesDocument2` | Proof of your transfer reason (marriage certificate, job relocation letter, medical documentation, etc.) |
+| `transferOfStudiesDocument3` | Academic transcript or record of grades from your current university |
+| `transferOfStudiesDocument4` | Personal identification documents |
+| `transferOfStudiesDocumentsHeading` | What Documents Do You Need? |
+| `transferOfStudiesDocumentsIntro` | You will need to provide: |
+| `transferOfStudiesEligibility1` | Marriage: Moving to your spouse's place of residence |
+| `transferOfStudiesEligibility2` | Job Relocation: If you or your spouse's work location changes |
+| `transferOfStudiesEligibility3` | Health Reasons: Transferring from military or paramilitary educational institutions due to health issues |
+| `transferOfStudiesEligibility4` | Program Compatibility: Moving to a similar or related field of study |
+| `transferOfStudiesFaqA1` | Yes, but only if no similar program exists in your desired area, and it must be approved by the State Commission. |
+| `transferOfStudiesFaqA2` | If transferring to a fee-paying program, you will need to sign a new contract and pay the required fees. If transferring to a state grant slot, you may continue on a grant if a slot is available. |
+| `transferOfStudiesFaqA3` | The entire process from application to decision takes about 3–4 weeks during the designated application periods. |
+| `transferOfStudiesFaqA4` | No, transfers are only processed twice a year: before the fall and spring semesters begin. |
+| `transferOfStudiesFaqA5` | You will be dismissed from the university and reported to law enforcement authorities. |
+| `transferOfStudiesFaqHeading` | Frequently Asked Questions |
+| `transferOfStudiesFaqQ1` | Can I transfer to a completely different field of study? |
+| `transferOfStudiesFaqQ2` | Do I need to pay fees again if I transfer? |
+| `transferOfStudiesFaqQ3` | How long does the transfer process take? |
+| `transferOfStudiesFaqQ4` | Can I transfer during the academic year? |
+| `transferOfStudiesFaqQ5` | What happens if my documents are found to be fraudulent? |
+| `transferOfStudiesInternational1` | You must pass a special entrance exam in the language of instruction |
+| `transferOfStudiesInternational2` | Results are scored on a percentage basis |
+| `transferOfStudiesInternational3` | If your score is below the threshold, you may still be admitted under the differentiated contract fee system |
+| `transferOfStudiesInternationalHeading` | For Students from International or Private Institutions |
+| `transferOfStudiesKeyConditions` | Key Conditions for Transfer |
+| `transferOfStudiesKeyConditionsIntro` | Before applying, please note these important requirements: |
+| `transferOfStudiesLastUpdated` | Last updated: 10.07.2026 |
+| `transferOfStudiesLawLinkLabel` | Full Text of the Law (O'zbekiston Respublikasi Qonun Hujjatlari Ma'lumotlari Milliy Bazasi) |
+| `transferOfStudiesMoreInfoHeading` | Need More Information? |
+| `transferOfStudiesMoreInfoIntro` | This guide summarizes the main points of the regulations. For detailed information, including specific scoring thresholds, fee structures, and exceptional cases, please refer to the official legal document: |
+| `transferOfStudiesPageIntro` | This guide summarizes the official regulations on transferring studies between universities, including eligibility, key requirements, and important deadlines. For the complete legal text, refer to the official document referenced at the end of this guide. |
+| `transferOfStudiesPageSubtitle` | A Guide for Students |
+| `transferOfStudiesPageTitle` | Transferring Your Studies |
+| `transferOfStudiesPeriodFallApplication` | July 15 – August 5 |
+| `transferOfStudiesPeriodFallDecision` | August 6 – August 30 |
+| `transferOfStudiesPeriodFallSemester` | Fall Semester |
+| `transferOfStudiesPeriodSpringApplication` | January 10 – January 20 |
+| `transferOfStudiesPeriodSpringDecision` | January 21 – February 10 |
+| `transferOfStudiesPeriodSpringSemester` | Spring Semester |
+| `transferOfStudiesProcessHeading` | How the Transfer Process Works |
+| `transferOfStudiesReinstatementDoc1` | Your application |
+| `transferOfStudiesReinstatementDoc2` | Academic records |
+| `transferOfStudiesReinstatementDoc3` | Any supporting documents for your dismissal reason |
+| `transferOfStudiesReinstatementHeading` | Reinstatement After Dismissal |
+| `transferOfStudiesReinstatementIntro` | If you were previously dismissed from a university, you can apply for reinstatement during the same periods as above. You will need to provide: |
+| `transferOfStudiesReinstatementNote` | Reinstatement is generally on a fee-paying basis, except for certain eligible groups. |
+| `transferOfStudiesRestriction1` | You are in your first semester of the first year (unless due to medical leave or program unavailability) |
+| `transferOfStudiesRestriction2` | You are in your final semester before graduation |
+| `transferOfStudiesRestriction3` | You received targeted admission (admission for a specific employer or region) |
+| `transferOfStudiesRestriction4` | You are transferring from a non-accredited institution |
+| `transferOfStudiesRestriction5` | Your tuition fees are unpaid |
+| `transferOfStudiesRestriction6` | The new university does not offer a compatible program |
+| `transferOfStudiesRestrictionsHeading` | Important Restrictions |
+| `transferOfStudiesRestrictionsIntro` | Transfers are not allowed in the following cases: |
+| `transferOfStudiesScenario1Authority` | Relevant Ministry |
+| `transferOfStudiesScenario1Exam` | No |
+| `transferOfStudiesScenario1Situation` | Moving to spouse's city |
+| `transferOfStudiesScenario1Type` | Same/related program within same ministry |
+| `transferOfStudiesScenario2Authority` | State Commission |
+| `transferOfStudiesScenario2Exam` | No |
+| `transferOfStudiesScenario2Situation` | Job relocation of spouse/parent |
+| `transferOfStudiesScenario2Type` | Same/related program between different ministries |
+| `transferOfStudiesScenario3Authority` | State Commission |
+| `transferOfStudiesScenario3Exam` | No |
+| `transferOfStudiesScenario3Situation` | Health issue from military academy |
+| `transferOfStudiesScenario3Type` | Related program |
+| `transferOfStudiesScenario4Authority` | State Commission |
+| `transferOfStudiesScenario4Exam` | Yes (special exam) |
+| `transferOfStudiesScenario4Situation` | Transferring from international university |
+| `transferOfStudiesScenario4Type` | Any program |
+| `transferOfStudiesScenario5Authority` | University Rector |
+| `transferOfStudiesScenario5Exam` | No |
+| `transferOfStudiesScenario5Situation` | Changing program within same university |
+| `transferOfStudiesScenario5Type` | Same university |
+| `transferOfStudiesScenario6Authority` | State Commission |
+| `transferOfStudiesScenario6Exam` | No |
+| `transferOfStudiesScenario6Situation` | Changing program between different ministries |
+| `transferOfStudiesScenario6Type` | Different ministry |
+| `transferOfStudiesScenariosHeading` | Quick Reference Table: Transfer Scenarios |
+| `transferOfStudiesSectionRequirements` | Requirements and Regulations for Study Transfer |
+| `transferOfStudiesSpringImportant` | Important: Transfers for the Spring Semester are only accepted within Uzbekistan, not from international institutions during this period. |
+| `transferOfStudiesStep1Body` | Submit your application through the official electronic platform (website or government services portal) during the application period. |
+| `transferOfStudiesStep1Title` | Step 1: Online Registration |
+| `transferOfStudiesStep2Body` | Your application is reviewed to ensure you meet all requirements and that your transfer reason is valid. |
+| `transferOfStudiesStep2Title` | Step 2: Review by Your Current University |
+| `transferOfStudiesStep3Body` | Depending on your situation, your transfer is approved by:<br>Your University (for transfers within the same institution)<br>The Relevant Ministry (for transfers between institutions under the same authority)<br>The State Commission (for transfers between different ministries, to non-related fields, or from international institutions) |
+| `transferOfStudiesStep3Title` | Step 3: Decision by the Appropriate Authority |
+| `transferOfStudiesStep4Body` | If approved, your new university issues an enrollment order, and your academic records are transferred. |
+| `transferOfStudiesStep4Title` | Step 4: Acceptance at New University |
+| `transferOfStudiesWhenToApply` | When to Apply? |
+| `transferOfStudiesWhoCanTransfer` | Who Can Transfer? |
+| `transferOfStudiesWhoCanTransferIntro` | You may be eligible to transfer your studies if you have a valid reason, such as: |
+
+### `TRANSFER_ELIGIBILITY_KEYS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  "transferOfStudiesEligibility1",
+  "transferOfStudiesEligibility2",
+  "transferOfStudiesEligibility3",
+  "transferOfStudiesEligibility4"
+]
+```
+
+### `TRANSFER_CONDITION_ROWS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  {
+    "requirementKey": "transferOfStudiesCondition1Requirement",
+    "detailsKey": "transferOfStudiesCondition1Details"
+  },
+  {
+    "requirementKey": "transferOfStudiesCondition2Requirement",
+    "detailsKey": "transferOfStudiesCondition2Details"
+  },
+  {
+    "requirementKey": "transferOfStudiesCondition3Requirement",
+    "detailsKey": "transferOfStudiesCondition3Details"
+  },
+  {
+    "requirementKey": "transferOfStudiesCondition4Requirement",
+    "detailsKey": "transferOfStudiesCondition4Details"
+  }
+]
+```
+
+### `TRANSFER_APPLICATION_PERIODS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  {
+    "semesterKey": "transferOfStudiesPeriodFallSemester",
+    "applicationKey": "transferOfStudiesPeriodFallApplication",
+    "decisionKey": "transferOfStudiesPeriodFallDecision"
+  },
+  {
+    "semesterKey": "transferOfStudiesPeriodSpringSemester",
+    "applicationKey": "transferOfStudiesPeriodSpringApplication",
+    "decisionKey": "transferOfStudiesPeriodSpringDecision"
+  }
+]
+```
+
+### `TRANSFER_DOCUMENT_KEYS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  "transferOfStudiesDocument1",
+  "transferOfStudiesDocument2",
+  "transferOfStudiesDocument3",
+  "transferOfStudiesDocument4"
+]
+```
+
+### `TRANSFER_PROCESS_STEPS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  {
+    "titleKey": "transferOfStudiesStep1Title",
+    "bodyKey": "transferOfStudiesStep1Body"
+  },
+  {
+    "titleKey": "transferOfStudiesStep2Title",
+    "bodyKey": "transferOfStudiesStep2Body"
+  },
+  {
+    "titleKey": "transferOfStudiesStep3Title",
+    "bodyKey": "transferOfStudiesStep3Body"
+  },
+  {
+    "titleKey": "transferOfStudiesStep4Title",
+    "bodyKey": "transferOfStudiesStep4Body"
+  }
+]
+```
+
+### `TRANSFER_RESTRICTION_KEYS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  "transferOfStudiesRestriction1",
+  "transferOfStudiesRestriction2",
+  "transferOfStudiesRestriction3",
+  "transferOfStudiesRestriction4",
+  "transferOfStudiesRestriction5",
+  "transferOfStudiesRestriction6"
+]
+```
+
+### `TRANSFER_INTERNATIONAL_KEYS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  "transferOfStudiesInternational1",
+  "transferOfStudiesInternational2",
+  "transferOfStudiesInternational3"
+]
+```
+
+### `TRANSFER_REINSTATEMENT_DOC_KEYS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  "transferOfStudiesReinstatementDoc1",
+  "transferOfStudiesReinstatementDoc2",
+  "transferOfStudiesReinstatementDoc3"
+]
+```
+
+### `TRANSFER_SCENARIO_ROWS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  {
+    "situationKey": "transferOfStudiesScenario1Situation",
+    "typeKey": "transferOfStudiesScenario1Type",
+    "authorityKey": "transferOfStudiesScenario1Authority",
+    "examKey": "transferOfStudiesScenario1Exam"
+  },
+  {
+    "situationKey": "transferOfStudiesScenario2Situation",
+    "typeKey": "transferOfStudiesScenario2Type",
+    "authorityKey": "transferOfStudiesScenario2Authority",
+    "examKey": "transferOfStudiesScenario2Exam"
+  },
+  {
+    "situationKey": "transferOfStudiesScenario3Situation",
+    "typeKey": "transferOfStudiesScenario3Type",
+    "authorityKey": "transferOfStudiesScenario3Authority",
+    "examKey": "transferOfStudiesScenario3Exam"
+  },
+  {
+    "situationKey": "transferOfStudiesScenario4Situation",
+    "typeKey": "transferOfStudiesScenario4Type",
+    "authorityKey": "transferOfStudiesScenario4Authority",
+    "examKey": "transferOfStudiesScenario4Exam"
+  },
+  {
+    "situationKey": "transferOfStudiesScenario5Situation",
+    "typeKey": "transferOfStudiesScenario5Type",
+    "authorityKey": "transferOfStudiesScenario5Authority",
+    "examKey": "transferOfStudiesScenario5Exam"
+  },
+  {
+    "situationKey": "transferOfStudiesScenario6Situation",
+    "typeKey": "transferOfStudiesScenario6Type",
+    "authorityKey": "transferOfStudiesScenario6Authority",
+    "examKey": "transferOfStudiesScenario6Exam"
+  }
+]
+```
+
+### `TRANSFER_FAQ_ITEMS`
+
+_Source: `src/locales/transferOfStudiesDefaults.ts`_
+
+```json
+[
+  {
+    "id": "different-field",
+    "questionKey": "transferOfStudiesFaqQ1",
+    "answerKey": "transferOfStudiesFaqA1"
+  },
+  {
+    "id": "fees",
+    "questionKey": "transferOfStudiesFaqQ2",
+    "answerKey": "transferOfStudiesFaqA2"
+  },
+  {
+    "id": "duration",
+    "questionKey": "transferOfStudiesFaqQ3",
+    "answerKey": "transferOfStudiesFaqA3"
+  },
+  {
+    "id": "mid-year",
+    "questionKey": "transferOfStudiesFaqQ4",
+    "answerKey": "transferOfStudiesFaqA4"
+  },
+  {
+    "id": "fraud",
+    "questionKey": "transferOfStudiesFaqQ5",
+    "answerKey": "transferOfStudiesFaqA5"
+  }
+]
+```
+
+---
+
+## `universityDepartmentsPageDefaults.ts` {#defaults-universityDepartmentsPageDefaultsts}
+
+### `UNIVERSITY_DEPARTMENTS_PAGE_DEFAULTS`
+
+_Source: `src/locales/universityDepartmentsPageDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `departmentsPageIntro` | Under the Vice Rector for Academic Affairs, Termez University of Economics and Service organizes teaching through three faculties and their departments. Use the links to open official leader profiles on the main university website (opens in a new tab). |
+| `departmentsPageOfficialChartLink` | Interactive chart on tues.uz (same hierarchy as this page) |
+| `departmentsPageTitle` | Departments |
+
+---
+
+## `universityInNumbersDefaults.ts` {#defaults-universityInNumbersDefaultsts}
+
+### `UNIVERSITY_IN_NUMBERS_I18N_DEFAULTS`
+
+_Source: `src/locales/universityInNumbersDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `uniNumbersDownloadCta` | Download |
+| `uniNumbersLangCn` | Chinese (简体中文) |
+| `uniNumbersLangEn` | English |
+| `uniNumbersLangRu` | Russian |
+| `uniNumbersLangUz` | Uzbek |
+| `uniNumbersPptxBadge` | PowerPoint (.pptx) |
+| `uniNumbersReportHeadline` | TUES IN NUMBERS |
+| `uniNumbersReportInstitution` | TERMIZ UNIVERSITY OF ECONOMICS AND SERVICE (TUES) |
+| `uniNumbersReportIntro` | Termiz University of Economics and Service (TUES) is committed to transforming into a modern, innovative educational hub. This report presents a snapshot of the university's academic strength, infrastructure, scientific potential, and strategic growth as TUES advances toward its 2030 goals. |
+| `uniNumbersReportTagline` | Key Figures & Strategic Vision 2025–2030 |
+| `uniNumbersS1P1` | TUES currently operates three faculties and sixteen departments, delivering 28 bachelor's and 13 master's degree specialities to a growing academic community. |
+| `uniNumbersS1P2` | The university's total student body has reached 23,684, with women comprising more than two-thirds of overall enrollment. |
+| `uniNumbersS1P3` | This community is supported by a teaching staff of 281. Scientific potential — the share of faculty holding a Doctor of Science or PhD degree — currently stands at 42.6%, with a strategic target of 75% by 2030. |
+| `uniNumbersS1ProgressCaption` | Current scientific potential, targeting three-quarters of faculty by 2030 |
+| `uniNumbersS1StatAcademicHeading` | Academic Structure |
+| `uniNumbersS1StatAverageAge` | Average Age |
+| `uniNumbersS1StatBachelorSpecialities` | Bachelor's Degree Specialities |
+| `uniNumbersS1StatBachelorStudents` | Bachelor's Students |
+| `uniNumbersS1StatDepartments` | Departments |
+| `uniNumbersS1StatDsc` | Doctors of Science (DSc) |
+| `uniNumbersS1StatFaculties` | Faculties |
+| `uniNumbersS1StatFemaleStudents` | Female Students |
+| `uniNumbersS1StatMaleStudents` | Male Students |
+| `uniNumbersS1StatMasterSpecialities` | Master's Degree Specialities |
+| `uniNumbersS1StatMasterStudents` | Master's Students |
+| `uniNumbersS1StatPhd` | Doctors of Philosophy (PhD) |
+| `uniNumbersS1StatStudentHeading` | Student Body |
+| `uniNumbersS1StatTeachingHeading` | Teaching Staff |
+| `uniNumbersS1StatTotalStudents` | Total Students |
+| `uniNumbersS1StatTotalTeachingStaff` | Total Teaching Staff |
+| `uniNumbersS2P1` | The campus spans 1.3 hectares across four educational buildings, offering 148 auditoriums, nine laboratories, and ten computer cabins to support classroom and hands-on learning. |
+| `uniNumbersS2P2` | A series of major capital projects will reshape the campus over the coming years: |
+| `uniNumbersS2StatAdditionalArea` | Additional Useful Area |
+| `uniNumbersS2StatAreaPerStudent` | Educational Area per Student |
+| `uniNumbersS2StatAuditoriums` | Auditoriums |
+| `uniNumbersS2StatCampusArea` | Total Campus Area |
+| `uniNumbersS2StatComputerCabins` | Computer Cabins |
+| `uniNumbersS2StatEducationalArea` | Educational Area (4 Buildings) |
+| `uniNumbersS2StatInfraHeading` | Current Infrastructure |
+| `uniNumbersS2StatLaboratories` | Laboratories |
+| `uniNumbersS2SubheadingRoadmap` | Infrastructure Development Roadmap (2025–2030) |
+| `uniNumbersS2TableColInitiative` | Initiative |
+| `uniNumbersS2TableColTargetYear` | Target Year |
+| `uniNumbersS2TableRow1Col1` | New Educational Building (5,000 seats) |
+| `uniNumbersS2TableRow2Col1` | New Student Dormitory (2,000 seats) |
+| `uniNumbersS2TableRow3Col1` | Apartment Houses for Professors & Teachers (68 units) |
+| `uniNumbersS2TableRow4Col1` | "Smart Campus" & Green Campus Initiative (Solar Panels) |
+| `uniNumbersS2TableRow4Col2` | Through 2030 |
+| `uniNumbersS3P1` | TUES is expanding its global footprint through partnerships, accreditations, and student exchanges, maintaining active academic collaborations with institutions in Kazakhstan, Russia, Turkey, Tajikistan, Japan, China, India, and Czechia. |
+| `uniNumbersS3TableCol2030Goal` | 2030 Goal |
+| `uniNumbersS3TableColTarget` | Target |
+| `uniNumbersS3TableHeading` | 2030 Internationalization Targets |
+| `uniNumbersS3TableRow1Col1` | Professors & Teachers in Professional Development Abroad |
+| `uniNumbersS3TableRow2Col1` | International Students at TUES |
+| `uniNumbersS3TableRow3Col1` | Joint Educational Programs (Double Degree) |
+| `uniNumbersS3TableRow4Col1` | Research Articles in Scopus / Web of Science |
+| `uniNumbersS4Callout` | 5 Programs — Target for international academic accreditation by 2030 |
+| `uniNumbersS4P1` | Our focus is on practical research and cutting-edge laboratory infrastructure, anchored by nine newly established scientific schools and sustained investment in specialized equipment. |
+| `uniNumbersS4P2` | Nine new scientific schools have been established in Chemistry, Biophysics, Biology, Anatomy, Physiology, Histology, History, Ethnography, and Biochemistry. |
+| `uniNumbersS4P3` | Laboratory upgrades are focused on advanced equipment for medicinal plants, pharmacology, natural sciences, and software/AI research, strengthening the university's applied research capacity. |
+| `uniNumbersS4SubheadingLabs` | Laboratory Investment |
+| `uniNumbersS4SubheadingSchools` | Scientific Schools |
+| `uniNumbersS5ClubsHeading` | Student Clubs |
+| `uniNumbersS5ClubsItem1` | Chess club |
+| `uniNumbersS5ClubsItem2` | "Bookworm" reading circle |
+| `uniNumbersS5ClubsItem3` | Socio-psychological service |
+| `uniNumbersS5ClubsItem4` | Volunteer center |
+| `uniNumbersS5ClubsItem5` | Embroidery and design club |
+| `uniNumbersS5CreativeHeading` | Creative & Social Hubs |
+| `uniNumbersS5CreativeItem1` | Student Media Center |
+| `uniNumbersS5CreativeItem2` | Creative Students' Park |
+| `uniNumbersS5CreativeItem3` | "Book-cafe" |
+| `uniNumbersS5CreativeItem4` | Student Tech Zone |
+| `uniNumbersS5CreativeItem5` | The "Zulfiyaxonim izdoshlari" club and other dedicated support programs for female students |
+| `uniNumbersS5CreativeItem6` | Free vocational skills training for vulnerable youth |
+| `uniNumbersS5DigitalHeading` | Digital Campus Initiatives |
+| `uniNumbersS5DigitalItem1` | A secure mobile application for dormitory management and campus public order |
+| `uniNumbersS5DigitalItem2` | A "Smart Campus" platform hosting all lesson materials |
+| `uniNumbersS5DigitalItem3` | Digital educational platforms enhanced with AI and VR technologies |
+| `uniNumbersS5HighlightCaption` | National, Asian, World and Olympic champions<br>targeted by 2030 |
+| `uniNumbersS5HighlightLabel` | 30 Champions |
+| `uniNumbersS5P1` | Equal emphasis is placed on the holistic development of students through technology, social engagement, and sport. |
+| `uniNumbersS5P2` | A dedicated university program promotes national sports, with the ambitious goal of nurturing 30 national, Asian, World, and Olympic champions by 2030. |
+| `uniNumbersS5SubheadingSports` | Sports Ambitions |
+| `uniNumbersS6P1` | While TUES students come from every region of Uzbekistan, the highest concentration of the university's academic family hails from Surkhandarya, followed by Samarkand, Tashkent, and Kashkadarya. |
+| `uniNumbersS6Region1` | Surkhandarya region (highest concentration) |
+| `uniNumbersS6Region2` | Samarkand region |
+| `uniNumbersS6Region3` | Tashkent region |
+| `uniNumbersS6Region4` | Kashkadarya region |
+| `uniNumbersS7P1` | Guided by these targets, TUES continues its transformation into a globally connected, research-driven university — expanding its campuses, growing its scientific community, and preparing students to compete on regional and international stages through 2030. |
+| `uniNumbersSection1Title` | 1. Institutional Snapshot |
+| `uniNumbersSection2Title` | 2. Campus & Infrastructure |
+| `uniNumbersSection3Title` | 3. Global Reach & Internationalization |
+| `uniNumbersSection4Title` | 4. Science, Innovation & Laboratories |
+| `uniNumbersSection5Title` | 5. Student Development, Digitalization & Sports |
+| `uniNumbersSection6Title` | 6. Regional Footprint |
+| `uniNumbersSection7Title` | Looking Ahead |
+| `uniNumbersTableColFigure` | Figure |
+| `uniNumbersTableColRank` | Rank |
+| `uniNumbersTableColRegion` | Region |
+| `uniNumbersTableColValue` | Value |
+| `universityInNumbersDownloadLead` | Each link opens the file in a new tab. Use your browser’s save option if you want to keep a copy on your device. |
+| `universityInNumbersDownloadTitle` | Download presentation |
+| `universityInNumbersIntro` | The University in Numbers section brings together headline statistics about Termez University of Economics and Service in one place. It is meant to give students, applicants, partners, and colleagues a concise yet meaningful picture of the institution’s scale, structure, and momentum over time.<br><br>Figures here typically cover enrolment and graduation trends, academic programmes and levels of study, faculty and professional staff, libraries and learning spaces, research and publication activity, international cooperation, and outreach that connects the campus with the wider community. Taken together, these indicators show how the university invests in teaching, discovery, and the wellbeing of its academic community.<br><br>The numbers are intended to complement longer narratives elsewhere on the website: they make priorities and growth easier to see at a glance, support transparency in how achievements are reported, and help readers compare dimensions of university life without wading through dense reports.<br><br>Below you can download the official presentation as a Microsoft PowerPoint file (.pptx). Choose the language version that suits you best. |
+
+---
+
+## `universityMissionDefaults.ts` {#defaults-universityMissionDefaultsts}
+
+### `UNIVERSITY_MISSION_PAGE_DEFAULTS`
+
+_Source: `src/locales/universityMissionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `universityMissionPageTitle` | University Mission |
+| `universityMissionPdfPlaceholderNote` | The green strategy PDF will be linked here when the file is published. |
+
+### `UNIVERSITY_MISSION_CONTENT_DEFAULTS`
+
+_Source: `src/locales/universityMissionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `universityMissionLearnMorePrefix` | More information:  |
+| `universityMissionLinkAccountingAuditDept` | Accounting and Audit Department |
+| `universityMissionLinkComplianceControlDept` | Compliance Control Department |
+| `universityMissionLinkEducationalMethodologicalDept` | Educational and Methodological Department |
+| `universityMissionPdfDownloadCta` | Download PDF |
+| `universityMissionPolicy51P1` | The university upholds the principles of academic freedom, essential for advancing knowledge, critical thinking, and innovation. Faculty and students have the right to teach, learn, research, and freely express ideas within ethical norms and applicable laws. Academic freedom is exercised responsibly, respecting diversity of thought, academic integrity, and mutual respect among all members of the academic community. Policies and governance structures support and protect academic independence, ensuring that teaching and research remain free from external pressure or influence. |
+| `universityMissionPolicy51Title` | 5.1 Academic Freedom Policy |
+| `universityMissionPolicy52P1` | The university is committed to maintaining the highest standards of integrity, transparency, and accountability in all academic, administrative, and financial activities. A zero-tolerance policy is enforced against any unethical conduct such as offering, giving, accepting, or soliciting bribes. Clear procedures, including internal controls, financial oversight, and compliance mechanisms, are in place to prevent, detect, and address corruption risks. All staff, students, and stakeholders are expected to act honestly and with integrity. Any suspected instances of bribery or corruption can be reported through designated channels, and appropriate disciplinary measures will be taken. The Compliance Control Department oversees the implementation of anti-corruption measures. |
+| `universityMissionPolicy52Title` | 5.2 Anti-Bribery and Anti-Corruption Policy |
+| `universityMissionPolicy53P1` | The university is committed to responsible and sustainable investment practices that create long-term environmental, social, and economic value. Investment decisions are guided by principles of sustainability, ethical responsibility, and risk awareness. Priority is given to investments that contribute to environmental protection, social well-being, and good governance (ESG standards). The institution refrains from investing in activities that harm the environment, violate human rights, or contradict ethical norms. Projects and partners promoting innovation, sustainability, and positive social impact are prioritized. The investment portfolio is regularly reviewed to ensure transparency, accountability, and alignment with strategic goals. |
+| `universityMissionPolicy53Title` | 5.3 Sustainable Investment Policy |
+| `universityMissionPolicy54P1` | The university is committed to sustainable procurement practices that minimize environmental impact and promote social responsibility. Priority is given to eco-friendly, energy-efficient, and resource-saving products and services. The use of recycled materials, ecologically certified products, and sustainable technologies is encouraged. Suppliers and partners are expected to adhere to ethical, environmental, and social standards; those demonstrating responsible business practices and sustainability commitments are prioritized. Sustainability criteria are incorporated into procurement decisions to support long-term environmental protection, cost-effectiveness, and institutional accountability. |
+| `universityMissionPolicy54Title` | 5.4 Sustainable Procurement Policy |
+| `universityMissionPolicy55P1` | The university is firmly committed to preventing all forms of modern slavery, including forced labor, human trafficking, and exploitation, within its operations and supply chains. Human rights are upheld, and all partners are required to comply with ethical and legal standards. Transparency and due diligence are promoted in procurement and partnership processes. Any concerns can be confidentially reported through official channels to the Compliance Control Department. All reports are taken seriously, and appropriate actions are taken in accordance with institutional policy and legal requirements. |
+| `universityMissionPolicy55Title` | 5.5 Modern Slavery Policy |
+| `universityMissionPolicy56P1` | The university is dedicated to ensuring a safe, secure, and supportive environment for all students in academic, residential, and campus activities. Measures are in place to protect students from physical, psychological, and social risks, including campus security systems, health and safety regulations, emergency response procedures, and student support services. A culture of respect, responsibility, and well-being is promoted, ensuring all students are treated fairly and protected from bullying, discrimination, and unsafe conditions. Regular monitoring and preventive actions are carried out to maintain a safe learning environment. Students are encouraged to report any safety concerns through designated channels to the relevant departments, including Student Affairs and the Compliance Control Department. All reports are treated confidentially and receive a prompt response. |
+| `universityMissionPolicy56Title` | 5.6 Student Safety Policy |
+| `universityMissionPolicy57P1` | The university is committed to fostering a diverse, equitable, and inclusive environment for all students, faculty, staff, and stakeholders, regardless of race, ethnicity, nationality, gender, age, religion, disability, sexual orientation, or socio-economic background. Diversity enriches the academic experience, drives innovation, and strengthens community engagement. Inclusion is embedded in university policies, recruitment and admission processes, curriculum development, campus life, and decision-making structures. Equal opportunities are promoted, and proactive measures are taken to eliminate discrimination, harassment, and bias. Reasonable accommodations are provided for individuals with disabilities and other special needs. Regular training and awareness programs on diversity, equity, and inclusion are organized for staff and students, and inclusive student groups and forums are encouraged. Progress is monitored, and reports are reviewed regularly by university leadership. Any instances of discrimination or exclusion should be reported through official channels. |
+| `universityMissionPolicy57Title` | 5.7 Diversity and Inclusion Policy |
+| `universityMissionReportConcernsPrefix` | Report concerns:  |
+| `universityMissionSection1CoreValue1` | Openness to new ideas and modern approaches |
+| `universityMissionSection1CoreValue2` | Fostering collaboration within the academic community |
+| `universityMissionSection1CoreValue3` | Upholding the free expression of thoughts and ideas |
+| `universityMissionSection1CoreValuesTitle` | TUES core values: |
+| `universityMissionSection1P1` | Termiz University of Economics and Service (TUES) is dedicated to providing high-quality higher education for students from Uzbekistan and abroad. We offer a wide range of bachelor's and master's degree programs in economics, medicine, IT, and other fields, giving our graduates strong opportunities in the global job market. |
+| `universityMissionSection1P3` | The university adheres to the following values: |
+| `universityMissionSection1P4` | Through these values, TUES is dedicated to supporting individuals and shaping the future of Uzbekistan and the global community. |
+| `universityMissionSection1Title` | I. UNIVERSITY MISSION AND VISION |
+| `universityMissionSection1Value1` | Commitment to excellence |
+| `universityMissionSection1Value2` | International cooperation |
+| `universityMissionSection1Value3` | Traditional values |
+| `universityMissionSection1Value4` | Responsibility to society |
+| `universityMissionSection2Goal1` | Increase the number of international partnerships and joint programs |
+| `universityMissionSection2Goal2` | Improve the university's position in international rankings |
+| `universityMissionSection2Goal3` | Increase the number of scientific publications and research projects |
+| `universityMissionSection2Goal4` | Enhance graduate employability |
+| `universityMissionSection2Goal5` | Expand digital learning platforms and infrastructure |
+| `universityMissionSection2GoalsTitle` | Key strategic indicators: |
+| `universityMissionSection2ImplementationP1` | The strategic plan is executed through annual action plans, clearly defined responsibilities, and measurable key performance indicators (KPIs). Progress is regularly monitored and adjustments are made based on results. |
+| `universityMissionSection2ImplementationTitle` | Implementation |
+| `universityMissionSection2Objective1` | Improve education quality in line with international standards |
+| `universityMissionSection2Objective2` | Strengthen research and innovation capacity |
+| `universityMissionSection2Objective3` | Expand international cooperation and academic mobility |
+| `universityMissionSection2Objective4` | Accelerate digital transformation in education and management |
+| `universityMissionSection2Objective5` | Promote sustainable development principles |
+| `universityMissionSection2ObjectivesTitle` | Strategic goals: |
+| `universityMissionSection2PdfDescription` | Official strategic development plan outlining the university's long-term goals and priorities. |
+| `universityMissionSection2PdfPlaceholder` | The development strategy PDF will be published here soon. |
+| `universityMissionSection2PdfTitle` | Development Strategy |
+| `universityMissionSection2Title` | II. STRATEGIC DEVELOPMENT PLAN |
+| `universityMissionSection3GovernanceP1` | Risk management is overseen by university leadership and relevant departments. A designated committee or responsible unit monitors risk-related issues and reports regularly to management. Routine reports are prepared to ensure transparency, accountability, and timely decision-making. |
+| `universityMissionSection3GovernanceTitle` | Governance and reporting: |
+| `universityMissionSection3Mitigation1` | Continuous monitoring of academic quality and performance indicators |
+| `universityMissionSection3Mitigation2` | Diversification of financial resources and funding sources |
+| `universityMissionSection3Mitigation3` | Strengthening internal control and audit systems |
+| `universityMissionSection3Mitigation4` | Regular staff training and capacity building |
+| `universityMissionSection3Mitigation5` | Modernization of IT infrastructure and data protection systems |
+| `universityMissionSection3MitigationTitle` | Risk mitigation measures: |
+| `universityMissionSection3P1` | The university has established a comprehensive risk management system to identify, assess, and mitigate potential risks that may affect its strategic goals and daily operations. This system ensures institutional stability, accountability, and long-term resilience. |
+| `universityMissionSection3Risk1` | Academic risks (education quality, curriculum relevance) |
+| `universityMissionSection3Risk2` | Financial risks (budget constraints, funding sustainability) |
+| `universityMissionSection3Risk3` | Operational risks (administrative processes) |
+| `universityMissionSection3RiskIdP2` | Each identified risk is evaluated based on its likelihood and potential impact. Priorities are set so that critical areas receive immediate attention and necessary resources. |
+| `universityMissionSection3RiskIdTitle` | Risk categories: |
+| `universityMissionSection3Title` | III. RISK MANAGEMENT SYSTEM |
+| `universityMissionSection4EnvironmentalAwarenessP1` | Awareness campaigns, workshops, and student initiatives actively promote environmental consciousness. Cooperation with local and international partners supports the development of sustainable practices and ecological responsibility. |
+| `universityMissionSection4EnvironmentalAwarenessTitle` | Environmental awareness and community outreach: |
+| `universityMissionSection4FutureGoal1` | Expand green infrastructure and energy efficiency measures |
+| `universityMissionSection4FutureGoal2` | Increase environmental education programs |
+| `universityMissionSection4FutureGoal3` | Support sustainable research and innovation projects |
+| `universityMissionSection4FutureGoal4` | Strengthen partnerships on sustainability and climate action |
+| `universityMissionSection4FutureGoalsTitle` | Future sustainability goals: |
+| `universityMissionSection4GreenCampusTitle` | Green campus initiatives: |
+| `universityMissionSection4Initiative1` | Energy-efficient technologies and efficient lighting systems |
+| `universityMissionSection4Initiative2` | Rational use of water resources |
+| `universityMissionSection4Initiative3` | Waste reduction and recycling practices |
+| `universityMissionSection4Initiative4` | Green spaces and landscape development |
+| `universityMissionSection4P1` | The university is committed to environmental sustainability and has integrated green development principles into its strategic priorities. Sustainability is embedded in education, campus operations, and community engagement. |
+| `universityMissionSection4PdfDescription` | Green development and sustainability strategy for campus operations, education, and research. |
+| `universityMissionSection4PdfPlaceholder` | The green strategy PDF will be published here soon. |
+| `universityMissionSection4PdfTitle` | Green Strategy |
+| `universityMissionSection4SustainableEducationP1` | Sustainability principles are integrated into academic programs and research activities. Students are encouraged to develop environmentally responsible solutions through coursework, projects, and scientific research. |
+| `universityMissionSection4SustainableEducationTitle` | Sustainable education and research: |
+| `universityMissionSection4Title` | IV. GREEN DEVELOPMENT AND SUSTAINABILITY |
+| `universityMissionSection5Title` | V. INSTITUTIONAL POLICIES |
+
+---
+
+## `universityRatingsDefaults.ts` {#defaults-universityRatingsDefaultsts}
+
+### `UNIVERSITY_RATINGS_DEFAULTS`
+
+_Source: `src/locales/universityRatingsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `universityRatingsClosing` | These achievements are the result of the dedicated work of TUES faculty, researchers, students, and the entire university community. TUES will continue to reach new milestones in education quality, science, and sustainable development. |
+| `universityRatingsGlance1Label` | THE Impact Rankings 2026 |
+| `universityRatingsGlance1Value` | 301–400 |
+| `universityRatingsGlance2Label` | UI GreenMetric 2025 |
+| `universityRatingsGlance2Value` | TOP 1000 |
+| `universityRatingsGlance3Label` | Regional universities |
+| `universityRatingsGlance3Value` | 1st |
+| `universityRatingsGlance4Label` | Nationwide |
+| `universityRatingsGlance4Value` | 7th |
+| `universityRatingsGlanceTitle` | At a glance |
+| `universityRatingsGreenBody` | Based on campus infrastructure, energy efficiency, waste management, water resources, and sustainable education, TUES entered the list of the world’s top 1000 “green” universities. |
+| `universityRatingsGreenBullet1` | Global TOP 1000 green university |
+| `universityRatingsGreenBullet2` | Criteria: environmental infrastructure and management policies |
+| `universityRatingsGreenTitle` | UI GreenMetric World University Rankings 2025 |
+| `universityRatingsInstitution` | Termez University of Economics and Service — International Rankings |
+| `universityRatingsIntro` | In recent years, Termiz University of Economics and Service (TUES) has achieved significant results in two prestigious international rankings. Below is an overview of these accomplishments. |
+| `universityRatingsPageTitle` | International Rankings |
+| `universityRatingsTheBody` | TUES made a historic leap in this ranking, which assesses universities based on their contribution to the UN Sustainable Development Goals, education quality, and research activity. |
+| `universityRatingsTheBullet1` | Position: 301–400 band (up from 1501+ in 2024) |
+| `universityRatingsTheBullet2` | Global TOP 400 |
+| `universityRatingsTheBullet3` | Uzbekistan ranking: 7th place |
+| `universityRatingsTheBullet4` | Regional universities: 1st place |
+| `universityRatingsTheBullet5` | Recognized as one of the fastest-rising universities internationally |
+| `universityRatingsTheTitle` | Times Higher Education (THE) Impact Rankings 2026 |
+
+---
+
+## `universityRequisitesDefaults.ts` {#defaults-universityRequisitesDefaultsts}
+
+### `UNIVERSITY_REQUISITES_PAGE_DEFAULTS`
+
+_Source: `src/locales/universityRequisitesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `universityRequisitesAddress` | 38-B Ibn Sino Street, Yulduz MFY, Termez, Surkhandarya Region, Uzbekistan |
+| `universityRequisitesBankName` | Sanoat Qurilish Bank, Termez city branch |
+| `universityRequisitesInstitutionName` | Termez University of Economics and Service |
+| `universityRequisitesLabelAccount` | Account number |
+| `universityRequisitesLabelAddress` | Address |
+| `universityRequisitesLabelBank` | Bank |
+| `universityRequisitesLabelInn` | INN (TIN) |
+| `universityRequisitesLabelMfo` | MFO |
+| `universityRequisitesLabelPhone` | Phone |
+| `universityRequisitesPageIntro` | Official legal name, address, contact numbers, and bank details of Termez University of Economics and Service. |
+| `universityRequisitesPageTitle` | Requisites |
+
+---
+
+## `whoWeAreMissionDefaults.ts` {#defaults-whoWeAreMissionDefaultsts}
+
+### `WHO_WE_ARE_MISSION_I18N_DEFAULTS`
+
+_Source: `src/locales/whoWeAreMissionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `whoWeAreMissionIntro` | ## Welcome to Termez University of Economics and Service<br><br>At Termez University, we believe that education is a journey of exploration where possibilities are limitless and futures are shaped. We are more than just a place of higher education; we are a vibrant community dedicated to academic excellence, personal growth, and shaping the leaders of tomorrow.<br><br>## Our Mission and Values<br><br>Our institution is rooted in a rich tradition of academic rigor and a steadfast commitment to fostering innovation and creativity. Our dedicated faculty members serve as mentors, guiding students toward their full potential and helping them make a meaningful difference in the world.<br><br>## Academic Diversity<br><br>We take pride in our diverse academic departments, which offer a wide range of programs designed to meet the demands of the modern world:<br><br>- Economics and Information Technologies: Providing training in finance, accounting, banking, world economy, and cutting-edge information systems.<br>- Education and Social Sciences: Offering programs in pedagogy, psychology, history, and various languages, including English, Uzbek, and Russian.<br>- Medical Faculty: Dedicated to preparing the next generation of healthcare professionals and researchers through high-quality medical education.<br><br>## Excellence Beyond Academics<br><br>Success at Termez University goes beyond the classroom. Our students benefit from:<br><br>- State-of-the-art Facilities: From cutting-edge laboratories to extensive libraries, we provide the ideal environment for research and collaboration.<br>- Real-World Preparation: Our internship and career development programs ensure that graduates are well-equipped for their future careers.<br>- Community Impact: We believe in giving back, and our students are actively involved in service projects that make a positive impact on society.<br>- Global Understanding: Our diverse student body represents a mosaic of backgrounds and cultures, enriching the learning experience for everyone.<br><br>Join us on this incredible journey toward knowledge, growth, and success. |
+
+---
+
+## `whyTuesDefaults.ts` {#defaults-whyTuesDefaultsts}
+
+### `WHY_TUES_I18N_DEFAULTS`
+
+_Source: `src/locales/whyTuesDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `whyTuesBody` | Termez University of Economics and Service - where your ambitions take shape.<br><br>Choosing a university is a life-changing decision. At TUES, we don't just teach - we open doors. Here is why students from across Uzbekistan and beyond make TUES their first choice.<br><br>## Outstanding Faculty<br><br>Learn from experienced professors, dedicated teachers, and industry practitioners who bring real-world insights into every lecture. Our educators are not just experts in their fields - they are mentors committed to your academic and personal growth.<br><br>## Modern Campus, Limitless Opportunities<br><br>TUES offers one of the best learning environments in the region. Our classrooms and laboratories are equipped with cutting-edge technology, providing the perfect setting for hands-on education.<br><br>Beyond academics, the campus is alive with frequent events - conferences, cultural festivals, sports competitions, and guest lectures - so you can develop skills, network, and create unforgettable memories.<br><br>## Globally Recognised Diplomas<br><br>At TUES, you can earn more than just a degree. We offer flexible paths to prestigious qualifications:<br><br>- Local diploma - a state-recognised degree from TUES.<br>- International diploma - credentials that open doors abroad.<br>- Dual degree (partner diploma) - a diploma jointly awarded by TUES and a partner university, valued as two degrees in one.<br><br>This means you graduate with a qualification that is respected both in Uzbekistan and internationally.<br><br>## Bloomberg Finance Lab & Certification<br><br>Stand out in the world of finance and beyond. TUES hosts a dedicated Bloomberg Lab where you can gain hands-on experience with the same platform used by financial professionals worldwide.<br><br>For Economics students, Bloomberg Market Concepts (BMC) is integrated into the curriculum as an elective subject.<br><br>Students from other programmes can join the Bloomberg Lab as an extracurricular club, complete the training, and sit for the test to earn the official Bloomberg certificate - a powerful addition to your CV.<br><br>Earning a globally recognised Bloomberg certificate while still at university sets you apart from the competition.<br><br>## Career Center & Real-World Experience<br><br>Your career starts at TUES, not after graduation. From the third year of study, our Career Center connects you with internship opportunities in leading companies:<br><br>- Gain practical experience in organisations across Uzbekistan.<br>- Apply for internships abroad and broaden your horizons.<br>- Many of our students secure full-time job offers directly after completing their internships.<br><br>The Career Center supports you every step of the way - from CV workshops and interview preparation to direct placement with partner employers. |
+
+---
+
+## `womensAffairsDefaults.ts` {#defaults-womensAffairsDefaultsts}
+
+### `WOMENS_AFFAIRS_PAGE_DEFAULTS`
+
+_Source: `src/locales/womensAffairsDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `womensAffairsPageBody` | The University of Economics and Services in Termez has established an Advisory Committee on women's affairs, which supports women at a social and political level.<br><br>The Committee is a standing, public body designed to protect the rights and legitimate interests of women, as well as to assist in the implementation of the socio-political guarantees provided for in the Constitution and laws of the Republic of Uzbekistan.<br><br>The Council's activities are based on the Constitution and laws of the Republic of Uzbekistan, decisions of the chambers of the Oliy Majlis of the Republic of Uzbekistan, decrees, resolutions and directives of the President of the Republic of Uzbekistan and resolutions and directives of the Cabinet of Ministers of the Republic of Uzbekistan, as well as the Ministry of Science and Innovation, the normative documents of the Ministry of Higher Education, Science and Innovation, in accordance with this Regulation and other legislative acts.<br><br>At the same time, its activities are conducted on the principles of legality, collective decision-making, transparency, mutual cooperation and respect, equality, voluntariness, and taking public opinion into account. |
+| `womensAffairsPageTasksBullets` | - To coordinate the organisational work aimed at ensuring the effective implementation of state policy to support women, protecting their rights and legitimate interests, and increasing their role and active participation in the country's socio-political life;<br>- Assisting in the organisation of targeted events aimed at strengthening the role of women in the labour market, the public sector and civil service, providing them with social and legal support, and systematically monitoring their feedback;<br>- To identify in a timely manner the problems faced by women in the labour market; to assist in the organisation of targeted initiatives aimed at strengthening the role of women in the public sector and public administration; to provide systematic social and legal support; to compile a register of women in need of assistance and to provide them, including women with disabilities, with social, legal, psychological and material support;<br>- Assisting in the creation of a targeted list for women with disabilities, providing them with social, legal, psychological and material support, and supplying them with rehabilitation equipment;<br>- To conduct public oversight of the enforcement of laws ensuring equal rights and opportunities for men and women, and to make relevant recommendations;<br>- To monitor the implementation of laws protecting women from violence and harassment, and to submit well-considered recommendations to ministries to identify victims of violence, promote their rehabilitation, and assist in the protection of their rights;<br>- Participating in the development and implementation of regional plans to protect women from hooliganism and violence;<br>- To assist in preparing female students for family life, to encourage young families to participate in social activities, and to widely promote the lives and lifestyles of exemplary women engaged in social and humanitarian work;<br>- Organising various competitions and sporting events among women, as well as conducting the selection process for candidates for the “Zulfiya National Award” and the “Honourable Woman” medal under effective public supervision, with the aim of ensuring compliance with the principles of legality, social justice and transparency;<br>- To ensure the implementation and direct compliance with the documents, standards, and requirements established in national and international legislation on the protection of women's rights;<br>- Nominate outstanding female employees within the system for consideration as candidates for national awards. |
+| `womensAffairsPageTasksHeading` | The main tasks and functions of the Council are as follows: |
+| `womensAffairsPageTitle` | Women's Affairs Advisory Committee at the University of Economics and Services in Termez |
+
+---
+
+## `workersUnionDefaults.ts` {#defaults-workersUnionDefaultsts}
+
+### `WORKERS_UNION_I18N_DEFAULTS`
+
+_Source: `src/locales/workersUnionDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `workersUnionActivitiesBullets` | Participating in the development of regulatory documents concerning the protection of the rights and interests of trade union members;<br>Conducting public oversight of labour legislation;<br>Negotiating collective agreements and resolving disputes in employment relations;<br>Strengthening the social protection of members;<br>Organising cultural and educational events;<br>Promoting the health, physical fitness and sport for KUQ members and their families;<br>Establishing cooperation with social and non-governmental organisations, and foreign trade unions. |
+| `workersUnionActivitiesTitle` | The activities of the Trade Union Committee are carried out in the following areas: |
+| `workersUnionAimsLead` | The primary aim of the trade union is to protect the members' labour rights, socio-economic status, spiritual and cultural development, and intellectual and legal interests. |
+| `workersUnionAimsTitle` | The main aims and objectives of the Trade Union Committee: |
+| `workersUnionClosing` | The KUQ conducts its activities in cooperation with the university administration, based on the principles of social partnership.<br><br>The committee also cooperates with the Republican Council of the Trade Union of Education and Science Workers of Uzbekistan, the Council of the Federation of Trade Unions of Uzbekistan, all higher education institution trade unions, and theatres, art palaces, sports facilities, sanatoriums, holiday resorts and children's health camps in our republic. |
+| `workersUnionCompositionList` | 1. The Trade Union Conference is the supreme body of the KUQ and is convened once every five years.<br>2. The Trade Union Committee is the governing body between conferences and is elected for a five-year term.<br>3. During the conference, the chairperson, their deputies, members of the committee and the presidium, as well as members of the audit commission, are elected.<br>4. The committee members ensure the implementation of the decisions of the conference, the plenum and the presidium.<br>5. The financial resources of the Trade Union Committee are contributions deducted from members' monthly salaries.<br>6. Membership contributions shall amount to at least 1 per cent of the monthly wage. |
+| `workersUnionCompositionTitle` | Composition of the Trade Union Committee: |
+| `workersUnionIntro` | The Trade Union Committee (TUC) of Termez University of Economics and Service operates in accordance with the university's charter and organisational structure, as well as the charter of the primary organisation.<br><br>The KUQ operates on the basis of a Collective Agreement, in cooperation with the university management, aimed at protecting the social, economic and legal interests of employees. All provisions of this Agreement are regularly monitored and implemented. |
+
+---
+
+## `youthLeadersDefaults.ts` {#defaults-youthLeadersDefaultsts}
+
+### `YOUTH_LEADERS_DEFAULTS`
+
+_Source: `src/locales/youthLeadersDefaults.ts`_
+
+| Key | English |
+| --- | --- |
+| `youthLeadersHeroSrc` | /images/community-clubs/youth-leaders.png |
+| `youthLeadersIntro` | Today, strengthening the role of youth in the socio-political life of the Republic of Uzbekistan is a priority of state policy. Higher education institutions serve as the primary platform for the intellectual, spiritual, and professional development of young people. In this regard, establishing the institute of youth leaders in universities is of great significance.<br><br>The “Regulation on the organization of youth leaders’ activities,” approved in 2025 by the Rector of Termez University of Economics and Service, A.E. Absamatov, is a crucial document defining a systematic approach to working with youth. |
+| `youthLeadersPageTitle` | Youth Leaders |
+| `youthLeadersS1Body` | A Youth Leader is a representative who ensures cooperation between the university (faculty) administration and students, representing and protecting the rights and interests of the student body. Their activities are based on the Constitution of Uzbekistan, the Laws “On education” and “On state youth policy,” the University Charter, Internal Regulations, and the Code of Ethics.<br><br>Youth leaders adhere to three core principles: Legality (compliance with laws), Transparency (keeping students and management informed), and Solidarity (collaborative action and team-oriented work). |
+| `youthLeadersS1Title` | Definition and legal basis of the youth leader |
+| `youthLeadersS2Body` | The primary goal is to protect student interests and enhance their social, spiritual, and intellectual potential. Key tasks include increasing socio-political activity, creating a zero-tolerance environment for corruption, organizing meaningful leisure time, supporting research, and promoting a healthy lifestyle. |
+| `youthLeadersS2Title` | Main objectives and tasks |
+| `youthLeadersS3Lead` | The regulation covers eight main areas: |
+| `youthLeadersS3List` | Organizational and Educational: Spiritual and moral development and fostering civic responsibility.<br>Support for Youth Initiatives: Implementing projects within the “5 Important Initiatives” and coordinating volunteer movements.<br>Social Protection: Identifying and supporting students in need regarding scholarships and housing.<br>Cultural and Public Events: Organizing sports competitions, intellectual games, and international forums.<br>Prevention and Healthy Lifestyle: Preventing crime, drug addiction, and extremism.<br>Work with Student Dormitories: Improving living conditions and maintaining discipline.<br>Information, Analysis, and Reporting: Monitoring program implementation and analyzing student feedback.<br>Cooperation and External Relations: Collaborating with the Youth Affairs Agency and other universities. |
+| `youthLeadersS3Title` | Core fields of activity |
+| `youthLeadersS4Body` | Leaders have the right to participate in University Council and Rectorate meetings regarding youth issues, submit proposals, and make official inquiries to management. Their duties include planning events, organizing charity auctions, and ensuring effective communication through social media. |
+| `youthLeadersS4Title` | Legal status and powers |
+| `youthLeadersS5Body` | Faculty youth leaders are appointed by the First Vice-Rector for a term of one year, based on the recommendation of the Deputy Dean for Youth Affairs. Candidates must possess leadership qualities, public speaking skills, and organizational abilities. |
+| `youthLeadersS5Title` | Selection and appointment procedure |
+| `youthLeadersS6Body` | Active leaders may be awarded a one-time monetary prize of up to 3 times the Base Calculating Amount (BCA) under the “Most active leader of the year” category.<br><br>Leaders are required to submit quarterly reports on the implementation of their work plans. |
+| `youthLeadersS6Title` | Incentives and accountability |
+
+---

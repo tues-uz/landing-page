@@ -361,7 +361,7 @@ export const extraEn = {
       wellness: "Wellness",
     },
     admission: {
-      title: "Admission 2025",
+      title: "Admission 2026",
       requirements: "Requirements",
       application: "Application Process",
       deadlines: "Deadlines",
@@ -733,7 +733,7 @@ export const extraUz = {
       wellness: "Salomatlik",
     },
     admission: {
-      title: "Qabul 2025",
+      title: "Qabul 2026",
       requirements: "Talablar",
       application: "Ariza tartibi",
       deadlines: "Muddatlar",
@@ -1103,7 +1103,7 @@ export const extraRu = {
       wellness: "Благополучие",
     },
     admission: {
-      title: "Поступление 2025",
+      title: "Поступление 2026",
       requirements: "Требования",
       application: "Процесс подачи",
       deadlines: "Сроки",

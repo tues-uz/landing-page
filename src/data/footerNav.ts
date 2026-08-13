@@ -58,7 +58,7 @@ export const footerMenuSections: FooterSection[] = [
     ],
   },
   {
-    title: "Admission 2025",
+    title: "Admission 2026",
     links: [
       { label: "Requirements", href: "#" },
       { label: "Application Process", href: "#" },

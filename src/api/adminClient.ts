@@ -97,16 +97,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return json as T;
 }
 
-/** Backend returns mediaType "VIDEO" | "IMAGE"; we use "video" | "image" in the app. */
-function normalizeHeroBackground(raw: { mediaType?: string; videoUrl?: string | null; imageUrl?: string | null; id?: string }): HeroBackground {
-  const mediaType = raw.mediaType?.toLowerCase() === "image" ? "image" : "video";
-  return {
-    id: raw.id,
-    mediaType,
-    videoUrl: raw.videoUrl ?? null,
-    imageUrl: raw.imageUrl ?? null,
-  };
-}
+import { normalizeHeroBackground, serializeHeroBackgroundForApi } from "@/lib/heroBackgroundUtils";
 
 function sortNewsByOrder(items: NewsItem[]): NewsItem[] {
   return [...items].sort((a, b) => {
@@ -197,9 +188,10 @@ export const adminApi = {
       return raw ? normalizeHeroBackground(raw) : null;
     },
     update: async (payload: HeroBackground): Promise<HeroBackground> => {
+      const normalized = serializeHeroBackgroundForApi(payload);
       const body = {
-        ...payload,
-        mediaType: payload.mediaType === "image" ? "IMAGE" : "VIDEO",
+        ...normalized,
+        mediaType: normalized.mediaType === "image" ? "IMAGE" : "VIDEO",
       };
       const res = await adminFetch(`${API_BASE}/content/hero-background`, {
         method: "PUT",

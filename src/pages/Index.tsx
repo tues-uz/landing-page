@@ -18,6 +18,9 @@ import Footer from "@/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/** Set to true when the Alumni homepage section should be visible again. */
+const SHOW_ALUMNI_SECTION = false;
+
 const Index = () => {
   const { t } = useTranslation("common");
   const mainRef = useRef<HTMLElement>(null);
@@ -80,7 +83,7 @@ const Index = () => {
         <NewsEvents />
         <NewSection />
         <VirtualTour />
-        <Alumni />
+        {SHOW_ALUMNI_SECTION ? <Alumni /> : null}
         <StudentActivities />
         <EduHubSection />
         <ResearchJournalSection />

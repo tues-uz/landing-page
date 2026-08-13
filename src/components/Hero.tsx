@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { contentApi, type HeroSlide } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { useTranslation } from "react-i18next";
+import { getHeroImageUrls } from "@/lib/heroBackgroundUtils";
+import {
+  HeroBackgroundSlideshow,
+  HERO_BACKGROUND_FALLBACK,
+} from "@/components/HeroBackgroundSlideshow";
 
 const Hero = () => {
   const { t, i18n } = useTranslation("hero");
@@ -64,6 +69,7 @@ const Hero = () => {
       : null;                                               // CMS: image mode
 
   const imageUrl = bg?.mediaType === "image" ? (bg.imageUrl ?? "") : (bg?.imageUrl ?? "");
+  const backgroundImages = bg?.mediaType === "image" ? getHeroImageUrls(bg) : [];
 
   return (
     <section
@@ -96,13 +102,15 @@ const Hero = () => {
               />
             )}
           </video>
+        ) : backgroundImages.length > 0 ? (
+          <HeroBackgroundSlideshow images={backgroundImages} fallback={HERO_BACKGROUND_FALLBACK} />
         ) : (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
               backgroundImage: imageUrl
                 ? `url('${imageUrl}')`
-                : "url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2072&q=80')",
+                : `url('${HERO_BACKGROUND_FALLBACK}')`,
             }}
           />
         )}

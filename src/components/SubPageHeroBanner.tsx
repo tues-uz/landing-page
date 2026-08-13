@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { contentApi } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
+import { getHeroImageUrls } from "@/lib/heroBackgroundUtils";
+import {
+  HeroBackgroundSlideshow,
+  HERO_BACKGROUND_FALLBACK,
+} from "@/components/HeroBackgroundSlideshow";
 
 /** Same fallback campus image as `Hero` when CMS has no image URL. */
-const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2072&q=80";
+const FALLBACK_IMAGE = HERO_BACKGROUND_FALLBACK;
 
 type SubPageHeroBannerProps = {
   /** When set, show this image full-bleed instead of CMS video/background (e.g. academic council detail). */
@@ -28,6 +32,7 @@ export function SubPageHeroBanner({ staticImageSrc }: SubPageHeroBannerProps = {
     bg == null ? null : bg.mediaType === "video" ? (bg.videoUrl ?? "/tisu2.mp4") : null;
   const imageUrl =
     bg?.mediaType === "image" ? (bg.imageUrl ?? "").trim() : (bg?.imageUrl ?? "").trim();
+  const backgroundImages = bg?.mediaType === "image" ? getHeroImageUrls(bg) : [];
   const effectiveImage = imageUrl || FALLBACK_IMAGE;
 
   const shellClassName =
@@ -68,6 +73,8 @@ export function SubPageHeroBanner({ staticImageSrc }: SubPageHeroBannerProps = {
           >
             <source src={videoUrl} type="video/mp4" />
           </video>
+        ) : backgroundImages.length > 0 ? (
+          <HeroBackgroundSlideshow images={backgroundImages} fallback={FALLBACK_IMAGE} />
         ) : (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"

@@ -1,14 +1,19 @@
 import type { TFunction } from "i18next";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { BACHELOR_TRACK_DEFAULTS } from "@/locales/bachelorHubDefaults";
-import { BACHELOR_FULL_TIME_PROGRAMS } from "@/data/bachelorFullTimePrograms";
-import { BACHELOR_CORRESPONDENCE_PROGRAMS } from "@/data/bachelorCorrespondencePrograms";
-import { BachelorFullTimeProgramCard } from "@/components/BachelorFullTimeProgramCard";
+import { BACHELOR_FULL_TIME_PROGRAMS, bachelorFullTimeProgramDetailPath } from "@/data/bachelorFullTimePrograms";
+import {
+  BACHELOR_CORRESPONDENCE_PROGRAMS,
+  bachelorCorrespondenceProgramDetailPath,
+} from "@/data/bachelorCorrespondencePrograms";
+
+const TITLE_COLOR = "rgb(30, 30, 30)";
+const ICON_BG = "rgb(35, 47, 58)";
 
 type TrackSlug = "full-time" | "correspondence";
 
@@ -60,6 +65,10 @@ export default function BachelorTrackPage() {
           "bachelorCorrespondenceCardsHint",
           BACHELOR_TRACK_DEFAULTS.correspondence.bachelorCorrespondenceCardsHint,
         );
+
+  const programs = slug === "full-time" ? BACHELOR_FULL_TIME_PROGRAMS : BACHELOR_CORRESPONDENCE_PROGRAMS;
+  const programDetailPath =
+    slug === "full-time" ? bachelorFullTimeProgramDetailPath : bachelorCorrespondenceProgramDetailPath;
 
   return (
     <div className="min-h-screen bg-background">
@@ -119,18 +128,34 @@ export default function BachelorTrackPage() {
                 {(slug === "full-time" || slug === "correspondence") && (
                   <>
                     <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{cardsHint}</p>
-                    <ul
-                      className="mt-8 grid list-none grid-cols-1 gap-[16px] p-0 md:grid-cols-3"
-                      role="list"
-                    >
-                      {(slug === "full-time" ? BACHELOR_FULL_TIME_PROGRAMS : BACHELOR_CORRESPONDENCE_PROGRAMS).map(
-                        (program) => (
-                          <li key={program.no} className="flex min-w-0 flex-col">
-                            <BachelorFullTimeProgramCard program={program} track={slug} />
-                          </li>
-                        ),
-                      )}
-                    </ul>
+                    <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {programs.map((program) => {
+                        const title =
+                          program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.no}`;
+
+                        return (
+                          <Link
+                            key={program.no}
+                            to={programDetailPath(program.no)}
+                            className="group flex w-full items-center justify-between rounded-none border-b border-border px-4 py-4 transition-colors hover:border-primary hover:bg-neutral-50/50"
+                          >
+                            <h3
+                              className="min-w-0 flex-1 text-lg font-semibold text-foreground md:text-xl"
+                              style={{ color: TITLE_COLOR }}
+                            >
+                              {title}
+                            </h3>
+                            <span
+                              className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-opacity group-hover:opacity-90"
+                              style={{ backgroundColor: ICON_BG }}
+                              aria-hidden
+                            >
+                              <ArrowRight className="h-5 w-5 text-white" />
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </>
                 )}
               </article>

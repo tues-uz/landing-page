@@ -41,7 +41,10 @@ export interface HeroBackground {
     id?: string;
     mediaType: "video" | "image";
     videoUrl?: string | null;
+    /** First image; kept for APIs that only store one URL. */
     imageUrl?: string | null;
+    /** Ordered background slides when mediaType is "image". */
+    imageUrls?: string[] | null;
 }
 
 export interface NewsSection {
@@ -117,11 +120,7 @@ export function getEventImageUrl(event: EventItem, placeholder: string): string 
   return base + (raw.startsWith("/") ? raw : "/" + raw);
 }
 
-/** Backend may return mediaType "VIDEO" | "IMAGE"; we use "video" | "image". */
-function normalizeHeroBackground(raw: { mediaType?: string; videoUrl?: string | null; imageUrl?: string | null; id?: string }): HeroBackground {
-    const mediaType = raw.mediaType?.toLowerCase() === "image" ? "image" : "video";
-    return { id: raw.id, mediaType, videoUrl: raw.videoUrl ?? null, imageUrl: raw.imageUrl ?? null };
-}
+import { normalizeHeroBackground } from "@/lib/heroBackgroundUtils";
 
 // ─── Core fetch helper ────────────────────────────────────────────────────────
 

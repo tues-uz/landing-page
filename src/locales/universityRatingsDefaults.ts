@@ -22,6 +22,15 @@ export const UNIVERSITY_RATINGS_DEFAULTS = {
   universityRatingsGreenBullet1: "Global TOP 1000 green university",
   universityRatingsGreenBullet2: "Criteria: environmental infrastructure and management policies",
 
+  universityRatingsGreenImageInfographicAlt:
+    "UI GreenMetric 2025 infographic: TUES ranked 581st in the world, 14th in Uzbekistan, and 1st among private higher education institutions",
+  universityRatingsGreenImageCertificateAlt:
+    "UI GreenMetric 2025 certificate awarding Termiz University of Economics and Service as the 581st world's most sustainable university",
+  universityRatingsGreenImageProfileAlt:
+    "UI GreenMetric university profile showing Termiz University of Economics and Service campus sustainability scores by category",
+  universityRatingsGreenImageResultsAlt:
+    "UI GreenMetric results summary: world ranking 581, country ranking 14, and world rankings history through 2025",
+
   universityRatingsGlanceTitle: "At a glance",
   universityRatingsGlance1Label: "THE Impact Rankings 2026",
   universityRatingsGlance1Value: "301–400",
@@ -37,3 +46,25 @@ export const UNIVERSITY_RATINGS_DEFAULTS = {
 } as const;
 
 export type UniversityRatingsI18nKey = keyof typeof UNIVERSITY_RATINGS_DEFAULTS;
+
+export const UNIVERSITY_RATINGS_GREEN_IMAGES = [
+  {
+    src: "/images/university/ratings/greenmetric-infographic.png",
+    altKey: "universityRatingsGreenImageInfographicAlt",
+  },
+  {
+    src: "/images/university/ratings/greenmetric-certificate-2025.png",
+    altKey: "universityRatingsGreenImageCertificateAlt",
+  },
+  {
+    src: "/images/university/ratings/greenmetric-sustainability-profile.png",
+    altKey: "universityRatingsGreenImageProfileAlt",
+  },
+  {
+    src: "/images/university/ratings/greenmetric-results-summary.png",
+    altKey: "universityRatingsGreenImageResultsAlt",
+  },
+] as const satisfies ReadonlyArray<{
+  src: string;
+  altKey: UniversityRatingsI18nKey;
+}>;

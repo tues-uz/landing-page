@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { MASTERS_DEGREE_PROGRAMS } from "@/data/mastersDegreePrograms";
-import { bachelorFullTimeCardImageSrc } from "@/data/bachelorFullTimeCardImages";
+
+const TITLE_COLOR = "rgb(30, 30, 30)";
+const ICON_BG = "rgb(35, 47, 58)";
 
 export default function MastersDegreePage() {
   const { t } = useTranslation("header");
@@ -13,7 +15,7 @@ export default function MastersDegreePage() {
   const title = t("secondNavEducation.mastersDegree");
   const intro = t("mastersDegreePageIntro", {
     defaultValue:
-      "Postgraduate (master’s) programs offered at the university, with specialist codes, duration, credit load, and professional scope. Programs are full-time unless stated otherwise in the tables below.",
+      "Postgraduate (master’s) programs offered at the university, with specialist codes, duration, credit load, and professional scope. Programs are full-time unless stated otherwise.",
   });
 
   return (
@@ -65,45 +67,29 @@ export default function MastersDegreePage() {
                   </p>
                 ) : null}
 
-                <ul
-                  className="mt-8 grid list-none grid-cols-1 gap-[16px] p-0 md:grid-cols-3"
-                  role="list"
-                >
-                  {MASTERS_DEGREE_PROGRAMS.map((p) => {
-                    const imgSrc = bachelorFullTimeCardImageSrc(p.index);
-                    const key = `${p.specialtyCode}-${p.index}`;
-                    return (
-                      <li key={key} className="flex min-w-0 flex-col">
-                        <Link
-                          to={`/education/masters/programs/${p.index}`}
-                          className="group flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-2xl bg-muted/40 text-left ring-offset-background transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                          aria-label={`${p.specialtyName} (${p.specialtyCode})`}
-                        >
-                          <div className="relative aspect-[5/3] w-full shrink-0 overflow-hidden bg-muted">
-                            <img
-                              src={imgSrc}
-                              alt=""
-                              width={480}
-                              height={288}
-                              loading="lazy"
-                              decoding="async"
-                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                            />
-                            <span className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-background/90 px-2 py-0.5 font-mono text-[0.6875rem] font-medium tabular-nums text-foreground shadow-sm backdrop-blur-sm">
-                              {p.specialtyCode}
-                            </span>
-                          </div>
-                          <div className="relative flex min-h-0 flex-1 flex-col p-4 sm:p-5">
-                            <p className="line-clamp-5 text-base font-semibold leading-snug tracking-tight text-foreground sm:text-[1.0625rem]">
-                              {p.specialtyName}
-                            </p>
-                            <div className="min-h-0 flex-1" aria-hidden />
-                          </div>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {MASTERS_DEGREE_PROGRAMS.map((p) => (
+                    <Link
+                      key={`${p.specialtyCode}-${p.index}`}
+                      to={`/education/masters/programs/${p.index}`}
+                      className="group flex w-full items-center justify-between rounded-none border-b border-border px-4 py-4 transition-colors hover:border-primary hover:bg-neutral-50/50"
+                    >
+                      <h3
+                        className="min-w-0 flex-1 text-lg font-semibold text-foreground md:text-xl"
+                        style={{ color: TITLE_COLOR }}
+                      >
+                        {p.specialtyName}
+                      </h3>
+                      <span
+                        className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-opacity group-hover:opacity-90"
+                        style={{ backgroundColor: ICON_BG }}
+                        aria-hidden
+                      >
+                        <ArrowRight className="h-5 w-5 text-white" />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </article>
             </div>
             <RecommendedNewsSidebar className="order-2 lg:order-none lg:col-span-3" />
