@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contentApi, type HeroSlide } from "@/api/client";
 import { contentKeys } from "@/api/queryKeys";
 import { useTranslation } from "react-i18next";
+import { getCmsLocale, getUiLang } from "@/lib/localeContent";
 import { getHeroImageUrls } from "@/lib/heroBackgroundUtils";
 import {
   HeroBackgroundSlideshow,
@@ -13,16 +14,38 @@ import {
 
 const Hero = () => {
   const { t, i18n } = useTranslation("hero");
+  const uiLang = getUiLang(i18n);
+  const cmsLocale = getCmsLocale(i18n.language);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isCardVisible, setIsCardVisible] = useState(true);
 
-  // Fetch slides from API
+  // Fetch slides from API (CMS only has uz/en/ru — Chinese copy comes from hero.json)
   const { data: slidesData, isLoading: slidesLoading } = useQuery({
-    queryKey: [...contentKeys.heroSlides(), i18n.language],
-    queryFn: () => contentApi.heroSlides.list(i18n.language),
+    queryKey: [...contentKeys.heroSlides(), cmsLocale],
+    queryFn: () => contentApi.heroSlides.list(cmsLocale),
     staleTime: 5 * 60 * 1000, // 5 min
     retry: 1,
   });
+
+  const defaultSlide: HeroSlide = useMemo(
+    () => ({
+      id: "default-tues-slide",
+      title: t("defaultTitle", "Termez University of Economics and Service"),
+      subtitle: t("defaultSubtitle", "Empowerment, Innovation, Academic Excellence"),
+      year: new Date().getFullYear().toString(),
+    }),
+    [t],
+  );
+
+  const slides = useMemo(() => {
+    const raw = slidesData && slidesData.length > 0 ? slidesData : [defaultSlide];
+    if (uiLang !== "zh") return raw;
+    return raw.map((slide) => ({
+      ...slide,
+      title: t(`slides.${slide.id}.title`, { defaultValue: slide.title }),
+      subtitle: t(`slides.${slide.id}.subtitle`, { defaultValue: slide.subtitle }),
+    }));
+  }, [slidesData, uiLang, t, defaultSlide]);
 
   // Fetch background media from API
   const { data: bg } = useQuery({
@@ -31,15 +54,6 @@ const Hero = () => {
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
-
-  const defaultSlide: HeroSlide = {
-    id: "default-tues-slide",
-    title: t("title", "Termez University of Economics and Service"),
-    subtitle: t("subtitle", "Empowerment, Innovation, Academic Excellence"),
-    year: new Date().getFullYear().toString(),
-  };
-
-  const slides = slidesData && slidesData.length > 0 ? slidesData : [defaultSlide];
 
   // Auto-advance carousel
   useEffect(() => {

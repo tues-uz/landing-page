@@ -2,15 +2,17 @@ import { useCallback, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { Check, Home, Share2 } from "lucide-react";
+import { Check, Download, Home, Share2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { BACHELOR_TRACK_DEFAULTS } from "@/locales/bachelorHubDefaults";
+import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
 import type { BachelorProgramTrack } from "@/data/bachelorProgramPaths";
 import { getBachelorFullTimeProgramByNo } from "@/data/bachelorFullTimePrograms";
 import { getBachelorCorrespondenceProgramByNo } from "@/data/bachelorCorrespondencePrograms";
 import type { BachelorFullTimeProgram } from "@/types/bachelorFullTime";
+import { bachelorProgramPdfHref } from "@/lib/educationProgramPdf";
 
 function tr(t: TFunction, key: string, fallback: string) {
   return t(key, { defaultValue: fallback });
@@ -131,7 +133,7 @@ export default function BachelorFullTimeProgramDetailPage() {
   }
 
   const educationLabel = th("secondNav.education");
-  const bachelorLabel = th("secondNavEducation.bachelor");
+  const bachelorLabel = th("secondNavEducation.courseCatalogue");
   const trackLabel = tr(
     t,
     track === "correspondence" ? "bachelorTrackCorrespondenceTitle" : "bachelorTrackFullTimeTitle",
@@ -142,6 +144,10 @@ export default function BachelorFullTimeProgramDetailPage() {
   const leafTitle = program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.no}`;
   const qualDisplay = program.qualification.trim() ? program.qualification : "—";
   const hasOverview = program.descriptionParagraphs.some((p) => p.trim());
+  const pdfHref = bachelorProgramPdfHref(track, program.cipher);
+  const downloadLabel = t("bachelorProgramDownloadLabel", {
+    defaultValue: BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramDownloadLabel,
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -220,6 +226,16 @@ export default function BachelorFullTimeProgramDetailPage() {
                       {program.descriptionParagraphs.map((para, i) =>
                         para.trim() ? <p key={i}>{para.trim()}</p> : null,
                       )}
+                      <a
+                        href={pdfHref}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-medium text-foreground transition-colors hover:text-primary"
+                      >
+                        <Download className="h-4 w-4 shrink-0" aria-hidden />
+                        {downloadLabel}
+                      </a>
                     </div>
                   </div>
                 ) : null}

@@ -1,18 +1,25 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
+import { ProgramListingLinkRow } from "@/components/ProgramListingLinkRow";
+import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
+import { mastersProgramPdfHref } from "@/lib/educationProgramPdf";
 import { MASTERS_DEGREE_PROGRAMS } from "@/data/mastersDegreePrograms";
-
-const TITLE_COLOR = "rgb(30, 30, 30)";
-const ICON_BG = "rgb(35, 47, 58)";
 
 export default function MastersDegreePage() {
   const { t } = useTranslation("header");
   const { t: tCommon } = useTranslation("common");
+  const { t: tTopNav } = useTranslation("topNav");
   const title = t("secondNavEducation.mastersDegree");
+  const downloadLabel = tTopNav("bachelorProgramDownloadLabel", {
+    defaultValue: BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramDownloadLabel,
+  });
+  const openLabel = tTopNav("bachelorProgramOpenLabel", {
+    defaultValue: BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramOpenLabel,
+  });
   const intro = t("mastersDegreePageIntro", {
     defaultValue:
       "Postgraduate (master’s) programs offered at the university, with specialist codes, duration, credit load, and professional scope. Programs are full-time unless stated otherwise.",
@@ -69,25 +76,14 @@ export default function MastersDegreePage() {
 
                 <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {MASTERS_DEGREE_PROGRAMS.map((p) => (
-                    <Link
+                    <ProgramListingLinkRow
                       key={`${p.specialtyCode}-${p.index}`}
-                      to={`/education/masters/programs/${p.index}`}
-                      className="group flex w-full items-center justify-between rounded-none border-b border-border px-4 py-4 transition-colors hover:border-primary hover:bg-neutral-50/50"
-                    >
-                      <h3
-                        className="min-w-0 flex-1 text-lg font-semibold text-foreground md:text-xl"
-                        style={{ color: TITLE_COLOR }}
-                      >
-                        {p.specialtyName}
-                      </h3>
-                      <span
-                        className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-opacity group-hover:opacity-90"
-                        style={{ backgroundColor: ICON_BG }}
-                        aria-hidden
-                      >
-                        <ArrowRight className="h-5 w-5 text-white" />
-                      </span>
-                    </Link>
+                      title={p.specialtyName}
+                      detailHref={`/education/masters/programs/${p.index}`}
+                      pdfHref={mastersProgramPdfHref(p.specialtyCode)}
+                      downloadLabel={downloadLabel}
+                      detailLabel={openLabel}
+                    />
                   ))}
                 </div>
               </article>

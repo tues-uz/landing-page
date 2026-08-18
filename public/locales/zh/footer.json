@@ -1,0 +1,31 @@
+{
+  "logoAlt": "TUES大学标志",
+  "newsletterTitle": "直接将最新的 TUES 新闻和更新发送到您的收件箱。",
+  "emailAddress": "电子邮件",
+  "subscribeNow": "立即订阅",
+  "subscribeSuccess": "您已订阅！检查您的收件箱以获取 TUES 更新。",
+  "subscribeDuplicate": "该电子邮件已被订阅。",
+  "subscribeInvalid": "请输入有效的电子邮件地址。",
+  "consent": "是的，我同意接收来自 TUES 的电子邮件通信。",
+  "copyright": "© 2026 {{brand}}。版权所有。",
+  "privacyPolicy": "隐私政策",
+  "termsOfUse": "使用条款",
+  "accessibility": "无障碍",
+  "journal": {
+    "title": "周二期刊",
+    "description": "经济学家、学者和政策思想家的研究、评论和分析。",
+    "quickLinks": "快速链接",
+    "about": "关于",
+    "contact": "接触",
+    "links": {
+      "home": "家",
+      "articles": "文章",
+      "authors": "作者",
+      "topics": "主题",
+      "aboutUs": "关于我们",
+      "editorialTeam": "编辑团队",
+      "submissionGuidelines": "提交指南",
+      "contactUs": "联系我们"
+    }
+  }
+}

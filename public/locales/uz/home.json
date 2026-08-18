@@ -150,10 +150,63 @@
       "medHub": "TISU Med Hub"
     },
     "nodes": {
-      "1": { "name": "Asosiy zal", "caption": "Asosiy zal — kampus sayohati" },
-      "2": { "name": "Ko'rgazma maydoni", "caption": "Ko'rgazma maydoni — kampus sayohati" },
-      "3": { "name": "O'quv xonasi", "caption": "O'quv xonasi — kampus sayohati" },
-      "4": { "name": "Kampus binosi", "caption": "Kampus binosi — kampus sayohati" }
+      "1": {
+        "name": "Asosiy zal",
+        "caption": "Asosiy zal — kampus sayohati"
+      },
+      "2": {
+        "name": "Ko'rgazma maydoni",
+        "caption": "Ko'rgazma maydoni — kampus sayohati"
+      },
+      "3": {
+        "name": "O'quv xonasi",
+        "caption": "O'quv xonasi — kampus sayohati"
+      },
+      "4": {
+        "name": "Kampus binosi",
+        "caption": "Kampus binosi — kampus sayohati"
+      }
+    }
+  },
+  "studyProgramTitles": {
+    "programs": {
+      "dentistry": "Stomatologiya",
+      "family-medicine": "Stomatologiya",
+      "pediatrics": "Pediatriya",
+      "pharmacy": "Dorixona",
+      "masters-obstetrics-gynecology": "Akusherlik va ginekologiya",
+      "masters-surgery": "Jarrohlik",
+      "masters-therapy": "Terapiya",
+      "masters-stomatology-therapeutic": "Stomatologiya (terapevtik)",
+      "masters-urology": "Urologiya",
+      "masters-morphology": "Morfologiya",
+      "primary-education": "Boshlang'ich ta'lim",
+      "preschool-education": "Maktabgacha ta'lim",
+      "physical-culture": "Jismoniy madaniyat",
+      "foreign-language-literature": "Chet tili va adabiyoti",
+      "philology-english": "Filologiya va til o‘qitish: ingliz tili",
+      "philology-russian": "Filologiya va til o'qitish: rus tili",
+      "philology-uzbek": "Filologiya va til o‘qitish: O‘zbek tili",
+      "history": "Tarix",
+      "psychology": "Psixologiya",
+      "biology": "Biologiya",
+      "mathematics": "Matematika",
+      "technological-education": "Texnologik ta'lim",
+      "masters-foreign-language-literature": "Chet tili va adabiyoti",
+      "masters-primary-education-theory": "O‘qitish va ta’lim nazariyasi va metodikasi (Boshlang‘ich ta’lim)",
+      "masters-mathematics": "Matematika",
+      "masters-history": "Tarix",
+      "economics": "Iqtisodiyot",
+      "accounting": "Buxgalteriya hisobi",
+      "finance-financial-technologies": "Moliya va moliyaviy texnologiyalar",
+      "banking": "Bank ishi",
+      "world-economy-international-relations": "Jahon iqtisodiyoti va xalqaro iqtisodiy munosabatlar",
+      "information-systems-technologies": "Axborot tizimlari va texnologiyalari",
+      "taxation": "Soliq va soliqqa tortish",
+      "tourism-hospitality": "Turizm va mehmondo'stlik",
+      "masters-economics": "Iqtisodiyot",
+      "masters-state-financial-control-audit": "Davlat moliyaviy nazorati va auditi",
+      "masters-computer-systems-software": "Kompyuter tizimlari va ularning dasturiy ta'minoti"
     }
   }
 }

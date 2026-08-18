@@ -13,6 +13,12 @@ import { formatStudyProgramDateDisplay } from "@/lib/studyProgramDates";
 import { STUDY_PROGRAMS_I18N_DEFAULTS } from "@/locales/studyProgramsDefaults";
 import type { StudyProgram, StudyProgramFaculty } from "@/types/studyPrograms";
 
+function formatCredits(raw: string, creditsLabel: string): string {
+  const match = raw.trim().match(/^(\d+(?:\.\d+)?)\s*credits?$/i);
+  if (match) return `${match[1]} ${creditsLabel}`;
+  return raw;
+}
+
 function CourseRows({
   courses,
   creditsLabel,
@@ -30,8 +36,7 @@ function CourseRows({
           <span className="min-w-0 text-[15px] leading-relaxed text-foreground">{course.name}</span>
           {course.credits ? (
             <span className="shrink-0 text-sm tabular-nums text-muted-foreground">
-              <span className="sr-only">{creditsLabel}: </span>
-              {course.credits}
+              {formatCredits(course.credits, creditsLabel)}
             </span>
           ) : null}
         </div>

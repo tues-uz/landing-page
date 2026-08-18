@@ -310,7 +310,6 @@ const secondNavItems: SecondNavItem[] = [
     itemKeys: [
       "secondNavEducation.courseCatalogue",
       "secondNavEducation.resources",
-      "secondNavEducation.bachelor",
       "secondNavEducation.mastersDegree",
       "secondNavEducation.qualificationRequirements",
       "secondNavEducation.studyPlans",
@@ -985,6 +984,19 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                         {item.itemKeys.map((subItemKey) => {
                           const Icon = getSecondNavLinkIcon(subItemKey);
                           const href = getTopNavItemHref(subItemKey);
+                          const label = t(subItemKey);
+                          if (href === "#") {
+                            return (
+                              <span
+                                key={subItemKey}
+                                className="block px-4 py-1.5 h-9 text-sm text-muted-foreground line-clamp-1 flex items-center gap-2 cursor-default"
+                                aria-disabled="true"
+                              >
+                                <Icon className="h-4 w-4 flex-shrink-0 opacity-60" aria-hidden />
+                                <span>{label}</span>
+                              </span>
+                            );
+                          }
                           return (
                             <NavItemLink
                               key={subItemKey}
@@ -996,7 +1008,7 @@ const Header = ({ onMobileMenuOpenChange }: HeaderProps) => {
                               className="block px-4 py-1.5 h-9 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors line-clamp-1 flex items-center gap-2"
                             >
                               <Icon className="h-4 w-4 flex-shrink-0" aria-hidden />
-                              <span>{t(subItemKey)}</span>
+                              <span>{label}</span>
                             </NavItemLink>
                           );
                         })}

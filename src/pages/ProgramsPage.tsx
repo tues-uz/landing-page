@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { studyProgramDetailPath } from "@/data/studyProgramsCurriculum";
-import { useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { useLocalizedStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 
 const TITLE_COLOR = "rgb(30, 30, 30)";
 const BORDER_COLOR = "rgb(227, 229, 229)";
@@ -35,7 +35,7 @@ const ProgramsPage = () => {
   const [degreeFilter, setDegreeFilter] = useState<DegreeFilter>("all");
   const [searchParams] = useSearchParams();
   const [facultyFilter, setFacultyFilter] = useState<string>(() => searchParams.get("faculty") ?? "all");
-  const { data: faculties = [] } = useStudyProgramsQuery();
+  const { data: faculties = [] } = useLocalizedStudyProgramsQuery();
 
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [slideTransition, setSlideTransition] = useState(true);

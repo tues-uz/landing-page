@@ -2,7 +2,7 @@ import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { STUDY_PROGRAMS_I18N_DEFAULTS } from "@/locales/studyProgramsDefaults";
 import { StudyProgramCard } from "@/components/StudyProgramCard";
-import { useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { useLocalizedStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 
 function trStudyPrograms(t: TFunction, key: keyof typeof STUDY_PROGRAMS_I18N_DEFAULTS) {
   return t(key, { defaultValue: STUDY_PROGRAMS_I18N_DEFAULTS[key] });
@@ -10,7 +10,7 @@ function trStudyPrograms(t: TFunction, key: keyof typeof STUDY_PROGRAMS_I18N_DEF
 
 export function StudyProgramsSection() {
   const { t } = useTranslation("topNav");
-  const { data: faculties = [] } = useStudyProgramsQuery();
+  const { data: faculties = [] } = useLocalizedStudyProgramsQuery();
 
   return (
     <div className="mt-4 max-w-none">

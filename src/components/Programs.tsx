@@ -10,7 +10,7 @@ import {
   studyProgramsFacultyPath,
 } from "@/data/studyProgramsCurriculum";
 import { NEUTRAL_BORDER } from "@/lib/uiBorders";
-import { useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { useLocalizedStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,7 +28,7 @@ const PROGRAMS_BENTO_IMAGES = {
 const Programs = () => {
   const { t } = useTranslation("home");
   const bentoRef = useRef<HTMLDivElement>(null);
-  const { data: faculties = [] } = useStudyProgramsQuery();
+  const { data: faculties = [] } = useLocalizedStudyProgramsQuery();
 
   const previewPrograms = useMemo(() => flattenStudyPrograms(faculties).slice(0, 6), [faculties]);
 

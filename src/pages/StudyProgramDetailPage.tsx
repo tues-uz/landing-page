@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { StudyProgramDetailView } from "@/components/StudyProgramDetailView";
-import { useStudyProgramDetailQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { useLocalizedStudyProgramDetailQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 
 import { STUDY_PROGRAMS_LIST_PATH } from "@/data/studyProgramsCurriculum";
 
@@ -12,7 +12,7 @@ const BACK_PATH = STUDY_PROGRAMS_LIST_PATH;
 
 export default function StudyProgramDetailPage() {
   const { programId } = useParams<{ programId: string }>();
-  const { data: result, isLoading } = useStudyProgramDetailQuery(programId ?? "");
+  const { data: result, isLoading } = useLocalizedStudyProgramDetailQuery(programId ?? "");
 
   const { t: tCommon } = useTranslation("common");
   const { t: th } = useTranslation("header");

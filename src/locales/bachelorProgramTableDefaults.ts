@@ -7,4 +7,6 @@ export const BACHELOR_PROGRAM_TABLE_DEFAULTS = {
   bachelorTableForm: "Form of education:",
   bachelorTableCipher: "Specialist cipher",
   bachelorTableSpecialty: "Specialty name",
+  bachelorProgramDownloadLabel: "Download programme PDF",
+  bachelorProgramOpenLabel: "Open programme details",
 } as const;

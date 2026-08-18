@@ -1,0 +1,212 @@
+{
+  "about": {
+    "badge": "关于我们",
+    "titleLine1": "泰尔梅兹大学",
+    "titleLine2": "经济与服务学院",
+    "description": "欢迎来到 TUES，您值得信赖的经济学和服务教育机构，致力于以卓越和关怀改变未来。凭借多年的教学、研究和行业合作经验，我们为提供高质量的教育和无缝的学生体验而感到自豪。我们的使命是将您的学术愿景变为现实，同时确保每一步都有明确的指导和专家支持。",
+    "stats": {
+      "students": {
+        "label": "学生",
+        "description": "来自 150 多个国家\n全世界"
+      },
+      "professors": {
+        "label": "教授及教师",
+        "description": "引领创新\n跨学科"
+      },
+      "faculties": {
+        "label": "院系",
+        "description": "独立、自治\n社区"
+      },
+      "irc": {
+        "label": "IRC基金",
+        "description": "的遗产\n学术成就"
+      }
+    }
+  },
+  "faculties": {
+    "title": "浏览院系。",
+    "description": "探索我们的学术院系，发现塑造所提供的每个项目的学校和院系。",
+    "exploreAll": "探索全部",
+    "label": "学院",
+    "programs_one": "{{count}} 程序",
+    "programs_other": "{{count}} 程序"
+  },
+  "programs": {
+    "title": "浏览节目依据。",
+    "description": "这个用户友好的工具提供了按学习领域、学位水平甚至在线或校园等学习形式过滤课程的选项。",
+    "exploreAll": "探索全部"
+  },
+  "news": {
+    "title": "新闻与公告",
+    "subtitle": "及时了解 TUES 的最新动态——研究、校园动态和故事。",
+    "noArticles": "还没有文章。",
+    "recommendedSidebarTitle": "消息",
+    "viewAll": "查看所有新闻",
+    "readMore": "阅读更多",
+    "onDate": "在 {{date}} 上",
+    "comments_one": "{{count}} 评论",
+    "comments_other": "{{count}} 评论"
+  },
+  "campus": {
+    "title": "校园生活",
+    "tags": {
+      "sports": "运动的",
+      "libraries": "图书馆",
+      "careerSeminars": "职业发展研讨会",
+      "research": "研究",
+      "business": "商业与企业"
+    }
+  },
+  "events": {
+    "titleLine1": "即将举行的活动",
+    "titleLine2": "＆ 活动",
+    "recommendedSidebarTitle": "活动",
+    "viewAll": "查看所有活动",
+    "noUpcoming": "没有即将举行的活动。"
+  },
+  "alumni": {
+    "badge": "我们的社区",
+    "title": "校友网络",
+    "description": "加入由在世界各地做出贡献的卓有成就的专业人士、领导者和创新者组成的全球网络。与校友联系并与母校保持联系。",
+    "moreStories": "更多校友故事",
+    "stats": {
+      "alumniWorldwide": "全球校友",
+      "nobel": "诺贝尔奖获得者",
+      "countries": "代表国家",
+      "careerRate": "职业成功率"
+    }
+  },
+  "research": {
+    "badge": "研究与奖学金",
+    "title": "期刊、研究与创新",
+    "description": "从同行评审期刊到研究中心和博士项目——TUES 支持塑造政策和实践的学术研究。",
+    "ctaText": "您想与我们一起发表文章或合作研究吗？",
+    "ctaButton": "联系我们",
+    "items": {
+      "research": {
+        "title": "研究",
+        "description": "TUES 促进经济、商业和政策领域的前沿研究。",
+        "label": "探索研究"
+      },
+      "journals": {
+        "title": "期刊和出版物",
+        "description": "访问我们经过同行评审的期刊和出版物系列。",
+        "label": "查看出版物"
+      },
+      "labs": {
+        "title": "实验室和中心",
+        "description": "专门的研究实验室和中心专注于经济政策和创新等领域。",
+        "label": "发现实验室"
+      },
+      "doctoral": {
+        "title": "博士及博士后",
+        "description": "加入我们的博士和博士后项目。与领先的研究人员一起工作。",
+        "label": "节目"
+      }
+    }
+  },
+  "eduhub": {
+    "badge": "平台",
+    "titleSubtitle": "您的学习和校园中心",
+    "description": "了解 EduHub 如何支持您的学习、将您的课程材料保存在一处以及如何将您与 TUES 社区联系起来。在一个平台上访问作业、活动、支持和公告。",
+    "quote": "“您的课程、社区和支持都集中在一个地方。EduHub 让您保持联系并步入正轨。”",
+    "learningPlatform": "学习平台",
+    "goTo": "前往教育中心",
+    "features": {
+      "course-materials": {
+        "title": "课程资料",
+        "description": "在一处访问所有课程材料、讲义和资源。 EduHub 使所有内容井井有条且易于查找，因此您可以专注于学习。"
+      },
+      "community": {
+        "title": "社区与联系",
+        "description": "通过论坛和消息传递与同行、教师和员工联系。获取答案、加入学习小组并成为 TUES 社区的一部分。"
+      },
+      "events": {
+        "title": "活动与机会",
+        "description": "随时了解校园活动、研讨会和机会的最新信息。切勿错过对您的学习和职业至关重要的截止日期或活动。"
+      },
+      "support": {
+        "title": "支持",
+        "description": "当您需要时获得帮助。 EduHub 为您提供学术和技术支持，以便您可以快速解决问题并不断前进。"
+      },
+      "assignments": {
+        "title": "作业和提交",
+        "description": "通过 EduHub 提交作业、跟踪截止日期并接收反馈。您的所有课程作业都集中在一处，具有清晰的状态和讲师评论。"
+      },
+      "notifications": {
+        "title": "通知和公告",
+        "description": "从您的教师和大学获取及时的警报和公告。 EduHub 让您随时了解日程变更、新内容和重要更新。"
+      }
+    }
+  },
+  "virtualTour": {
+    "kicker": "探索我们的校园",
+    "title": "进行虚拟游览",
+    "description": "从世界任何地方探索我们最先进的设施、美丽的校园场地和现代化的学习环境。",
+    "cta": "开始虚拟之旅",
+    "tours": {
+      "medicine": "医学院",
+      "campus": "TISU泰尔梅兹校区",
+      "medHub": "TISU 医学中心"
+    },
+    "nodes": {
+      "1": {
+        "name": "正殿",
+        "caption": "主礼堂——校园参观"
+      },
+      "2": {
+        "name": "展览空间",
+        "caption": "展示空间——校园参观"
+      },
+      "3": {
+        "name": "自习室",
+        "caption": "自习室——校园参观"
+      },
+      "4": {
+        "name": "校园大楼",
+        "caption": "校园建设——校园参观"
+      }
+    }
+  },
+  "studyProgramTitles": {
+    "programs": {
+      "dentistry": "牙科",
+      "family-medicine": "牙科",
+      "pediatrics": "儿科",
+      "pharmacy": "药店",
+      "masters-obstetrics-gynecology": "妇产科",
+      "masters-surgery": "外科手术",
+      "masters-therapy": "治疗",
+      "masters-stomatology-therapeutic": "口腔医学（治疗）",
+      "masters-urology": "泌尿科",
+      "masters-morphology": "形态学",
+      "primary-education": "初等教育",
+      "preschool-education": "幼儿教育",
+      "physical-culture": "体育",
+      "foreign-language-literature": "外国语言文学",
+      "philology-english": "语言学和语言教学：英语",
+      "philology-russian": "语言学和语言教学：俄语",
+      "philology-uzbek": "语言学和语言教学：乌兹别克语",
+      "history": "历史",
+      "psychology": "心理学",
+      "biology": "生物学",
+      "mathematics": "数学",
+      "technological-education": "科技教育",
+      "masters-foreign-language-literature": "外国语言文学",
+      "masters-primary-education-theory": "教学与教育理论与方法（小学教育）",
+      "masters-mathematics": "数学",
+      "masters-history": "历史",
+      "economics": "经济学",
+      "accounting": "会计",
+      "finance-financial-technologies": "金融与金融技术",
+      "banking": "银行业",
+      "world-economy-international-relations": "世界经济与国际经济关系",
+      "information-systems-technologies": "信息系统和技术",
+      "taxation": "税收与​​税收",
+      "tourism-hospitality": "旅游与酒店业",
+      "masters-economics": "经济学",
+      "masters-state-financial-control-audit": "国家财务控制和审计",
+      "masters-computer-systems-software": "计算机系统及其软件"
+    }
+  }
+}

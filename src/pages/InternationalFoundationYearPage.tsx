@@ -44,7 +44,7 @@ export default function InternationalFoundationYearPage() {
   const { t: th } = useTranslation("header");
 
   const educationLabel = th("secondNav.education");
-  const bachelorLabel = th("secondNavEducation.bachelor");
+  const bachelorLabel = th("secondNavEducation.courseCatalogue");
   const pageTitle = trIfy(t, "ifyPageTitle");
 
   return (

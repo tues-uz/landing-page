@@ -1,11 +1,13 @@
 import { useCallback, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Check, Home, Share2 } from "lucide-react";
+import { Check, Download, Home, Share2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { getMastersDegreeProgramByNo, type MastersDegreeProgram } from "@/data/mastersDegreePrograms";
+import { mastersProgramPdfHref } from "@/lib/educationProgramPdf";
+import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
 
 /** Aligned with {@link BachelorFullTimeProgramDetailPage} `LABELS` for layout parity. */
 const LABELS = {
@@ -96,6 +98,7 @@ export default function MastersDegreeProgramDetailPage() {
 
   const { t: th } = useTranslation("header");
   const { t: tCommon } = useTranslation("common");
+  const { t: tTopNav } = useTranslation("topNav");
 
   const backPath = "/education/masters";
 
@@ -106,6 +109,10 @@ export default function MastersDegreeProgramDetailPage() {
   const educationLabel = th("secondNav.education");
   const mastersLabel = th("secondNavEducation.mastersDegree");
   const leafTitle = program.specialtyName.trim() || `Programme №${program.index}`;
+  const pdfHref = mastersProgramPdfHref(program.specialtyCode);
+  const downloadLabel = tTopNav("bachelorProgramDownloadLabel", {
+    defaultValue: BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramDownloadLabel,
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -171,6 +178,16 @@ export default function MastersDegreeProgramDetailPage() {
                     <h2 className="text-base font-semibold text-foreground">Overview</h2>
                     <div className="mt-4 space-y-4 text-justify text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
                       <p>{program.description.trim()}</p>
+                      <a
+                        href={pdfHref}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-medium text-foreground transition-colors hover:text-primary"
+                      >
+                        <Download className="h-4 w-4 shrink-0" aria-hidden />
+                        {downloadLabel}
+                      </a>
                     </div>
                   </div>
                 ) : null}

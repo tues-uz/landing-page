@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-const supportedLngs = ["uz", "en", "ru"] as const;
+const supportedLngs = ["uz", "en", "ru", "zh"] as const;
 export type SupportedLanguage = (typeof supportedLngs)[number];
 
 i18n
@@ -25,6 +25,7 @@ i18n
       "news",
       "events",
       "programs",
+      "studyProgramCurriculum",
       "footer",
       "notFound",
       "admin",

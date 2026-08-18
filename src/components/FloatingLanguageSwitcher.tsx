@@ -7,6 +7,7 @@ const LANGUAGES = [
   { code: "uz", short: "UZ" },
   { code: "en", short: "EN" },
   { code: "ru", short: "RU" },
+  { code: "zh", short: "CN" },
 ] as const;
 
 /** Fixed globe FAB + popover; stacked above home scroll-to-top (right-8, w-14 + gap). */

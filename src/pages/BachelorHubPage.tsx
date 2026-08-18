@@ -23,7 +23,7 @@ export default function BachelorHubPage() {
   const { t: th } = useTranslation("header");
 
   const educationLabel = th("secondNav.education");
-  const pageTitle = th("secondNavEducation.bachelor");
+  const pageTitle = th("secondNavEducation.courseCatalogue");
 
   return (
     <div className="min-h-screen bg-background">

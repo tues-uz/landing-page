@@ -1,0 +1,16 @@
+{
+  "title": "消息",
+  "subtitle": "及时了解 TUES 的最新动态——研究亮点和校园动态。",
+  "searchPlaceholder": "按标题、摘录、类别或作者搜索新闻...",
+  "searchAriaLabel": "搜索新闻",
+  "filterAriaLabel": "按类别过滤",
+  "allCategories": "所有类别",
+  "categories": {
+    "news": "消息",
+    "events": "活动",
+    "announcements": "公告",
+    "blog": "博客"
+  },
+  "noArticlesYet": "还没有文章。",
+  "noMatch": "没有符合您的搜索或过滤条件的新闻。尝试不同的关键词或类别。"
+}

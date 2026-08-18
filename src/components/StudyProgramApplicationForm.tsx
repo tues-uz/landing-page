@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { flattenStudyPrograms } from "@/data/studyProgramsCurriculum";
-import { useStudyProgramDetailQuery, useStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { useStudyProgramDetailQuery, useLocalizedStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 import { contentApi } from "@/api/client";
 import {
   STUDY_PROGRAM_APPLY_CITIZENSHIP_OPTIONS,
@@ -53,7 +53,7 @@ function trApply(
 export function StudyProgramApplicationForm({ initialProgramId }: { initialProgramId?: string }) {
   const { t } = useTranslation("topNav");
   const { toast } = useToast();
-  const { data: faculties = [], isLoading: isProgramsLoading } = useStudyProgramsQuery();
+  const { data: faculties = [], isLoading: isProgramsLoading } = useLocalizedStudyProgramsQuery();
   const { data: initialProgramDetail, isLoading: isInitialProgramLoading } =
     useStudyProgramDetailQuery(initialProgramId ?? "");
   const isProgramLocked = Boolean(initialProgramId);

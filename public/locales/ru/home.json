@@ -154,10 +154,63 @@
       "medHub": "TISU Med Hub"
     },
     "nodes": {
-      "1": { "name": "Главный зал", "caption": "Главный зал — тур по кампусу" },
-      "2": { "name": "Выставочное пространство", "caption": "Выставочное пространство — тур по кампусу" },
-      "3": { "name": "Учебная комната", "caption": "Учебная комната — тур по кампусу" },
-      "4": { "name": "Здание кампуса", "caption": "Здание кампуса — тур по кампусу" }
+      "1": {
+        "name": "Главный зал",
+        "caption": "Главный зал — тур по кампусу"
+      },
+      "2": {
+        "name": "Выставочное пространство",
+        "caption": "Выставочное пространство — тур по кампусу"
+      },
+      "3": {
+        "name": "Учебная комната",
+        "caption": "Учебная комната — тур по кампусу"
+      },
+      "4": {
+        "name": "Здание кампуса",
+        "caption": "Здание кампуса — тур по кампусу"
+      }
+    }
+  },
+  "studyProgramTitles": {
+    "programs": {
+      "dentistry": "Стоматология",
+      "family-medicine": "Стоматология",
+      "pediatrics": "Педиатрия",
+      "pharmacy": "Аптека",
+      "masters-obstetrics-gynecology": "Акушерство и гинекология",
+      "masters-surgery": "Операция",
+      "masters-therapy": "Терапия",
+      "masters-stomatology-therapeutic": "Стоматология (терапевтическая)",
+      "masters-urology": "Урология",
+      "masters-morphology": "Морфология",
+      "primary-education": "Начальное образование",
+      "preschool-education": "Дошкольное образование",
+      "physical-culture": "Физическая культура",
+      "foreign-language-literature": "Иностранный язык и литература",
+      "philology-english": "Преподавание филологии и языков: английского языка",
+      "philology-russian": "Преподавание филологии и языков: русский язык",
+      "philology-uzbek": "Преподавание филологии и языков: узбекский язык",
+      "history": "История",
+      "psychology": "Психология",
+      "biology": "Биология",
+      "mathematics": "Математика",
+      "technological-education": "Технологическое образование",
+      "masters-foreign-language-literature": "Иностранный язык и литература",
+      "masters-primary-education-theory": "Теория и методика преподавания и воспитания (начальное образование)",
+      "masters-mathematics": "Математика",
+      "masters-history": "История",
+      "economics": "Экономика",
+      "accounting": "Бухгалтерский учет",
+      "finance-financial-technologies": "Финансы и финансовые технологии",
+      "banking": "Банковское дело",
+      "world-economy-international-relations": "Мировая экономика и международные экономические отношения",
+      "information-systems-technologies": "Информационные системы и технологии",
+      "taxation": "Налогообложение и налогообложение",
+      "tourism-hospitality": "Туризм и гостиничный бизнес",
+      "masters-economics": "Экономика",
+      "masters-state-financial-control-audit": "Государственный финансовый контроль и аудит",
+      "masters-computer-systems-software": "Компьютерные системы и их программное обеспечение"
     }
   }
 }

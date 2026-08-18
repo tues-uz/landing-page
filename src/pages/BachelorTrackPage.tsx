@@ -1,19 +1,19 @@
 import type { TFunction } from "i18next";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
+import { ProgramListingLinkRow } from "@/components/ProgramListingLinkRow";
+import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
+import { bachelorProgramPdfHref } from "@/lib/educationProgramPdf";
 import { BACHELOR_TRACK_DEFAULTS } from "@/locales/bachelorHubDefaults";
 import { BACHELOR_FULL_TIME_PROGRAMS, bachelorFullTimeProgramDetailPath } from "@/data/bachelorFullTimePrograms";
 import {
   BACHELOR_CORRESPONDENCE_PROGRAMS,
   bachelorCorrespondenceProgramDetailPath,
 } from "@/data/bachelorCorrespondencePrograms";
-
-const TITLE_COLOR = "rgb(30, 30, 30)";
-const ICON_BG = "rgb(35, 47, 58)";
 
 type TrackSlug = "full-time" | "correspondence";
 
@@ -34,7 +34,7 @@ export default function BachelorTrackPage() {
   const { t: th } = useTranslation("header");
 
   const educationLabel = th("secondNav.education");
-  const bachelorLabel = th("secondNavEducation.bachelor");
+  const bachelorLabel = th("secondNavEducation.courseCatalogue");
 
   const meta =
     slug === "full-time"
@@ -69,6 +69,16 @@ export default function BachelorTrackPage() {
   const programs = slug === "full-time" ? BACHELOR_FULL_TIME_PROGRAMS : BACHELOR_CORRESPONDENCE_PROGRAMS;
   const programDetailPath =
     slug === "full-time" ? bachelorFullTimeProgramDetailPath : bachelorCorrespondenceProgramDetailPath;
+  const downloadLabel = trTrack(
+    t,
+    "bachelorProgramDownloadLabel",
+    BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramDownloadLabel,
+  );
+  const openLabel = trTrack(
+    t,
+    "bachelorProgramOpenLabel",
+    BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramOpenLabel,
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -134,25 +144,14 @@ export default function BachelorTrackPage() {
                           program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.no}`;
 
                         return (
-                          <Link
+                          <ProgramListingLinkRow
                             key={program.no}
-                            to={programDetailPath(program.no)}
-                            className="group flex w-full items-center justify-between rounded-none border-b border-border px-4 py-4 transition-colors hover:border-primary hover:bg-neutral-50/50"
-                          >
-                            <h3
-                              className="min-w-0 flex-1 text-lg font-semibold text-foreground md:text-xl"
-                              style={{ color: TITLE_COLOR }}
-                            >
-                              {title}
-                            </h3>
-                            <span
-                              className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-opacity group-hover:opacity-90"
-                              style={{ backgroundColor: ICON_BG }}
-                              aria-hidden
-                            >
-                              <ArrowRight className="h-5 w-5 text-white" />
-                            </span>
-                          </Link>
+                            title={title}
+                            detailHref={programDetailPath(program.no)}
+                            pdfHref={bachelorProgramPdfHref(slug, program.cipher)}
+                            downloadLabel={downloadLabel}
+                            detailLabel={openLabel}
+                          />
                         );
                       })}
                     </div>

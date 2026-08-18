@@ -75,6 +75,7 @@ export const topNavItemHref: Record<string, string> = {
   "nav.newsMenu.latestNews": "/news",
   "nav.newsMenu.upcomingEvents": "/events",
   "secondNavEducation.bachelor": "/education/bachelor",
+  "secondNavEducation.courseCatalogue": "/education/bachelor",
   "secondNavEducation.mastersDegree": "/education/masters",
   "secondNavEducation.qualificationRequirements": "/education/qualification-requirements",
   "secondNavEducation.resources": "https://lib.tues.uz/",
@@ -133,7 +134,7 @@ export const topNavItemHref: Record<string, string> = {
 export function getTopNavItemHref(labelKey: string): string {
   if (topNavItemHref[labelKey]) return topNavItemHref[labelKey];
   if (labelKey.startsWith("secondNavUniversity.")) return "/about";
-  if (labelKey.startsWith("secondNavEducation.")) return "/education/bachelor";
+  if (labelKey.startsWith("secondNavEducation.")) return "#";
   if (labelKey.startsWith("secondNavScience.")) return "/science/scientific-articles";
   if (labelKey.startsWith("secondNavInternationalization.")) return "/internationalization/international-support-center";
   if (labelKey.startsWith("secondNavStudentLife.")) return "/student-life/community-clubs";
