@@ -81,7 +81,7 @@ function EventListCard({ event }: { event: EventItem }) {
 
 const EventDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("events");
 
   const { data: eventData, isLoading } = useQuery({
     queryKey: [...contentKeys.events.list(), i18n.language],
@@ -99,9 +99,9 @@ const EventDetailPage = () => {
       <div className="min-h-screen">
         <Header />
         <main className="below-header flex flex-col items-center justify-center py-24">
-          <p className="text-muted-foreground mb-4">Event not found.</p>
+          <p className="text-muted-foreground mb-4">{t("eventNotFound", "Event not found.")}</p>
           <Link to="/events" className="text-primary font-medium hover:underline">
-            Back to Events
+            {t("backToEvents", "Back to Events")}
           </Link>
         </main>
         <Footer />
@@ -124,6 +124,8 @@ const EventDetailPage = () => {
     );
   }
 
+  const descriptionText = event.description?.trim() || t("defaultDescription", "Join us for this event at TUES. For more details and registration, please contact the organizer or visit the campus events office.");
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -141,7 +143,7 @@ const EventDetailPage = () => {
                 className="absolute left-6 top-6 inline-flex items-center gap-1.5 rounded-lg bg-black/40 px-3 py-2 text-sm font-medium text-white backdrop-blur-sm hover:bg-black/60"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back
+                {t("backToEvents", "Back")}
               </Link>
               <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-sm md:text-4xl lg:text-5xl">
                 {event.title}
@@ -160,18 +162,17 @@ const EventDetailPage = () => {
               {/* Main content */}
               <div className="lg:col-span-8 space-y-8">
                 <div>
-                  <h2 className="text-lg font-semibold text-foreground mb-3">Description</h2>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Join us for this event at TUES. For more details and registration, please contact
-                    the organizer or visit the campus events office.
+                  <h2 className="text-lg font-semibold text-foreground mb-3">{t("description", "Description")}</h2>
+                  <p className="text-muted-foreground text-sm leading-relaxed whitespace-pre-line">
+                    {descriptionText}
                   </p>
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-foreground mb-3">
-                    How can I contact the organizer?
+                    {t("howToContact", "How can I contact the organizer?")}
                   </h2>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Please visit the TUES website or contact the events office for any questions.
+                    {t("contactDetails", "Please visit the TUES website or contact the events office for any questions.")}
                   </p>
                 </div>
               </div>
@@ -179,7 +180,7 @@ const EventDetailPage = () => {
               {/* Date & Time card */}
               <div className="lg:col-span-4">
                 <div className="rounded-xl border border-border bg-background p-6 shadow-sm sticky top-24">
-                  <h2 className="text-lg font-semibold text-foreground mb-4">Date & Time</h2>
+                  <h2 className="text-lg font-semibold text-foreground mb-4">{t("dateTime", "Date & Time")}</h2>
                   <div className="flex items-center gap-2 text-foreground">
                     <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
                     <span>{formatEventDateDisplay(event.date)}</span>
@@ -192,7 +193,7 @@ const EventDetailPage = () => {
                     <p className="text-sm font-medium text-foreground">{event.title}</p>
                     <p className="text-sm text-muted-foreground mt-1">{event.location}</p>
                   </div>
-                  <p className="mt-4 text-xs text-muted-foreground">Free event — no registration required.</p>
+                  <p className="mt-4 text-xs text-muted-foreground">{t("freeEvent", "Free event — no registration required.")}</p>
                 </div>
               </div>
             </div>
@@ -201,7 +202,7 @@ const EventDetailPage = () => {
             {otherEvents.length > 0 && (
               <div className="mt-16">
                 <h2 className="text-xl font-semibold text-foreground mb-6">
-                  Other Events You May Like
+                  {t("otherEvents", "Other Events You May Like")}
                 </h2>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {otherEvents.map((e) => (

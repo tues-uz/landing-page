@@ -89,6 +89,8 @@
   "emailAddressLabel": "Email",
   "emailPlaceholder": "email@example.com",
   "eventDate": "Дата",
+  "eventDescription": "Описание",
+  "eventDescriptionPlaceholder": "Описание события, программа или подробности...",
   "eventImageDropHint": "Перетащите или нажмите · изображения, макс. 50 МБ",
   "eventImageOptional": "Изображение события (необязательно)",
   "eventImageUploadedReplace": "Изображение загружено · нажмите для замены",

@@ -60,6 +60,16 @@ function titleToSlug(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
+const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+type ArticleLocale = (typeof SUPPORTED_LOCALES)[number];
+
+/** The list/detail fetch is always made with the current admin UI language, so the
+ * fetched article's content is in that locale — the edit tab must start there too,
+ * otherwise it mislabels the loaded content and can overwrite the wrong locale on save. */
+function currentContentLocale(language: string): ArticleLocale {
+  return (SUPPORTED_LOCALES as readonly string[]).includes(language) ? (language as ArticleLocale) : "uz";
+}
+
 function articleToForm(article: Partial<NewsItem>): Partial<NewsItem> {
   return {
     ...article,
@@ -194,6 +204,7 @@ export default function AdminNews() {
       if (article) {
         setEditing(article);
         setDisplay(article.display || "Regular");
+        setEditLocale(currentContentLocale(i18n.language));
         const nextForm = articleToForm(article);
         setForm(nextForm);
         setEditorDoc(bodyToEditorDoc(nextForm.body as NewsSection[]));
@@ -213,7 +224,7 @@ export default function AdminNews() {
   const openCreate = () => {
     setEditing(null);
     setDisplay("Regular");
-    setEditLocale("uz");
+    setEditLocale(currentContentLocale(i18n.language));
     setForm({
       slug: "",
       category: "News",
@@ -232,7 +243,7 @@ export default function AdminNews() {
   const openEdit = (a: NewsItem) => {
     setEditing(a);
     setDisplay(a.display || "Regular");
-    setEditLocale("uz");
+    setEditLocale(currentContentLocale(i18n.language));
     const nextForm = articleToForm(a);
     setForm(nextForm);
     setEditorDoc(bodyToEditorDoc(nextForm.body as NewsSection[]));

@@ -149,6 +149,8 @@ import AdminNewsBoard from "./pages/admin/AdminNewsBoard";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminStudyPrograms from "./pages/admin/AdminStudyPrograms";
 import AdminStudyProgramEdit from "./pages/admin/AdminStudyProgramEdit";
+import AdminBachelorPrograms from "./pages/admin/AdminBachelorPrograms";
+import AdminBachelorProgramEdit from "./pages/admin/AdminBachelorProgramEdit";
 import AdminProgramsRedirect from "./pages/admin/AdminProgramsRedirect";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminNewsletterSubscribers from "./pages/admin/AdminNewsletterSubscribers";
@@ -490,6 +492,8 @@ const App = () => (
                 <Route path="/admin/events" element={<AdminEvents />} />
                 <Route path="/admin/study-programs" element={<AdminStudyPrograms />} />
                 <Route path="/admin/study-programs/:programId/edit" element={<AdminStudyProgramEdit />} />
+                <Route path="/admin/bachelor-programs" element={<AdminBachelorPrograms />} />
+                <Route path="/admin/bachelor-programs/:id/edit" element={<AdminBachelorProgramEdit />} />
                 <Route path="/admin/applications" element={<AdminApplications />} />
                 <Route path="/admin/newsletter" element={<AdminNewsletterSubscribers />} />
                 <Route path="/admin/programs" element={<AdminProgramsRedirect />} />

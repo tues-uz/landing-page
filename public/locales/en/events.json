@@ -8,5 +8,14 @@
   "noPast": "No past events to display.",
   "seeMore": "See more events",
   "shareEvent": "Share event",
-  "linkCopied": "Link copied"
+  "linkCopied": "Link copied",
+  "description": "Description",
+  "defaultDescription": "Join us for this event at TUES. For more details and registration, please contact the organizer or visit the campus events office.",
+  "howToContact": "How can I contact the organizer?",
+  "contactDetails": "Please visit the TUES website or contact the events office for any questions.",
+  "dateTime": "Date & Time",
+  "freeEvent": "Free event — no registration required.",
+  "otherEvents": "Other Events You May Like",
+  "backToEvents": "Back to Events",
+  "eventNotFound": "Event not found."
 }

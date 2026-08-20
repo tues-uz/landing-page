@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+type ProgramLocale = (typeof SUPPORTED_LOCALES)[number];
+
+/** The detail fetch is always made with the current admin UI language, so the loaded
+ * program's content is in that locale — the edit tab must start there too, otherwise it
+ * mislabels the loaded content and can overwrite the wrong locale on save. */
+function currentContentLocale(language: string): ProgramLocale {
+  return (SUPPORTED_LOCALES as readonly string[]).includes(language) ? (language as ProgramLocale) : "uz";
+}
 import { ArrowLeft, ChevronDown, ChevronUp, ExternalLink, Loader2, Plus, Save, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AdminPageShell } from "./AdminPageShell";
@@ -13,6 +22,7 @@ import {
   useAdminStudyProgramDetailQuery,
   useAdminStudyProgramsQuery,
   useStudyProgramMutations,
+  useFacultyMutations,
 } from "@/features/cms/hooks/useStudyProgramsQueries";
 import { adminApi } from "@/api/adminClient";
 import {
@@ -32,12 +42,15 @@ export default function AdminStudyProgramEdit() {
   const isCreate = programId === "new";
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation("admin");
+  const { t, i18n } = useTranslation("admin");
   const { data: faculties = [] } = useAdminStudyProgramsQuery();
   const { data: program, isLoading } = useAdminStudyProgramDetailQuery(programId);
   const { create, update, upsertTranslation } = useStudyProgramMutations();
+  const { create: createFaculty } = useFacultyMutations();
+  const [newFacultyName, setNewFacultyName] = useState("");
+  const [addingFaculty, setAddingFaculty] = useState(false);
 
-  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">(() => currentContentLocale(i18n.language));
   const [loadingLocale, setLoadingLocale] = useState(false);
 
   const [programSlug, setProgramSlug] = useState("");
@@ -59,8 +72,27 @@ export default function AdminStudyProgramEdit() {
     setCourseGroups((current) => (current.length ? current : [emptyGroup(t("newGroupTitle"))]));
   }, [isCreate, faculties, t]);
 
+  const handleAddFaculty = async () => {
+    const title = newFacultyName.trim();
+    if (!title) return;
+    try {
+      const created = await createFaculty.mutateAsync({ title });
+      setFacultyId(created.id);
+      setNewFacultyName("");
+      setAddingFaculty(false);
+      toast({ title: t("facultyCreated", "Faculty added") });
+    } catch (err) {
+      toast({
+        title: t("facultyCreateFailed", "Could not add faculty"),
+        description: err instanceof Error ? err.message : undefined,
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     if (!program || isCreate) return;
+    setEditLocale(currentContentLocale(i18n.language));
     setTitle(program.title);
     setCode(program.code);
     setDuration(program.duration);
@@ -305,19 +337,66 @@ export default function AdminStudyProgramEdit() {
             <CardContent className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="faculty">{t("facultyLabel")}</Label>
-                <select
-                  id="faculty"
-                  value={facultyId}
-                  onChange={(e) => setFacultyId(e.target.value)}
-                  disabled={editLocale !== "uz"}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                >
-                  {faculties.map((faculty) => (
-                    <option key={faculty.id} value={faculty.id}>
-                      {faculty.title}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center gap-2">
+                  <select
+                    id="faculty"
+                    value={facultyId}
+                    onChange={(e) => setFacultyId(e.target.value)}
+                    disabled={editLocale !== "uz"}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  >
+                    {faculties.length === 0 && <option value="">{t("noFacultiesYet", "No faculties yet.")}</option>}
+                    {faculties.map((faculty) => (
+                      <option key={faculty.id} value={faculty.id}>
+                        {faculty.title}
+                      </option>
+                    ))}
+                  </select>
+                  {editLocale === "uz" && !addingFaculty ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-10 shrink-0 gap-1.5"
+                      onClick={() => setAddingFaculty(true)}
+                    >
+                      <Plus className="h-4 w-4" />
+                      {t("newFaculty", "New faculty")}
+                    </Button>
+                  ) : null}
+                </div>
+                {addingFaculty ? (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      autoFocus
+                      value={newFacultyName}
+                      onChange={(e) => setNewFacultyName(e.target.value)}
+                      placeholder={t("newFacultyTitlePlaceholder", "New faculty name…")}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleAddFaculty();
+                        if (e.key === "Escape") setAddingFaculty(false);
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="h-9 shrink-0"
+                      onClick={handleAddFaculty}
+                      disabled={createFaculty.isPending || !newFacultyName.trim()}
+                    >
+                      {createFaculty.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : t("add", "Add")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-9 shrink-0"
+                      onClick={() => setAddingFaculty(false)}
+                    >
+                      {t("cancel", "Cancel")}
+                    </Button>
+                  </div>
+                ) : null}
                 {facultyTitle ? (
                   <p className="text-xs text-muted-foreground">{t("facultyCurrent", { title: facultyTitle })}</p>
                 ) : null}

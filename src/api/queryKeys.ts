@@ -23,6 +23,12 @@ export const contentKeys = {
         list: () => ["content", "study-programs", "list"] as const,
         detail: (programId: string) => ["content", "study-programs", "detail", programId] as const,
     },
+    bachelorPrograms: {
+        all: ["content", "bachelor-programs"] as const,
+        list: (track?: string) => ["content", "bachelor-programs", "list", track ?? "all"] as const,
+        detail: (track: string, programNo: number) =>
+            ["content", "bachelor-programs", "detail", track, programNo] as const,
+    },
     scientificArticles: () => ["content", "scientific-articles"] as const,
     scienceCertificates: () => ["content", "science-certificates"] as const,
     tuitionRates: () => ["content", "tuition-rates"] as const,
@@ -45,6 +51,10 @@ export const studyProgramsKeys = {
     all: ["study-programs"] as const,
     list: () => ["study-programs", "list"] as const,
     detail: (programId: string) => ["study-programs", "detail", programId] as const,
+};
+export const bachelorProgramsKeys = {
+    all: ["bachelor-programs"] as const,
+    list: (track?: string) => ["bachelor-programs", "list", track ?? "all"] as const,
 };
 export const applicationsKeys = {
     all: ["applications"] as const,

@@ -11,10 +11,26 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type HeroSlide, type HeroBackground } from "@/api/adminClient";
 import { AdminPageShell } from "./AdminPageShell";
-import { Loader2, Plus, Search, Video, Image, Upload, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  Search,
+  Video,
+  Image,
+  Upload,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  Layers,
+  Sparkles,
+  CheckCircle2,
+} from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 import { getHeroImageUrls, serializeHeroBackgroundForApi } from "@/lib/heroBackgroundUtils";
+import { HeroBackgroundSlideshow } from "@/components/HeroBackgroundSlideshow";
 
 export default function AdminHero() {
   const { t, i18n } = useTranslation("admin");
@@ -29,6 +45,11 @@ export default function AdminHero() {
   const [searchSlides, setSearchSlides] = useState("");
   const [addSlideOpen, setAddSlideOpen] = useState(false);
   const [uploadingMedia, setUploadingMedia] = useState<"video" | "fallback" | "image" | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number } | null>(null);
+  const [showLivePreview, setShowLivePreview] = useState(false);
+  const [isDraggingImage, setIsDraggingImage] = useState(false);
+  const [isDraggingVideo, setIsDraggingVideo] = useState(false);
+  const [isDraggingFallback, setIsDraggingFallback] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<{ video: string | null; fallback: string | null }>({
     video: null,
     fallback: null,
@@ -103,33 +124,38 @@ export default function AdminHero() {
     e.target.value = "";
   };
 
-  const handleImageBackgroundFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
-    if (!fileList?.length || !background) return;
-
-    const files = Array.from(fileList).filter((file) => file.type.startsWith("image/"));
-    if (files.length === 0) {
+  const uploadMultipleImages = async (files: File[]) => {
+    const validImageFiles = files.filter((f) => f.type.startsWith("image/"));
+    if (validImageFiles.length === 0) {
       toast({ title: t("toastSelectImageFile"), variant: "destructive" });
-      e.target.value = "";
       return;
     }
 
     setUploadingMedia("image");
+    setUploadProgress({ current: 0, total: validImageFiles.length });
+
     try {
       const uploaded: string[] = [];
-      for (const file of files) {
+      for (let i = 0; i < validImageFiles.length; i++) {
+        const file = validImageFiles[i];
+        setUploadProgress({ current: i + 1, total: validImageFiles.length });
         if (file.size > MAX_FILE_MB * 1024 * 1024) {
           toast({ title: t("toastFileTooLarge", { max: MAX_FILE_MB }), variant: "destructive" });
           continue;
         }
-        const { url } = await adminApi.media.upload(file);
-        uploaded.push(url);
+        try {
+          const { url } = await adminApi.media.upload(file);
+          uploaded.push(url);
+        } catch (uploadErr) {
+          console.error("Single image upload failed:", uploadErr);
+        }
       }
 
       if (uploaded.length > 0) {
         setBackground((b) => {
           if (!b) return b;
-          const merged = [...getHeroImageUrls(b), ...uploaded];
+          const currentUrls = getHeroImageUrls(b);
+          const merged = [...currentUrls, ...uploaded];
           return {
             ...b,
             mediaType: "image",
@@ -143,8 +169,23 @@ export default function AdminHero() {
       toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
     } finally {
       setUploadingMedia(null);
-      e.target.value = "";
+      setUploadProgress(null);
     }
+  };
+
+  const handleImageBackgroundFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList?.length || !background) return;
+    await uploadMultipleImages(Array.from(fileList));
+    e.target.value = "";
+  };
+
+  const handleImageDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingImage(false);
+    if (!e.dataTransfer.files?.length || !background) return;
+    await uploadMultipleImages(Array.from(e.dataTransfer.files));
   };
 
   const removeHeroBackgroundImage = (index: number) => {
@@ -155,6 +196,18 @@ export default function AdminHero() {
         ...b,
         imageUrls: urls.length > 0 ? urls : null,
         imageUrl: urls[0] ?? null,
+      };
+    });
+  };
+
+  const clearAllHeroBackgroundImages = () => {
+    if (!confirm(t("clearAllImagesConfirm", "Are you sure you want to remove all background images?"))) return;
+    setBackground((b) => {
+      if (!b) return b;
+      return {
+        ...b,
+        imageUrls: null,
+        imageUrl: null,
       };
     });
   };
@@ -210,7 +263,8 @@ export default function AdminHero() {
     if (!background) return;
     setSaving(true);
     try {
-      await adminApi.heroBackground.update(serializeHeroBackgroundForApi(background));
+      const updated = await adminApi.heroBackground.update(serializeHeroBackgroundForApi(background));
+      setBackground(updated);
       toast({ title: t("toastHeroBackgroundSaved") });
     } catch (e) {
       toast({ title: t("toastFailedSaveBackground"), description: String(e), variant: "destructive" });
@@ -278,6 +332,7 @@ export default function AdminHero() {
           subtitle: editingSlide.subtitle,
           year: editingSlide.year,
           linkUrl: editingSlide.linkUrl ?? null,
+          sortOrder: editingSlide.sortOrder,
         });
         toast({ title: t("toastSlideUpdated") });
       } else {
@@ -320,6 +375,9 @@ export default function AdminHero() {
     fileHint: string,
     currentUrl: string | null,
     onRemove: () => void,
+    isDragging: boolean,
+    setIsDragging: (val: boolean) => void,
+    onDropFile: (file: File) => void,
   ) => {
     const successName = uploadSuccess[kind];
     const isUploading = uploadingMedia === kind;
@@ -386,10 +444,31 @@ export default function AdminHero() {
           tabIndex={0}
           onClick={() => !isUploading && inputRef.current?.click()}
           onKeyDown={(e) => e.key === "Enter" && !isUploading && inputRef.current?.click()}
-          className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDragging(true);
+          }}
+          onDragLeave={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDragging(false);
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDragging(false);
+            const file = e.dataTransfer.files?.[0];
+            if (file) onDropFile(file);
+          }}
+          className={`flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-all ${
+            isDragging
+              ? "border-primary bg-primary/10 scale-[1.01]"
+              : "border-border hover:border-primary/60 hover:bg-muted/50"
+          }`}
         >
           {isUploading ? (
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           ) : (
             <Upload className="h-8 w-8 text-muted-foreground" />
           )}
@@ -424,19 +503,54 @@ export default function AdminHero() {
     <AdminPageShell bare>
       <div className="p-0 space-y-8">
         <div className="text-card-foreground shadow-sm rounded-xl border border-border bg-card">
-          <div className="flex flex-col space-y-1.5 p-6">
-            <h3 className="font-semibold tracking-tight text-lg flex items-center gap-2">
-              <Video className="h-5 w-5" />
-              <Image className="h-5 w-5" />
-              {t("heroBackgroundTitle")}
-            </h3>
+          <div className="flex flex-col space-y-1.5 p-6 border-b border-border/40">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <h3 className="font-semibold tracking-tight text-lg flex items-center gap-2">
+                <Video className="h-5 w-5 text-primary" />
+                <Image className="h-5 w-5 text-primary" />
+                {t("heroBackgroundTitle")}
+              </h3>
+              {bg.mediaType === "image" && heroBackgroundImages.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                    <Layers className="h-3.5 w-3.5" />
+                    {heroBackgroundImages.length} {heroBackgroundImages.length === 1 ? "image" : "images"}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowLivePreview(!showLivePreview)}
+                    className="h-7 text-xs gap-1.5"
+                  >
+                    {showLivePreview ? (
+                      <>
+                        <EyeOff className="h-3.5 w-3.5" />
+                        {t("hidePreview", "Hide Preview")}
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="h-3.5 w-3.5" />
+                        {t("previewSlideshow", "Preview Slideshow")}
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
             <p className="text-sm text-muted-foreground">{t("heroBackgroundDesc")}</p>
           </div>
-          <div className="p-6 pt-0 space-y-4">
+
+          <div className="p-6 space-y-6">
+            {/* Media Type Switcher */}
             <div className="flex gap-2">
               <button
                 type="button"
-                className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors capitalize ${bg.mediaType === "video" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:bg-muted"}`}
+                className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors capitalize ${
+                  bg.mediaType === "video"
+                    ? "border-primary bg-primary/10 text-primary font-semibold shadow-sm"
+                    : "border-border bg-background text-muted-foreground hover:bg-muted"
+                }`}
                 onClick={() => setBackground({ ...bg, mediaType: "video" })}
               >
                 <Video className="h-4 w-4" />
@@ -444,15 +558,26 @@ export default function AdminHero() {
               </button>
               <button
                 type="button"
-                className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors capitalize ${bg.mediaType === "image" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:bg-muted"}`}
+                className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors capitalize ${
+                  bg.mediaType === "image"
+                    ? "border-primary bg-primary/10 text-primary font-semibold shadow-sm"
+                    : "border-border bg-background text-muted-foreground hover:bg-muted"
+                }`}
                 onClick={() => setBackground({ ...bg, mediaType: "image" })}
               >
                 <Image className="h-4 w-4" />
                 {t("image")}
+                {heroBackgroundImages.length > 1 && (
+                  <span className="ml-1 rounded-full bg-primary/20 px-1.5 py-0.2 text-[10px] font-bold">
+                    {heroBackgroundImages.length}
+                  </span>
+                )}
               </button>
             </div>
+
+            {/* Video Mode */}
             {bg.mediaType === "video" && (
-              <>
+              <div className="space-y-4">
                 <div className="grid gap-2">
                   <Label>{t("uploadVideo")}</Label>
                   {renderUploadZone(
@@ -466,6 +591,25 @@ export default function AdminHero() {
                     () => {
                       setBackground((b) => (b ? { ...b, videoUrl: null } : b));
                       setUploadSuccess((s) => ({ ...s, video: null }));
+                    },
+                    isDraggingVideo,
+                    setIsDraggingVideo,
+                    async (file) => {
+                      const isVid = file.type.startsWith("video/");
+                      try {
+                        const url = await uploadFileAndSetUrl(file, "video");
+                        if (isVid) {
+                          setBackground((b) => (b ? { ...b, videoUrl: url } : b));
+                          setUploadSuccess((s) => ({ ...s, video: file.name }));
+                          toast({ title: t("toastVideoUploaded") });
+                        } else {
+                          setBackground((b) => (b ? { ...b, imageUrl: url } : b));
+                          setUploadSuccess((s) => ({ ...s, fallback: file.name }));
+                          toast({ title: t("toastFallbackImageUploaded") });
+                        }
+                      } catch (err) {
+                        toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
+                      }
                     }
                   )}
                 </div>
@@ -482,78 +626,149 @@ export default function AdminHero() {
                     () => {
                       setBackground((b) => (b ? { ...b, imageUrl: null } : b));
                       setUploadSuccess((s) => ({ ...s, fallback: null }));
+                    },
+                    isDraggingFallback,
+                    setIsDraggingFallback,
+                    async (file) => {
+                      if (!file.type.startsWith("image/")) {
+                        toast({ title: t("toastSelectImageFile"), variant: "destructive" });
+                        return;
+                      }
+                      try {
+                        const url = await uploadFileAndSetUrl(file, "fallback");
+                        setBackground((b) => (b ? { ...b, imageUrl: url } : b));
+                        setUploadSuccess((s) => ({ ...s, fallback: file.name }));
+                        toast({ title: t("toastFallbackImageUploaded") });
+                      } catch (err) {
+                        toast({ title: t("toastUploadFailed"), description: String(err), variant: "destructive" });
+                      }
                     }
                   )}
                 </div>
-              </>
+              </div>
             )}
+
+            {/* Image Mode */}
             {bg.mediaType === "image" && (
-              <div className="grid gap-3">
-                <div>
-                  <Label>{t("uploadBackgroundImage")}</Label>
-                  <p className="text-xs text-muted-foreground mt-1">{t("heroBackgroundImagesHint")}</p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div>
+                    <Label className="text-base font-semibold">{t("uploadBackgroundImage")}</Label>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t("heroBackgroundImagesHint")}</p>
+                  </div>
+                  {heroBackgroundImages.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearAllHeroBackgroundImages}
+                      className="h-8 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
+                    >
+                      <Trash2 className="h-3.5 w-3.5 mr-1" />
+                      {t("clearAll", "Clear all")}
+                    </Button>
+                  )}
                 </div>
 
-                {heroBackgroundImages.length > 0 && (
-                  <ul className="grid gap-3 sm:grid-cols-2">
-                    {heroBackgroundImages.map((url, index) => (
-                      <li
-                        key={`${url}-${index}`}
-                        className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-3"
-                      >
-                        <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-md border bg-background">
-                          <img src={url} alt="" className="h-full w-full object-cover" />
-                          <span className="absolute left-1 top-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold text-white">
-                            {index + 1}
-                          </span>
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            {t("slideLabel", { number: index + 1 })}
-                          </p>
-                          <p className="truncate text-sm text-foreground" title={url}>
-                            {url}
-                          </p>
-                        </div>
-                        <div className="flex shrink-0 flex-col gap-1">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8"
-                            disabled={index === 0}
-                            onClick={() => moveHeroBackgroundImage(index, -1)}
-                            aria-label={t("moveImageEarlier")}
-                          >
-                            <ChevronLeft className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8"
-                            disabled={index === heroBackgroundImages.length - 1}
-                            onClick={() => moveHeroBackgroundImage(index, 1)}
-                            aria-label={t("moveImageLater")}
-                          >
-                            <ChevronRight className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                            onClick={() => removeHeroBackgroundImage(index)}
-                            aria-label={t("removeImage")}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Live Slideshow Preview Panel */}
+                {showLivePreview && heroBackgroundImages.length > 0 && (
+                  <div className="rounded-xl border border-primary/30 bg-muted/20 p-4 space-y-2 transition-all animate-in fade-in-50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-foreground">
+                          {t("liveSlideshowPreview", "Live Slideshow Preview (Auto-Crossfade)")}
+                        </span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {heroBackgroundImages.length} {heroBackgroundImages.length === 1 ? "slide" : "slides rotating (3.5s)"}
+                      </span>
+                    </div>
+                    <div className="relative w-full h-56 sm:h-72 rounded-lg overflow-hidden border border-border shadow-inner bg-black">
+                      <HeroBackgroundSlideshow images={heroBackgroundImages} intervalMs={3500} />
+                      <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded text-white text-xs font-medium flex items-center gap-2 z-20">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                        <span>{t("simulatedLandingBackground", "Landing Page Background Simulation")}</span>
+                      </div>
+                    </div>
+                  </div>
                 )}
 
+                {/* Uploaded Images Gallery Grid */}
+                {heroBackgroundImages.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{t("configuredSlides", "Configured background slides (first image is default cover)")}</span>
+                      <span>{heroBackgroundImages.length} {heroBackgroundImages.length === 1 ? "image" : "images"}</span>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {heroBackgroundImages.map((url, index) => (
+                        <div
+                          key={`${url}-${index}`}
+                          className="group relative flex flex-col rounded-xl border border-border bg-card p-3 shadow-sm transition-all hover:border-primary/40 hover:shadow-md"
+                        >
+                          <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-muted">
+                            <img src={url} alt={`Hero background slide ${index + 1}`} className="h-full w-full object-cover" />
+                            <div className="absolute left-2 top-2 flex items-center gap-1.5 rounded-md bg-black/75 px-2 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
+                              <span>#{index + 1}</span>
+                              {index === 0 && (
+                                <span className="rounded bg-primary px-1 text-[10px] uppercase tracking-wider font-bold">
+                                  Cover
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex items-center justify-between gap-2">
+                            <p className="min-w-0 flex-1 truncate text-xs text-muted-foreground" title={url}>
+                              {url}
+                            </p>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                className="h-7 w-7"
+                                disabled={index === 0}
+                                onClick={() => moveHeroBackgroundImage(index, -1)}
+                                title={t("moveImageEarlier")}
+                                aria-label={t("moveImageEarlier")}
+                              >
+                                <ChevronLeft className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                className="h-7 w-7"
+                                disabled={index === heroBackgroundImages.length - 1}
+                                onClick={() => moveHeroBackgroundImage(index, 1)}
+                                title={t("moveImageLater")}
+                                aria-label={t("moveImageLater")}
+                              >
+                                <ChevronRight className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
+                                onClick={() => removeHeroBackgroundImage(index)}
+                                title={t("removeImage")}
+                                aria-label={t("removeImage")}
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Drag-and-drop Multi-file Upload Zone */}
                 <div className="space-y-2">
                   <div
                     role="button"
@@ -562,23 +777,53 @@ export default function AdminHero() {
                     onKeyDown={(e) =>
                       e.key === "Enter" && !isUploadingBackgroundImages && imageBackgroundRef.current?.click()
                     }
-                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 cursor-pointer transition-colors border-border hover:border-primary/60 hover:bg-muted/50"
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDraggingImage(true);
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDraggingImage(false);
+                    }}
+                    onDrop={handleImageDrop}
+                    className={`flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 cursor-pointer transition-all ${
+                      isDraggingImage
+                        ? "border-primary bg-primary/10 scale-[1.01]"
+                        : "border-border hover:border-primary/60 hover:bg-muted/50"
+                    }`}
                   >
                     {isUploadingBackgroundImages ? (
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader2 className="h-9 w-9 animate-spin text-primary" />
+                        {uploadProgress && (
+                          <div className="text-center">
+                            <p className="text-xs font-semibold text-primary">
+                              {t("uploadingCount", { current: uploadProgress.current, total: uploadProgress.total, defaultValue: `Uploading ${uploadProgress.current} of ${uploadProgress.total}...` })}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     ) : (
-                      <Upload className="h-8 w-8 text-muted-foreground" />
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <Upload className="h-6 w-6" />
+                      </div>
                     )}
                     <div className="text-center">
-                      <p className="text-sm font-medium text-foreground">
+                      <p className="text-sm font-semibold text-foreground">
                         {isUploadingBackgroundImages
                           ? t("uploading")
                           : heroBackgroundImages.length > 0
                             ? t("addMoreHeroBackgroundImages")
                             : t("uploadHeroBackgroundImages")}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{t("dragDropClick")}</p>
-                      <p className="text-xs text-muted-foreground">{t("imageFilesMaxMb", { max: MAX_FILE_MB })}</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {t("dragDropClick", "Drag & drop multiple image files here, or click to browse")}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground/80 mt-0.5">
+                        {t("imageFilesMaxMb", { max: MAX_FILE_MB })} • JPG, PNG, WebP, SVG
+                      </p>
                     </div>
                   </div>
                   <input
@@ -592,17 +837,32 @@ export default function AdminHero() {
                 </div>
               </div>
             )}
-            <button
-              type="button"
-              onClick={handleSaveBackground}
-              disabled={saving}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-            >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : t("saveBackground")}
-            </button>
+
+            {/* Save Button */}
+            <div className="pt-2">
+              <Button
+                type="button"
+                onClick={handleSaveBackground}
+                disabled={saving || isUploadingBackgroundImages}
+                className="gap-2 px-6"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    {t("saving", "Saving...")}
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="h-4 w-4" />
+                    {t("saveBackground")}
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
 
+        {/* Hero Slides Management Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="relative max-w-sm flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

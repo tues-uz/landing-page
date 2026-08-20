@@ -31,8 +31,9 @@ const Footer = () => {
       await contentApi.newsletter.subscribe(email);
       toast({ title: t("subscribeSuccess") });
       setEmail("");
-    } catch (err: any) {
-      const msg = err?.message?.toLowerCase() || "";
+    } catch (err: unknown) {
+      const errorObj = err as { message?: string } | undefined;
+      const msg = errorObj?.message?.toLowerCase() || "";
       const title = msg.includes("duplicate") || msg.includes("409")
         ? t("subscribeDuplicate")
         : t("subscribeInvalid");

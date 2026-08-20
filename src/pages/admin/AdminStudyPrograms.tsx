@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AdminPageShell } from "./AdminPageShell";
+import { AdminFacultyManager } from "./AdminFacultyManager";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { ExternalLink, Search, Copy, Loader2, Pencil, Plus } from "lucide-react";
+import { ExternalLink, Search, Copy, Loader2, Pencil, Plus, Building2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAdminStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
 import {
@@ -16,6 +17,7 @@ export default function AdminStudyPrograms() {
   const { t } = useTranslation("admin");
   const { toast } = useToast();
   const [q, setQ] = useState("");
+  const [facultyManagerOpen, setFacultyManagerOpen] = useState(false);
   const { data: faculties = [], isLoading } = useAdminStudyProgramsQuery();
 
   const rows = useMemo(
@@ -60,6 +62,15 @@ export default function AdminStudyPrograms() {
       )}
       actions={
         <>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-lg gap-1.5"
+            onClick={() => setFacultyManagerOpen(true)}
+          >
+            <Building2 className="h-4 w-4" />
+            {t("manageFaculties", "Manage faculties")}
+          </Button>
           <Button size="sm" className="rounded-lg gap-1.5" asChild>
             <Link to="/admin/study-programs/new/edit">
               <Plus className="h-4 w-4" />
@@ -75,6 +86,8 @@ export default function AdminStudyPrograms() {
         </>
       }
     >
+      <AdminFacultyManager open={facultyManagerOpen} onOpenChange={setFacultyManagerOpen} faculties={faculties} />
+
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input

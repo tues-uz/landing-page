@@ -239,6 +239,20 @@ export default function AdminLayout() {
                   {t("studyPrograms", "Study Programs")}
                 </NavLink>
                 <NavLink
+                  to="/admin/bachelor-programs"
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-blue-50 text-blue-700"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    )
+                  }
+                >
+                  <GraduationCap className="h-4 w-4 shrink-0" />
+                  {t("bachelorPrograms", "Bachelor Programs")}
+                </NavLink>
+                <NavLink
                   to="/admin/admins"
                   className={({ isActive }) =>
                     cn(
@@ -358,6 +372,20 @@ export default function AdminLayout() {
             >
               <GraduationCap className="h-3.5 w-3.5" />
               {t("studyPrograms", "Study Programs")}
+            </NavLink>
+          )}
+          {isSuperAdmin && (
+            <NavLink
+              to="/admin/bachelor-programs"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <GraduationCap className="h-3.5 w-3.5" />
+              {t("bachelorPrograms", "Bachelor Programs")}
             </NavLink>
           )}
         </nav>

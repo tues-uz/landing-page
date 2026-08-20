@@ -6,6 +6,7 @@
  */
 
 import type { StudyProgramDetailResult, StudyProgramFaculty } from "@/types/studyPrograms";
+import type { BachelorProgramItem, BachelorProgramTrack } from "@/types/bachelorPrograms";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -72,6 +73,7 @@ export interface NewsItem {
 export interface EventItem {
     id: string;
     title: string;
+    description?: string | null;
     date: string;
     time: string;
     location: string;
@@ -214,6 +216,19 @@ export const contentApi = {
                 `/content/study-programs/${programId}?locale=${locale}`,
             );
             return data?.program && data?.faculty ? data : null;
+        },
+    },
+    bachelorPrograms: {
+        list: async (track?: BachelorProgramTrack): Promise<BachelorProgramItem[]> => {
+            const url = track ? `/content/bachelor-programs?track=${track}` : `/content/bachelor-programs`;
+            const data = await get<{ bachelorPrograms: BachelorProgramItem[] }>(url);
+            return data.bachelorPrograms ?? [];
+        },
+        getByTrackAndNo: async (track: BachelorProgramTrack, programNo: number): Promise<BachelorProgramItem | null> => {
+            const data = await get<{ bachelorProgram: BachelorProgramItem }>(
+                `/content/bachelor-programs/${track}/${programNo}`,
+            );
+            return data?.bachelorProgram ?? null;
         },
     },
     applications: {

@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { adminApi, type EventItem, getEventImageUrl } from "@/api/adminClient";
@@ -31,6 +32,7 @@ export default function AdminEvents() {
   const [editing, setEditing] = useState<EventItem | null>(null);
   const [form, setForm] = useState<Partial<EventItem>>({
     title: "",
+    description: "",
     date: "",
     time: "",
     location: "",
@@ -64,6 +66,7 @@ export default function AdminEvents() {
     setEditLocale("uz");
     setForm({
       title: "",
+      description: "",
       date: new Date().toISOString().slice(0, 10),
       time: "",
       location: "",
@@ -75,7 +78,10 @@ export default function AdminEvents() {
   const openEdit = (e: EventItem) => {
     setEditing(e);
     setEditLocale("uz");
-    setForm(e);
+    setForm({
+      ...e,
+      description: e.description ?? "",
+    });
     setFormOpen(true);
   };
 
@@ -95,9 +101,10 @@ export default function AdminEvents() {
         setForm(prev => ({
           ...prev, 
           title: localeData.title || "",
+          description: localeData.description || "",
         }));
       } else {
-        setForm(prev => ({ ...prev, title: "" }));
+        setForm(prev => ({ ...prev, title: "", description: "" }));
       }
       setEditLocale(newLocale);
     } catch (e) {
@@ -121,6 +128,7 @@ export default function AdminEvents() {
         } else {
           await adminApi.events.upsertTranslation(editing.id, editLocale, {
             title: form.title!,
+            description: form.description ?? "",
           });
           toast({ title: t("toastTranslationUpdated", { locale: editLocale.toUpperCase() }) });
         }
@@ -223,6 +231,16 @@ export default function AdminEvents() {
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 placeholder={t("eventTitlePlaceholder")}
                 className="rounded-lg border-slate-200"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-slate-700">{t("eventDescription")}</Label>
+              <Textarea
+                value={form.description ?? ""}
+                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+                placeholder={t("eventDescriptionPlaceholder")}
+                rows={4}
+                className="rounded-lg border-slate-200 resize-y"
               />
             </div>
             <div className={`grid gap-4 sm:grid-cols-2 ${editLocale !== "uz" ? "opacity-50 pointer-events-none" : ""}`}>

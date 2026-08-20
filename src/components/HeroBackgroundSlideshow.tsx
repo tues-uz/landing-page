@@ -18,9 +18,19 @@ export function HeroBackgroundSlideshow({
   intervalMs = 6000,
   className = "absolute inset-0 overflow-hidden",
 }: HeroBackgroundSlideshowProps) {
-  const slides = images.filter((src) => src.trim().length > 0);
+  const slides = images.filter((src) => src && src.trim().length > 0);
   const effective = slides.length > 0 ? slides : [fallback];
   const [index, setIndex] = useState(0);
+
+  // Preload all slideshow images into browser memory to eliminate flash
+  useEffect(() => {
+    effective.forEach((src) => {
+      if (typeof window !== "undefined" && src) {
+        const img = new window.Image();
+        img.src = src;
+      }
+    });
+  }, [effective.join("|")]);
 
   useEffect(() => {
     setIndex(0);
@@ -40,9 +50,12 @@ export function HeroBackgroundSlideshow({
         <div
           key={`${src}-${i}`}
           className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
-            i === index ? "opacity-100" : "opacity-0"
+            i === index ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
           }`}
-          style={{ backgroundImage: `url('${src}')` }}
+          style={{
+            backgroundImage: `url('${src}')`,
+            willChange: "opacity",
+          }}
         />
       ))}
     </div>
