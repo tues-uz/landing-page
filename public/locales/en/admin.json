@@ -87,6 +87,8 @@
   "emailAddressLabel": "Email Address",
   "emailPlaceholder": "john@example.com",
   "eventDate": "Date",
+  "eventDescription": "Description",
+  "eventDescriptionPlaceholder": "Event description, agenda, or details...",
   "eventImageDropHint": "Drag & drop or click to browse · image files, max 50 MB",
   "eventImageOptional": "Event image (optional)",
   "eventImageUploadedReplace": "Image uploaded · click to replace",

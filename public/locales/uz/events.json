@@ -8,5 +8,14 @@
   "noPast": "Ko'rsatish uchun o'tgan tadbirlar yo'q.",
   "seeMore": "Ko'proq tadbirlar",
   "shareEvent": "Tadbirni ulashish",
-  "linkCopied": "Havola nusxalandi"
+  "linkCopied": "Havola nusxalandi",
+  "description": "Tavsif",
+  "defaultDescription": "TIESdagi ushbu tadbirga qo'shiling. Batafsil ma'lumot va ro'yxatdan o'tish uchun tashkilotchi bilan bog'laning yoki kampus tadbirlar bo'limiga murojaat qiling.",
+  "howToContact": "Tashkilotchi bilan qanday bog'lanish mumkin?",
+  "contactDetails": "Har qanday savollar bo'yicha TIES veb-saytiga tashrif buyuring yoki tadbirlar bo'limiga murojaat qiling.",
+  "dateTime": "Sana va vaqt",
+  "freeEvent": "Bepul tadbir — ro'yxatdan o'tish talab etilmaydi.",
+  "otherEvents": "Sizga yoqishi mumkin bo'lgan boshqa tadbirlar",
+  "backToEvents": "Tadbirlarga qaytish",
+  "eventNotFound": "Tadbir topilmadi."
 }

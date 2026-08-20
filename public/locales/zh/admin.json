@@ -87,6 +87,8 @@
   "emailAddressLabel": "电子邮件",
   "emailPlaceholder": "john@example.com",
   "eventDate": "日期",
+  "eventDescription": "描述",
+  "eventDescriptionPlaceholder": "活动描述、日程或详情...",
   "eventImageDropHint": "拖放或单击浏览·图像文件，最大 50 MB",
   "eventImageOptional": "活动图片（可选）",
   "eventImageUploadedReplace": "图片已上传·点击替换",

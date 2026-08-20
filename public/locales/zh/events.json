@@ -8,5 +8,14 @@
   "noPast": "没有可显示的过去事件。",
   "seeMore": "查看更多活动",
   "shareEvent": "分享活动",
-  "linkCopied": "链接已复制"
+  "linkCopied": "链接已复制",
+  "description": "描述",
+  "defaultDescription": "欢迎参加 TUES 的这项活动。如需更多详情和注册，请联系组织者或前往校园活动办公室。",
+  "howToContact": "如何联系组织者？",
+  "contactDetails": "如有任何疑问，请访问 TUES 网站或联系活动办公室。",
+  "dateTime": "日期和时间",
+  "freeEvent": "免费活动 — 无需注册。",
+  "otherEvents": "您可能喜欢的其他活动",
+  "backToEvents": "返回活动",
+  "eventNotFound": "未找到活动。"
 }

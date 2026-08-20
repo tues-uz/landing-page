@@ -123,7 +123,7 @@ function QuantumClubArticle() {
         </h2>
         <ol className={`mt-3 list-decimal space-y-1.5 pl-5 ${bodyClass}`}>
           {modelLines.map((line, i) => (
-            <li key={i}>{line.replace(/^\d+[.\uFE0F\u20E3]*\s*/, "")}</li>
+            <li key={i}>{line.replace(/^\d+(?:\.|\uFE0F|\u20E3)*\s*/, "")}</li>
           ))}
         </ol>
         <p className={`mt-3 ${bodyClass}`}>{t("entrepreneurialClubsS4ModelNote")}</p>

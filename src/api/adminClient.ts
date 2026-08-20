@@ -14,6 +14,7 @@ import {
   type ProgramItem,
 } from "./client";
 import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@/types/studyPrograms";
+import type { BachelorProgramItem, BachelorProgramTrack } from "@/types/bachelorPrograms";
 import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
 import type { TiptapDocJSON } from "@/types/article";
 import { toApiDateValue, toDateInputValue } from "@/lib/newsDateUtils";
@@ -359,6 +360,32 @@ export const adminApi = {
     },
   },
   studyPrograms: {
+    createFaculty: async (payload: { title: string; sortOrder?: number }): Promise<StudyProgramFaculty> => {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/faculties`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<StudyProgramFaculty>(res);
+    },
+    updateFaculty: async (
+      facultyId: string,
+      payload: { title?: string; sortOrder?: number },
+    ): Promise<StudyProgramFaculty> => {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/faculties/${facultyId}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<StudyProgramFaculty>(res);
+    },
+    deleteFaculty: async (facultyId: string): Promise<void> => {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/faculties/${facultyId}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
+    },
     list: async (locale?: string): Promise<StudyProgramFaculty[]> => {
       const url = locale
         ? `${API_BASE}/content/study-programs?locale=${locale}`
@@ -410,6 +437,39 @@ export const adminApi = {
         body: JSON.stringify(payload),
       });
       return handleResponse<StudyProgramAdminItem>(res);
+    },
+  },
+  bachelorPrograms: {
+    list: async (track?: BachelorProgramTrack): Promise<BachelorProgramItem[]> => {
+      const url = track
+        ? `${API_BASE}/content/bachelor-programs?track=${track}`
+        : `${API_BASE}/content/bachelor-programs`;
+      const res = await adminFetch(url, { headers: getAuthHeaders() });
+      const data = await handleResponse<{ bachelorPrograms: BachelorProgramItem[] }>(res);
+      return data.bachelorPrograms ?? [];
+    },
+    create: async (payload: Omit<BachelorProgramItem, "id" | "updatedAt">): Promise<BachelorProgramItem> => {
+      const res = await adminFetch(`${API_BASE}/content/bachelor-programs`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<BachelorProgramItem>(res);
+    },
+    update: async (id: string, payload: Partial<BachelorProgramItem>): Promise<BachelorProgramItem> => {
+      const res = await adminFetch(`${API_BASE}/content/bachelor-programs/${id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<BachelorProgramItem>(res);
+    },
+    delete: async (id: string): Promise<void> => {
+      const res = await adminFetch(`${API_BASE}/content/bachelor-programs/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
     },
   },
   applications: {

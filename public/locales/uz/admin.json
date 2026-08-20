@@ -89,6 +89,8 @@
   "emailAddressLabel": "Email manzil",
   "emailPlaceholder": "email@example.com",
   "eventDate": "Sana",
+  "eventDescription": "Tavsif",
+  "eventDescriptionPlaceholder": "Tadbir tavsifi, kun tartibi yoki tafsilotlari...",
   "eventImageDropHint": "Sudrab keltiring yoki tanlang · rasm fayllari, maks. 50 MB",
   "eventImageOptional": "Tadbir rasmi (ixtiyoriy)",
   "eventImageUploadedReplace": "Rasm yuklandi · almashtirish uchun bosing",

@@ -105,3 +105,30 @@ export function useStudyProgramMutations() {
 
   return { create, update, upsertTranslation };
 }
+
+export function useFacultyMutations() {
+  const qc = useQueryClient();
+  const invalidate = () => {
+    qc.invalidateQueries({ queryKey: studyProgramsKeys.all });
+    qc.invalidateQueries({ queryKey: contentKeys.studyPrograms.all });
+  };
+
+  const create = useMutation({
+    mutationFn: (payload: { title: string; sortOrder?: number }) =>
+      adminApi.studyPrograms.createFaculty(payload),
+    onSuccess: invalidate,
+  });
+
+  const update = useMutation({
+    mutationFn: ({ facultyId, payload }: { facultyId: string; payload: { title?: string; sortOrder?: number } }) =>
+      adminApi.studyPrograms.updateFaculty(facultyId, payload),
+    onSuccess: invalidate,
+  });
+
+  const remove = useMutation({
+    mutationFn: (facultyId: string) => adminApi.studyPrograms.deleteFaculty(facultyId),
+    onSuccess: invalidate,
+  });
+
+  return { create, update, remove };
+}

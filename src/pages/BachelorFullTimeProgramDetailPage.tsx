@@ -9,10 +9,9 @@ import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { BACHELOR_TRACK_DEFAULTS } from "@/locales/bachelorHubDefaults";
 import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
 import type { BachelorProgramTrack } from "@/data/bachelorProgramPaths";
-import { getBachelorFullTimeProgramByNo } from "@/data/bachelorFullTimePrograms";
-import { getBachelorCorrespondenceProgramByNo } from "@/data/bachelorCorrespondencePrograms";
-import type { BachelorFullTimeProgram } from "@/types/bachelorFullTime";
-import { bachelorProgramPdfHref } from "@/lib/educationProgramPdf";
+import type { BachelorProgramItem } from "@/types/bachelorPrograms";
+import { getBachelorProgramFallback } from "@/lib/bachelorProgramsFallback";
+import { useBachelorProgramDetailQuery } from "@/features/cms/hooks/useBachelorProgramsQueries";
 
 function tr(t: TFunction, key: string, fallback: string) {
   return t(key, { defaultValue: fallback });
@@ -65,7 +64,7 @@ function ShareProgramLinkButton({ title }: { title: string }) {
   );
 }
 
-function MetaRows({ program, qualDisplay }: { program: BachelorFullTimeProgram; qualDisplay: string }) {
+function MetaRows({ program, qualDisplay }: { program: BachelorProgramItem; qualDisplay: string }) {
   const languages = program.instructionLanguages
     .split(/\s*\/\s*/)
     .map((s) => s.trim())
@@ -101,14 +100,6 @@ function MetaRows({ program, qualDisplay }: { program: BachelorFullTimeProgram; 
   );
 }
 
-function programForTrack(
-  track: BachelorProgramTrack,
-  no: number,
-): BachelorFullTimeProgram | undefined {
-  if (track === "correspondence") return getBachelorCorrespondenceProgramByNo(no);
-  return getBachelorFullTimeProgramByNo(no);
-}
-
 export default function BachelorFullTimeProgramDetailPage() {
   const { track: trackParam, programNo: programNoParam } = useParams<{
     track: string;
@@ -116,10 +107,13 @@ export default function BachelorFullTimeProgramDetailPage() {
   }>();
   const track = trackParam as BachelorProgramTrack | undefined;
   const no = programNoParam ? Number.parseInt(programNoParam, 10) : NaN;
-  const program =
-    track && (track === "full-time" || track === "correspondence") && Number.isFinite(no)
-      ? programForTrack(track, no)
-      : undefined;
+  const isValidTrack = track === "full-time" || track === "correspondence";
+  const fallback = isValidTrack && Number.isFinite(no) ? getBachelorProgramFallback(track, no) : undefined;
+  const { data: program } = useBachelorProgramDetailQuery(
+    isValidTrack ? track : undefined,
+    Number.isFinite(no) ? no : undefined,
+    fallback,
+  );
 
   const { t } = useTranslation("topNav");
   const { t: tCommon } = useTranslation("common");
@@ -141,10 +135,10 @@ export default function BachelorFullTimeProgramDetailPage() {
       ? BACHELOR_TRACK_DEFAULTS.correspondence.bachelorTrackCorrespondenceTitle
       : BACHELOR_TRACK_DEFAULTS.fullTime.bachelorTrackFullTimeTitle,
   );
-  const leafTitle = program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.no}`;
+  const leafTitle = program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.programNo}`;
   const qualDisplay = program.qualification.trim() ? program.qualification : "—";
   const hasOverview = program.descriptionParagraphs.some((p) => p.trim());
-  const pdfHref = bachelorProgramPdfHref(track, program.cipher);
+  const pdfHref = program.pdfUrl;
   const downloadLabel = t("bachelorProgramDownloadLabel", {
     defaultValue: BACHELOR_PROGRAM_TABLE_DEFAULTS.bachelorProgramDownloadLabel,
   });

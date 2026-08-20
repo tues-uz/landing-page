@@ -7,13 +7,11 @@ import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { ProgramListingLinkRow } from "@/components/ProgramListingLinkRow";
 import { BACHELOR_PROGRAM_TABLE_DEFAULTS } from "@/locales/bachelorProgramTableDefaults";
-import { bachelorProgramPdfHref } from "@/lib/educationProgramPdf";
 import { BACHELOR_TRACK_DEFAULTS } from "@/locales/bachelorHubDefaults";
-import { BACHELOR_FULL_TIME_PROGRAMS, bachelorFullTimeProgramDetailPath } from "@/data/bachelorFullTimePrograms";
-import {
-  BACHELOR_CORRESPONDENCE_PROGRAMS,
-  bachelorCorrespondenceProgramDetailPath,
-} from "@/data/bachelorCorrespondencePrograms";
+import { bachelorFullTimeProgramDetailPath } from "@/data/bachelorFullTimePrograms";
+import { bachelorCorrespondenceProgramDetailPath } from "@/data/bachelorCorrespondencePrograms";
+import { BACHELOR_PROGRAMS_FALLBACK } from "@/lib/bachelorProgramsFallback";
+import { useBachelorProgramsQuery } from "@/features/cms/hooks/useBachelorProgramsQueries";
 
 type TrackSlug = "full-time" | "correspondence";
 
@@ -23,15 +21,20 @@ function trTrack(t: TFunction, key: string, fallback: string) {
 
 export default function BachelorTrackPage() {
   const { track } = useParams<{ track: string }>();
-  const slug = track as TrackSlug | undefined;
-
-  if (slug !== "full-time" && slug !== "correspondence") {
-    return <Navigate to="/education/bachelor" replace />;
-  }
+  const slug = track === "full-time" || track === "correspondence" ? (track as TrackSlug) : undefined;
 
   const { t } = useTranslation("topNav");
   const { t: tCommon } = useTranslation("common");
   const { t: th } = useTranslation("header");
+
+  const { data: programs = [] } = useBachelorProgramsQuery(
+    slug ?? "full-time",
+    slug ? BACHELOR_PROGRAMS_FALLBACK[slug] : []
+  );
+
+  if (!slug) {
+    return <Navigate to="/education/bachelor" replace />;
+  }
 
   const educationLabel = th("secondNav.education");
   const bachelorLabel = th("secondNavEducation.courseCatalogue");
@@ -66,7 +69,6 @@ export default function BachelorTrackPage() {
           BACHELOR_TRACK_DEFAULTS.correspondence.bachelorCorrespondenceCardsHint,
         );
 
-  const programs = slug === "full-time" ? BACHELOR_FULL_TIME_PROGRAMS : BACHELOR_CORRESPONDENCE_PROGRAMS;
   const programDetailPath =
     slug === "full-time" ? bachelorFullTimeProgramDetailPath : bachelorCorrespondenceProgramDetailPath;
   const downloadLabel = trTrack(
@@ -141,14 +143,14 @@ export default function BachelorTrackPage() {
                     <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {programs.map((program) => {
                         const title =
-                          program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.no}`;
+                          program.specialtyName.replace(/;\s*$/, "").trim() || `Programme №${program.programNo}`;
 
                         return (
                           <ProgramListingLinkRow
-                            key={program.no}
+                            key={program.programNo}
                             title={title}
-                            detailHref={programDetailPath(program.no)}
-                            pdfHref={bachelorProgramPdfHref(slug, program.cipher)}
+                            detailHref={programDetailPath(program.programNo)}
+                            pdfHref={program.pdfUrl}
                             downloadLabel={downloadLabel}
                             detailLabel={openLabel}
                           />

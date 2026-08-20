@@ -38,7 +38,8 @@ function parseKeyValueBlock(lines: string[]): Array<{ label: string; value: stri
     const parsed = isKeyValueLine(lines[i]);
     if (!parsed) return null;
 
-    let { label, value } = parsed;
+    const { label } = parsed;
+    let { value } = parsed;
     i += 1;
 
     while (i < lines.length && !isKeyValueLine(lines[i])) {
