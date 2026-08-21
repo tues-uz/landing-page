@@ -7,6 +7,7 @@
 
 import type { StudyProgramDetailResult, StudyProgramFaculty } from "@/types/studyPrograms";
 import type { BachelorProgramItem, BachelorProgramTrack } from "@/types/bachelorPrograms";
+import { normalizeNewsItemDate, sortNewsByDate } from "@/lib/newsDateUtils";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -173,19 +174,19 @@ export const contentApi = {
         list: async (locale: string = "uz"): Promise<NewsItem[]> => {
             const data = await get<{ news: NewsItem[] }>(`/content/news?locale=${locale}`);
             const raw = data.news ?? [];
-            // Sort by CMS order (sortOrder from "Update order"); items without sortOrder go last
-            return [...raw].sort((a, b) => {
-                const aOrder = a.sortOrder != null ? Number(a.sortOrder) : NaN;
-                const bOrder = b.sortOrder != null ? Number(b.sortOrder) : NaN;
-                if (Number.isNaN(aOrder) && Number.isNaN(bOrder)) return 0;
-                if (Number.isNaN(aOrder)) return 1;
-                if (Number.isNaN(bOrder)) return -1;
-                return aOrder - bOrder;
-            });
+            const normalized = raw.map((item) => ({
+                ...item,
+                date: normalizeNewsItemDate(item),
+            }));
+            return sortNewsByDate(normalized, "newest");
         },
         getBySlug: async (slug: string, locale: string = "uz"): Promise<NewsItem> => {
             const data = await get<{ news: NewsItem }>(`/content/news/${slug}?locale=${locale}`);
-            return data.news;
+            const item = data.news;
+            return {
+                ...item,
+                date: normalizeNewsItemDate(item),
+            };
         },
     },
     events: {

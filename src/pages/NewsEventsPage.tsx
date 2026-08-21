@@ -27,6 +27,7 @@ import { filterNewsByQuery } from "@/lib/newsSearch";
 import { getNewsPreviewText } from "@/lib/newsContent";
 import { getNewsCategoryLabel } from "@/lib/newsCategories";
 import { getUiLang } from "@/lib/localeContent";
+import { sortNewsByDate, type NewsDateSortOrder } from "@/lib/newsDateUtils";
 
 function NewsCardSkeleton() {
   return (
@@ -110,6 +111,7 @@ const NewsEventsPage = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get("q") ?? "");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [dateSort, setDateSort] = useState<NewsDateSortOrder>("newest");
 
   useEffect(() => {
     setSearchQuery(searchParams.get("q") ?? "");
@@ -117,6 +119,7 @@ const NewsEventsPage = () => {
 
   useEffect(() => {
     setCategoryFilter("all");
+    setDateSort("newest");
   }, [locale]);
 
   const allCategoriesLabel = t("allCategories");
@@ -145,10 +148,10 @@ const NewsEventsPage = () => {
     () => Array.from(new Set(listItems.map((item) => item.category))).sort(),
     [listItems]
   );
-  const filteredItems = useMemo(
-    () => filterNews(listItems, searchQuery, categoryFilter),
-    [listItems, searchQuery, categoryFilter]
-  );
+  const filteredItems = useMemo(() => {
+    const filtered = filterNews(listItems, searchQuery, categoryFilter);
+    return sortNewsByDate(filtered, dateSort);
+  }, [listItems, searchQuery, categoryFilter, dateSort]);
 
   return (
     <div className="min-h-screen">
@@ -200,24 +203,38 @@ const NewsEventsPage = () => {
                   aria-label={t("searchAriaLabel")}
                 />
               </div>
-              <Select key={locale} value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger
-                  className={`h-11 rounded-full w-auto min-w-32 sm:min-w-36 ${NEUTRAL_BORDER}`}
-                  aria-label={t("filterAriaLabel")}
-                >
-                  <SelectValue asChild>
-                    <span className="truncate">{categoryFilterLabel}</span>
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{allCategoriesLabel}</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {getNewsCategoryLabel(cat, t)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                <Select key={`${locale}-date`} value={dateSort} onValueChange={(v) => setDateSort(v as NewsDateSortOrder)}>
+                  <SelectTrigger
+                    className={`h-11 rounded-full w-full sm:w-fit px-3 gap-1.5 justify-start [&>span]:flex-none ${NEUTRAL_BORDER}`}
+                    aria-label={t("dateSortAriaLabel")}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">{t("dateSortNewest")}</SelectItem>
+                    <SelectItem value="oldest">{t("dateSortOldest")}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select key={locale} value={categoryFilter} onValueChange={setCategoryFilter}>
+                  <SelectTrigger
+                    className={`h-11 rounded-full w-full sm:w-fit px-3 gap-1.5 justify-start [&>span]:flex-none ${NEUTRAL_BORDER}`}
+                    aria-label={t("filterAriaLabel")}
+                  >
+                    <SelectValue asChild>
+                      <span className="truncate">{categoryFilterLabel}</span>
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{allCategoriesLabel}</SelectItem>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {getNewsCategoryLabel(cat, t)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

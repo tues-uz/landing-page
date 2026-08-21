@@ -17,7 +17,7 @@ import type { StudyProgram, StudyProgramAdminItem, StudyProgramFaculty } from "@
 import type { BachelorProgramItem, BachelorProgramTrack } from "@/types/bachelorPrograms";
 import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
 import type { TiptapDocJSON } from "@/types/article";
-import { toApiDateValue, toDateInputValue } from "@/lib/newsDateUtils";
+import { normalizeNewsItemDate, toApiDateValue } from "@/lib/newsDateUtils";
 import { tokenStore, authApi } from "./auth";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
@@ -120,11 +120,9 @@ type NewsItemRaw = NewsItem & {
 
 /** Map API date fields to the `date` string used by the CMS form. */
 function normalizeNewsItem(raw: NewsItemRaw): NewsItem {
-  const dateSource =
-    raw.date ?? raw.publishedAt ?? raw.published_at ?? raw.createdAt ?? raw.created_at ?? "";
   return {
     ...raw,
-    date: toDateInputValue(dateSource) || toDateInputValue(raw.date) || "",
+    date: normalizeNewsItemDate(raw),
   };
 }
 
