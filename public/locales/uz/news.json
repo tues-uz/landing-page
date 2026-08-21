@@ -4,6 +4,9 @@
   "searchPlaceholder": "Sarlavha, qisqa matn, toifa yoki muallif bo'yicha qidiring...",
   "searchAriaLabel": "Yangiliklarni qidirish",
   "filterAriaLabel": "Toifa bo'yicha filtrlash",
+  "dateSortAriaLabel": "Sana bo'yicha saralash",
+  "dateSortNewest": "Avval eng yangi",
+  "dateSortOldest": "Avval eng eski",
   "allCategories": "Barcha toifalar",
   "categories": {
     "news": "Yangiliklar",

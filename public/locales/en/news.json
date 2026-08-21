@@ -4,6 +4,9 @@
   "searchPlaceholder": "Search news by title, excerpt, category, or author...",
   "searchAriaLabel": "Search news",
   "filterAriaLabel": "Filter by category",
+  "dateSortAriaLabel": "Sort by date",
+  "dateSortNewest": "Newest first",
+  "dateSortOldest": "Oldest first",
   "allCategories": "All categories",
   "categories": {
     "news": "News",

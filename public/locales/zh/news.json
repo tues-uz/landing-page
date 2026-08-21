@@ -4,6 +4,9 @@
   "searchPlaceholder": "按标题、摘录、类别或作者搜索新闻...",
   "searchAriaLabel": "搜索新闻",
   "filterAriaLabel": "按类别过滤",
+  "dateSortAriaLabel": "按日期排序",
+  "dateSortNewest": "最新优先",
+  "dateSortOldest": "最早优先",
   "allCategories": "所有类别",
   "categories": {
     "news": "消息",

@@ -4,6 +4,9 @@
   "searchPlaceholder": "Поиск по заголовку, описанию, категории или автору...",
   "searchAriaLabel": "Поиск новостей",
   "filterAriaLabel": "Фильтр по категории",
+  "dateSortAriaLabel": "Сортировка по дате",
+  "dateSortNewest": "Сначала новые",
+  "dateSortOldest": "Сначала старые",
   "allCategories": "Все категории",
   "categories": {
     "news": "Новости",

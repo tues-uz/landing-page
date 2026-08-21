@@ -17,3 +17,38 @@ export function toApiDateValue(raw: string | undefined | null): string {
   if (input) return input;
   return new Date().toISOString().slice(0, 10);
 }
+
+export type NewsDateSortOrder = "newest" | "oldest";
+
+type NewsItemDateRaw = {
+  date?: string | null;
+  publishedAt?: string | null;
+  published_at?: string | null;
+  createdAt?: string | null;
+  created_at?: string | null;
+};
+
+/** Resolve publication date from common API field names to YYYY-MM-DD. */
+export function normalizeNewsItemDate(raw: NewsItemDateRaw): string {
+  const dateSource =
+    raw.date ?? raw.publishedAt ?? raw.published_at ?? raw.createdAt ?? raw.created_at ?? "";
+  return toDateInputValue(dateSource) || toDateInputValue(raw.date) || "";
+}
+
+/** Parse news date to epoch ms for sorting; unknown dates sort last when descending. */
+export function getNewsDateTimestamp(raw: string | undefined | null): number {
+  const input = toDateInputValue(raw);
+  if (!input) return 0;
+  const ts = Date.parse(`${input}T00:00:00`);
+  return Number.isNaN(ts) ? 0 : ts;
+}
+
+export function sortNewsByDate<T extends { date: string }>(
+  items: T[],
+  order: NewsDateSortOrder = "newest",
+): T[] {
+  return [...items].sort((a, b) => {
+    const diff = getNewsDateTimestamp(b.date) - getNewsDateTimestamp(a.date);
+    return order === "newest" ? diff : -diff;
+  });
+}
