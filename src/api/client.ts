@@ -220,14 +220,21 @@ export const contentApi = {
         },
     },
     bachelorPrograms: {
-        list: async (track?: BachelorProgramTrack): Promise<BachelorProgramItem[]> => {
-            const url = track ? `/content/bachelor-programs?track=${track}` : `/content/bachelor-programs`;
-            const data = await get<{ bachelorPrograms: BachelorProgramItem[] }>(url);
+        list: async (track?: BachelorProgramTrack, locale: string = "uz"): Promise<BachelorProgramItem[]> => {
+            const params = new URLSearchParams({ locale });
+            if (track) params.set("track", track);
+            const data = await get<{ bachelorPrograms: BachelorProgramItem[] }>(
+                `/content/bachelor-programs?${params.toString()}`,
+            );
             return data.bachelorPrograms ?? [];
         },
-        getByTrackAndNo: async (track: BachelorProgramTrack, programNo: number): Promise<BachelorProgramItem | null> => {
+        getByTrackAndNo: async (
+            track: BachelorProgramTrack,
+            programNo: number,
+            locale: string = "uz",
+        ): Promise<BachelorProgramItem | null> => {
             const data = await get<{ bachelorProgram: BachelorProgramItem }>(
-                `/content/bachelor-programs/${track}/${programNo}`,
+                `/content/bachelor-programs/${track}/${programNo}?locale=${locale}`,
             );
             return data?.bachelorProgram ?? null;
         },

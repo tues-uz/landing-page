@@ -22,6 +22,16 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 
+const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+type EventLocale = (typeof SUPPORTED_LOCALES)[number];
+
+/** The list fetch is always made with the current admin UI language, so the loaded
+ * event's content is in that locale — the edit tab must start there too, otherwise it
+ * mislabels the loaded content and can overwrite the wrong locale on save. */
+function currentContentLocale(language: string): EventLocale {
+  return (SUPPORTED_LOCALES as readonly string[]).includes(language) ? (language as EventLocale) : "uz";
+}
+
 export default function AdminEvents() {
   const { t, i18n } = useTranslation("admin");
   const { canAccessEvents } = usePermissions();
@@ -63,7 +73,7 @@ export default function AdminEvents() {
 
   const openCreate = () => {
     setEditing(null);
-    setEditLocale("uz");
+    setEditLocale(currentContentLocale(i18n.language));
     setForm({
       title: "",
       description: "",
@@ -77,7 +87,7 @@ export default function AdminEvents() {
 
   const openEdit = (e: EventItem) => {
     setEditing(e);
-    setEditLocale("uz");
+    setEditLocale(currentContentLocale(i18n.language));
     setForm({
       ...e,
       description: e.description ?? "",

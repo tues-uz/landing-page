@@ -11,6 +11,8 @@ import {
   LogOut,
   Star,
   Users,
+  UserCheck,
+  Mail,
   ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -57,7 +59,7 @@ const languages = [
 ];
 
 export default function AdminLayout() {
-  const { canAccessHero, canAccessNews, canAccessEvents } = usePermissions();
+  const { canAccessHero, canAccessNews, canAccessEvents, canAccessApplications, canAccessNewsletter } = usePermissions();
   const { user } = useAuth();
   const { t, i18n } = useTranslation("admin");
 
@@ -221,6 +223,38 @@ export default function AdminLayout() {
                 {t("news")}
               </NavLink>
             )}
+            {canAccessApplications && (
+              <NavLink
+                to="/admin/applications"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <UserCheck className="h-4 w-4 shrink-0" />
+                {t("applications", "Applications")}
+              </NavLink>
+            )}
+            {canAccessNewsletter && (
+              <NavLink
+                to="/admin/newsletter-subscribers"
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                {t("newsletterSubscribers", "Subscribers")}
+              </NavLink>
+            )}
             <div className="my-2 border-t border-slate-100" />
             {isSuperAdmin && (
               <>
@@ -358,6 +392,34 @@ export default function AdminLayout() {
             >
               <Newspaper className="h-3.5 w-3.5" />
               {t("news")}
+            </NavLink>
+          )}
+          {canAccessApplications && (
+            <NavLink
+              to="/admin/applications"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <UserCheck className="h-3.5 w-3.5" />
+              {t("applications", "Applications")}
+            </NavLink>
+          )}
+          {canAccessNewsletter && (
+            <NavLink
+              to="/admin/newsletter-subscribers"
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium",
+                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
+                )
+              }
+            >
+              <Mail className="h-3.5 w-3.5" />
+              {t("newsletterSubscribers", "Subscribers")}
             </NavLink>
           )}
           {isSuperAdmin && (

@@ -8,25 +8,36 @@ import { adminApi } from "@/api/adminClient";
 import { AdminPageShell, ADMIN_CARD_CLASS } from "./AdminPageShell";
 import { useTranslation } from "react-i18next";
 
+import { usePermissions } from "@/hooks/usePermissions";
+
 export default function AdminDashboard() {
   const { t, i18n } = useTranslation("admin");
-  const [counts, setCounts] = useState({ hero: 0, news: 0, events: 0 });
+  const { canAccessApplications } = usePermissions();
+  const [counts, setCounts] = useState({ hero: 0, news: 0, events: 0, applications: 0 });
 
   useEffect(() => {
-    Promise.all([
-      adminApi.heroSlides.list(i18n.language),
-      adminApi.news.list(i18n.language),
-      adminApi.events.list(i18n.language),
-    ])
-      .then(([slides, articles, events]) => {
-        setCounts({
-          hero: slides.length,
-          news: articles.length,
-          events: events.length,
-        });
-      })
-      .catch(() => {});
-  }, [i18n.language]);
+    const promises: Promise<unknown>[] = [
+      adminApi.heroSlides.list(i18n.language).then((slides) => ({ hero: slides.length })),
+      adminApi.news.list(i18n.language).then((articles) => ({ news: articles.length })),
+      adminApi.events.list(i18n.language).then((events) => ({ events: events.length })),
+    ];
+
+    if (canAccessApplications) {
+      promises.push(
+        adminApi.applications.list().then((apps) => ({ applications: apps.length })).catch(() => ({ applications: 0 }))
+      );
+    }
+
+    Promise.allSettled(promises).then((results) => {
+      const nextCounts = { hero: 0, news: 0, events: 0, applications: 0 };
+      results.forEach((res) => {
+        if (res.status === "fulfilled" && res.value && typeof res.value === "object") {
+          Object.assign(nextCounts, res.value);
+        }
+      });
+      setCounts(nextCounts);
+    });
+  }, [i18n.language, canAccessApplications]);
 
   const total = counts.hero + counts.news + counts.events;
 
@@ -34,13 +45,18 @@ export default function AdminDashboard() {
     { to: "/admin/hero", label: t("heroSlides"), value: counts.hero },
     { to: "/admin/news", label: t("newsArticles"), value: counts.news },
     { to: "/admin/events", label: t("upcomingEvents"), value: counts.events },
-    { label: t("totalContent"), value: total },
+    ...(canAccessApplications
+      ? [{ to: "/admin/applications", label: t("applications", "Applications"), value: counts.applications }]
+      : [{ label: t("totalContent"), value: total }]),
   ];
 
   const quickActions = [
     { to: "/admin/hero", title: t("manageHero"), description: t("carouselDesc") },
     { to: "/admin/news", title: t("manageNews"), description: t("articlesDesc") },
     { to: "/admin/events", title: t("manageEvents"), description: t("eventsDesc") },
+    ...(canAccessApplications
+      ? [{ to: "/admin/applications", title: t("applications", "Applications"), description: t("applicationsDesc", "Study program applications") }]
+      : []),
   ];
 
   return (

@@ -19,6 +19,8 @@
   "allDisplays": "Barcha ko'rinishlar",
   "allTime": "Barcha vaqtlar",
   "applicationDeadlineLabel": "Ariza muddati",
+  "applications": "Arizalar",
+  "applicationsDesc": "Bo'lajak talabalardan o'quv dasturi arizalari.",
   "article": "maqola",
   "articleAuthorPlaceholder": "Muallif",
   "articleDeleted": "Maqola o'chirildi",

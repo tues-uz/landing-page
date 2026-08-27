@@ -438,13 +438,29 @@ export const adminApi = {
     },
   },
   bachelorPrograms: {
-    list: async (track?: BachelorProgramTrack): Promise<BachelorProgramItem[]> => {
-      const url = track
-        ? `${API_BASE}/content/bachelor-programs?track=${track}`
+    list: async (track?: BachelorProgramTrack, locale?: string): Promise<BachelorProgramItem[]> => {
+      const params = new URLSearchParams();
+      if (track) params.set("track", track);
+      if (locale) params.set("locale", locale);
+      const query = params.toString();
+      const url = query
+        ? `${API_BASE}/content/bachelor-programs?${query}`
         : `${API_BASE}/content/bachelor-programs`;
       const res = await adminFetch(url, { headers: getAuthHeaders() });
       const data = await handleResponse<{ bachelorPrograms: BachelorProgramItem[] }>(res);
       return data.bachelorPrograms ?? [];
+    },
+    upsertTranslation: async (
+      id: string,
+      locale: string,
+      payload: { specialtyName: string; descriptionParagraphs: string[] },
+    ): Promise<BachelorProgramItem> => {
+      const res = await adminFetch(`${API_BASE}/content/bachelor-programs/${id}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<BachelorProgramItem>(res);
     },
     create: async (payload: Omit<BachelorProgramItem, "id" | "updatedAt">): Promise<BachelorProgramItem> => {
       const res = await adminFetch(`${API_BASE}/content/bachelor-programs`, {

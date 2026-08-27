@@ -32,6 +32,16 @@ import { useTranslation } from "react-i18next";
 import { getHeroImageUrls, serializeHeroBackgroundForApi } from "@/lib/heroBackgroundUtils";
 import { HeroBackgroundSlideshow } from "@/components/HeroBackgroundSlideshow";
 
+const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+type HeroLocale = (typeof SUPPORTED_LOCALES)[number];
+
+/** The slides list is always fetched with the current admin UI language, so the loaded
+ * slide's content is in that locale — the edit tab must start there too, otherwise it
+ * mislabels the loaded content and can overwrite the wrong locale on save. */
+function currentContentLocale(language: string): HeroLocale {
+  return (SUPPORTED_LOCALES as readonly string[]).includes(language) ? (language as HeroLocale) : "uz";
+}
+
 export default function AdminHero() {
   const { t, i18n } = useTranslation("admin");
   const [slides, setSlides] = useState<HeroSlide[]>([]);
@@ -1029,7 +1039,7 @@ export default function AdminHero() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => { setEditingSlide(slide); setEditLocale("uz"); }}
+                        onClick={() => { setEditingSlide(slide); setEditLocale(currentContentLocale(i18n.language)); }}
                         className="h-8 px-3"
                         aria-label={t("editSlideAria")}
                       >

@@ -18,16 +18,29 @@ import { bachelorFullTimeProgramDetailPath } from "@/data/bachelorFullTimeProgra
 import { bachelorCorrespondenceProgramDetailPath } from "@/data/bachelorCorrespondencePrograms";
 import type { BachelorProgramTrack } from "@/types/bachelorPrograms";
 
+const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+type BachelorProgramLocale = (typeof SUPPORTED_LOCALES)[number];
+
+/** The list fetch is always made with the current admin UI language, so the loaded
+ * program's content is in that locale — the edit tab must start there too, otherwise it
+ * mislabels the loaded content and can overwrite the wrong locale on save. */
+function currentContentLocale(language: string): BachelorProgramLocale {
+  return (SUPPORTED_LOCALES as readonly string[]).includes(language) ? (language as BachelorProgramLocale) : "uz";
+}
+
 export default function AdminBachelorProgramEdit() {
   const { id = "" } = useParams<{ id: string }>();
   const isCreate = id === "new";
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation("admin");
+  const { t, i18n } = useTranslation("admin");
 
   const { data: programs = [], isLoading } = useAdminBachelorProgramsQuery();
   const existing = !isCreate ? programs.find((p) => p.id === id) : undefined;
-  const { create, update, remove } = useBachelorProgramMutations();
+  const { create, update, remove, upsertTranslation } = useBachelorProgramMutations();
+
+  const [editLocale, setEditLocale] = useState<BachelorProgramLocale>(() => currentContentLocale(i18n.language));
+  const [loadingLocale, setLoadingLocale] = useState(false);
 
   const [track, setTrack] = useState<BachelorProgramTrack>("full-time");
   const [programNo, setProgramNo] = useState<number>(1);
@@ -45,6 +58,7 @@ export default function AdminBachelorProgramEdit() {
 
   useEffect(() => {
     if (!existing) return;
+    setEditLocale(currentContentLocale(i18n.language));
     setTrack(existing.track);
     setProgramNo(existing.programNo);
     setCipher(existing.cipher);
@@ -64,6 +78,38 @@ export default function AdminBachelorProgramEdit() {
     const maxNo = Math.max(0, ...programs.filter((p) => p.track === track).map((p) => p.programNo));
     setProgramNo((current) => (current > 0 ? current : maxNo + 1));
   }, [isCreate, programs, track]);
+
+  const handleLocaleChange = async (newLocale: BachelorProgramLocale) => {
+    if (isCreate) {
+      toast({
+        title: t("toastSaveProgramFirst", "Save the program first"),
+        description: t("toastSaveProgramFirstDesc", "Create the program in Uzbek (uz) before adding translations."),
+      });
+      return;
+    }
+    if (newLocale === editLocale || !id) return;
+    setLoadingLocale(true);
+    try {
+      const allPrograms = await adminApi.bachelorPrograms.list(undefined, newLocale);
+      const localeData = allPrograms.find((p) => p.id === id);
+      if (localeData) {
+        setSpecialtyName(localeData.specialtyName || "");
+        setDescriptionParagraphs(localeData.descriptionParagraphs.length ? localeData.descriptionParagraphs : [""]);
+      } else {
+        setSpecialtyName("");
+        setDescriptionParagraphs([""]);
+      }
+      setEditLocale(newLocale);
+    } catch (e) {
+      toast({
+        title: t("toastFailedSwitchLanguage", "Failed to switch language"),
+        description: String(e),
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingLocale(false);
+    }
+  };
 
   const handlePdfUpload = async (file: File) => {
     if (file.type !== "application/pdf") {
@@ -95,13 +141,32 @@ export default function AdminBachelorProgramEdit() {
   const removeParagraph = (index: number) =>
     setDescriptionParagraphs((paras) => (paras.length > 1 ? paras.filter((_, i) => i !== index) : paras));
 
-  const saving = create.isPending || update.isPending;
+  const saving = create.isPending || update.isPending || upsertTranslation.isPending;
 
   const handleSave = async () => {
     if (!specialtyName.trim()) {
       toast({ title: t("toastTitleRequired", "Program name is required"), variant: "destructive" });
       return;
     }
+
+    if (!isCreate && editLocale !== "uz") {
+      try {
+        await upsertTranslation.mutateAsync({
+          id,
+          locale: editLocale,
+          payload: { specialtyName, descriptionParagraphs: descriptionParagraphs.filter((p) => p.trim()) },
+        });
+        toast({ title: t("toastTranslationUpdated", { locale: editLocale.toUpperCase() }) });
+      } catch (err) {
+        toast({
+          title: t("toastFailedSave", "Failed to save"),
+          description: err instanceof Error ? err.message : undefined,
+          variant: "destructive",
+        });
+      }
+      return;
+    }
+
     const payload = {
       track,
       programNo,
@@ -215,6 +280,26 @@ export default function AdminBachelorProgramEdit() {
         </div>
       </div>
 
+      <div className="mt-6 flex flex-wrap gap-2">
+        {SUPPORTED_LOCALES.map((locale) => (
+          <Button
+            key={locale}
+            type="button"
+            size="sm"
+            variant={editLocale === locale ? "default" : "outline"}
+            disabled={loadingLocale || isCreate}
+            onClick={() => handleLocaleChange(locale)}
+          >
+            {locale.toUpperCase()}
+          </Button>
+        ))}
+      </div>
+      {isCreate ? (
+        <p className="mt-2 text-sm text-muted-foreground">
+          {t("createProgramUzFirst", "Create the program in Uzbek first. Translations can be added after saving.")}
+        </p>
+      ) : null}
+
       <div className="mt-6 space-y-6">
         <Card>
           <CardHeader>
@@ -227,6 +312,7 @@ export default function AdminBachelorProgramEdit() {
                 id="track"
                 value={track}
                 onChange={(e) => setTrack(e.target.value as BachelorProgramTrack)}
+                disabled={editLocale !== "uz"}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="full-time">Bachelor's degree (Full-time)</option>
@@ -241,6 +327,7 @@ export default function AdminBachelorProgramEdit() {
                 min={1}
                 value={programNo}
                 onChange={(e) => setProgramNo(Number.parseInt(e.target.value, 10) || 0)}
+                disabled={editLocale !== "uz"}
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
@@ -249,19 +336,29 @@ export default function AdminBachelorProgramEdit() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="cipher">{t("cipherLabel", "Cipher")}</Label>
-              <Input id="cipher" value={cipher} onChange={(e) => setCipher(e.target.value)} />
+              <Input id="cipher" value={cipher} onChange={(e) => setCipher(e.target.value)} disabled={editLocale !== "uz"} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="qualification">{t("qualificationLabel", "Qualification")}</Label>
-              <Input id="qualification" value={qualification} onChange={(e) => setQualification(e.target.value)} />
+              <Input
+                id="qualification"
+                value={qualification}
+                onChange={(e) => setQualification(e.target.value)}
+                disabled={editLocale !== "uz"}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="duration">{t("durationLabel", "Duration")}</Label>
-              <Input id="duration" value={duration} onChange={(e) => setDuration(e.target.value)} />
+              <Input id="duration" value={duration} onChange={(e) => setDuration(e.target.value)} disabled={editLocale !== "uz"} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="totalCredits">{t("totalCreditsLabel", "Total credits")}</Label>
-              <Input id="totalCredits" value={totalCredits} onChange={(e) => setTotalCredits(e.target.value)} />
+              <Input
+                id="totalCredits"
+                value={totalCredits}
+                onChange={(e) => setTotalCredits(e.target.value)}
+                disabled={editLocale !== "uz"}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="typeOfEducation">{t("typeOfEducationLabel", "Type of education")}</Label>
@@ -269,6 +366,7 @@ export default function AdminBachelorProgramEdit() {
                 id="typeOfEducation"
                 value={typeOfEducation}
                 onChange={(e) => setTypeOfEducation(e.target.value)}
+                disabled={editLocale !== "uz"}
               />
             </div>
             <div className="space-y-2">
@@ -277,6 +375,7 @@ export default function AdminBachelorProgramEdit() {
                 id="formOfEducation"
                 value={formOfEducation}
                 onChange={(e) => setFormOfEducation(e.target.value)}
+                disabled={editLocale !== "uz"}
               />
             </div>
             <div className="space-y-2 sm:col-span-2">
@@ -288,6 +387,7 @@ export default function AdminBachelorProgramEdit() {
                 value={instructionLanguages}
                 onChange={(e) => setInstructionLanguages(e.target.value)}
                 placeholder="uzbek / russian / english"
+                disabled={editLocale !== "uz"}
               />
             </div>
           </CardContent>
@@ -360,7 +460,7 @@ export default function AdminBachelorProgramEdit() {
                 variant="outline"
                 size="sm"
                 className="gap-1.5"
-                disabled={uploadingPdf}
+                disabled={uploadingPdf || editLocale !== "uz"}
                 onClick={() => document.getElementById("pdfUpload")?.click()}
               >
                 {uploadingPdf ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}

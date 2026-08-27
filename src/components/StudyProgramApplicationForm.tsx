@@ -26,8 +26,8 @@ import {
   STUDY_PROGRAM_APPLY_STUDY_TYPES,
 } from "@/locales/studyProgramApplyDefaults";
 
-function normalizeCaptchaInput(value: string): string {
-  return value.replace(/\s+/g, " ").trim().toUpperCase();
+function normalizeCaptchaInput(value?: string | null): string {
+  return (value ?? "").replace(/\s+/g, "").toUpperCase();
 }
 
 const schema = z.object({
@@ -129,7 +129,7 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   const requiredMessage = trApply(t, "studyProgramApplyRequired");
 
   const onSubmit = async (data: FormData) => {
-    if (normalizeCaptchaInput(data.verifyCode) !== captchaCode) {
+    if (normalizeCaptchaInput(data.verifyCode) !== normalizeCaptchaInput(captchaCode)) {
       toast({
         title: trApply(t, "studyProgramApplyCaptchaError"),
         variant: "destructive",
@@ -149,7 +149,7 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
         studyType: data.studyType,
         courseId: data.courseId,
         verifyToken: captchaToken,
-        verifyAnswer: data.verifyCode,
+        verifyAnswer: normalizeCaptchaInput(data.verifyCode),
       });
       toast({
         title: trApply(t, "studyProgramApplySuccessTitle"),
