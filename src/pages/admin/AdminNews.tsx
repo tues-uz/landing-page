@@ -60,7 +60,7 @@ function titleToSlug(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+const SUPPORTED_LOCALES = ["uz", "en", "ru", "zh"] as const;
 type ArticleLocale = (typeof SUPPORTED_LOCALES)[number];
 
 /** The list/detail fetch is always made with the current admin UI language, so the
@@ -129,7 +129,7 @@ export default function AdminNews() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("all");
   const [displayFilter, setDisplayFilter] = useState<string>("all");
-  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [editLocale, setEditLocale] = useState<ArticleLocale>("uz");
   const [loadingLocale, setLoadingLocale] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const coverImageInputRef = useRef<HTMLInputElement>(null);
@@ -256,7 +256,7 @@ export default function AdminNews() {
     setEditLocale("uz");
   };
 
-  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+  const handleLocaleChange = async (newLocale: ArticleLocale) => {
     if (newLocale === editLocale || !editing || !editing.id) return;
     setLoadingLocale(true);
     try {
@@ -415,11 +415,12 @@ export default function AdminNews() {
               </p>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-muted-foreground mr-2">{t("languageColon")}</span>
-                <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as "uz" | "en" | "ru")} className="w-[200px]">
-                  <TabsList className="grid w-full grid-cols-3">
+                <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as ArticleLocale)} className="w-[260px]">
+                  <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="uz" disabled={!editing || loadingLocale}>UZ</TabsTrigger>
                     <TabsTrigger value="en" disabled={!editing || loadingLocale}>EN</TabsTrigger>
                     <TabsTrigger value="ru" disabled={!editing || loadingLocale}>RU</TabsTrigger>
+                    <TabsTrigger value="zh" disabled={!editing || loadingLocale}>CN</TabsTrigger>
                   </TabsList>
                 </Tabs>
                 {!editing && <span className="text-xs text-muted-foreground/70 ml-2">{t("saveFirstToTranslate")}</span>}

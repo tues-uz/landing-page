@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+const SUPPORTED_LOCALES = ["uz", "en", "ru", "zh"] as const;
 type ProgramLocale = (typeof SUPPORTED_LOCALES)[number];
 
 /** The detail fetch is always made with the current admin UI language, so the loaded
@@ -50,7 +50,7 @@ export default function AdminStudyProgramEdit() {
   const [newFacultyName, setNewFacultyName] = useState("");
   const [addingFaculty, setAddingFaculty] = useState(false);
 
-  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">(() => currentContentLocale(i18n.language));
+  const [editLocale, setEditLocale] = useState<ProgramLocale>(() => currentContentLocale(i18n.language));
   const [loadingLocale, setLoadingLocale] = useState(false);
 
   const [programSlug, setProgramSlug] = useState("");
@@ -113,7 +113,7 @@ export default function AdminStudyProgramEdit() {
     setProgramSlug(slugifyFromTitle(title));
   }, [isCreate, slugTouched, title]);
 
-  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+  const handleLocaleChange = async (newLocale: ProgramLocale) => {
     if (isCreate) {
       toast({
         title: t("toastSaveProgramFirst"),
@@ -299,7 +299,7 @@ export default function AdminStudyProgramEdit() {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        {(["uz", "en", "ru"] as const).map((locale) => (
+        {SUPPORTED_LOCALES.map((locale) => (
           <Button
             key={locale}
             type="button"

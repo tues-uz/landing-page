@@ -32,7 +32,7 @@ import { useTranslation } from "react-i18next";
 import { getHeroImageUrls, serializeHeroBackgroundForApi } from "@/lib/heroBackgroundUtils";
 import { HeroBackgroundSlideshow } from "@/components/HeroBackgroundSlideshow";
 
-const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+const SUPPORTED_LOCALES = ["uz", "en", "ru", "zh"] as const;
 type HeroLocale = (typeof SUPPORTED_LOCALES)[number];
 
 /** The slides list is always fetched with the current admin UI language, so the loaded
@@ -50,7 +50,7 @@ export default function AdminHero() {
   const [saving, setSaving] = useState(false);
   const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
   const [newSlide, setNewSlide] = useState<Partial<HeroSlide>>({ title: "", subtitle: "", year: "", linkUrl: "" });
-  const [editLocale, setEditLocale] = useState<"uz" | "en" | "ru">("uz");
+  const [editLocale, setEditLocale] = useState<HeroLocale>("uz");
   const [loadingLocale, setLoadingLocale] = useState(false);
   const [searchSlides, setSearchSlides] = useState("");
   const [addSlideOpen, setAddSlideOpen] = useState(false);
@@ -309,7 +309,7 @@ export default function AdminHero() {
     }
   };
 
-  const handleLocaleChange = async (newLocale: "uz" | "en" | "ru") => {
+  const handleLocaleChange = async (newLocale: HeroLocale) => {
     if (newLocale === editLocale || !editingSlide || !editingSlide.id) return;
     setLoadingLocale(true);
     try {
@@ -963,11 +963,12 @@ export default function AdminHero() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <h4 className="font-semibold text-sm">{t("editSlide")}</h4>
-                      <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as "uz" | "en" | "ru")} className="w-[180px]">
-                        <TabsList className="grid w-full grid-cols-3">
+                      <Tabs value={editLocale} onValueChange={(v) => handleLocaleChange(v as HeroLocale)} className="w-[220px]">
+                        <TabsList className="grid w-full grid-cols-4">
                           <TabsTrigger value="uz" disabled={loadingLocale}>UZ</TabsTrigger>
                           <TabsTrigger value="en" disabled={loadingLocale}>EN</TabsTrigger>
                           <TabsTrigger value="ru" disabled={loadingLocale}>RU</TabsTrigger>
+                          <TabsTrigger value="zh" disabled={loadingLocale}>CN</TabsTrigger>
                         </TabsList>
                       </Tabs>
                     </div>

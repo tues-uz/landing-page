@@ -18,7 +18,7 @@ import { bachelorFullTimeProgramDetailPath } from "@/data/bachelorFullTimeProgra
 import { bachelorCorrespondenceProgramDetailPath } from "@/data/bachelorCorrespondencePrograms";
 import type { BachelorProgramTrack } from "@/types/bachelorPrograms";
 
-const SUPPORTED_LOCALES = ["uz", "en", "ru"] as const;
+const SUPPORTED_LOCALES = ["uz", "en", "ru", "zh"] as const;
 type BachelorProgramLocale = (typeof SUPPORTED_LOCALES)[number];
 
 /** The list fetch is always made with the current admin UI language, so the loaded
