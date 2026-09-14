@@ -269,6 +269,7 @@
   "status": "Holat",
   "storySettings": "Maqola sozlamalari",
   "studyPrograms": "O'quv dasturlari",
+  "bachelorPrograms": "Bakalavriat dasturlari",
   "studyProgramsCount": "o'quv dasturi",
   "studyProgramsDescription": "Daraja dasturlari, metadata va kurs ro'yxatlarini boshqaring.",
   "studyProgramsDescriptionLong": "Daraja dasturlari, metadata va kurs ro'yxatlarini boshqaring. O'zgarishlar /programs, /admissions/study-programs va dastur batafsil sahifalarida ko'rinadi.",

@@ -18,7 +18,7 @@ import type { BachelorProgramItem, BachelorProgramTrack } from "@/types/bachelor
 import type { NewsletterSubscriber } from "@/data/newsletterSubscribers";
 import type { TiptapDocJSON } from "@/types/article";
 import { normalizeNewsItemDate, toApiDateValue } from "@/lib/newsDateUtils";
-import { tokenStore, authApi } from "./auth";
+import { tokenStore, authApi, isJwtExpired } from "./auth";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -59,7 +59,15 @@ function getAuthHeaders(): HeadersInit {
 
 async function adminFetch(url: string, options: RequestInit = {}, retry = true): Promise<Response> {
   const headers = new Headers(options.headers || {});
-  const token = tokenStore.get();
+  let token = tokenStore.get();
+  if (!token || isJwtExpired(token)) {
+    try {
+      await authApi.restoreSession();
+      token = tokenStore.get();
+    } catch {
+      // ignore session restore error
+    }
+  }
   if (token && !headers.has("Authorization")) {
     headers.set("Authorization", `Bearer ${token}`);
   }
@@ -502,6 +510,13 @@ export const adminApi = {
         body: JSON.stringify({ status }),
       });
       return handleResponse<ApplicationItem>(res);
+    },
+    delete: async (id: string): Promise<void> => {
+      const res = await adminFetch(`${API_BASE}/applications/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
     },
   },
   events: {

@@ -11,10 +11,21 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Loader2,
   Search,
   Download,
   Eye,
+  Trash2,
   Copy,
   Check,
   Phone,
@@ -75,6 +86,33 @@ export default function AdminApplications() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [selectedApp, setSelectedApp] = useState<ApplicationItem | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [deleteAppTarget, setDeleteAppTarget] = useState<{ id: string; fullName: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!deleteAppTarget) return;
+    setIsDeleting(true);
+    try {
+      await adminApi.applications.delete(deleteAppTarget.id);
+      await queryClient.invalidateQueries({ queryKey: applicationsKeys.all });
+      if (selectedApp && selectedApp.id === deleteAppTarget.id) {
+        setSelectedApp(null);
+      }
+      toast({
+        title: "Application deleted",
+        description: `Application for ${deleteAppTarget.fullName} has been removed.`,
+      });
+      setDeleteAppTarget(null);
+    } catch (e) {
+      toast({
+        title: "Failed to delete application",
+        description: String(e),
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const { data: applications = [], isLoading } = useQuery({
     queryKey: applicationsKeys.list(),
@@ -358,15 +396,26 @@ export default function AdminApplications() {
                         </select>
                       </td>
                       <td className="px-4 py-3.5 text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setSelectedApp(a)}
-                          className="h-8 gap-1 px-2.5 text-xs text-slate-600 hover:text-slate-900"
-                        >
-                          <Eye className="h-3.5 w-3.5" />
-                          Details
-                        </Button>
+                        <div className="flex items-center justify-end gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setSelectedApp(a)}
+                            className="h-8 gap-1 px-2.5 text-xs text-slate-600 hover:text-slate-900"
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                            Details
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setDeleteAppTarget({ id: a.id, fullName: a.fullName })}
+                            className="h-8 w-8 p-0 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+                            title="Delete application"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -507,32 +556,73 @@ export default function AdminApplications() {
                 )}
               </div>
 
-              {/* Status Update Quick Actions */}
-              <div className="mt-6 border-t border-slate-100 pt-4">
-                <span className="text-xs font-medium text-slate-500 block mb-2">Change Status:</span>
-                <div className="flex flex-wrap gap-2">
-                  {STATUS_OPTIONS.map((status) => (
-                    <Button
-                      key={status}
-                      size="sm"
-                      variant={selectedApp.status === status ? "default" : "outline"}
-                      disabled={updatingId === selectedApp.id}
-                      onClick={() => changeStatus(selectedApp.id, status)}
-                      className={`h-8 text-xs ${
-                        selectedApp.status === status
-                          ? "font-semibold shadow-sm"
-                          : "text-slate-600 hover:text-slate-900 border-slate-200"
-                      }`}
-                    >
-                      {STATUS_CONFIG[status]?.label}
-                    </Button>
-                  ))}
+              {/* Status Update Quick Actions + Delete */}
+              <div className="mt-6 border-t border-slate-100 pt-4 flex flex-col gap-4">
+                <div>
+                  <span className="text-xs font-medium text-slate-500 block mb-2">Change Status:</span>
+                  <div className="flex flex-wrap gap-2">
+                    {STATUS_OPTIONS.map((status) => (
+                      <Button
+                        key={status}
+                        size="sm"
+                        variant={selectedApp.status === status ? "default" : "outline"}
+                        disabled={updatingId === selectedApp.id}
+                        onClick={() => changeStatus(selectedApp.id, status)}
+                        className={`h-8 text-xs ${
+                          selectedApp.status === status
+                            ? "font-semibold shadow-sm"
+                            : "text-slate-600 hover:text-slate-900 border-slate-200"
+                        }`}
+                      >
+                        {STATUS_CONFIG[status]?.label}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 flex justify-end">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setDeleteAppTarget({ id: selectedApp.id, fullName: selectedApp.fullName })}
+                    className="h-8 gap-1.5 text-xs text-rose-600 border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    Delete Application
+                  </Button>
                 </div>
               </div>
             </>
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Delete Confirmation Alert Dialog */}
+      <AlertDialog open={Boolean(deleteAppTarget)} onOpenChange={(open) => !open && setDeleteAppTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Application?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the application for{" "}
+              <span className="font-semibold text-slate-900">{deleteAppTarget?.fullName}</span>? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                handleDelete();
+              }}
+              disabled={isDeleting}
+              className="bg-rose-600 text-white hover:bg-rose-700"
+            >
+              {isDeleting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminPageShell>
   );
 }
