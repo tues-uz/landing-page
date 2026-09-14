@@ -266,6 +266,8 @@
   "slideYearPlaceholder": "2025",
   "status": "Status",
   "storySettings": "Story settings",
+  "studyPrograms": "Study Programs",
+  "bachelorPrograms": "Bachelor Programs",
   "studyProgramsCount": "study programs",
   "studyProgramsDescription": "Manage degree programs, metadata, and curriculum course lists.",
   "studyProgramsDescriptionLong": "Manage degree programs, metadata, and curriculum course lists. Changes appear on /programs, /admissions/study-programs, and program detail pages.",

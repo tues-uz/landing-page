@@ -57,7 +57,7 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   const { data: initialProgramDetail, isLoading: isInitialProgramLoading } =
     useStudyProgramDetailQuery(initialProgramId ?? "");
   const isProgramLocked = Boolean(initialProgramId);
-  const [captchaCode, setCaptchaCode] = useState("");
+  const [captchaImage, setCaptchaImage] = useState("");
   const [captchaToken, setCaptchaToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -112,12 +112,12 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   const refreshCaptcha = useCallback(() => {
     contentApi.applications
       .getCaptcha()
-      .then(({ code, token }) => {
-        setCaptchaCode(code);
+      .then(({ captchaImage, token }) => {
+        setCaptchaImage(captchaImage);
         setCaptchaToken(token);
       })
       .catch(() => {
-        setCaptchaCode("");
+        setCaptchaImage("");
         setCaptchaToken("");
       });
   }, []);
@@ -129,15 +129,6 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
   const requiredMessage = trApply(t, "studyProgramApplyRequired");
 
   const onSubmit = async (data: FormData) => {
-    if (normalizeCaptchaInput(data.verifyCode) !== normalizeCaptchaInput(captchaCode)) {
-      toast({
-        title: trApply(t, "studyProgramApplyCaptchaError"),
-        variant: "destructive",
-      });
-      refreshCaptcha();
-      return;
-    }
-
     setIsSubmitting(true);
     try {
       await contentApi.applications.submit({
@@ -322,16 +313,19 @@ export function StudyProgramApplicationForm({ initialProgramId }: { initialProgr
             <button
               type="button"
               onClick={refreshCaptcha}
-              className="group inline-flex items-center gap-2 rounded-md px-1 py-0.5 text-primary transition-colors hover:text-primary/80"
+              className="group inline-flex items-center gap-2 rounded-md border border-input bg-muted/30 p-1 transition-colors hover:bg-muted"
               aria-label={trApply(t, "studyProgramApplyRefreshCaptcha")}
             >
-              <span
-                className="select-none font-mono text-lg font-bold tracking-[0.35em] text-primary"
-                aria-hidden
-              >
-                {captchaCode}
-              </span>
-              <RefreshCw className="h-4 w-4 opacity-60 transition-opacity group-hover:opacity-100" />
+              {captchaImage ? (
+                <img
+                  src={captchaImage}
+                  alt="Captcha challenge"
+                  className="h-8 w-auto rounded select-none pointer-events-none"
+                />
+              ) : (
+                <span className="h-8 w-28 bg-muted animate-pulse rounded" />
+              )}
+              <RefreshCw className="h-4 w-4 text-muted-foreground opacity-70 transition-opacity group-hover:opacity-100" />
             </button>
           </div>
           <Input id="verifyCode" autoComplete="off" {...register("verifyCode")} />

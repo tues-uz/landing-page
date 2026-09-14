@@ -31,7 +31,7 @@ function readRefreshToken(json: unknown): string | undefined {
   return typeof token === "string" && token.length > 0 ? token : undefined;
 }
 
-function isJwtExpired(token: string, skewSeconds = 30): boolean {
+export function isJwtExpired(token: string, skewSeconds = 30): boolean {
   try {
     const payloadPart = token.split(".")[1];
     if (!payloadPart) return false;
@@ -216,7 +216,7 @@ export const authApi = {
     const res = await request<{ accessToken?: string; access_token?: string; refreshToken?: string; refresh_token?: string; user: unknown }>("/auth/login", {
       method: "POST",
       body: JSON.stringify(body),
-    });
+    }, false);
     const accessToken = readAccessToken(res) ?? res?.accessToken;
     const refreshToken = readRefreshToken(res) ?? res?.refreshToken;
     if (accessToken) {

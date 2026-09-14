@@ -12,7 +12,7 @@ import { normalizeNewsItemDate, sortNewsByDate } from "@/lib/newsDateUtils";
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 export interface CaptchaChallenge {
-    code: string;
+    captchaImage: string;
     token: string;
 }
 

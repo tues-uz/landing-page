@@ -269,6 +269,7 @@
   "status": "Статус",
   "storySettings": "Настройки статьи",
   "studyPrograms": "Учебные программы",
+  "bachelorPrograms": "Программы бакалавриата",
   "studyProgramsCount": "учебных программ",
   "studyProgramsDescription": "Управление программами, метаданными и списками курсов.",
   "studyProgramsDescriptionLong": "Управление программами, метаданными и списками курсов. Изменения отображаются на /programs, /admissions/study-programs и страницах программ.",
