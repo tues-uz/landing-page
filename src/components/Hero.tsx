@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,60 @@ import {
   HeroBackgroundSlideshow,
   HERO_BACKGROUND_FALLBACK,
 } from "@/components/HeroBackgroundSlideshow";
+
+interface HeroMediaBackgroundProps {
+  videoUrl: string | null;
+  imageUrl: string;
+  backgroundImages: string[];
+}
+
+const HeroMediaBackground = memo(
+  function HeroMediaBackground({
+    videoUrl,
+    imageUrl,
+    backgroundImages,
+  }: HeroMediaBackgroundProps) {
+    const [videoError, setVideoError] = useState(false);
+    const effectiveImage = imageUrl || HERO_BACKGROUND_FALLBACK;
+
+    useEffect(() => {
+      setVideoError(false);
+    }, [videoUrl]);
+
+    return (
+      <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        {/* Underlying fallback image layer */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('${effectiveImage}')`,
+          }}
+        />
+
+        {videoUrl && !videoError ? (
+          <video
+            key={videoUrl}
+            src={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            onError={() => setVideoError(true)}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : backgroundImages.length > 0 ? (
+          <HeroBackgroundSlideshow images={backgroundImages} fallback={HERO_BACKGROUND_FALLBACK} />
+        ) : null}
+      </div>
+    );
+  },
+  (prev, next) =>
+    prev.videoUrl === next.videoUrl &&
+    prev.imageUrl === next.imageUrl &&
+    prev.backgroundImages.length === next.backgroundImages.length &&
+    prev.backgroundImages.every((src, i) => src === next.backgroundImages[i]),
+);
 
 const Hero = () => {
   const { t, i18n } = useTranslation("hero");
@@ -83,7 +137,10 @@ const Hero = () => {
       : null;                                               // CMS: image mode
 
   const imageUrl = bg?.mediaType === "image" ? (bg.imageUrl ?? "") : (bg?.imageUrl ?? "");
-  const backgroundImages = bg?.mediaType === "image" ? getHeroImageUrls(bg) : [];
+  const backgroundImages = useMemo(
+    () => (bg?.mediaType === "image" ? getHeroImageUrls(bg) : []),
+    [bg],
+  );
 
   return (
     <section
@@ -95,40 +152,12 @@ const Hero = () => {
       }}
     >
       {/* ── Background media ──────────────────────────────────────────────── */}
-      <div className="absolute inset-0 overflow-hidden">
-        {videoUrl ? (
-          <video
-            key={videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ willChange: "auto" }}
-          >
-            <source src={videoUrl} type="video/mp4" />
-            {/* Fallback image if video fails */}
-            {imageUrl && (
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url('${imageUrl}')` }}
-              />
-            )}
-          </video>
-        ) : backgroundImages.length > 0 ? (
-          <HeroBackgroundSlideshow images={backgroundImages} fallback={HERO_BACKGROUND_FALLBACK} />
-        ) : (
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: imageUrl
-                ? `url('${imageUrl}')`
-                : `url('${HERO_BACKGROUND_FALLBACK}')`,
-            }}
-          />
-        )}
-      </div>
+      <HeroMediaBackground
+        videoUrl={videoUrl}
+        imageUrl={imageUrl}
+        backgroundImages={backgroundImages}
+      />
+
 
       {/* ── Slide content ─────────────────────────────────────────────────── */}
       <div className="relative container mx-auto px-4 lg:px-6 h-full flex items-end pb-24 pt-0">

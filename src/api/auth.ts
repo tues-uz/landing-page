@@ -131,12 +131,13 @@ let refreshPromise: Promise<string | null> | null = null;
 
 async function attemptRefresh(): Promise<string | null> {
   if (isRefreshing && refreshPromise) return refreshPromise;
-  isRefreshing = true;
   const storedRefreshToken = tokenStore.getRefresh();
+  if (!storedRefreshToken) return null;
+  isRefreshing = true;
   refreshPromise = fetchWithTimeout(`${API_BASE}/auth/refresh`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(storedRefreshToken ? { refreshToken: storedRefreshToken } : {}),
+    body: JSON.stringify({ refreshToken: storedRefreshToken }),
     credentials: "include",
   })
     .then(async (res) => {
@@ -232,6 +233,10 @@ export const authApi = {
   /** Restore session on page load: refresh expired access token, then fetch /auth/me. */
   restoreSession: async () => {
     let accessToken = tokenStore.get();
+    const storedRefreshToken = tokenStore.getRefresh();
+    if (!accessToken && !storedRefreshToken) {
+      return null;
+    }
     if (!accessToken || isJwtExpired(accessToken)) {
       accessToken = await attemptRefresh();
       if (!accessToken) throw new AuthError("Session expired");

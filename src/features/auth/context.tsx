@@ -44,6 +44,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .restoreSession()
       .then((res) => {
         if (cancelled) return;
+        if (!res) {
+          setUser(null);
+          return;
+        }
         console.debug("[AuthContext] /me response:", res);
         cacheAuthUser(res);
         setUser(res as User);

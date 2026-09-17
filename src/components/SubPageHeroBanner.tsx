@@ -64,15 +64,14 @@ export function SubPageHeroBanner({ staticImageSrc }: SubPageHeroBannerProps = {
         {videoUrl ? (
           <video
             key={videoUrl}
+            src={videoUrl}
             autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
             className="absolute inset-0 h-full w-full object-cover"
-          >
-            <source src={videoUrl} type="video/mp4" />
-          </video>
+          />
         ) : backgroundImages.length > 0 ? (
           <HeroBackgroundSlideshow images={backgroundImages} fallback={FALLBACK_IMAGE} />
         ) : (
