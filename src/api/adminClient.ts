@@ -392,6 +392,25 @@ export const adminApi = {
       });
       await handleResponse<unknown>(res);
     },
+    upsertFacultyTranslation: async (
+      facultyId: string,
+      locale: string,
+      payload: { title: string },
+    ): Promise<StudyProgramFaculty> => {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/faculties/${facultyId}/translations/${locale}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+      return handleResponse<StudyProgramFaculty>(res);
+    },
+    deleteFacultyTranslation: async (facultyId: string, locale: string): Promise<void> => {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/faculties/${facultyId}/translations/${locale}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
+    },
     list: async (locale?: string): Promise<StudyProgramFaculty[]> => {
       const url = locale
         ? `${API_BASE}/content/study-programs?locale=${locale}`
@@ -431,6 +450,13 @@ export const adminApi = {
         body: JSON.stringify(payload),
       });
       return handleResponse<StudyProgramAdminItem>(res);
+    },
+    delete: async (programId: string): Promise<void> => {
+      const res = await adminFetch(`${API_BASE}/content/study-programs/programs/${programId}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      await handleResponse<unknown>(res);
     },
     upsertTranslation: async (
       programId: string,

@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ExternalLink, Search, Copy, Loader2, Pencil, Plus, Building2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAdminStudyProgramsQuery } from "@/features/cms/hooks/useStudyProgramsQueries";
+import { DeleteStudyProgramButton } from "./DeleteStudyProgramButton";
 import {
   getStudyProgramCourseCount,
   studyProgramDetailPath,
@@ -164,6 +165,7 @@ export default function AdminStudyPrograms() {
                                   <Copy className="h-3.5 w-3.5" />
                                   Copy ID
                                 </Button>
+                                <DeleteStudyProgramButton programId={program.id} programTitle={program.title} />
                               </div>
                             </td>
                           </tr>

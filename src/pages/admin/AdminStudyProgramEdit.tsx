@@ -12,6 +12,7 @@ function currentContentLocale(language: string): ProgramLocale {
 import { ArrowLeft, ChevronDown, ChevronUp, ExternalLink, Loader2, Plus, Save, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AdminPageShell } from "./AdminPageShell";
+import { DeleteStudyProgramButton } from "./DeleteStudyProgramButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -290,6 +291,13 @@ export default function AdminStudyProgramEdit() {
                 {t("viewPublicPage")}
               </Link>
             </Button>
+          ) : null}
+          {!isCreate ? (
+            <DeleteStudyProgramButton
+              programId={programId}
+              programTitle={program?.title}
+              onDeleted={() => navigate("/admin/study-programs")}
+            />
           ) : null}
           <Button size="sm" onClick={handleSave} disabled={saving}>
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}

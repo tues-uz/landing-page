@@ -23,7 +23,11 @@ export type StudyProgram = {
 
 export type StudyProgramFaculty = {
   id: string;
+  /** Title resolved server-side for the requested locale (falls back to the base uz title). */
   title: string;
+  /** Titles stored in the CMS per locale: "uz" is always present (base record), other
+   *  locales only when a translation exists. Locales missing here fall back to "uz". */
+  titles?: Record<string, string>;
   programs: StudyProgram[];
 };
 
