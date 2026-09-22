@@ -45,9 +45,14 @@ function localizeStudyProgram(program: StudyProgram, thome: TFunction<"home">, t
 
 function localizeFacultyTitle(
   faculty: StudyProgramFaculty,
+  uiLang: string,
   th: TFunction<"header">,
   thome: TFunction<"home">,
 ): string {
+  // A title entered in the CMS for the active language wins over the static bundles
+  // (only non-base locales can differ from the base record, see LocalizedFacultyDto).
+  const cmsTitle = uiLang !== "uz" ? faculty.titles?.[uiLang] : undefined;
+  if (cmsTitle) return cmsTitle;
   const headerKey = FACULTY_HEADER_KEYS[faculty.id];
   if (headerKey) return th(headerKey, { defaultValue: faculty.title });
   return thome(`studyProgramTitles.faculties.${faculty.id}`, { defaultValue: faculty.title });
@@ -55,13 +60,14 @@ function localizeFacultyTitle(
 
 export function localizeStudyProgramFaculties(
   faculties: readonly StudyProgramFaculty[],
+  uiLang: string,
   th: TFunction<"header">,
   thome: TFunction<"home">,
   t?: CurriculumT,
 ): StudyProgramFaculty[] {
   return faculties.map((faculty) => ({
     ...faculty,
-    title: localizeFacultyTitle(faculty, th, thome),
+    title: localizeFacultyTitle(faculty, uiLang, th, thome),
     programs: faculty.programs.map((program) =>
       t ? localizeStudyProgram(program, thome, t) : {
         ...program,
@@ -73,6 +79,7 @@ export function localizeStudyProgramFaculties(
 
 export function localizeStudyProgramDetail(
   result: StudyProgramDetailResult,
+  uiLang: string,
   th: TFunction<"header">,
   thome: TFunction<"home">,
   t: CurriculumT,
@@ -80,7 +87,7 @@ export function localizeStudyProgramDetail(
   return {
     faculty: {
       ...result.faculty,
-      title: localizeFacultyTitle(result.faculty, th, thome),
+      title: localizeFacultyTitle(result.faculty, uiLang, th, thome),
     },
     program: localizeStudyProgram(result.program, thome, t),
   };

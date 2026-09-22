@@ -23,10 +23,12 @@ export function useLocalizedStudyProgramsQuery() {
   const { t } = useTranslation("home");
   const { t: th } = useTranslation("header");
   const { t: tCurr } = useTranslation("studyProgramCurriculum");
+  const { i18n } = useTranslation();
+  const uiLang = getUiLang(i18n);
   const query = useStudyProgramsQuery();
   const data = useMemo(
-    () => (query.data ? localizeStudyProgramFaculties(query.data, th, t, tCurr) : undefined),
-    [query.data, th, t, tCurr],
+    () => (query.data ? localizeStudyProgramFaculties(query.data, uiLang, th, t, tCurr) : undefined),
+    [query.data, uiLang, th, t, tCurr],
   );
   return { ...query, data };
 }
@@ -47,10 +49,12 @@ export function useLocalizedStudyProgramDetailQuery(programId: string) {
   const { t: thome } = useTranslation("home");
   const { t: th } = useTranslation("header");
   const { t: tCurr } = useTranslation("studyProgramCurriculum");
+  const { i18n } = useTranslation();
+  const uiLang = getUiLang(i18n);
   const query = useStudyProgramDetailQuery(programId);
   const data = useMemo(
-    () => (query.data ? localizeStudyProgramDetail(query.data, th, thome, tCurr) : undefined),
-    [query.data, th, thome, tCurr],
+    () => (query.data ? localizeStudyProgramDetail(query.data, uiLang, th, thome, tCurr) : undefined),
+    [query.data, uiLang, th, thome, tCurr],
   );
   return { ...query, data };
 }
@@ -103,7 +107,12 @@ export function useStudyProgramMutations() {
     onSuccess: invalidate,
   });
 
-  return { create, update, upsertTranslation };
+  const remove = useMutation({
+    mutationFn: (programId: string) => adminApi.studyPrograms.delete(programId),
+    onSuccess: invalidate,
+  });
+
+  return { create, update, upsertTranslation, remove };
 }
 
 export function useFacultyMutations() {
@@ -130,5 +139,17 @@ export function useFacultyMutations() {
     onSuccess: invalidate,
   });
 
-  return { create, update, remove };
+  const upsertTranslation = useMutation({
+    mutationFn: ({ facultyId, locale, title }: { facultyId: string; locale: string; title: string }) =>
+      adminApi.studyPrograms.upsertFacultyTranslation(facultyId, locale, { title }),
+    onSuccess: invalidate,
+  });
+
+  const removeTranslation = useMutation({
+    mutationFn: ({ facultyId, locale }: { facultyId: string; locale: string }) =>
+      adminApi.studyPrograms.deleteFacultyTranslation(facultyId, locale),
+    onSuccess: invalidate,
+  });
+
+  return { create, update, remove, upsertTranslation, removeTranslation };
 }
