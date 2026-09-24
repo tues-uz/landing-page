@@ -7,8 +7,6 @@ This charter defines the legal status, organizational structure, and operational
 
 Full Name: Termiz University of Economics and Service (abbreviated as TISU).
 Legal Status: Private / Non-state higher education institution.
-Founder: Mr. Usmanov Chorshanbi Bozorovich (holds 100% of the founding share).
-Authorized Capital: 30,653,113,090 UZS.
 Official Website: tisu.uz
 Contact Email: university@tues.uz
 Location: Termiz city, Uzbekistan (multiple campus addresses).
