@@ -15,14 +15,13 @@ function trPo(t: TFunction, key: keyof typeof PRESIDENT_ORDER_ADMISSION_PARAMS_D
 }
 
 export default function PresidentOrderAdmissionParametersPage() {
-  const { t, i18n } = useTranslation("topNav");
+  const { t } = useTranslation("topNav");
   const { t: tCommon } = useTranslation("common");
   const { t: th } = useTranslation("header");
 
   const admissionLabel = th("secondNav.admission2025");
   const title = trPo(t, "presidentOrderAdmissionParamsPageTitle");
   const heroAlt = trPo(t, "presidentOrderAdmissionParamsHeroAlt");
-  const showLocaleNote = i18n.language !== "uz";
 
   return (
     <div className="min-h-screen bg-background">
@@ -76,11 +75,6 @@ export default function PresidentOrderAdmissionParametersPage() {
                 <h1 className="mt-6 text-balance text-3xl font-semibold tracking-tight text-foreground md:text-[2rem] md:leading-tight">
                   {title}
                 </h1>
-                {showLocaleNote ? (
-                  <p className="mt-3 text-sm italic text-muted-foreground">
-                    {trPo(t, "presidentOrderAdmissionParamsLocaleNote")}
-                  </p>
-                ) : null}
                 <PresidentOrderStateOrderArticle />
               </article>
             </div>
