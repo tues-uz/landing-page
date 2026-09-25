@@ -5,6 +5,5 @@ export const PRESIDENT_ORDER_ADMISSION_PARAMS_DEFAULTS = {
     "On the parameters of the state order for admission to study at state higher educational institutions for the 2024/2025 academic year",
   presidentOrderAdmissionParamsHeroAlt:
     "Students taking an examination in a formal hall — focused academic setting.",
-  presidentOrderAdmissionParamsLocaleNote:
-    "The official document below is provided in Uzbek.",
+  presidentOrderAdmissionParamsLocaleNote: "",
 } as const;
