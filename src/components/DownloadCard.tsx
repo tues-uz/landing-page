@@ -26,7 +26,7 @@ const downloadCardCompactCtaClass = cn(
 );
 
 const previewFrameClass =
-  "relative mx-4 mt-5 overflow-hidden rounded-xl bg-gradient-to-br from-primary/[0.05] via-muted/40 to-[hsl(var(--oxford-cream))] p-3 ring-1 ring-border";
+  "relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/[0.05] via-muted/40 to-[hsl(var(--oxford-cream))] p-3 ring-1 ring-border";
 
 export type DownloadCardProps = {
   title: string;
@@ -116,7 +116,7 @@ export function DownloadCard({
       <div
         className={cn(
           "flex min-h-0 flex-1 flex-col",
-          isCompact ? "gap-2 px-3 pb-3 pt-2.5" : "px-5 pb-5 pt-4",
+          isCompact ? "gap-2 px-3 pb-3 pt-2.5" : "pt-4",
         )}
       >
         <div className={isCompact ? "min-w-0" : undefined}>

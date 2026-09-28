@@ -25,7 +25,10 @@ export function ProgramListingLinkRow({
   return (
     <div className="group flex w-full items-center justify-between rounded-none border-b border-border px-4 py-4 transition-colors hover:border-primary hover:bg-neutral-50/50">
       <Link to={detailHref} className="min-w-0 flex-1 pr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm">
-        <h3 className="text-lg font-semibold text-foreground md:text-xl" style={{ color: TITLE_COLOR }}>
+        <h3
+          className="text-lg font-semibold leading-tight text-foreground md:text-xl md:leading-tight"
+          style={{ color: TITLE_COLOR }}
+        >
           {title}
         </h3>
       </Link>

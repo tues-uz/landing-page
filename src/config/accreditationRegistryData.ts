@@ -34,10 +34,10 @@ export const ACCREDITATION_REGISTRY_CARDS: readonly AccreditationRegistryCard[] 
 export type AccreditationLicenseDocument = {
   readonly id: string;
   readonly href: string;
-  readonly titleKey: "accreditationLicense2Title";
-  readonly descKey: "accreditationLicense2Desc";
+  readonly titleKey: "accreditationLicense2Title" | "accreditationExemptionFrameworkTitle";
+  readonly descKey: "accreditationLicense2Desc" | "accreditationExemptionFrameworkDesc";
   readonly imageSrc: string;
-  readonly imageAltKey: "accreditationLicense2ImageAlt";
+  readonly imageAltKey: "accreditationLicense2ImageAlt" | "accreditationExemptionFrameworkImageAlt";
 };
 
 export const ACCREDITATION_LICENSE_DOCUMENTS: readonly AccreditationLicenseDocument[] = [
@@ -48,5 +48,13 @@ export const ACCREDITATION_LICENSE_DOCUMENTS: readonly AccreditationLicenseDocum
     descKey: "accreditationLicense2Desc",
     imageSrc: "/images/accreditation/tues-license-2.png",
     imageAltKey: "accreditationLicense2ImageAlt",
+  },
+  {
+    id: "exemption-framework",
+    href: "/documents/exemption-framework-certificate.pdf",
+    titleKey: "accreditationExemptionFrameworkTitle",
+    descKey: "accreditationExemptionFrameworkDesc",
+    imageSrc: "/images/accreditation/exemption-framework-certificate.png",
+    imageAltKey: "accreditationExemptionFrameworkImageAlt",
   },
 ] as const;
