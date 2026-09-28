@@ -20,7 +20,7 @@ const REGISTRY_IMAGE_ALT_DEFAULTS = {
 } as const;
 
 const previewFrameClass =
-  "relative mx-4 mt-5 overflow-hidden rounded-xl bg-gradient-to-br from-primary/[0.05] via-muted/40 to-[hsl(var(--oxford-cream))] p-3 ring-1 ring-border";
+  "relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/[0.05] via-muted/40 to-[hsl(var(--oxford-cream))] p-3 ring-1 ring-border";
 
 const registryCtaClass = cn(downloadCardCtaClass);
 
@@ -39,7 +39,7 @@ type RegistryCardProps = {
 
 function RegistryCard({ title, description, imageSrc, imageAlt, cta, to }: RegistryCardProps) {
   return (
-    <article className={downloadCardShellClass}>
+    <article className={cn(downloadCardShellClass, "p-5")}>
       <div className={previewFrameClass}>
         <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
           <img
@@ -52,7 +52,7 @@ function RegistryCard({ title, description, imageSrc, imageAlt, cta, to }: Regis
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col px-5 pb-5 pt-4">
+      <div className="flex min-h-0 flex-1 flex-col pt-4">
         <h3 className="text-lg font-bold leading-snug tracking-tight text-foreground">{title}</h3>
         <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
 
@@ -86,7 +86,7 @@ export function AccreditationLicenseSection() {
         ))}
       </div>
 
-      <ul className="mt-10 grid grid-cols-1 gap-[16px] md:grid-cols-3" role="list">
+      <ul className="mt-10 grid grid-cols-1 gap-[16px] sm:grid-cols-2" role="list">
         {ACCREDITATION_REGISTRY_CARDS.map(({ to, title, descKey, imageSrc, imageAltKey }) => {
           const description = trAcc(t, descKey);
           const imageAlt = t(imageAltKey, { defaultValue: REGISTRY_IMAGE_ALT_DEFAULTS[imageAltKey] });

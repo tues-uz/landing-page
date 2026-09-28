@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { RecommendedNewsSidebar } from "@/components/RecommendedNewsSidebar";
 import { QUALIFICATION_REQUIREMENT_AREAS } from "@/data/qualificationRequirementAreas";
-import { bachelorFullTimeCardImageSrc } from "@/data/bachelorFullTimeCardImages";
 
 export default function QualificationRequirementsPage() {
   const { t } = useTranslation("header");
@@ -65,43 +64,31 @@ export default function QualificationRequirementsPage() {
                   </p>
                 ) : null}
 
-                <ul
-                  className="mt-8 grid list-none grid-cols-1 gap-[16px] p-0 md:grid-cols-3"
+                <div
+                  className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
                   role="list"
                 >
                   {QUALIFICATION_REQUIREMENT_AREAS.map((area, i) => {
-                    const imgSrc = bachelorFullTimeCardImageSrc(i + 1);
                     const key = area.cipher ? `${area.cipher}-${i}` : `area-${i}`;
                     return (
-                      <li key={key} className="flex min-w-0 flex-col">
-                        <div className="group flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-2xl bg-muted/40">
-                          <div className="relative aspect-[5/3] w-full shrink-0 overflow-hidden bg-muted">
-                            <img
-                              src={imgSrc}
-                              alt=""
-                              width={480}
-                              height={288}
-                              loading="lazy"
-                              decoding="async"
-                              className="h-full w-full object-cover"
-                            />
-                            {area.cipher ? (
-                              <span className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-background/90 px-2 py-0.5 font-mono text-[0.6875rem] font-medium tabular-nums text-foreground shadow-sm backdrop-blur-sm">
-                                {area.cipher}
-                              </span>
-                            ) : null}
-                          </div>
-                          <div className="relative flex min-h-0 flex-1 flex-col p-4 sm:p-5">
-                            <p className="line-clamp-5 text-base font-semibold leading-snug tracking-tight text-foreground sm:text-[1.0625rem]">
-                              {area.title}
-                            </p>
-                            <div className="min-h-0 flex-1" aria-hidden />
-                          </div>
-                        </div>
-                      </li>
+                      <div
+                        key={key}
+                        role="listitem"
+                        className="group flex w-full items-center justify-between rounded-none border-b border-border px-4 py-4 transition-colors hover:border-primary hover:bg-neutral-50/50"
+                      >
+                        <p className="min-w-0 flex-1 pr-3 text-lg font-semibold leading-tight text-foreground md:text-xl md:leading-tight">
+                          {area.title}
+                        </p>
+                        <span
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgb(35,47,58)] transition-opacity group-hover:opacity-90"
+                          aria-hidden
+                        >
+                          <ArrowRight className="h-5 w-5 text-white" strokeWidth={2} />
+                        </span>
+                      </div>
                     );
                   })}
-                </ul>
+                </div>
               </article>
             </div>
             <RecommendedNewsSidebar className="order-2 lg:order-none lg:col-span-3" />
